@@ -16,7 +16,7 @@ public class MagicPunch : Magic
 
     private void Start()
     {
-        transform.parent.GetComponent<Move>().enabled = false;
+        transform.parent.GetComponent<PlayerMove>().enabled = false;
         if (transform.parent.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb2d))
         {
             rb2d.AddForce(((Vector2)transform.position - rb2d.position).normalized * rushForce, ForceMode2D.Impulse);
@@ -41,10 +41,10 @@ public class MagicPunch : Magic
         }
 
         // 체력이 있는 애를 만나면
-        if (collision.TryGetComponent<Health>(out Health targetHealth))
+        if (collision.TryGetComponent<IDamagable>(out IDamagable damagableObject))
         {
             A_CollisionEvent?.Invoke(collision);
-            targetHealth.TakeDamage(damage);
+            damagableObject.TakeDamage(damage);
             if (collision.TryGetComponent<Rigidbody2D>(out Rigidbody2D targetRb2d))
             {
                 targetRb2d.AddForce((targetRb2d.position - (Vector2)transform.position).normalized * pushForce, ForceMode2D.Impulse);
@@ -54,6 +54,6 @@ public class MagicPunch : Magic
 
     private void OnDestroy()
     {
-        transform.parent.GetComponent<Move>().enabled = true;
+        transform.parent.GetComponent<PlayerMove>().enabled = true;
     }
 }

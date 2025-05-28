@@ -48,9 +48,9 @@ public class Bomb : Magic
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.TryGetComponent<Health>(out Health targetHealth) && !collision.collider.GetComponent<MagicHand>())
+        if (collision.collider.TryGetComponent<IDamagable>(out IDamagable damagableObject) && !collision.collider.GetComponent<MagicHand>())
         {
-            targetHealth.TakeDamage(damage);
+            damagableObject.TakeDamage(damage);
             Boom();
         }
     }

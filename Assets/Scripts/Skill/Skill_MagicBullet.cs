@@ -23,9 +23,9 @@ public class Skill_MagicBullet : MagicSkill
         }
     }
 
-    public override void TryFire(Transform fireMan, List<BuffSkill> buffs, Mana currentMana)
+    public override void TryFire(Transform fireMan, List<BuffSkill> buffs, PlayerStatus playerStatus)
     {
-        base.TryFire(fireMan, buffs, currentMana);
+        base.TryFire(fireMan, buffs, playerStatus);
         return;
     }
 }

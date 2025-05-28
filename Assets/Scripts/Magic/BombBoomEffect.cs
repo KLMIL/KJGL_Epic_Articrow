@@ -31,9 +31,9 @@ public class BombBoomEffect : Magic
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Health>(out Health targetHealth)) 
+        if (collision.TryGetComponent<IDamagable>(out IDamagable damagableObject)) 
         {
-            targetHealth.TakeDamage(damage);
+            damagableObject.TakeDamage(damage);
         }
         if (collision.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb2d))
         {

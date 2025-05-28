@@ -31,15 +31,15 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    CinemachineCamera cinemachineCamera;
+    CinemachineCamera _cinemachineCamera;
 
     private void Start()
     {
-        cinemachineCamera = transform.GetComponentInChildren<CinemachineCamera>();
+        _cinemachineCamera = transform.GetComponentInChildren<CinemachineCamera>();
     }
 
     public void SetFollowTarget(Transform target) 
     {
-        cinemachineCamera.Follow = target;
+        _cinemachineCamera.Follow = target;
     }
 }

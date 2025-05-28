@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
+
+    public Camera MainCamera { get; private set; }
+
     void Awake()
     {
         if (_instance == null)
@@ -32,12 +35,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+
+        MainCamera = Camera.main;
     }
 
     public List<GameObject> MagicItems = new();
-    public GameObject player;
+    public PlayerController player;
 
-    private void Start()
+    void Start()
     {
         MagicItems = Resources.LoadAll<GameObject>("Item").ToList();
     }
@@ -69,26 +74,26 @@ public class GameManager : MonoBehaviour
     public void StatUp_MaxHealth() 
     {
         float addValue = 10f;
-        player.GetComponent<Health>().maxHealth += addValue;
-        player.GetComponent<Health>().currentHealthPoint += addValue;
+        player.GetComponent<PlayerStatus>().MaxHealth += (int)addValue;
+        player.GetComponent<PlayerStatus>().Health += addValue;
     }
 
     public void StatUp_MaxMana() 
     {
         float addValue = 10f;
-        player.GetComponent<Mana>().maxMana += addValue;
+        player.GetComponent<PlayerStatus>().MaxMana += addValue;
     }
 
     public void StatUp_ManaRecovery() 
     {
         float addValue = 1f;
-        player.GetComponent<Mana>().ManaRecovery += addValue;
+        player.GetComponent<PlayerStatus>().ManaRecoverySpeed += addValue;
     }
 
     public void StatUp_MoveSpeed() 
     {
         float addValue = 2f;
-        player.GetComponent<Move>().speed += addValue;
+        player.GetComponent<PlayerStatus>().MoveSpeed += (int)addValue;
     }
 
     public void StatUp_L_Cooltime() 
@@ -101,10 +106,5 @@ public class GameManager : MonoBehaviour
     {
         float minusValue = 0.05f;
         player.GetComponent<MagicHand>().R_CoolTime -= minusValue;
-    }
-
-    public void RestartGame() 
-    {
-        SceneManager.LoadScene(0);
     }
 }

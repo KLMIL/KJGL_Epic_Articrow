@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TitleScene : BaseScene
+public class TestScene : BaseScene
 {
     public override void Init()
     {

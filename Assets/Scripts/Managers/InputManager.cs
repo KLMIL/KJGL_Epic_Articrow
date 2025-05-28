@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour
+public class InputManager
 {
     public InputSystemActions InputSystemActions => _inputSystemActions;
     InputSystemActions _inputSystemActions;
@@ -32,8 +32,8 @@ public class InputManager : MonoBehaviour
         _inputSystemActions.Player.Enable();
         _inputSystemActions.Inventory.Disable();
 
-        //_inputSystemActions.Player.Move.performed += OnMove;
-        //_inputSystemActions.Player.Move.canceled += OnMove;
+        _inputSystemActions.Player.Move.performed += OnMove;
+        _inputSystemActions.Player.Move.canceled += OnMove;
 
         //_inputSystemActions.Player.MousePos.performed += OnMousePos;
 
@@ -47,7 +47,7 @@ public class InputManager : MonoBehaviour
 
     void OnMove(InputAction.CallbackContext context)
     {
-        MoveInput = context.ReadValue<Vector2>();
+        MoveInput = context.ReadValue<Vector2>().normalized;
         //Debug.Log(MoveInput);
     }
 

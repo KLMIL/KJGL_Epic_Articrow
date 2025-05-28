@@ -3,8 +3,15 @@ using UnityEngine;
 
 public class StatText : MonoBehaviour
 {
+    protected TextMeshProUGUI _statText;
+
+    void Awake()
+    {
+        _statText = GetComponent<TextMeshProUGUI>();
+    }
+
     public void TextUpdate(float value)
     {
-        GetComponent<TextMeshProUGUI>().text = value.ToString();
+        _statText.text = value.ToString();
     }
 }

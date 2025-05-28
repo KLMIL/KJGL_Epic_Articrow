@@ -17,7 +17,7 @@ public class MagicSkill : CanEnterSlot
     protected float timer = 0f;
     protected List<BuffSkill> shotBuffs;
 
-    public virtual void TryFire(Transform fireMan, List<BuffSkill> buffs, Mana currentMana)
+    public virtual void TryFire(Transform fireMan, List<BuffSkill> buffs, PlayerStatus playerStatus)
     {
         if (timer > 0)
         {
@@ -34,7 +34,7 @@ public class MagicSkill : CanEnterSlot
         int totalFireCount = this.FireCount + addFireCount;
         float totalAccuracy = this.accuracy + addAccuracy;
 
-        if (!currentMana.DecreaseMana(consumeMana * (totalFireCount)))
+        if (!playerStatus.UseMana(consumeMana * (totalFireCount)))
         {
             print("마나 부족함!");
             GameObject spawnObj = Instantiate( Resources.Load<GameObject>("Text/DamageText"), fireMan.position, Quaternion.identity);

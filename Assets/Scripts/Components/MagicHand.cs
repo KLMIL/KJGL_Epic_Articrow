@@ -24,17 +24,16 @@ public class MagicHand : MonoBehaviour
     public int R_FireNumber = 1;
     float R_Timer = 0f;
 
-    Mana mana;
+    PlayerStatus _playerStatus;
 
     void Awake()
     {
-        mana = GetComponent<Mana>();
+        _playerStatus = GetComponent<PlayerStatus>();
     }
 
     private void Update()
     {
-        LeftHandUpdate();
-        RightHandUpdate();
+        TwoHandUpdate();
 
         // 쿨타임이 남아있으면 줄이기
         if (L_Timer > 0)
@@ -70,11 +69,13 @@ public class MagicHand : MonoBehaviour
         }
     }
 
-    void LeftHandUpdate() 
+    void TwoHandUpdate()
     {
         // 리스트 초기화
         LeftHand.Clear();
-        // 왼손UI에 붙어있는 스킬 정보들 가져오기
+        RightHand.Clear();
+
+        // 양손 UI에 붙어있는 스킬 정보들 가져오기
         foreach (Transform transform in UIManager.Instance.LeftHand)
         {
             CanEnterSlot skill = transform.GetComponentInChildren<CanEnterSlot>();
@@ -83,12 +84,6 @@ public class MagicHand : MonoBehaviour
                 LeftHand.Add(skill);
             }
         }
-    }
-    void RightHandUpdate()
-    {
-        // 리스트 초기화
-        RightHand.Clear();
-        // 왼손UI에 붙어있는 스킬 정보들 가져오기
         foreach (Transform transform in UIManager.Instance.RightHand)
         {
             CanEnterSlot skill = transform.GetComponentInChildren<CanEnterSlot>();
@@ -97,6 +92,29 @@ public class MagicHand : MonoBehaviour
                 RightHand.Add(skill);
             }
         }
+    }
+
+    void FireMagic(bool isLeft)
+    {
+        List<CanEnterSlot> hand = isLeft ? LeftHand : RightHand;
+
+        // 스킬 리스트에 아무것도 없을 때
+        if (hand.Count == 0)
+        {
+            string debugText = isLeft ? "왼손에 스킬없음" : "오른손 스킬없음";
+            Debug.Log(debugText);
+            return;
+        }
+        // 쿨타임이 남아있을 때
+        if (L_Timer > 0)
+        {
+            return;
+        }
+
+        // 루프 한번 돌기 시도
+        StartCoroutine(Fire(LeftHand, L_Delay, L_FireNumber, L_Accuracy));
+        // 클타임 설정해주기
+        L_Timer = L_CoolTime;
     }
 
 
@@ -147,7 +165,7 @@ public class MagicHand : MonoBehaviour
         for (int index = 0; index < skillList.Count; index++) 
         {
             // 마나 null이면 돌아가
-            if (!mana )
+            if (!_playerStatus)
             {
                 break;
             }
@@ -159,7 +177,7 @@ public class MagicHand : MonoBehaviour
                 // 설정된 발사 횟수만큼 발사
                 for (int i = FireNumber; i > 0; i--)
                 {
-                    magic.TryFire(transform, buffStack, mana);
+                    magic.TryFire(transform, buffStack, _playerStatus);
                 }
 
                 //버프스택 초기화

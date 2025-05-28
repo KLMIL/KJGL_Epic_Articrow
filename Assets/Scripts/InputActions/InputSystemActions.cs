@@ -92,7 +92,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
             ""id"": ""d096e7d2-72d4-4f5e-9d6b-f216cf3870ef"",
             ""actions"": [
                 {
-                    ""name"": ""MoveDirection"",
+                    ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""dff04cd9-84b3-4fb5-a85e-032f1e8dd669"",
                     ""expectedControlType"": """",
@@ -145,7 +145,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MoveDirection"",
+                    ""action"": ""Move"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -156,7 +156,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MoveDirection"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -167,7 +167,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MoveDirection"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -178,7 +178,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MoveDirection"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -189,7 +189,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MoveDirection"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -272,7 +272,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_MoveDirection = m_Player.FindAction("MoveDirection", throwIfNotFound: true);
+        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
         m_Player_LeftHandFire = m_Player.FindAction("LeftHandFire", throwIfNotFound: true);
         m_Player_RightHandFire = m_Player.FindAction("RightHandFire", throwIfNotFound: true);
@@ -361,7 +361,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_MoveDirection;
+    private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Roll;
     private readonly InputAction m_Player_LeftHandFire;
     private readonly InputAction m_Player_RightHandFire;
@@ -378,9 +378,9 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         /// </summary>
         public PlayerActions(@InputSystemActions wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Player/MoveDirection".
+        /// Provides access to the underlying input action "Player/Move".
         /// </summary>
-        public InputAction @MoveDirection => m_Wrapper.m_Player_MoveDirection;
+        public InputAction @Move => m_Wrapper.m_Player_Move;
         /// <summary>
         /// Provides access to the underlying input action "Player/Roll".
         /// </summary>
@@ -423,9 +423,9 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @MoveDirection.started += instance.OnMoveDirection;
-            @MoveDirection.performed += instance.OnMoveDirection;
-            @MoveDirection.canceled += instance.OnMoveDirection;
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
             @Roll.started += instance.OnRoll;
             @Roll.performed += instance.OnRoll;
             @Roll.canceled += instance.OnRoll;
@@ -449,9 +449,9 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         /// <seealso cref="PlayerActions" />
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @MoveDirection.started -= instance.OnMoveDirection;
-            @MoveDirection.performed -= instance.OnMoveDirection;
-            @MoveDirection.canceled -= instance.OnMoveDirection;
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
             @Roll.started -= instance.OnRoll;
             @Roll.performed -= instance.OnRoll;
             @Roll.canceled -= instance.OnRoll;
@@ -601,12 +601,12 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         /// <summary>
-        /// Method invoked when associated input action "MoveDirection" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Move" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMoveDirection(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Roll" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
