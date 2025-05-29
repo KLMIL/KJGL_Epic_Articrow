@@ -28,8 +28,8 @@ public class PlayerStatus : MonoBehaviour, IDamagable
 
     void Update()
     {
-        RecoveryMana(ManaRecoverySpeed * Time.deltaTime);
-        UIManager.Instance.manaBar.ManabarUpdate(Mana / MaxMana);
+        //RecoveryMana(ManaRecoverySpeed * Time.deltaTime);
+        //UIManager.Instance.manaBar.ManabarUpdate(Mana / MaxMana);
     }
 
     public void Init()

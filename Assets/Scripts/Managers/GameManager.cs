@@ -7,21 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     static GameManager _instance;
-    public static GameManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindAnyObjectByType(typeof(GameManager)) as GameManager;
-                if (Instance == null)
-                {
-                    Debug.LogError("GameManager없음!");
-                }
-            }
-            return _instance;
-        }
-    }
+    public static GameManager Instance => _instance;
 
     public Camera MainCamera { get; private set; }
 
