@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class CheckDirection_YSJ : MonoBehaviour
 {
-    Rigidbody2D rb2d;
     public enum Direction 
     {
         none = 0,
@@ -10,17 +9,12 @@ public class CheckDirection_YSJ : MonoBehaviour
         left = 1 << 2,
         up = 1 << 3,
         down = 1 << 4,
-
-        rightup = right | up,
-        rightdown = right | down,
-        leftup = left | up,
-        leftdown = left | down,
     }
     public Direction CurrentDirection;
+    public float Angle;
 
     void Start()
     {
-        rb2d = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -32,6 +26,7 @@ public class CheckDirection_YSJ : MonoBehaviour
     {
         Value.Normalize();
         float angle = Mathf.Atan2(Value.y, Value.x) * Mathf.Rad2Deg;
+        Angle = angle;
         Direction result = 0;
 
         if (angle >= - 45 && angle < 45)

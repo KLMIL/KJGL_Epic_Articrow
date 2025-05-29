@@ -12,11 +12,13 @@ public class PlayerAnimator_YSJ : MonoBehaviour
     public State currentState;
     CheckDirection_YSJ checkDirection;
     Animator animator;
+    SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
         checkDirection = GetComponent<CheckDirection_YSJ>();
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -40,15 +42,19 @@ public class PlayerAnimator_YSJ : MonoBehaviour
             {
                 case CheckDirection_YSJ.Direction.down:
                     animator.Play("Walk_Down");
+                    spriteRenderer.flipX = false;
                     break;
                 case CheckDirection_YSJ.Direction.up:
                     animator.Play("Walk_Up");
+                    spriteRenderer.flipX = false;
                     break;
                 case CheckDirection_YSJ.Direction.right:
                     animator.Play("Walk_Right");
+                    spriteRenderer.flipX = false;
                     break;
                 case CheckDirection_YSJ.Direction.left:
-                    animator.Play("Walk_Left");
+                    animator.Play("Walk_Right");
+                    spriteRenderer.flipX = true;
                     break;
             }
             return;
@@ -61,15 +67,19 @@ public class PlayerAnimator_YSJ : MonoBehaviour
             {
                 case CheckDirection_YSJ.Direction.down:
                     animator.Play("Idle_Down");
+                    spriteRenderer.flipX = false;
                     break;
                 case CheckDirection_YSJ.Direction.up:
                     animator.Play("Idle_Up");
-                    break;
-                case CheckDirection_YSJ.Direction.left:
-                    animator.Play("Idle_Left");
+                    spriteRenderer.flipX = false;
                     break;
                 case CheckDirection_YSJ.Direction.right:
                     animator.Play("Idle_Right");
+                    spriteRenderer.flipX = false;
+                    break;
+                case CheckDirection_YSJ.Direction.left:
+                    animator.Play("Idle_Right");
+                    spriteRenderer.flipX = true;
                     break;
             }
             return;

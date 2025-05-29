@@ -16,7 +16,7 @@ public class MagicPunch : Magic
 
     private void Start()
     {
-        transform.parent.GetComponent<PlayerMove>().enabled = false;
+        //transform.parent.GetComponent<PlayerMove>().enabled = false;
         if (transform.parent.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb2d))
         {
             rb2d.AddForce(((Vector2)transform.position - rb2d.position).normalized * rushForce, ForceMode2D.Impulse);
@@ -54,6 +54,6 @@ public class MagicPunch : Magic
 
     private void OnDestroy()
     {
-        transform.parent.GetComponent<PlayerMove>().enabled = true;
+        //transform.parent.GetComponent<PlayerMove>().enabled = true;
     }
 }

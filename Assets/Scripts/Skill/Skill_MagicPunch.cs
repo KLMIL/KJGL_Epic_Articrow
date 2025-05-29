@@ -33,7 +33,7 @@ public class Skill_MagicPunch : MagicSkill
 
         GameObject spawnedObj = Instantiate(magicPrefab);
         spawnedObj.transform.SetParent(fireMan, true);
-        spawnedObj.transform.localPosition = Vector2.zero + direction;
+        spawnedObj.transform.localPosition = Vector2.zero;
         spawnedObj.transform.rotation = Quaternion.Euler(0,0, Mathf.Atan2(direction.y, direction.x ) * Mathf.Rad2Deg - 90);
         foreach (BuffSkill buff in buffs)
         {

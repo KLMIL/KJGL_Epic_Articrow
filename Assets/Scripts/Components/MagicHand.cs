@@ -26,6 +26,9 @@ public class MagicHand : MonoBehaviour
 
     PlayerStatus _playerStatus;
 
+    public Transform leftFirePosition;
+    public Transform rightFirePosition;
+
     void Awake()
     {
         _playerStatus = GetComponent<PlayerStatus>();
@@ -94,28 +97,28 @@ public class MagicHand : MonoBehaviour
         }
     }
 
-    void FireMagic(bool isLeft)
-    {
-        List<CanEnterSlot> hand = isLeft ? LeftHand : RightHand;
+    //void FireMagic(bool isLeft)
+    //{
+    //    List<CanEnterSlot> hand = isLeft ? LeftHand : RightHand;
 
-        // 스킬 리스트에 아무것도 없을 때
-        if (hand.Count == 0)
-        {
-            string debugText = isLeft ? "왼손에 스킬없음" : "오른손 스킬없음";
-            Debug.Log(debugText);
-            return;
-        }
-        // 쿨타임이 남아있을 때
-        if (L_Timer > 0)
-        {
-            return;
-        }
+    //    // 스킬 리스트에 아무것도 없을 때
+    //    if (hand.Count == 0)
+    //    {
+    //        string debugText = isLeft ? "왼손에 스킬없음" : "오른손 스킬없음";
+    //        Debug.Log(debugText);
+    //        return;
+    //    }
+    //    // 쿨타임이 남아있을 때
+    //    if (L_Timer > 0)
+    //    {
+    //        return;
+    //    }
 
-        // 루프 한번 돌기 시도
-        StartCoroutine(Fire(LeftHand, L_Delay, L_FireNumber, L_Accuracy));
-        // 클타임 설정해주기
-        L_Timer = L_CoolTime;
-    }
+    //    // 루프 한번 돌기 시도
+    //    StartCoroutine(Fire(LeftHand, L_Delay, L_FireNumber, L_Accuracy));
+    //    // 클타임 설정해주기
+    //    L_Timer = L_CoolTime;
+    //}
 
 
     void L_FireMagic()
@@ -133,7 +136,7 @@ public class MagicHand : MonoBehaviour
         }
 
         // 루프 한번 돌기 시도
-        StartCoroutine(Fire(LeftHand, L_Delay, L_FireNumber, L_Accuracy));
+        StartCoroutine(Fire(LeftHand, L_Delay, L_FireNumber, L_Accuracy, leftFirePosition));
         // 클타임 설정해주기
         L_Timer = L_CoolTime;
     }
@@ -153,12 +156,12 @@ public class MagicHand : MonoBehaviour
         }
 
         // 루프 한번 돌기 시도
-        StartCoroutine(Fire(RightHand, R_Delay, R_FireNumber, R_Accuracy));
+        StartCoroutine(Fire(RightHand, R_Delay, R_FireNumber, R_Accuracy, rightFirePosition));
         // 클타임 설정해주기
         R_Timer = R_CoolTime;
     }
 
-    IEnumerator Fire(List<CanEnterSlot> skillList, float delay, int FireNumber, float accuracy)
+    IEnumerator Fire(List<CanEnterSlot> skillList, float delay, int FireNumber, float accuracy, Transform firePosition)
     {
         List<BuffSkill> buffStack = new List<BuffSkill>(DefaultBuffs);
         // 리스트 한번 쓱 돌기
@@ -177,7 +180,7 @@ public class MagicHand : MonoBehaviour
                 // 설정된 발사 횟수만큼 발사
                 for (int i = FireNumber; i > 0; i--)
                 {
-                    magic.TryFire(transform, buffStack, _playerStatus);
+                    magic.TryFire(firePosition, buffStack, _playerStatus);
                 }
 
                 //버프스택 초기화

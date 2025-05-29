@@ -63,19 +63,6 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerStatus>().MaxHealth += (int)addValue;
         player.GetComponent<PlayerStatus>().Health += addValue;
     }
-
-    public void StatUp_MaxMana() 
-    {
-        float addValue = 10f;
-        player.GetComponent<PlayerStatus>().MaxMana += addValue;
-    }
-
-    public void StatUp_ManaRecovery() 
-    {
-        float addValue = 1f;
-        player.GetComponent<PlayerStatus>().ManaRecoverySpeed += addValue;
-    }
-
     public void StatUp_MoveSpeed() 
     {
         float addValue = 2f;
