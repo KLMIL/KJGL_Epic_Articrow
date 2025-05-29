@@ -80,8 +80,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10484a8d4e5b094429b8f12621d2c0e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <RoomType>k__BackingField: 0
-  _mapPosition: {x: 0, y: 0}
+  _roomData:
+    RoomType: 0
+    Row: 0
+    Col: 0
+    IsVisited: 0
+    IsCleared: 0
+  _doors: []
 --- !u!1 &1207446939673191889
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,9 +556,9 @@ Transform:
   - {fileID: 7919842953478332046}
   - {fileID: 823472231638431851}
   - {fileID: 3352973328133832400}
-  - {fileID: 5953097712602325519}
   - {fileID: 3409103140753232197}
   - {fileID: 2756565055900381136}
+  - {fileID: 5953097712602325519}
   m_Father: {fileID: 687671158974193717}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2527653173216296554
@@ -675,7 +680,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -703,7 +708,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca16c4fc6ad0fd4fb6d1ee75f4fbc02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <DoorDirection>k__BackingField: 2
+  _currentRoom: {fileID: 0}
+  _isValid: 1
+  _isOpen: 0
+  <DoorDirection>k__BackingField: 4
+  _willCreateRoomType: 0
+  _nextRoom: {fileID: 0}
 --- !u!1 &2743713143428612067
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,13 +875,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2920983505647772313}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 6.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6180658771638613795}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!212 &5184813112527169411
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -985,7 +995,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca16c4fc6ad0fd4fb6d1ee75f4fbc02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentRoom: {fileID: 0}
+  _isValid: 1
+  _isOpen: 0
   <DoorDirection>k__BackingField: 1
+  _willCreateRoomType: 0
+  _nextRoom: {fileID: 0}
 --- !u!1 &3428317824277276775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,13 +1028,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3428317824277276775}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 12, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6180658771638613795}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &916377449372650830
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1133,7 +1148,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca16c4fc6ad0fd4fb6d1ee75f4fbc02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <DoorDirection>k__BackingField: 4
+  _currentRoom: {fileID: 0}
+  _isValid: 1
+  _isOpen: 0
+  <DoorDirection>k__BackingField: 3
+  _willCreateRoomType: 0
+  _nextRoom: {fileID: 0}
 --- !u!1 &3879016321732722053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1161,13 +1181,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3879016321732722053}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -12, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6180658771638613795}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!212 &1606953558770197222
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1281,7 +1301,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca16c4fc6ad0fd4fb6d1ee75f4fbc02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <DoorDirection>k__BackingField: 3
+  _currentRoom: {fileID: 0}
+  _isValid: 1
+  _isOpen: 0
+  <DoorDirection>k__BackingField: 2
+  _willCreateRoomType: 0
+  _nextRoom: {fileID: 0}
 --- !u!1 &4646992681077990579
 GameObject:
   m_ObjectHideFlags: 0

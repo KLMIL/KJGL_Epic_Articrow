@@ -1,17 +1,33 @@
 using UnityEngine;
 
-public class DummyPlayerController : MonoBehaviour
+namespace BMC
 {
-    float _moveSpeed = 10f;
-    PlayerMove _playerMove;
-
-    void Awake()
+    public class DummyPlayerController : MonoBehaviour
     {
-        _playerMove = GetComponent<PlayerMove>();
-    }
+        float _moveSpeed = 10f;
+        PlayerMove _playerMove;
 
-    void FixedUpdate()
-    {
-        _playerMove.Move(_moveSpeed);
+        void Awake()
+        {
+            _playerMove = GetComponent<PlayerMove>();
+        }
+
+        void Start()
+        {
+            transform.SetParent(null);
+        }
+
+        void Update()
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                MapManager.Instance.CurrentRoom.Complete();
+            }
+        }
+
+        void FixedUpdate()
+        {
+            _playerMove.Move(_moveSpeed);
+        }
     }
 }
