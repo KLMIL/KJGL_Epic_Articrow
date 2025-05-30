@@ -19,7 +19,7 @@ namespace BMC
 
         void Update()
         {
-            if(Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
             {
                 MapManager.Instance.CurrentRoom.Complete();
             }

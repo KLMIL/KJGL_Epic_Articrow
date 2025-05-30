@@ -35,17 +35,11 @@ namespace BMC
 
         void Start()
         {
-            Door.OnEnterAction += SetCameraTarget;
+            Door.OnTransferToNextRoom = SetCameraTarget;
         }
 
         void Update()
         {
-            //// 테스트 코드
-            //if (Input.GetMouseButtonDown(0))
-            //{
-            //    ShakeCamera(1f, 0.1f);
-            //}
-
             if (_shakeTimer > 0)
             {
                 _shakeTimer -= Time.deltaTime;
@@ -59,10 +53,13 @@ namespace BMC
         // 카메라 목표 설정
         public void SetCameraTarget(Transform target)
         {
-            // 목표 설정
-            _cameraTarget.TrackingTarget = target;
-            _cinemachineCamera.Target = _cameraTarget;
-            Debug.LogWarning($"카메라 목표 설정: {target.name}");
+            if (_cameraTarget.TrackingTarget != target)
+            {
+                // 목표 설정
+                _cameraTarget.TrackingTarget = target;
+                _cinemachineCamera.Target = _cameraTarget;
+                Debug.LogWarning($"카메라 목표 설정: {target.name}");
+            }
         }
 
         // 카메라 흔들기
@@ -72,6 +69,11 @@ namespace BMC
             _startIntensity = intensity;
             _shakeTimerTotal = time;
             _shakeTimer = time;
+        }
+
+        void OnDestroy()
+        {
+            Door.OnTransferToNextRoom = null;
         }
     }
 }

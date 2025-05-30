@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace BMC
 {
@@ -21,16 +20,16 @@ namespace BMC
 
         [Header("상태")]
         [SerializeField] Room _currentRoom;
-        [SerializeField] bool _isValid = true;
         [SerializeField] bool _isOpen = false;
         Color _openColor = Color.yellow;
         Color _closedColor = Color.black;
 
         [Header("다음 방 관련")]
-        [field: SerializeField] public DoorPosition DoorDirection { get; private set; }    // 문 위치
+        [field: SerializeField] public DoorPosition DoorPosition { get; private set; }    // 문 위치
         [SerializeField] RoomType _willCreateRoomType;
-        [SerializeField] Room _nextRoom;
-        public static event Action<Transform> OnEnterAction;
+        [field: SerializeField] public Room NextRoom { get; set; }
+        public static Action<Transform> OnTransferToNextRoom;
+        float _doorSpawnPlayerPositionOffset = 0.7f;
 
         void Awake()
         {
@@ -68,67 +67,72 @@ namespace BMC
         public DoorPosition GetDoorPositionOfNextRoom()
         {
             int doorPositionTypeCount = Enum.GetNames(typeof(DoorPosition)).Length;
-            int position = doorPositionTypeCount - (int)DoorDirection;
+            int position = doorPositionTypeCount - (int)DoorPosition;
             return Util.IntToEnum<DoorPosition>(position);
         }
 
-        // 입장
-        public void Enter(Transform playerTransform)
+        // 다음 방으로 이동 시도
+        public void TryTransferToNextRoom(Transform playerTransform)
         {
+            // 1. 현재 방의 선택된 문으로 설정
+            _currentRoom.SelectedDoor = this;
+
+            // 2. 다음 방의 정보 가져오기
             Tuple<int, int> nextRoomIndex = GetNextRoomIndex();
-            _nextRoom = MapManager.Instance.GetRoom(nextRoomIndex.Item1, nextRoomIndex.Item2);
+            NextRoom = MapManager.Instance.GetRoom(nextRoomIndex.Item1, nextRoomIndex.Item2);
 
-            // 현재 방을 클리어했고, 아직 다음 방이 생성되지 않은 경우
-            if (_currentRoom.RoomData.IsCleared && _nextRoom == null)
+            // 3. 클리어 했는데 다음 방이 없다면, 방 생성 UI 띄우기
+            if (_currentRoom.RoomData.IsCleared && NextRoom == null)
             {
-                // TODO 추후에 선택해서 방 만들 수 있도록 하기
-                // 방 랜덤 생성
-                if (_willCreateRoomType == RoomType.None)
-                {
-                    int randomRoomType = Random.Range(3, Enum.GetNames(typeof(RoomType)).Length);
-                    _willCreateRoomType = Util.IntToEnum<RoomType>(randomRoomType);
-                }
-                Room newRoom = MapManager.Instance.CreateRoom(_willCreateRoomType, nextRoomIndex.Item1, nextRoomIndex.Item2);
-                _nextRoom = newRoom;
+                // 방 선택 UI 띄우고, 문 정보 넘기기
+                UI_EventBus.OnToggleChoiceRoomCanvas?.Invoke();
+                MapManager.Instance.CurrentDoor = this;
+                return;
             }
 
-            if (_nextRoom != null)
+            TransferToNextRoom(playerTransform);
+        }
+        
+        // 다음 방으로 이동
+        public void TransferToNextRoom(Transform playerTransform)
+        {
+            if(NextRoom != null)
             {
-                // 다음 방으로 입장할 때의 입장하는 문 위치에서 1만큼 떨어져서 이동
-                MapManager.Instance.CurrentRoom = _nextRoom;
+                // TODO: 아이작처럼 하려면 벽 테두리에 간격이 있어야 일정한 소환 위치가 나올 것 같음, 이를 아트에 반영하고 코드 수정해야함
+                // 다음 방으로 입장할 때의 입장하는 문 위치에서 일정 거리만큼 떨어져서 이동
+                MapManager.Instance.CurrentRoom = NextRoom;
                 DoorPosition nextRoomDoorPosition = GetDoorPositionOfNextRoom();
-                Door spawnDoor = _nextRoom.GetDoor(nextRoomDoorPosition);
-                playerTransform.position = spawnDoor.transform.position + spawnDoor.transform.up;
-                Debug.LogWarning($"다음 방에서 소환될 위치: {spawnDoor.transform.position + spawnDoor.transform.up}");
-                OnEnterAction.Invoke(_nextRoom.transform);
-                _nextRoom.CloseAllValidDoor();
+                Door spawnDoor = NextRoom.GetDoor(nextRoomDoorPosition);
+                _doorSpawnPlayerPositionOffset = (nextRoomDoorPosition == DoorPosition.Up) ? 1.3f : 0.7f;
+                playerTransform.position = spawnDoor.transform.position + spawnDoor.transform.up * _doorSpawnPlayerPositionOffset;
+                OnTransferToNextRoom.Invoke(NextRoom.transform);
+
+                if (!NextRoom.RoomData.IsCleared)
+                    NextRoom.CloseAllValidDoor();
             }
+
+            _currentRoom.SelectedDoor = null;
         }
 
-        public Tuple<int,int> GetNextRoomIndex()
+        public Tuple<int, int> GetNextRoomIndex()
         {
             // 다음 방 위치 계산
             int row = _currentRoom.RoomData.Row, col = _currentRoom.RoomData.Col;
-            switch (DoorDirection)
+            switch (DoorPosition)
             {
                 case DoorPosition.Up:
                     row -= 1;
-                    //Debug.Log("다음 방의 아래에서 등장");
                     break;
                 case DoorPosition.Down:
                     row += 1;
-                    //Debug.Log("다음 방의 위에서 등장");
                     break;
                 case DoorPosition.Left:
                     col -= 1;
-                    //Debug.Log("다음 방의 오른쪽에서 등장");
                     break;
                 case DoorPosition.Right:
                     col += 1;
-                    //Debug.Log("다음 방의 왼쪽에서 등장");
                     break;
                 default:
-                    //Debug.Log("???");
                     break;
             }
             Tuple<int, int> nextRoomIndex = new Tuple<int, int>(row, col);
@@ -141,7 +145,7 @@ namespace BMC
             if (collision.CompareTag("Player") && _isOpen)
             {
                 //Debug.Log("문 진입");
-                Enter(collision.transform);
+                TryTransferToNextRoom(collision.transform);
             }
         }
 

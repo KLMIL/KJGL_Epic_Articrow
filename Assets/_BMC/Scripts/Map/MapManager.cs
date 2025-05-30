@@ -17,6 +17,7 @@ namespace BMC
 
         [Header("방 이동 관련")]
         [field: SerializeField] public Room CurrentRoom { get; set; }
+        [field: SerializeField] public Door CurrentDoor { get; set; }
         CameraController _cameraController;
 
         void Awake()
@@ -29,7 +30,6 @@ namespace BMC
             {
                 Destroy(gameObject);
             }
-
             Init();
         }
 
@@ -41,14 +41,15 @@ namespace BMC
         public void Init()
         {
             _fullMap = new Room[MaxRow * MaxCol];
-            CreateRoom(RoomType.BossRoom);          // 보스 방 생성
-            CreateRoom(RoomType.StartRoom);         // 시작 방 생성
+
+            CreateRoomAtPoint(RoomType.BossRoom);          // 보스 방 생성
+            CreateRoomAtPoint(RoomType.StartRoom);         // 시작 방 생성
 
             _cameraController = Camera.main.transform.root.GetComponent<CameraController>();
         }
 
-        // 특정 방 생성
-        public Room CreateRoom(RoomType roomType, int row = -1, int col = -1)
+        // 특정 지점에 방 생성
+        public Room CreateRoomAtPoint(RoomType roomType, int row = -1, int col = -1)
         {
             // 시작 방 및 보스 방
             if (roomType == RoomType.StartRoom || roomType == RoomType.BossRoom)
@@ -57,10 +58,9 @@ namespace BMC
                 col = Random.Range(0, MaxCol);
             }
 
-            int idx = row * MaxCol + col;
-
             // 유효한 인덱스인지 확인
-            if(row < 0 || row >= MaxRow || col < 0 || col >= MaxCol || idx < 0 || idx >=_fullMap.Length)
+            int idx = row * MaxCol + col;
+            if (row < 0 || row >= MaxRow || col < 0 || col >= MaxCol || idx < 0 || idx >= _fullMap.Length)
             {
                 Debug.LogError($"유효하지 않은 행/열: row({row}) col({col}). MaxRow: {MaxRow}, MaxCol: {MaxCol}");
                 return null; // 유효하지 않은 경우 null 반환
@@ -69,24 +69,30 @@ namespace BMC
             // 해당 위치에 방이 없는 경우
             if (_fullMap[idx] == null)
             {
-                Room newRoom = Managers.Resource.Load<Room>($"Prefabs/RoomTemplate/{roomType}");
+                Room newRoom = CreateRoom(roomType);
                 if (newRoom != null)
                 {
+                    newRoom.Init(row, col);
                     Vector2 spawnPos = new Vector2(col * _roomOffset.y, -row * _roomOffset.x);
-                    //Debug.LogWarning(spawnPos + "에 방이 소환됨");
-                    Room newRoomInstance = Instantiate(newRoom, spawnPos, Quaternion.identity);
-                    CurrentRoom = newRoomInstance;
-                    newRoomInstance.Init(row, col); // 방 초기화
-                    _fullMap[idx] = newRoomInstance; // 방을 맵에 추가
+                    newRoom.transform.position = spawnPos;
+                    _fullMap[idx] = newRoom;
+                    CurrentRoom = newRoom;
                 }
             }
             return _fullMap[idx];
         }
 
+        // 방 생성
+        public Room CreateRoom(RoomType roomType)
+        {
+            Room newRoomPrefab = Managers.Resource.Load<Room>($"Prefabs/RoomTemplate/{roomType}");
+            return (newRoomPrefab != null) ? Instantiate(newRoomPrefab) : null;
+        }
+
         // 인덱스에 해당하는 방 반환
         public Room GetRoom(int row, int col)
         {
-            if(row < 0 || row >= MaxRow || col < 0 || col >= MaxCol)
+            if (row < 0 || row >= MaxRow || col < 0 || col >= MaxCol)
             {
                 return null;
             }
