@@ -72,6 +72,7 @@ namespace BMC
                 Room newRoom = CreateRoom(roomType);
                 if (newRoom != null)
                 {
+                    newRoom.transform.SetParent(transform);
                     newRoom.Init(row, col);
                     Vector2 spawnPos = new Vector2(col * _roomOffset.y, -row * _roomOffset.x);
                     newRoom.transform.position = spawnPos;

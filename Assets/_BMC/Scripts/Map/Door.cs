@@ -85,8 +85,9 @@ namespace BMC
             if (_currentRoom.RoomData.IsCleared && NextRoom == null)
             {
                 // 방 선택 UI 띄우고, 문 정보 넘기기
-                UI_EventBus.OnToggleChoiceRoomCanvas?.Invoke();
+                UI_InGameEventBus.OnToggleChoiceRoomCanvas?.Invoke();
                 MapManager.Instance.CurrentDoor = this;
+                Time.timeScale = 0f;
                 return;
             }
 
@@ -103,7 +104,7 @@ namespace BMC
                 MapManager.Instance.CurrentRoom = NextRoom;
                 DoorPosition nextRoomDoorPosition = GetDoorPositionOfNextRoom();
                 Door spawnDoor = NextRoom.GetDoor(nextRoomDoorPosition);
-                _doorSpawnPlayerPositionOffset = (nextRoomDoorPosition == DoorPosition.Up) ? 1.3f : 0.7f;
+                _doorSpawnPlayerPositionOffset = (nextRoomDoorPosition == DoorPosition.Up || nextRoomDoorPosition == DoorPosition.Down) ? 1.75f : 1f;
                 playerTransform.position = spawnDoor.transform.position + spawnDoor.transform.up * _doorSpawnPlayerPositionOffset;
                 OnTransferToNextRoom.Invoke(NextRoom.transform);
 

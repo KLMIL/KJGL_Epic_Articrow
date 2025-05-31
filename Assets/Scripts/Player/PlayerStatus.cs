@@ -26,6 +26,8 @@ public class PlayerStatus : MonoBehaviour, IDamagable
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G))
+            TakeDamage(10f);
     }
 
     public void Init()
@@ -39,6 +41,7 @@ public class PlayerStatus : MonoBehaviour, IDamagable
         GameObject spawnedObj = Instantiate(DamageTextPrefab, transform.position, Quaternion.identity);
         //spawnedObj.transform.SetParent(transform,false);
         spawnedObj.GetComponent<TextMeshPro>().text = damage.ToString();
+        BMC.UI_InGameEventBus.OnHpSliderValueUpdate?.Invoke(Health);
 
         if (Health <= 0)
         {

@@ -4,7 +4,7 @@ namespace BMC
 {
     public class DummyPlayerController : MonoBehaviour
     {
-        float _moveSpeed = 10f;
+        MagicHand _magicHand;
         PlayerMove _playerMove;
 
         void Awake()
