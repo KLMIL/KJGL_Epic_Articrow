@@ -86,7 +86,7 @@ namespace BMC
         // 방 생성
         public Room CreateRoom(RoomType roomType)
         {
-            Room newRoomPrefab = Managers.Resource.Load<Room>($"Prefabs/RoomTemplate/{roomType}");
+            Room newRoomPrefab = YSJ.Managers.Resource.Load<Room>($"Prefabs/RoomTemplate/{roomType}");
             return (newRoomPrefab != null) ? Instantiate(newRoomPrefab) : null;
         }
 
