@@ -9,8 +9,6 @@ public class PlayerStatus : MonoBehaviour, IDamagable
 
     [Header("업그레이드 가능한 스테이터스")]
     public float MaxHealth { get; set; } = 200;
-    public float MaxMana { get; set; } = 100;
-    public float ManaRecoverySpeed { get; set; } = 5f;
     public int MoveSpeed { get; set; } = 10;
     public float LeftHandCollTime { get; set; } = 1f;
     public float RightHandCollTime { get; set; } = 1f;
@@ -28,34 +26,12 @@ public class PlayerStatus : MonoBehaviour, IDamagable
 
     void Update()
     {
-        RecoveryMana(ManaRecoverySpeed * Time.deltaTime);
-        UIManager.Instance.manaBar.ManabarUpdate(Mana / MaxMana);
     }
 
     public void Init()
     {
         Health = MaxHealth;
-        Mana = MaxMana;
     }
-
-
-    #region 마나 관련
-    public void RecoveryMana(float value)
-    {
-        Mana += value;
-        Mana = Mathf.Clamp(Mana, 0, MaxMana);
-    }
-
-    public bool UseMana(float value)
-    {
-        if (Mana < value)
-        {
-            return false;
-        }
-        Mana -= value;
-        return true;
-    }
-    #endregion
 
     public void TakeDamage(float damage)
     {

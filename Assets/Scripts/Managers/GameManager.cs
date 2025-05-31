@@ -7,21 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     static GameManager _instance;
-    public static GameManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindAnyObjectByType(typeof(GameManager)) as GameManager;
-                if (Instance == null)
-                {
-                    Debug.LogError("GameManager없음!");
-                }
-            }
-            return _instance;
-        }
-    }
+    public static GameManager Instance => _instance;
 
     public Camera MainCamera { get; private set; }
 
@@ -77,19 +63,6 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerStatus>().MaxHealth += (int)addValue;
         player.GetComponent<PlayerStatus>().Health += addValue;
     }
-
-    public void StatUp_MaxMana() 
-    {
-        float addValue = 10f;
-        player.GetComponent<PlayerStatus>().MaxMana += addValue;
-    }
-
-    public void StatUp_ManaRecovery() 
-    {
-        float addValue = 1f;
-        player.GetComponent<PlayerStatus>().ManaRecoverySpeed += addValue;
-    }
-
     public void StatUp_MoveSpeed() 
     {
         float addValue = 2f;

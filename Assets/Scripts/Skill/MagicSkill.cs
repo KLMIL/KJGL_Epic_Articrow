@@ -34,18 +34,9 @@ public class MagicSkill : CanEnterSlot
         int totalFireCount = this.FireCount + addFireCount;
         float totalAccuracy = this.accuracy + addAccuracy;
 
-        if (!playerStatus.UseMana(consumeMana * (totalFireCount)))
+        for (int i = 0; i < totalFireCount; i++)
         {
-            print("마나 부족함!");
-            GameObject spawnObj = Instantiate( Resources.Load<GameObject>("Text/DamageText"), fireMan.position, Quaternion.identity);
-            spawnObj.GetComponent<TextMeshPro>().text = "마나부족함!";
-        }
-        else 
-        {
-            for (int i = 0; i < totalFireCount; i++)
-            {
-                Fire(fireMan, buffs, totalAccuracy);
-            }
+            Fire(fireMan, buffs, totalAccuracy);
         }
 
         // 버프 내용 초기화
