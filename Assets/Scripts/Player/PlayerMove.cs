@@ -1,26 +1,38 @@
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+namespace YSJ
 {
-    float _damping = 0.8f;
-    Rigidbody2D _rb2d;
-
-    void Awake()
+    public class PlayerMove : MonoBehaviour
     {
-        _rb2d = GetComponent<Rigidbody2D>();
-    }
+        float _moveSpeed = 10f;
+        float _damping = 0.5f;
+        Rigidbody2D _rb2d;
 
-    public void Move(float speed) 
-    {
-        Vector2 inputValue = Managers.Input.MoveInput;
-
-        if (inputValue != Vector2.zero)
+        void Awake()
         {
-            _rb2d.linearVelocity = inputValue * speed;
+            _rb2d = GetComponent<Rigidbody2D>();
         }
-        else 
+
+        public void Move()
         {
-            _rb2d.linearVelocity *= _damping;
+            Vector2 inputValue = Managers.Input.MoveInput;
+
+            if (inputValue != Vector2.zero)
+            {
+                _rb2d.linearVelocity = inputValue * _moveSpeed;
+                if (TryGetComponent<PlayerAnimator_YSJ>(out PlayerAnimator_YSJ animator))
+                {
+                    animator.currentState |= PlayerAnimator_YSJ.State.Walk;
+                }
+            }
+            else
+            {
+                _rb2d.linearVelocity *= _damping;
+                if (TryGetComponent<PlayerAnimator_YSJ>(out PlayerAnimator_YSJ animator))
+                {
+                    animator.currentState &= ~PlayerAnimator_YSJ.State.Walk;
+                }
+            }
         }
     }
 }
