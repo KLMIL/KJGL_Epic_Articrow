@@ -1,10 +1,11 @@
 using UnityEngine;
 
-public class PlayerInSightCondition : IEnemyCondition
+[CreateAssetMenu(fileName = "PlayerInSightCondition", menuName = "Enemy/Condition/PlayerInSight")]
+public class PlayerInSightConditionSO : EnemyConditionSO
 {
     public float DetectionRange = 5f;
 
-    public bool IsMet(EnemyController controller)
+    public override bool IsMet(EnemyController controller)
     {
         if (controller.Player == null) return false;
 

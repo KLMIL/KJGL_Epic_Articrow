@@ -13,5 +13,5 @@ public class EnemyStatusSO : ScriptableObject
 
     [Header("Special Status")]
     public float detectionRange = 5.0f; // DRNG: 플레이어 감지 범위
-    public float knockbackResist = 0f;  // 넉백 저항
+    public float knockbackResist = 0f;  // KRES: 넉백 저항
 }

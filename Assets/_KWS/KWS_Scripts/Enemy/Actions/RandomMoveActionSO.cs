@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class RandomMoveAction : IEnemyAction
+[CreateAssetMenu(fileName = "RandomMoveAction", menuName = "Enemy/Action/RandomMove")]
+public class RandomMoveActionSO : EnemyActionSO
 {
     private Vector3 _randomDirection = Vector3.zero;
     private float _changeDirectionCooldown = 0f;
 
-    public void Act(EnemyController controller)
+    public override void Act(EnemyController controller)
     {
         if (_changeDirectionCooldown <= 0f)
         {

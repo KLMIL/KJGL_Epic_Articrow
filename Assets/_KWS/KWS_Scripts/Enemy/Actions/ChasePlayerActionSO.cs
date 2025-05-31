@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class ChasePlayerAction : IEnemyAction
+[CreateAssetMenu(fileName = "ChasePlayerAction", menuName = "Enemy/Action/ChasePlayer")]
+public class ChasePlayerActionSO : EnemyActionSO
 {
-    public void Act(EnemyController controller)
+    public override void Act(EnemyController controller)
     {
         if (controller.Player == null) return;
 
