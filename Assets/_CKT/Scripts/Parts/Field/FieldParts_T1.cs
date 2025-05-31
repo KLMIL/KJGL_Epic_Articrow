@@ -18,9 +18,7 @@ namespace CKT
         public void Interact(Transform trans)
         {
             GameObject imageParts = Instantiate(_imageParts);
-            //Managers.Inventory.InventorySlot.Add(imageParts);
             //Managers.UIManager.UI_AddInventory(imageParts);
-            GameManager.Instance.Inventory.InventorySlot.Add(imageParts);
             YSJ.Managers.UI.UI_AddInventory(imageParts);
             Destroy(this.gameObject);
         }

@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 namespace CKT
 {
-    public class ImageParts_T1 : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class ImageParts_T1 : MonoBehaviour, IAddSlotable, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         GameObject _fieldParts;
 
         RectTransform _rect;
         Image _image;
 
+        Transform _previousParent;
         GameObject _emptyObj;
 
         private void Awake()
@@ -24,8 +25,15 @@ namespace CKT
             _emptyObj = null;
         }
 
+        public void AddSlot(GameObject obj)
+        {
+            _previousParent.GetComponent<IAddSlotable>().AddSlot(this.gameObject);
+        }
+
         public void OnBeginDrag(PointerEventData eventData)
         {
+            _previousParent = this.transform.parent;
+
             _emptyObj = new GameObject("Empty");
             _emptyObj.AddComponent<RectTransform>();
             _emptyObj.transform.SetParent(this.transform.parent);
@@ -35,6 +43,7 @@ namespace CKT
             this.transform.SetAsLastSibling();
             _image.raycastTarget = false;
 
+            //인벤토리 리스트에서 제거
             //Managers.Inventory.RemoveAtSlot(this.gameObject);
             GameManager.Instance.Inventory.RemoveAtSlot(this.gameObject);
         }
@@ -47,7 +56,9 @@ namespace CKT
         public void OnEndDrag(PointerEventData eventData)
         {
             _image.raycastTarget = true;
-            if (this.transform.parent.parent == null)
+
+            //어느 슬롯에도 들어가지 않았다면
+            if (this.transform.parent.GetComponent<UI_Inventory>() != null)
             {
                 //필드 파츠 생성
                 GameObject fieldParts = Instantiate(_fieldParts);
@@ -58,9 +69,10 @@ namespace CKT
                 Vector3 playerPos = FindAnyObjectByType<DummyPlayerController>().transform.position;
                 fieldParts.transform.position = playerPos + Vector3.down;
 
-                //인벤토리 리스트에서 제거
                 Destroy(this.gameObject);
             }
+
+            _previousParent = null;
             Destroy(_emptyObj);
         }
     }

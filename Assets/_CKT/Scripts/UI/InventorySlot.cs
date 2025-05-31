@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 namespace CKT
 {
-    public class InventorySlot : MonoBehaviour, IDropHandler
+    public class InventorySlot : MonoBehaviour, IAddSlotable, IDropHandler
     {
         RectTransform _rect;
 
@@ -11,26 +11,23 @@ namespace CKT
         {
             _rect = GetComponent<RectTransform>();
 
-            YSJ.Managers.UI.OnUI_AddInventoryEvent += UI_AddInventory;
+            YSJ.Managers.UI.OnUI_AddInventorySlotEvent += AddSlot;
         }
 
-        void UI_AddInventory(GameObject item)
+        public void AddSlot(GameObject item)
         {
             item.transform.SetParent(this.transform);
+            item.GetComponent<RectTransform>().position = _rect.position;
+            GameManager.Instance.Inventory.InventorySlot.Add(item);
         }
 
         public void OnDrop(PointerEventData eventData)
         {
             GameObject pointerDrag = eventData.pointerDrag;
-            if (pointerDrag != null)
+            //InventorySlot 위에서 Drop했을 때만 호출
+            if ((pointerDrag != null) && (pointerDrag.transform.parent == this.transform.parent))
             {
-                //InventorySlot 위에서 Drop했을 때만 호출
-                if (pointerDrag.transform.parent == this.transform.parent)
-                {
-                    pointerDrag.transform.SetParent(transform);
-                    pointerDrag.GetComponent<RectTransform>().position = _rect.position;
-                    GameManager.Instance.Inventory.InventorySlot.Add(pointerDrag);
-                }
+                AddSlot(pointerDrag);
             }
         }
     }

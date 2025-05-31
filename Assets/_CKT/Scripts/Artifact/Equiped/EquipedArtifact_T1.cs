@@ -7,6 +7,8 @@ namespace CKT
     {
         GameObject _fieldArtifact;
 
+        int _handID = 0; //0=초기화, 1=왼손, 2=오른손
+
         private void Awake()
         {
             _fieldArtifact = Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T1");
@@ -20,10 +22,12 @@ namespace CKT
             {
                 Debug.Log("테스트2");
                 GameManager.Instance.Inventory.SubLeftHand((slot) => Attack(slot));
+                _handID = 1;
             }
             else if (this.transform.GetComponentInParent<RightHand_YSJ>() != null)
             {
                 GameManager.Instance.Inventory.SubRightHand((slot) => Attack(slot));
+                _handID = 2;
             }
 
             if (transform.GetComponentInParent<LeftHand_YSJ>() == null)
@@ -34,10 +38,7 @@ namespace CKT
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                GameObject equiped = Instantiate(_fieldArtifact);
-                equiped.transform.parent = null;
-                equiped.transform.localPosition = this.transform.position + Vector3.down;
-                Destroy(this.gameObject);
+                ThrowAway();
             }
         }
 
@@ -45,7 +46,27 @@ namespace CKT
         {
             Debug.Log($"{this.transform.parent.name}에서 공격");
             GameObject bullet = YSJ.Managers.Pool.InstPrefab("Bullet", null, this.transform.position);
-            bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 10f, ForceMode2D.Impulse);
+
+            Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - this.transform.position).normalized;
+            bullet.GetComponent<Rigidbody2D>().AddForce(dir * 10f, ForceMode2D.Impulse);
+        }
+
+        void ThrowAway()
+        {
+            GameObject equiped = Instantiate(_fieldArtifact);
+            equiped.transform.parent = null;
+            equiped.transform.localPosition = this.transform.position + Vector3.down;
+
+            if (_handID == 1)
+            {
+                GameManager.Instance.Inventory.InitLeftHand();
+            }
+            else if (_handID == 2)
+            {
+                GameManager.Instance.Inventory.InitRightHand();
+            }
+            Destroy(this.gameObject);
+
         }
     }
 }

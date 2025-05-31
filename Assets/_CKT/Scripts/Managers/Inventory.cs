@@ -8,6 +8,10 @@ namespace CKT
     public class Inventory
     {
         event Action<List<GameObject>> OnLeftHandEvent;
+        public void InitLeftHand()
+        {
+            OnLeftHandEvent = null;
+        }
         public void SubLeftHand(Action<List<GameObject>> newSub)
         {
             OnLeftHandEvent = null;
@@ -19,6 +23,10 @@ namespace CKT
         }
 
         event Action<List<GameObject>> OnRightHandEvent;
+        public void InitRightHand()
+        {
+            OnRightHandEvent = null;
+        }
         public void SubRightHand(Action<List<GameObject>> newSub)
         {
             OnRightHandEvent = null;
