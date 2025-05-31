@@ -27,7 +27,7 @@ namespace BMC
 
         void FixedUpdate()
         {
-            _playerMove.Move(_moveSpeed);
+            _playerMove.Move();
         }
     }
 }
