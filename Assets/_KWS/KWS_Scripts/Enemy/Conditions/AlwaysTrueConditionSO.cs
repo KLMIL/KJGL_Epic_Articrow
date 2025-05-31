@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AlwaysTureCondition", menuName = "Enemy/Condition/AlwaysTrue")]
+[CreateAssetMenu(fileName = "AlwaysTureCondition", menuName = "Enemy/Condition/Always True")]
 public class AlwaysTrueConditionSO : EnemyConditionSO
 {
     public override bool IsMet(EnemyController controller) => true;

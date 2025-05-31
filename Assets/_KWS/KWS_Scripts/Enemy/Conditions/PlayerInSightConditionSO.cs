@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerInSightCondition", menuName = "Enemy/Condition/PlayerInSight")]
+[CreateAssetMenu(fileName = "PlayerInSightCondition", menuName = "Enemy/Condition/Player In Sight")]
 public class PlayerInSightConditionSO : EnemyConditionSO
 {
     public float DetectionRange = 5f;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SpawnMitesAction", menuName = "Enemy/Action/SpawnMites")]
+[CreateAssetMenu(fileName = "SpawnMitesAction", menuName = "Enemy/Action/Spawn Mites")]
 public class SpawnMitesActionSO : EnemyActionSO
 {
     public GameObject mitePrefab;

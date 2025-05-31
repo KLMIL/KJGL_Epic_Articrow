@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ProjectileAtackAction", menuName = "Enemy/Action/ProjectileAttack")]
+[CreateAssetMenu(fileName = "ProjectileAtackAction", menuName = "Enemy/Action/Projectile Attack")]
 public class ProjectileAttackActionSO : EnemyActionSO
 {
     public GameObject projectilePrefab;

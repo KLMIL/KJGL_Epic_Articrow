@@ -1,7 +1,7 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ReceivedDamageCondition", menuName = "Enemy/Condition/ReceivedDamage")]
+[CreateAssetMenu(fileName = "ReceivedDamageCondition", menuName = "Enemy/Condition/Received Damage")]
 public class ReceivedDamageConditionSO : EnemyConditionSO
 {
     [HideInInspector] public bool hasTakenDamage = false;

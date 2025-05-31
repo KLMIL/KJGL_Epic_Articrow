@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerInRangeCondition", menuName = "Enemy/Condition/PlayerInRnage")]
+[CreateAssetMenu(fileName = "PlayerInRangeCondition", menuName = "Enemy/Condition/Player In Range")]
 public class PlayerInRangeConditionSO : EnemyConditionSO
 {
     public float triggerRange = 2.0f;

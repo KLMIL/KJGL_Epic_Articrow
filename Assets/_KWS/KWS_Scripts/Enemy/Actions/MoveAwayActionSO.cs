@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MoveAwayAction", menuName = "Enemy/Action/MoveAway")]
+[CreateAssetMenu(fileName = "MoveAwayAction", menuName = "Enemy/Action/Move Away")]
 public class MoveAwayActionSO : EnemyActionSO
 {
     public override void Act(EnemyController controller)

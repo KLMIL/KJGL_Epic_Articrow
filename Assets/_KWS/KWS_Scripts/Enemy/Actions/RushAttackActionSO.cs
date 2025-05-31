@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RushAttackAction", menuName = "Enemy/Action/RushAttack")]
+[CreateAssetMenu(fileName = "RushAttackAction", menuName = "Enemy/Action/Rush Attack")]
 public class RushAttackActionSO : EnemyActionSO
 {
     public float rushSpeed = 6f;
