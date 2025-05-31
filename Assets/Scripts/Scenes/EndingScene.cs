@@ -1,12 +1,15 @@
 using UnityEngine;
 using static Define;
 
-public class EndingScene : BaseScene
+namespace YSJ
 {
-    public override void Init()
+    public class EndingScene : BaseScene
     {
-        SceneType = SceneType.EndingScene;
-        Managers.Sound.PlayBGM(BGM.EndingScene);
-        Debug.Log("엔드 씬 초기화");
+        public override void Init()
+        {
+            SceneType = SceneType.EndingScene;
+            Managers.Sound.PlayBGM(BGM.EndingScene);
+            Debug.Log("엔드 씬 초기화");
+        }
     }
 }

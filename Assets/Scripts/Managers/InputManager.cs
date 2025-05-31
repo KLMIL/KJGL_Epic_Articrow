@@ -10,8 +10,8 @@ public class InputManager
     #region 입력 변수
     public Vector2 MoveInput { get; private set; }
     public Vector2 MouseWorldPos { get; private set; }  // 마우스 입력(월드 좌표)
-    public bool IsPressAttack { get; private set; }     // 공격 입력 여부
-    public bool IsPressParry { get; private set; }      // 패링 입력 여부
+    public bool IsPressLeftHandAttack { get; private set; } // 왼손 공격 입력 여부
+    public bool IsPressRightHandAttack { get; private set; } // 오른손 공격 입력 여부
     public bool IsPressDash { get; private set; }       // 대시 입력 여부
     #endregion
 
@@ -19,6 +19,7 @@ public class InputManager
     public Action attackAction;                 // 공격
     public Action parryAction;                  // 패링
     public Action<Vector2> dashAction;          // 대시
+    public Action interactAction;               // 상호작용(줍기) 
     #endregion
 
     public void Init()
@@ -34,6 +35,14 @@ public class InputManager
 
         _inputSystemActions.Player.Move.performed += OnMove;
         _inputSystemActions.Player.Move.canceled += OnMove;
+
+        _inputSystemActions.Player.Interact.performed += OnInteract;
+        _inputSystemActions.Player.Interact.canceled += OnInteract;
+
+        _inputSystemActions.Player.LeftHand.performed += OnLeftHand;
+        _inputSystemActions.Player.LeftHand.canceled += OnLeftHand;
+        _inputSystemActions.Player.RightHand.performed += OnRightHand;
+        _inputSystemActions.Player.RightHand.canceled += OnRightHand;
 
         //_inputSystemActions.Player.MousePos.performed += OnMousePos;
 
@@ -68,17 +77,51 @@ public class InputManager
         //Debug.Log("IsPressDash: " + IsPressDash);
     }
 
+    void OnInteract(InputAction.CallbackContext context)
+    {
+        //Debug.Log("Interact");
+        if (context.performed)
+        {
+            interactAction?.Invoke();
+            Debug.Log("먹는다.");
+            // Interact action can be defined here if needed
+        }
+    }
+
     void OnAttack(InputAction.CallbackContext context)
     {
         //Debug.Log("Attack");
         if (context.performed)
             attackAction?.Invoke();
-        IsPressAttack = context.ReadValueAsButton();
+        IsPressLeftHandAttack = context.ReadValueAsButton();
     }
+
+    void OnLeftHand(InputAction.CallbackContext context)
+    {
+        //Debug.Log("Left Hand");
+        if (context.performed)
+        {
+            // Left hand action can be defined here if needed
+            Debug.Log("좌수");
+        }
+        IsPressLeftHandAttack = context.ReadValueAsButton();
+    }
+
+    void OnRightHand(InputAction.CallbackContext context)
+    {
+        //Debug.Log("Right Hand");
+        if (context.performed)
+        {
+            Debug.Log("우수");
+            // Right hand action can be defined here if needed
+        }
+        IsPressRightHandAttack = context.ReadValueAsButton();
+    }
+
 
     void OnParry(InputAction.CallbackContext context)
     {
-        IsPressParry = context.ReadValueAsButton();
+        IsPressRightHandAttack = context.ReadValueAsButton();
         if (context.performed)
         {
             parryAction?.Invoke();
@@ -90,6 +133,7 @@ public class InputManager
     {
         attackAction = null;
         parryAction = null;
+        interactAction = null;
     }
 
     public void Clear()
