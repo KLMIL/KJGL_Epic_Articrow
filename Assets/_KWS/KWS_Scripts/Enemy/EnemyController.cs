@@ -3,75 +3,78 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    [Header("Status: ScriptableObject")]
     public EnemyStatusSO Status;
+    [Header("Player: Find by Tag")]
     public Transform Player;
+    [Header("Animation Handler: GetComponent")]
     public EnemyAnimation Animation;
 
+    [Space(10)]
+    [Header("Behaviour List Assign on Inspector")]
     public List<EnemyBehaviourUnit> Behaviours;
 
-    //int _previousStateIndex = 0;
-    //int _currentStateIndex = 0;
-
-
-    private void Awake()
-    {
-        Behaviours = new List<EnemyBehaviourUnit>()
-        {
-            //new EnemyBehaviourUnit(new PlayerInSightCondition(), new ChasePlayerAction(), 1, name: "Chase", duration: 2f),
-            //new EnemyBehaviourUnit(new PlayerNotInSightCondition(), new RandomMoveAction(), 2, name: "RandomMove", duration: 3.5f),
-            //new EnemyBehaviourUnit(new AlwaysTrueCondition(), new IdleAction(), 0, name: "Idle", duration: 1.5f)
-        };
-    }
+    int _currentStateIndex = 0;
+    string _currentAnimation = "";
+    
 
     private void Start()
     {
-        Status = Resources.Load<EnemyStatusSO>($"EnemyStatus/{gameObject.name}Status");
+        // 현재는 Resource에서 불러오는 방식으로 구현했는데, Inspector 할당 방식으로 변경해도 됨
+        //Status = Resources.Load<EnemyStatusSO>($"EnemyStatus/{gameObject.name}Status");
+
         Animation = GetComponent<EnemyAnimation>();
         Player = GameObject.FindWithTag("Player")?.transform;
     }
 
     private void Update()
     {
-        //if (Behaviours == null || Behaviours.Count == 0)
-        //{
-        //    Debug.LogWarning("No behaviour assigned");
-        //    return;
-        //}
+        // 할당된 행동이 없다면 아무것도 하지 않음. 추후 안정화 이후 검사 제거 예정
+        if (Behaviours == null || Behaviours.Count == 0)
+        {
+            Debug.LogWarning("No behaviour assigned");
+            return;
+        }
 
-        //// 가장 먼저 조건이 true인 Behaviour 탐색
-        //int nextIndex = Behaviours.FindIndex(b => b.condition.IsMet(this));
-        //if (nextIndex < 0)
-        //{
-        //    nextIndex = Behaviours.FindIndex(b => b.condition is AlwaysTrueCondition);
-        //}
+        // Inspector에서 할당된 순서대로 조건 검사해서 우선순위 높은 행동 찾기
+        int nextStateIndex = Behaviours.FindIndex(b => b.condition != null && b.condition.IsMet(this));
 
-        //// 상태 전환이 발생하면 타이머 리셋 및 애니메이션 업데이트
-        //if (nextIndex != _currentStateIndex)
-        //{
-        //    _previousStateIndex = _currentStateIndex;
-        //    _currentStateIndex = nextIndex;
-        //    Behaviours[_currentStateIndex].ResetTimer();
+        // 만족하는 조건이 없다면 Idle(Always true condition) 실행
+        if (nextStateIndex < 0)
+        {
+            nextStateIndex = Behaviours.FindIndex(b => b.condition is AlwaysTrueConditionSO);
+            if (nextStateIndex < 0)
+            {
+                nextStateIndex = 0;
+            }
+        }
 
-        //    PlayAnimationOnce(Behaviours[_currentStateIndex].name);
-        //}
+        // 상태 전환이 일어났다면 타이머 리셋 및 애니메이션 재생
+        if (nextStateIndex != _currentStateIndex)
+        {
+            _currentStateIndex = nextStateIndex;
+            Behaviours[_currentStateIndex].ResetTimer();
 
-        //var current = Behaviours[_currentStateIndex];
-        //current.elapsedTime += Time.deltaTime;
+            PlayAnimationOnce(Behaviours[_currentStateIndex].name);
+        }
 
-        //if (current.elapsedTime <= current.duration)
-        //{
-        //    current.action.Act(this);
-        //}
-        //else
-        //{
-        //    // duration을 다 사용하면 다음 상태로 강제 전환
-        //    current.ResetTimer();
-        //    _currentStateIndex = current.nextStateIndex;
-        //}
+        var current = Behaviours[_currentStateIndex];
+        current.elapsedTime += Time.deltaTime;
+
+        // Duration 안에서 같은 애니메이션 반복
+        if (current.elapsedTime <= current.duration)
+        {
+            current.action?.Act(this);
+        }
+        else
+        {
+            // duration을 다 사용하면 다음 상태로 강제 전환
+            current.ResetTimer();
+            _currentStateIndex = current.nextStateIndex;
+        }
     }
 
     // 애니메이션 중복 재생 방지용 함수
-    private string _currentAnimation = "";
     private void PlayAnimationOnce(string animName)
     {
         if (_currentAnimation == animName) return;

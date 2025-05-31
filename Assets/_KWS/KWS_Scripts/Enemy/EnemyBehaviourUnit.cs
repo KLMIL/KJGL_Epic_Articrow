@@ -1,29 +1,21 @@
+using UnityEngine;
+
 [System.Serializable]
 public class EnemyBehaviourUnit
 {
+    [Header("Behaviour Name")]
     public string name;
-    public IEnemyCondition condition;
-    public IEnemyAction action;
+    [Header("Condition: ScriptableObject")]
+    public EnemyConditionSO condition;
+    [Header("Action: ScriptableObject")]
+    public EnemyActionSO action;
+    [Header("Next State Index")]
     public int nextStateIndex;
-
+    [Header("Current State Duration")]
     public float duration;
-    public float elapsedTime;
 
-    public EnemyBehaviourUnit(
-        IEnemyCondition condition, 
-        IEnemyAction action, 
-        int nextStateIndex = -1, 
-        string name = "",
-        float duration = 1f
-        )
-    {
-        this.condition = condition;
-        this.action = action;
-        this.nextStateIndex = nextStateIndex;
-        this.name = name;
-        this.duration = duration;
-        this.elapsedTime = 0f;
-    }
+    [HideInInspector]
+    public float elapsedTime;
 
     public void ResetTimer()
     {

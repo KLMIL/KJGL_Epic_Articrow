@@ -531,10 +531,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28991b7ecaa04e74f9284c72439a1200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Status: {fileID: 0}
+  Status: {fileID: 11400000, guid: 6f4f0b55670ff4f4d86982f58f561adc, type: 2}
   Player: {fileID: 0}
   Animation: {fileID: 0}
-  Behaviours: []
+  Behaviours:
+  - name: Chase
+    condition: {fileID: 11400000, guid: 2e76d9f82f65b7c42ac6205c02309522, type: 2}
+    action: {fileID: 11400000, guid: fc58c67810812b843a26ba649319242a, type: 2}
+    nextStateIndex: 0
+    duration: 2
+    elapsedTime: 0
+  - name: RandomMove
+    condition: {fileID: 11400000, guid: 285c3a9f5cf896541b12d773eac761d5, type: 2}
+    action: {fileID: 11400000, guid: 49da1f2cfc216644e93767e7f842bf7a, type: 2}
+    nextStateIndex: 2
+    duration: 3.5
+    elapsedTime: 0
+  - name: Idle
+    condition: {fileID: 11400000, guid: d4722ade36644024f8dffecdca43a3a3, type: 2}
+    action: {fileID: 11400000, guid: 647e1473992b82b41a40208d56e28b16, type: 2}
+    nextStateIndex: 0
+    duration: 1.5
+    elapsedTime: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
