@@ -1,33 +1,50 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace CKT
 {
-    public class InventorySlot : MonoBehaviour, IAddSlotable, IDropHandler
+    public class InventorySlot : ItemSlot
     {
-        RectTransform _rect;
-
         void Start()
         {
-            _rect = GetComponent<RectTransform>();
+            base.Init();
 
-            YSJ.Managers.UI.OnUI_AddInventorySlotEvent += AddSlot;
+            GameManager.Instance.Inventory.SubUpdateInventoryList((list) => base.UpdateSlot(list));
+            YSJ.Managers.UI.SubAddInventorySlot((obj) => AddInventorySlot(base._dropAreas, obj));
         }
 
-        public void AddSlot(GameObject item)
+        /// <summary>
+        /// 필드 파츠를 획득했을 때 인벤토리에 이미지 파츠를 추가하는 용도
+        /// </summary>
+        /// <param name="dropAreas"></param>
+        /// <param name="item"></param>
+        public void AddInventorySlot(Transform[] dropAreas, GameObject item)
         {
-            item.transform.SetParent(this.transform);
-            item.GetComponent<RectTransform>().position = _rect.position;
-            GameManager.Instance.Inventory.InventorySlot.Add(item);
-        }
-
-        public void OnDrop(PointerEventData eventData)
-        {
-            GameObject pointerDrag = eventData.pointerDrag;
-            //InventorySlot 위에서 Drop했을 때만 호출
-            if ((pointerDrag != null) && (pointerDrag.transform.parent == this.transform.parent))
+            //들어갈 슬롯 위치 정하기
+            Transform newParent = null;
+            for (int i = 0; i < dropAreas.Length; i++)
             {
-                AddSlot(pointerDrag);
+                if (dropAreas[i].transform.childCount > 1)
+                {
+                    continue;
+                }
+                else
+                {
+                    newParent = dropAreas[i].transform;
+                    break;
+                }
+            }
+
+            //들어가 슬롯을 찾으면 해당 슬롯 자식오브젝트로 넣기
+            if (newParent != null)
+            {
+                item.transform.SetParent(newParent);
+                item.GetComponent<RectTransform>().position = newParent.GetComponent<RectTransform>().position;
+
+                GameManager.Instance.Inventory.InvokeUpdateList();
+            }
+            else
+            {
+                Debug.LogWarning("인벤토리 칸이 꽉 찼습니다.");
             }
         }
     }

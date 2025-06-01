@@ -7,75 +7,92 @@ namespace CKT
     [System.Serializable]
     public class Inventory
     {
-        event Action<List<GameObject>> OnLeftHandEvent;
+        #region [OnLeftHandEvent]
+        event Action<List<GameObject>> _onLeftHandEvent;
         public void InitLeftHand()
         {
-            OnLeftHandEvent = null;
+            _onLeftHandEvent = null;
         }
-        public void SubLeftHand(Action<List<GameObject>> newSub)
+        public void SingleSubLeftHand(Action<List<GameObject>> newSub)
         {
-            OnLeftHandEvent = null;
-            OnLeftHandEvent += newSub;
+            _onLeftHandEvent = null;
+            _onLeftHandEvent += newSub;
         }
         public void InvokeLeftHand()
         {
-            OnLeftHandEvent?.Invoke(_leftSlot);
+            _onLeftHandEvent?.Invoke(_leftList);
         }
+        #endregion
 
-        event Action<List<GameObject>> OnRightHandEvent;
+        #region [OnRightHandEvent]
+        event Action<List<GameObject>> _onRightHandEvent;
         public void InitRightHand()
         {
-            OnRightHandEvent = null;
+            _onRightHandEvent = null;
         }
-        public void SubRightHand(Action<List<GameObject>> newSub)
+        public void SingleSubRightHand(Action<List<GameObject>> newSub)
         {
-            OnRightHandEvent = null;
-            OnRightHandEvent += newSub;
+            _onRightHandEvent = null;
+            _onRightHandEvent += newSub;
         }
         public void InvokeRightHand()
         {
-            OnRightHandEvent?.Invoke(_rightSlot);
+            _onRightHandEvent?.Invoke(_rightList);
+        }
+        #endregion
+
+        
+        List<GameObject> _leftList = new List<GameObject>();
+        event Action<List<GameObject>> _onUpdateLeftListEvent;
+        public void SubUpdateLeftList(Action<List<GameObject>> newSub)
+        {
+            _onUpdateLeftListEvent += newSub;
         }
 
-        public List<GameObject> LeftSlot => _leftSlot;
-        List<GameObject> _leftSlot = new List<GameObject>();
+        List<GameObject> _rightList = new List<GameObject>();
+        event Action<List<GameObject>> _onUpdateRightListEvent;
+        public void SubUpdateRightList(Action<List<GameObject>> newSub)
+        {
+            _onUpdateRightListEvent += newSub;
+        }
 
-        public List<GameObject> RightSlot => _rightSlot;
-        List<GameObject> _rightSlot = new List<GameObject>();
-
-        public List<GameObject> InventorySlot => _inventorySlot;
-        List<GameObject> _inventorySlot = new List<GameObject>();
+        List<GameObject> _inventoryList = new List<GameObject>();
+        event Action<List<GameObject>> _onUpdateInventoryListEvent;
+        public void SubUpdateInventoryList(Action<List<GameObject>> newSub)
+        {
+            _onUpdateInventoryListEvent += newSub;
+        }
 
         int _maxCount = 8;
 
         public void Init()
         {
-            OnLeftHandEvent = null;
-            OnRightHandEvent = null;
-            _leftSlot = new List<GameObject>();
-            _rightSlot = new List<GameObject>();
-            _inventorySlot = new List<GameObject>();
+            _onLeftHandEvent = null;
+            _onRightHandEvent = null;
+
+            _leftList = new List<GameObject>();
+            _onUpdateLeftListEvent = null;
+
+            _rightList = new List<GameObject>();
+            _onUpdateRightListEvent = null;
+
+            _inventoryList = new List<GameObject>();
+            _onUpdateInventoryListEvent = null;
         }
 
         public bool CheckInventorySlotFull()
         {
-            return _inventorySlot.Count >= _maxCount;
+            return _inventoryList.Count >= _maxCount;
         }
 
-        public void RemoveAtSlot(GameObject item)
+        /// <summary>
+        /// 왼손, 오른손, 인벤토리 내용물 갱신
+        /// </summary>
+        public void InvokeUpdateList()
         {
-            if (_leftSlot.Contains(item))
-            {
-                _leftSlot.Remove(item);
-            }
-            else if (_rightSlot.Contains(item))
-            {
-                _rightSlot.Remove(item);
-            }
-            else if (_inventorySlot.Contains(item))
-            {
-                _inventorySlot.Remove(item);
-            }
+            _onUpdateLeftListEvent?.Invoke(_leftList);
+            _onUpdateRightListEvent?.Invoke(_rightList);
+            _onUpdateInventoryListEvent?.Invoke(_inventoryList);
         }
     }
 }

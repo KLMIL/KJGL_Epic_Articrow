@@ -21,12 +21,12 @@ namespace CKT
             if (this.transform.GetComponentInParent<LeftHand_YSJ>() != null)
             {
                 Debug.Log("테스트2");
-                GameManager.Instance.Inventory.SubLeftHand((slot) => Attack(slot));
+                GameManager.Instance.Inventory.SingleSubLeftHand((slot) => Attack(slot));
                 _handID = 1;
             }
             else if (this.transform.GetComponentInParent<RightHand_YSJ>() != null)
             {
-                GameManager.Instance.Inventory.SubRightHand((slot) => Attack(slot));
+                GameManager.Instance.Inventory.SingleSubRightHand((slot) => Attack(slot));
                 _handID = 2;
             }
 
