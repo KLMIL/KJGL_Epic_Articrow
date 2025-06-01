@@ -4,8 +4,8 @@ namespace YSJ
 {
     public class Managers : MonoBehaviour
     {
-        static Managers _instance;
-        public static Managers Instance { get { Init(); return _instance; } }
+        static Managers s_instance;
+        public static Managers Instance { get { Init(); return s_instance; } }
 
         SoundManager _sound = new SoundManager();
         ResourceManager _resource = new ResourceManager();
@@ -29,7 +29,7 @@ namespace YSJ
         // 매니저 인스턴스 없어도 생성
         static void Init()
         {
-            if (_instance == null)
+            if (s_instance == null)
             {
                 GameObject go = GameObject.Find("@Managers");
                 if (go == null)
@@ -38,7 +38,7 @@ namespace YSJ
                     go.AddComponent<Managers>();
                 }
                 DontDestroyOnLoad(go);
-                _instance = go.GetComponent<Managers>();
+                s_instance = go.GetComponent<Managers>();
 
                 // 필요한 매니저 초기화
                 Sound.Init();
@@ -59,7 +59,7 @@ namespace YSJ
         {
             Debug.LogWarning("Managers 파괴");
             Clear();
-            _instance = null;
+            s_instance = null;
         }
     }
 }

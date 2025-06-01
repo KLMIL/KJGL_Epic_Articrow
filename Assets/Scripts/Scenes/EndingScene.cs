@@ -11,5 +11,10 @@ namespace YSJ
             Managers.Sound.PlayBGM(BGM.EndingScene);
             Debug.Log("엔드 씬 초기화");
         }
+
+        public override void Clear()
+        {
+            Debug.Log("엔딩 씬 종료");
+        }
     }
 }

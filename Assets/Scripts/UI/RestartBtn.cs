@@ -7,6 +7,11 @@ public class RestartBtn : MonoBehaviour
     Button _btn;
     void Start()
     {
+        Init();
+    }
+
+    public void Init()
+    {
         _btn = GetComponent<Button>();
         _btn.onClick.AddListener(() =>
         {

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace YSJ
 {
-    public class TestScene : BaseScene
+    public class TitleScene : BaseScene
     {
         public override void Init()
         {
