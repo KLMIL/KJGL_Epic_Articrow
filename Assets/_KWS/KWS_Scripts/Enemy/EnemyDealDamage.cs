@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class EnemyDealDamage : MonoBehaviour
@@ -5,20 +6,58 @@ public class EnemyDealDamage : MonoBehaviour
     EnemyController ownerController;
     public string targetTag = "Player";
 
-    private void Awake()
+    public float attackCooldown;
+    private float lastAttackTime = -Mathf.Infinity;
+
+    private void Start()
     {
-        ownerController = GetComponent<EnemyController>();
+        ownerController = GetComponentInParent<EnemyController>();
+        attackCooldown = ownerController.Status.attackCooldown;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag(targetTag))
         {
-            var damagable = other.GetComponent<IDamagable>();
-            damagable.TakeDamage(ownerController.Status.attack);
+            // Target(현재 Player 대상) -> 테스트를 위해 임시 주석처리
+            //var damagable = other.GetComponent<IDamagable>();
+            //damagable.TakeDamage(ownerController.Status.attack);
+            //lastAttackTime = Time.time;
+
+            // 현재 상태가 "Rush"류인지 체크
+            var rushStates = new[] { "Rush" };
+            if (rushStates.Contains(ownerController.CurrentStateName)) {
+                ownerController.ForceToNextState();
+            }
 
             // 투사체의 경우 파괴
             //if (gameObject.CompareTag("Projectile")) Destroy(gameObject);
+        }
+    }
+
+    // 플레이어가 계속 붙어있다면 공격속도 시간마다 타격
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag(targetTag))
+        {
+            if (Time.time - lastAttackTime >= attackCooldown)
+            {
+                var damagable = collision.GetComponent<IDamagable>();
+                if (damagable != null)
+                {
+                    damagable.TakeDamage(ownerController.Status.attack);
+                    lastAttackTime = Time.time;
+                }
+            }
+        }
+    }
+
+    // 플레이어가 떨어졌다 다시 붙으면 즉시 타격 -> 제거해도 됨
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag(targetTag))
+        {
+            lastAttackTime = -Mathf.Infinity;
         }
     }
 
