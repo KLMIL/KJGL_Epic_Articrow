@@ -16,61 +16,79 @@ public class EnemyController : MonoBehaviour
 
     int _currentStateIndex = 0;
     string _currentAnimation = "";
-    
+
 
     private void Start()
     {
-        // 현재는 Resource에서 불러오는 방식으로 구현했는데, Inspector 할당 방식으로 변경해도 됨
-        //Status = Resources.Load<EnemyStatusSO>($"EnemyStatus/{gameObject.name}Status");
-
         Animation = GetComponent<EnemyAnimation>();
         Player = GameObject.FindWithTag("Player")?.transform;
     }
 
     private void Update()
     {
-        // 할당된 행동이 없다면 아무것도 하지 않음. 추후 안정화 이후 검사 제거 예정
+        // 추후, 공격 중 피격상태 등 커버를 위해 병렬 FSM 구현해야함.
+        // 현재 상태에서는, 0번에 Idle, None->Soft->Hard 순서로 할당할 것.
+
+        // 0. 행동 미할당 예외 처리. 추후 안정화 작업 후 삭제 예정
         if (Behaviours == null || Behaviours.Count == 0)
         {
             Debug.LogWarning("No behaviour assigned");
             return;
         }
 
-        // Inspector에서 할당된 순서대로 조건 검사해서 우선순위 높은 행동 찾기
-        int nextStateIndex = Behaviours.FindIndex(b => b.condition != null && b.condition.IsMet(this));
 
-        // 만족하는 조건이 없다면 Idle(Always true condition) 실행
-        if (nextStateIndex < 0)
-        {
-            nextStateIndex = Behaviours.FindIndex(b => b.condition is AlwaysTrueConditionSO);
-            if (nextStateIndex < 0)
-            {
-                nextStateIndex = 0;
-            }
-        }
+        // 1. Hard: 강제 인터럽트 조건 검사
+        // ex) 죽음, 피격 등 => 특정 상황에서는 soft 일 수도 있음.
+        int hardIdx = Behaviours.FindIndex(
+            b => b.interruptType == InterruptType.Hard &&
+                 b.condition.IsMet(this));
 
-        // 상태 전환이 일어났다면 타이머 리셋 및 애니메이션 재생
-        if (nextStateIndex != _currentStateIndex)
+        if (hardIdx >= 0 && hardIdx != _currentStateIndex)
         {
-            _currentStateIndex = nextStateIndex;
+            _currentStateIndex = hardIdx;
             Behaviours[_currentStateIndex].ResetTimer();
+            PlayAnimationOnce(Behaviours[_currentStateIndex].animationName);
+            Behaviours[_currentStateIndex].action?.Act(this);   
 
-            PlayAnimationOnce(Behaviours[_currentStateIndex].name);
+            // 현재 행동 완료하기 위해 return
+            return;
         }
 
+
+        // 2. Soft: 우선순위 인터럽트 순서대로 검사
+        // ex) 공격, 소환 등 => 특정 상황에서는 hard 일 수도 있음. 
+        int softIdx = -1;
+        if (Behaviours[_currentStateIndex].interruptType != InterruptType.Soft)
+        {
+            softIdx = Behaviours.FindIndex(
+            b => b.interruptType == InterruptType.Soft &&
+                 b.condition.IsMet(this));
+        }
+
+        if (softIdx >= 0 && softIdx != _currentStateIndex)
+        {
+            _currentStateIndex = softIdx;
+            Behaviours[_currentStateIndex].ResetTimer();
+            PlayAnimationOnce(Behaviours[_currentStateIndex].animationName);
+
+            // 일반 루프도 실행
+        }
+
+
+        // 3. None: 기본 루프 수행
+        // Idle, RandomMove 등
         var current = Behaviours[_currentStateIndex];
         current.elapsedTime += Time.deltaTime;
 
-        // Duration 안에서 같은 애니메이션 반복
         if (current.elapsedTime <= current.duration)
         {
             current.action?.Act(this);
         }
         else
         {
-            // duration을 다 사용하면 다음 상태로 강제 전환
             current.ResetTimer();
             _currentStateIndex = current.nextStateIndex;
+            PlayAnimationOnce(Behaviours[_currentStateIndex].animationName);
         }
     }
 

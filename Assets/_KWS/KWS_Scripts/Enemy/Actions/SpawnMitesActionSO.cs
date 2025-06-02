@@ -15,6 +15,6 @@ public class SpawnMitesActionSO : EnemyActionSO
             Vector3 spawnPos = controller.transform.position + new Vector3(rand.x, 0, rand.y);
             Instantiate(mitePrefab, spawnPos, Quaternion.identity);
         }
-        controller.Animation.Play("Spawn");
+        //controller.Animation.Play("Spawn");
     }
 }

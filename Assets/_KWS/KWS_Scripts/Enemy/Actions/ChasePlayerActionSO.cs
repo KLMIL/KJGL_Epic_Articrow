@@ -9,6 +9,6 @@ public class ChasePlayerActionSO : EnemyActionSO
 
         Vector3 direction = (controller.Player.position - controller.transform.position).normalized;
         controller.transform.Translate(direction * controller.Status.moveSpeed * Time.deltaTime);
-        controller.Animation.Play("Chase");
+        //controller.Animation.Play("Chase");
     }
 }

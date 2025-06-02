@@ -25,7 +25,7 @@ public class RandomMoveActionSO : EnemyActionSO
         controller.transform.position = pos;
 
 
-        controller.Animation.Play("RandomMove");
+        //controller.Animation.Play("RandomMove");
         _changeDirectionCooldown -= Time.deltaTime;
     }
 }

@@ -10,6 +10,6 @@ public class MoveAwayActionSO : EnemyActionSO
         // Player와 반대 방향 벡터
         Vector3 dir = (controller.transform.position - controller.Player.position).normalized;
         controller.transform.Translate(dir * controller.Status.moveSpeed * Time.deltaTime);
-        controller.Animation.Play("MoveAway");
+        //controller.Animation.Play("MoveAway");
     }
 }

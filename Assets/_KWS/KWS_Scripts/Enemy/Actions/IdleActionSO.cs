@@ -5,6 +5,6 @@ public class IdleActionSO : EnemyActionSO
 {
     public override void Act(EnemyController controller)
     {
-        controller.Animation.Play("Idle");
+        //controller.Animation.Play("Idle");
     }
 }

@@ -13,12 +13,19 @@ public class EnemyBehaviourUnit
     public int nextStateIndex;
     [Header("Current State Duration")]
     public float duration;
+    [Header("Action animation")]
+    public string animationName;
+    [Header("Interrupt other states")]
+    public InterruptType interruptType;
 
     [HideInInspector]
     public float elapsedTime;
+
 
     public void ResetTimer()
     {
         elapsedTime = 0f;
     }
 }
+
+public enum InterruptType { None, Soft, Hard }

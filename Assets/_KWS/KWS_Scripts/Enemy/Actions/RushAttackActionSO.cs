@@ -15,7 +15,7 @@ public class RushAttackActionSO : EnemyActionSO
         {
             Vector3 dir = (controller.Player.position - controller.transform.position).normalized;
             controller.transform.Translate(dir * rushSpeed * Time.deltaTime);
-            controller.Animation.Play("RushAttack");
+            //controller.Animation.Play("RushAttack");
             elapsed += Time.deltaTime;
         }
     }

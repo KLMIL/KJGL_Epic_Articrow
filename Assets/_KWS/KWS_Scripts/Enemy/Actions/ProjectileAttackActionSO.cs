@@ -20,6 +20,6 @@ public class ProjectileAttackActionSO : EnemyActionSO
         // 추후, projectile Prefab 생성에 따라 변경요망 
         var rb = proj.GetComponent<Rigidbody>();
         if (rb != null) rb.linearVelocity = dir * projectileSpeed;
-        controller.Animation.Play("ProjectileAttack");
+        //controller.Animation.Play("ProjectileAttack");
     }
 }
