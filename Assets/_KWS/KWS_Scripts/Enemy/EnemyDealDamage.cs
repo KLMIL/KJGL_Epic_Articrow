@@ -5,9 +5,13 @@ public class EnemyDealDamage : MonoBehaviour
     EnemyController ownerController;
     public string targetTag = "Player";
 
+    public float attackCooldown;
+    private float lastAttackTime = -Mathf.Infinity;
+
     private void Awake()
     {
         ownerController = GetComponent<EnemyController>();
+        attackCooldown = ownerController.Status.attackCooldown;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -16,9 +20,36 @@ public class EnemyDealDamage : MonoBehaviour
         {
             var damagable = other.GetComponent<IDamagable>();
             damagable.TakeDamage(ownerController.Status.attack);
+            lastAttackTime = Time.time;
 
             // 투사체의 경우 파괴
             //if (gameObject.CompareTag("Projectile")) Destroy(gameObject);
+        }
+    }
+
+    // 플레이어가 계속 붙어있다면 공격속도 시간마다 타격
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag(targetTag))
+        {
+            if (Time.time - lastAttackTime >= attackCooldown)
+            {
+                var damagable = collision.GetComponent<IDamagable>();
+                if (damagable != null)
+                {
+                    damagable.TakeDamage(ownerController.Status.attack);
+                    lastAttackTime = Time.time;
+                }
+            }
+        }
+    }
+
+    // 플레이어가 떨어졌다 다시 붙으면 즉시 타격 -> 제거해도 됨
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag(targetTag))
+        {
+            lastAttackTime = -Mathf.Infinity;
         }
     }
 
