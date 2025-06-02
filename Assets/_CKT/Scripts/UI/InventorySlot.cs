@@ -8,7 +8,7 @@ namespace CKT
         {
             base.Init();
 
-            GameManager.Instance.Inventory.SubUpdateInventoryList((list) => base.UpdateSlot(list));
+            GameManager.Instance.Inventory.SubUpdateInventoryList((list) => base.UpdateItemSlotList(list));
             YSJ.Managers.UI.SubAddInventorySlot((obj) => AddInventorySlot(base._dropAreas, obj));
         }
 

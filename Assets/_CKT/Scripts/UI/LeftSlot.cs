@@ -8,7 +8,7 @@ namespace CKT
         {
             base.Init();
 
-            GameManager.Instance.Inventory.SubUpdateLeftList((list) => base.UpdateSlot(list));
+            GameManager.Instance.Inventory.SubUpdateLeftList((list) => base.UpdateItemSlotList(list));
         }
     }
 }

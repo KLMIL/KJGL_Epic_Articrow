@@ -20,7 +20,7 @@ public abstract class ItemSlot : MonoBehaviour
     /// 왼손, 오른손, 인벤토리 중 해당 오브젝트의 내용물 갱신
     /// </summary>
     /// <param name="list"></param>
-    protected virtual void UpdateSlot(List<GameObject> list)
+    protected virtual void UpdateItemSlotList(List<GameObject> list)
     {
         list.Clear();
         for (int i = 0; i < _dropAreas.Length; i++)
