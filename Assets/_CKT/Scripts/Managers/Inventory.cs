@@ -8,12 +8,12 @@ namespace CKT
     public class Inventory
     {
         #region [OnLeftHandEvent]
-        event Action<List<ImageParts>> _onLeftHandEvent;
+        event Action<List<GameObject>> _onLeftHandEvent;
         public void InitLeftHand()
         {
             _onLeftHandEvent = null;
         }
-        public void SingleSubLeftHand(Action<List<ImageParts>> newSub)
+        public void SingleSubLeftHand(Action<List<GameObject>> newSub)
         {
             _onLeftHandEvent = null;
             _onLeftHandEvent += newSub;
@@ -25,12 +25,12 @@ namespace CKT
         #endregion
 
         #region [OnRightHandEvent]
-        event Action<List<ImageParts>> _onRightHandEvent;
+        event Action<List<GameObject>> _onRightHandEvent;
         public void InitRightHand()
         {
             _onRightHandEvent = null;
         }
-        public void SingleSubRightHand(Action<List<ImageParts>> newSub)
+        public void SingleSubRightHand(Action<List<GameObject>> newSub)
         {
             _onRightHandEvent = null;
             _onRightHandEvent += newSub;
@@ -42,23 +42,23 @@ namespace CKT
         #endregion
 
         
-        List<ImageParts> _leftList = new List<ImageParts>();
-        event Action<List<ImageParts>> _onUpdateLeftListEvent;
-        public void SubUpdateLeftList(Action<List<ImageParts>> newSub)
+        List<GameObject> _leftList = new List<GameObject>();
+        event Action<List<GameObject>> _onUpdateLeftListEvent;
+        public void SubUpdateLeftList(Action<List<GameObject>> newSub)
         {
             _onUpdateLeftListEvent += newSub;
         }
 
-        List<ImageParts> _rightList = new List<ImageParts>();
-        event Action<List<ImageParts>> _onUpdateRightListEvent;
-        public void SubUpdateRightList(Action<List<ImageParts>> newSub)
+        List<GameObject> _rightList = new List<GameObject>();
+        event Action<List<GameObject>> _onUpdateRightListEvent;
+        public void SubUpdateRightList(Action<List<GameObject>> newSub)
         {
             _onUpdateRightListEvent += newSub;
         }
 
-        List<ImageParts> _inventoryList = new List<ImageParts>();
-        event Action<List<ImageParts>> _onUpdateInventoryListEvent;
-        public void SubUpdateInventoryList(Action<List<ImageParts>> newSub)
+        List<GameObject> _inventoryList = new List<GameObject>();
+        event Action<List<GameObject>> _onUpdateInventoryListEvent;
+        public void SubUpdateInventoryList(Action<List<GameObject>> newSub)
         {
             _onUpdateInventoryListEvent += newSub;
         }
@@ -70,13 +70,13 @@ namespace CKT
             _onLeftHandEvent = null;
             _onRightHandEvent = null;
 
-            _leftList = new List<ImageParts>();
+            _leftList = new List<GameObject>();
             _onUpdateLeftListEvent = null;
 
-            _rightList = new List<ImageParts>();
+            _rightList = new List<GameObject>();
             _onUpdateRightListEvent = null;
 
-            _inventoryList = new List<ImageParts>();
+            _inventoryList = new List<GameObject>();
             _onUpdateInventoryListEvent = null;
         }
 

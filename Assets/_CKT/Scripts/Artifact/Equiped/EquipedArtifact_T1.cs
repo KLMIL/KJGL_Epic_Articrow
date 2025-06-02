@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using YSJ;
 
 namespace CKT
 {
@@ -42,13 +43,22 @@ namespace CKT
             }
         }
 
-        void Attack(List<ImageParts> list)
+        void Attack(List<GameObject> list)
         {
             Debug.Log($"{this.transform.parent.name}에서 공격");
             GameObject bullet = YSJ.Managers.Pool.InstPrefab("Bullet", null, this.transform.position);
 
             Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - this.transform.position).normalized;
             bullet.GetComponent<Rigidbody2D>().AddForce(dir * 10f, ForceMode2D.Impulse);
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                ICastEffectable cast = list[i].GetComponent<ICastEffectable>();
+                if (cast != null)
+                {
+                    cast.CastEffect(bullet);
+                }
+            }
         }
 
         void ThrowAway()

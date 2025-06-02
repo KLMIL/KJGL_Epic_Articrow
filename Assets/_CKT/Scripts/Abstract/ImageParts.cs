@@ -13,6 +13,10 @@ namespace CKT
         Image _img;
         #endregion
 
+        #region [부모, 자식 오브젝트]
+        Transform _previousParent;
+        #endregion
+
         protected virtual void Init(string name)
         {
             _fieldParts = Resources.Load<GameObject>(name);
@@ -39,6 +43,7 @@ namespace CKT
         #region [Drag]
         public void OnBeginDrag(PointerEventData eventData)
         {
+            _previousParent = this.transform.parent;
             _img.raycastTarget = false;
 
             this.transform.SetParent(transform.root);
@@ -58,10 +63,30 @@ namespace CKT
             {
                 Debug.Log("아이템 버리기");
                 ThrowAway();
-                GameManager.Instance.Inventory.InvokeUpdateList();
+            }
+            //슬롯에 들어갔는데 해당 슬롯에 이미 다른 ImageParts가 있다면 (자신 포함 ImageParts가 2개 이상이면)
+            //서로 위치 바꾸기
+            else
+            {
+                ImageParts[] imageParts = this.transform.parent.GetComponentsInChildren<ImageParts>();
+                //if (imageParts.Length > 1)
+                {
+                    for (int i = 0; i < imageParts.Length; i++)
+                    {
+                        if (imageParts[i].transform != this.transform)
+                        {
+                            //겹치는 다른 ImageParts를 자신의 이전 위치로 이동시키기
+                            imageParts[i].transform.SetParent(_previousParent);
+                            imageParts[i].GetComponent<RectTransform>().position = _previousParent.GetComponent<RectTransform>().position;
+                        }
+                    }
+                }
             }
 
             _img.raycastTarget = true;
+            _previousParent = null;
+
+            GameManager.Instance.Inventory.InvokeUpdateList();
         }
         #endregion
     }

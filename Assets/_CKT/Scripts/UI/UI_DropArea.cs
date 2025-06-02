@@ -21,8 +21,6 @@ namespace CKT
             //DropArea 위에서 Drop했을 때만 호출
             pointerDrag.transform.SetParent(this.transform);
             pointerDrag.GetComponent<RectTransform>().position = _rect.position;
-
-            GameManager.Instance.Inventory.InvokeUpdateList();
         }
     }
 }

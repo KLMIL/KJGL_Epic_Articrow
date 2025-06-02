@@ -22,7 +22,7 @@ namespace CKT
         /// 왼손, 오른손, 인벤토리 중 해당 오브젝트의 내용물 갱신
         /// </summary>
         /// <param name="list"></param>
-        protected virtual void UpdateItemSlotList(List<ImageParts> list)
+        protected virtual void UpdateItemSlotList(List<GameObject> list)
         {
             list.Clear();
             for (int i = 0; i < _dropAreas.Length; i++)
@@ -30,7 +30,7 @@ namespace CKT
                 ImageParts imageParts = _dropAreas[i].GetComponentInChildren<ImageParts>();
                 if (imageParts != null)
                 {
-                    list.Add(imageParts);
+                    list.Add(imageParts.gameObject);
                 }
             }
         }
