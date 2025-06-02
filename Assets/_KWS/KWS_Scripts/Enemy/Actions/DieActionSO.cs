@@ -6,7 +6,7 @@ public class DieActionSO : EnemyActionSO
 {
     public override void Act(EnemyController controller)
     {
-        // 오브젝트 파괴
+        // 행동 멈추기 정도?
         //controller.Animation.Play("Die");
     }
 }

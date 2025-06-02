@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using YSJ;
 
 public class EnemyController : MonoBehaviour
 {
     [Header("Status: ScriptableObject")]
+    public EnemyStatusSO StatusOrigin;
     public EnemyStatusSO Status;
+
     [Header("Player: Find by Tag")]
     public Transform Player;
     [Header("Animation Handler: GetComponent")]
@@ -12,20 +15,42 @@ public class EnemyController : MonoBehaviour
 
     [Space(10)]
     [Header("Behaviour List Assign on Inspector")]
-    public List<EnemyBehaviourUnit> Behaviours;
+    public List<EnemyBehaviourUnit> Behaviours = new();
 
     int _currentStateIndex = 0;
     string _currentAnimation = "";
 
+    float _lastAttackTime = -100f;
+
+    public GameObject RushAttackTrigger;
+
+    public bool isDamaged;
+
+
+    private void Awake()
+    {
+        Status = Instantiate(StatusOrigin);
+    }
 
     private void Start()
     {
         Animation = GetComponent<EnemyAnimation>();
+        // Null체크 해야함.
         Player = GameObject.FindWithTag("Player")?.transform;
+
+        if (RushAttackTrigger != null)
+        {
+            RushAttackTrigger.SetActive(false);
+        }
     }
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(1))
+        {
+            GetComponent<EnemyTakeDamage>().TakeDamage(5);
+        }
+
         // 추후, 공격 중 피격상태 등 커버를 위해 병렬 FSM 구현해야함.
         // 현재 상태에서는, 0번에 Idle, None->Soft->Hard 순서로 할당할 것.
 
@@ -33,6 +58,12 @@ public class EnemyController : MonoBehaviour
         if (Behaviours == null || Behaviours.Count == 0)
         {
             Debug.LogWarning("No behaviour assigned");
+            return;
+        }
+
+        // Die State
+        if (_currentStateIndex == -1)
+        {
             return;
         }
 
@@ -92,6 +123,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+
     // 애니메이션 중복 재생 방지용 함수
     private void PlayAnimationOnce(string animName)
     {
@@ -99,4 +131,5 @@ public class EnemyController : MonoBehaviour
         Animation.Play(animName);
         _currentAnimation = animName;
     }
+
 }

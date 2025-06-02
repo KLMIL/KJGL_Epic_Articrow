@@ -4,13 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ReceivedDamageCondition", menuName = "Enemy/Condition/Received Damage")]
 public class ReceivedDamageConditionSO : EnemyConditionSO
 {
-    [HideInInspector] public bool hasTakenDamage = false;
-
     public override bool IsMet(EnemyController controller)
     {
-        return hasTakenDamage;
+        return controller.isDamaged;
     }
-
-    public void OnDamage() => hasTakenDamage = true;
-    public void ResetTrigger() => hasTakenDamage = false;
 }

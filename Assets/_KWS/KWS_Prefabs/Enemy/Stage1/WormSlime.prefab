@@ -31,7 +31,8 @@ Transform:
   m_LocalPosition: {x: -2.41, y: -0.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5051700482260687727}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &402500928716262526
@@ -105,24 +106,71 @@ MonoBehaviour:
   Player: {fileID: 0}
   Animation: {fileID: 0}
   Behaviours:
-  - name: MaintainDistance
-    condition: {fileID: 11400000, guid: 21025866ae4ae434a822b765fa035763, type: 2}
-    action: {fileID: 11400000, guid: 7b209adb538f87a48b7a7ee11e4af1c4, type: 2}
-    nextStateIndex: 1
-    duration: 2
-    elapsedTime: 0
-  - name: CheckAndRush
-    condition: {fileID: 11400000, guid: 68a3bcbc0b326a349b11a4945f258746, type: 2}
-    action: {fileID: 11400000, guid: f56fb607c39124048810252dcd982a33, type: 2}
-    nextStateIndex: 0
-    duration: 0.7
-    elapsedTime: 0
-  - name: CooldownIdle
-    condition: {fileID: 11400000, guid: 81b68eb621b2de24289b51ad3ffe9cd0, type: 2}
-    action: {fileID: 11400000, guid: 7367875d5dd5c4e4d8e8de03f6529399, type: 2}
-    nextStateIndex: 0
+  - name: Idle
+    condition: {fileID: 11400000, guid: bff88eb5973cef5449e21b876f295220, type: 2}
+    action: {fileID: 11400000, guid: 055d75e61e9f5d349b10ba37be066e3f, type: 2}
+    nextStateIndex: 2
     duration: 1
+    animationName: Idle
+    interruptType: 0
     elapsedTime: 0
+  - name: ReceivedDamage
+    condition: {fileID: 11400000, guid: cde3508f6c69b094d9c28e97efa8e7a3, type: 2}
+    action: {fileID: 11400000, guid: f0fcabae3de0a2d459ee3a7e8a46020b, type: 2}
+    nextStateIndex: 0
+    duration: 0.3
+    animationName: Hurt
+    interruptType: 1
+    elapsedTime: 0
+  - name: RandomMove
+    condition: {fileID: 11400000, guid: a5dc1301ae5b0384d9850d9467f9dcbc, type: 2}
+    action: {fileID: 11400000, guid: c9fbc560174cdcd419364d335f43129e, type: 2}
+    nextStateIndex: 0
+    duration: 2
+    animationName: Walk
+    interruptType: 0
+    elapsedTime: 0
+  - name: Approach
+    condition: {fileID: 11400000, guid: 1c990547614614b4a92a8cc7b1b6786d, type: 2}
+    action: {fileID: 11400000, guid: 1137ea8cd740248418045eb3e290032c, type: 2}
+    nextStateIndex: 4
+    duration: 1.5
+    animationName: Walk
+    interruptType: 1
+    elapsedTime: 0
+  - name: ChargeReady
+    condition: {fileID: 11400000, guid: 4e08378a75f5ae44c967b52bfa3e90c1, type: 2}
+    action: {fileID: 11400000, guid: 2920b9ddcf4347e4da30846ac50fdbae, type: 2}
+    nextStateIndex: 5
+    duration: 0.6
+    animationName: ChargeReady
+    interruptType: 1
+    elapsedTime: 0
+  - name: Rush
+    condition: {fileID: 11400000, guid: 5405670469ffa484795f454ef57fee7c, type: 2}
+    action: {fileID: 11400000, guid: 793324599db86774ba42f09a9be74402, type: 2}
+    nextStateIndex: 6
+    duration: 0.3
+    animationName: Rush
+    interruptType: 2
+    elapsedTime: 0
+  - name: CoolDown
+    condition: {fileID: 11400000, guid: d233ffb884bd1e04581e16fc5c82cd32, type: 2}
+    action: {fileID: 11400000, guid: 57df60756c796fd41b735d792c82056e, type: 2}
+    nextStateIndex: 0
+    duration: 1.2
+    animationName: Idle
+    interruptType: 0
+    elapsedTime: 0
+  - name: Die
+    condition: {fileID: 11400000, guid: 1d8d0069026e4254da91a8ac579bee1b, type: 2}
+    action: {fileID: 11400000, guid: 1dfb45bf43637e54e921ac5dbe4b4d2a, type: 2}
+    nextStateIndex: -1
+    duration: 1
+    animationName: Die
+    interruptType: 2
+    elapsedTime: 0
+  RushAttackTrigger: {fileID: 2000667354312455480}
 --- !u!114 &6757336873928180719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,3 +183,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2000667354312455480
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5051700482260687727}
+  - component: {fileID: 5869866769511199193}
+  m_Layer: 0
+  m_Name: RushAttackTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5051700482260687727
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000667354312455480}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3461897132877594448}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &5869866769511199193
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000667354312455480}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
