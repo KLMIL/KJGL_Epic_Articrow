@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface ICastEffectable
 {
-    public void CastEffect(GameObject origin);
+    public void CastEffect(EquipedArtifact artifact);
 }

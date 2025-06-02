@@ -10,15 +10,9 @@ namespace CKT
         }
 
         #region [ICastEffectable]
-        public void CastEffect(GameObject origin)
+        public void CastEffect(EquipedArtifact artifact)
         {
-            /*Vector2 originalVector = origin.GetComponent<Rigidbody2D>().linearVelocity;
-
-            GameObject copyLeft = Instantiate(origin, origin.transform.position, origin.transform.rotation);
-            copyLeft.GetComponent<Rigidbody2D>().linearVelocity = RotateVector(originalVector, -15f);
-
-            GameObject copyRight = Instantiate(origin, origin.transform.position, origin.transform.rotation);
-            copyRight.GetComponent<Rigidbody2D>().linearVelocity = RotateVector(originalVector, 15f);*/
+            artifact.AddScatterCount(2);
         }
         #endregion
     }
