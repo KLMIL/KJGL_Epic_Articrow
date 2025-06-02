@@ -46,11 +46,6 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            GetComponent<EnemyTakeDamage>().TakeDamage(5);
-        }
-
         // 추후, 공격 중 피격상태 등 커버를 위해 병렬 FSM 구현해야함.
         // 현재 상태에서는, 0번에 Idle, None->Soft->Hard 순서로 할당할 것.
 
