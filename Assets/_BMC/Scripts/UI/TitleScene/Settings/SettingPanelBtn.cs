@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PanelBtn : MonoBehaviour
+public class SettingPanelBtn : MonoBehaviour
 {
     Button _btn;
     [SerializeField] Image _image;
@@ -24,7 +24,7 @@ public class PanelBtn : MonoBehaviour
     void OnClickBtn()
     {
         UI_TitleEventBus.OnActivePanelBtnHighlightLine?.Invoke(_index);
-        UI_TitleEventBus.OnActivePanel?.Invoke(_index);
+        UI_TitleEventBus.OnActivePanelCanvas?.Invoke(_index);
     }
 
     void ActiveHighlightLine(int idx)
