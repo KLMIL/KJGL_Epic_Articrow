@@ -51,6 +51,7 @@ namespace CKT
             Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - this.transform.position).normalized;
             bullet.GetComponent<Rigidbody2D>().AddForce(dir * 10f, ForceMode2D.Impulse);
 
+            //시전 시 효과 적용
             for (int i = 0; i < list.Count; i++)
             {
                 ICastEffectable cast = list[i].GetComponent<ICastEffectable>();

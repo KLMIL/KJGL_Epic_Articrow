@@ -2,14 +2,14 @@ using UnityEngine;
 
 namespace CKT
 {
-    public class ImageParts_T1 : ImageParts, ICastEffectable
+    public class ImageParts_CastScatter : ImageParts, ICastEffectable
     {
         private void Awake()
         {
-            base.Init("FieldParts/FieldParts_T1");
+            base.Init("FieldParts/FieldParts_CastScatter");
         }
 
-        #region [Method]
+        #region [ICastEffectable]
         public void CastEffect(GameObject origin)
         {
             Vector2 originalVector = origin.GetComponent<Rigidbody2D>().linearVelocity;
