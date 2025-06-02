@@ -4,21 +4,26 @@ using UnityEngine;
 public class RushAttackActionSO : EnemyActionSO
 {
     public float rushSpeed = 6f;
-    public float attackDuration = 0.5f;
+    public float attackDuration = 1f;
     float elapsed = 0f;
     Vector3 _rushDirection;
+    bool startRush = false;
 
 
     public override void Act(EnemyController controller)
     {
         if (controller.Player == null) return;
 
-        if (elapsed == 0f)
+        if (!startRush)
         {
             _rushDirection = (controller.Player.position - controller.transform.position).normalized;
             // 돌진 공격 피격 Collider 활성화. RushAttackCooldownAction에서 비활성화 처리.
             if (controller.RushAttackTrigger != null)
+            {
                 controller.RushAttackTrigger.SetActive(true);
+            }
+
+            startRush = true;
         }
 
         if (elapsed < attackDuration)
@@ -27,7 +32,10 @@ public class RushAttackActionSO : EnemyActionSO
             //controller.Animation.Play("RushAttack");
             elapsed += Time.deltaTime;
         }
+        else
+        {
+            elapsed = 0f;
+            startRush = false;
+        }
     }
-
-    public void ResetAttack() => elapsed = 0f;
 }

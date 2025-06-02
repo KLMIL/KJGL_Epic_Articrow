@@ -12,6 +12,11 @@ GameObject:
   - component: {fileID: 402500928716262526}
   - component: {fileID: 2634376200830251724}
   - component: {fileID: 6757336873928180719}
+  - component: {fileID: 867253434297699822}
+  - component: {fileID: 8566294338215011395}
+  - component: {fileID: 4224398241014864726}
+  - component: {fileID: 8888002566891108586}
+  - component: {fileID: 5244815503509521101}
   m_Layer: 0
   m_Name: WormSlime
   m_TagString: Untagged
@@ -102,75 +107,85 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28991b7ecaa04e74f9284c72439a1200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Status: {fileID: 11400000, guid: dc4e77f75fd922849a2c2f9f54aa7d9f, type: 2}
+  StatusOrigin: {fileID: 11400000, guid: dc4e77f75fd922849a2c2f9f54aa7d9f, type: 2}
+  Status: {fileID: 0}
   Player: {fileID: 0}
   Animation: {fileID: 0}
   Behaviours:
-  - name: Idle
+  - stateName: Idle
+    interruptType: 0
     condition: {fileID: 11400000, guid: bff88eb5973cef5449e21b876f295220, type: 2}
     action: {fileID: 11400000, guid: 055d75e61e9f5d349b10ba37be066e3f, type: 2}
-    nextStateIndex: 2
-    duration: 1
     animationName: Idle
-    interruptType: 0
+    duration: 1
+    nextStateName: RandomMove
     elapsedTime: 0
-  - name: ReceivedDamage
+  - stateName: ReceivedDamage
+    interruptType: 1
     condition: {fileID: 11400000, guid: cde3508f6c69b094d9c28e97efa8e7a3, type: 2}
     action: {fileID: 11400000, guid: f0fcabae3de0a2d459ee3a7e8a46020b, type: 2}
-    nextStateIndex: 0
-    duration: 0.3
     animationName: Hurt
-    interruptType: 1
+    duration: 0.3
+    nextStateName: Idle
     elapsedTime: 0
-  - name: RandomMove
+  - stateName: RandomMove
+    interruptType: 0
     condition: {fileID: 11400000, guid: a5dc1301ae5b0384d9850d9467f9dcbc, type: 2}
     action: {fileID: 11400000, guid: c9fbc560174cdcd419364d335f43129e, type: 2}
-    nextStateIndex: 0
-    duration: 2
     animationName: Walk
-    interruptType: 0
+    duration: 2
+    nextStateName: Idle
     elapsedTime: 0
-  - name: Approach
+  - stateName: Approach
+    interruptType: 1
     condition: {fileID: 11400000, guid: 1c990547614614b4a92a8cc7b1b6786d, type: 2}
     action: {fileID: 11400000, guid: 1137ea8cd740248418045eb3e290032c, type: 2}
-    nextStateIndex: 4
-    duration: 1.5
     animationName: Walk
-    interruptType: 1
+    duration: 1.5
+    nextStateName: ChargeReady
     elapsedTime: 0
-  - name: ChargeReady
+  - stateName: ChargeReady
+    interruptType: 1
     condition: {fileID: 11400000, guid: 4e08378a75f5ae44c967b52bfa3e90c1, type: 2}
     action: {fileID: 11400000, guid: 2920b9ddcf4347e4da30846ac50fdbae, type: 2}
-    nextStateIndex: 5
-    duration: 0.6
     animationName: ChargeReady
-    interruptType: 1
+    duration: 0.6
+    nextStateName: Rush
     elapsedTime: 0
-  - name: Rush
+  - stateName: Rush
+    interruptType: 2
     condition: {fileID: 11400000, guid: 5405670469ffa484795f454ef57fee7c, type: 2}
     action: {fileID: 11400000, guid: 793324599db86774ba42f09a9be74402, type: 2}
-    nextStateIndex: 6
-    duration: 0.3
     animationName: Rush
-    interruptType: 2
+    duration: 1
+    nextStateName: MoveAway
     elapsedTime: 0
-  - name: CoolDown
+  - stateName: MoveAway
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 99e1fcba35df40e47977dc7ea2a7643e, type: 2}
+    action: {fileID: 11400000, guid: 47b5c3ab793b667468256e64c6161af3, type: 2}
+    animationName: Walk
+    duration: 0.5
+    nextStateName: Cooldown
+    elapsedTime: 0
+  - stateName: Cooldown
+    interruptType: 0
     condition: {fileID: 11400000, guid: d233ffb884bd1e04581e16fc5c82cd32, type: 2}
     action: {fileID: 11400000, guid: 57df60756c796fd41b735d792c82056e, type: 2}
-    nextStateIndex: 0
-    duration: 1.2
     animationName: Idle
-    interruptType: 0
+    duration: 1.2
+    nextStateName: Idle
     elapsedTime: 0
-  - name: Die
+  - stateName: Die
+    interruptType: 2
     condition: {fileID: 11400000, guid: 1d8d0069026e4254da91a8ac579bee1b, type: 2}
     action: {fileID: 11400000, guid: 1dfb45bf43637e54e921ac5dbe4b4d2a, type: 2}
-    nextStateIndex: -1
-    duration: 1
     animationName: Die
-    interruptType: 2
+    duration: 1
+    nextStateName: Die
     elapsedTime: 0
   RushAttackTrigger: {fileID: 2000667354312455480}
+  isDamaged: 0
 --- !u!114 &6757336873928180719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +198,141 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &867253434297699822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280942326239313078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56c6d0d2206720d42aac1acd7beb8482, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8566294338215011395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280942326239313078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bb483f51c68f64489c9293913ab932a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTag: Player
+  attackCooldown: 0
+--- !u!61 &4224398241014864726
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280942326239313078}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!58 &8888002566891108586
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280942326239313078}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
+--- !u!50 &5244815503509521101
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280942326239313078}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &2000667354312455480
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,6 +343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5051700482260687727}
   - component: {fileID: 5869866769511199193}
+  - component: {fileID: 4069992238894854445}
   m_Layer: 0
   m_Name: RushAttackTrigger
   m_TagString: Untagged
@@ -261,3 +412,17 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4069992238894854445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000667354312455480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bb483f51c68f64489c9293913ab932a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTag: Player
+  attackCooldown: 0

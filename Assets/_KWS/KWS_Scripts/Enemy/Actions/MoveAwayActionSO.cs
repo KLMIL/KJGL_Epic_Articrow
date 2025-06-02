@@ -3,6 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MoveAwayAction", menuName = "Enemy/Action/Move Away")]
 public class MoveAwayActionSO : EnemyActionSO
 {
+    public float moveAwaySpeed = 4f;
+
     public override void Act(EnemyController controller)
     {
         if (controller.Player == null) return;

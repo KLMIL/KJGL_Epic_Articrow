@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class EnemyDealDamage : MonoBehaviour
@@ -8,9 +9,9 @@ public class EnemyDealDamage : MonoBehaviour
     public float attackCooldown;
     private float lastAttackTime = -Mathf.Infinity;
 
-    private void Awake()
+    private void Start()
     {
-        ownerController = GetComponent<EnemyController>();
+        ownerController = GetComponentInParent<EnemyController>();
         attackCooldown = ownerController.Status.attackCooldown;
     }
 
@@ -18,9 +19,16 @@ public class EnemyDealDamage : MonoBehaviour
     {
         if (other.CompareTag(targetTag))
         {
-            var damagable = other.GetComponent<IDamagable>();
-            damagable.TakeDamage(ownerController.Status.attack);
-            lastAttackTime = Time.time;
+            // Target(현재 Player 대상) -> 테스트를 위해 임시 주석처리
+            //var damagable = other.GetComponent<IDamagable>();
+            //damagable.TakeDamage(ownerController.Status.attack);
+            //lastAttackTime = Time.time;
+
+            // 현재 상태가 "Rush"류인지 체크
+            var rushStates = new[] { "Rush" };
+            if (rushStates.Contains(ownerController.CurrentStateName)) {
+                ownerController.ForceToNextState();
+            }
 
             // 투사체의 경우 파괴
             //if (gameObject.CompareTag("Projectile")) Destroy(gameObject);
