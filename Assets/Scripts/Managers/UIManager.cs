@@ -5,10 +5,14 @@ namespace YSJ
 {
     public class UIManager
     {
-        public event Action<GameObject> OnUI_AddInventorySlotEvent;
-        public void UI_AddInventory(GameObject item)
+        event Action<GameObject> OnAddInventorySlotEvent;
+        public void SubAddInventorySlot(Action<GameObject> newSub)
         {
-            OnUI_AddInventorySlotEvent?.Invoke(item);
+            OnAddInventorySlotEvent += newSub;
+        }
+        public void InvokeAddInventorySlot(GameObject item)
+        {
+            OnAddInventorySlotEvent?.Invoke(item);
         }
 
         public Transform LeftHand;
