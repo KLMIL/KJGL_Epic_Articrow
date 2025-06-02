@@ -2,24 +2,11 @@ using UnityEngine;
 
 namespace CKT
 {
-    public class FieldParts_T1 : MonoBehaviour, IInteractable
+    public class FieldParts_T1 : FieldParts
     {
-        public ItemType ItemType => _itemType;
-        ItemType _itemType;
-
-        GameObject _imageParts;
-
         void Awake()
         {
-            _itemType = ItemType.Parts;
-            _imageParts = Resources.Load<GameObject>("ImageParts/ImageParts_T1");
-        }
-
-        public void Interact(Transform trans)
-        {
-            GameObject imageParts = Instantiate(_imageParts);
-            YSJ.Managers.UI.InvokeAddInventorySlot(imageParts);
-            Destroy(this.gameObject);
+            base.Init("ImageParts/ImageParts_T1");
         }
     }
 }

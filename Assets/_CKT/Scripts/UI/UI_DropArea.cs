@@ -1,25 +1,28 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UI_DropArea : MonoBehaviour, IDropHandler
+namespace CKT
 {
-    #region [컴포넌트]
-    RectTransform _rect;
-    #endregion
-
-    void Start()
+    public class UI_DropArea : MonoBehaviour, IDropHandler
     {
-        _rect = GetComponent<RectTransform>();
-    }
+        #region [컴포넌트]
+        RectTransform _rect;
+        #endregion
 
-    public void OnDrop(PointerEventData eventData)
-    {
-        GameObject pointerDrag = eventData.pointerDrag;
+        void Start()
+        {
+            _rect = GetComponent<RectTransform>();
+        }
 
-        //DropArea 위에서 Drop했을 때만 호출
-        pointerDrag.transform.SetParent(this.transform);
-        pointerDrag.GetComponent<RectTransform>().position = _rect.position;
+        public void OnDrop(PointerEventData eventData)
+        {
+            GameObject pointerDrag = eventData.pointerDrag;
 
-        GameManager.Instance.Inventory.InvokeUpdateList();
+            //DropArea 위에서 Drop했을 때만 호출
+            pointerDrag.transform.SetParent(this.transform);
+            pointerDrag.GetComponent<RectTransform>().position = _rect.position;
+
+            GameManager.Instance.Inventory.InvokeUpdateList();
+        }
     }
 }
