@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 7109929917498522947}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.6799994, y: -0.35, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -111,48 +111,51 @@ MonoBehaviour:
   Player: {fileID: 0}
   Animation: {fileID: 0}
   Behaviours:
-  - name: Idle
+  - stateName: 
+    interruptType: 0
     condition: {fileID: 11400000, guid: 7f1207a471265c543bd4e5922f32eecd, type: 2}
     action: {fileID: 11400000, guid: 9190c2cb1bc75334490992ca070d16a7, type: 2}
-    nextStateIndex: 2
-    duration: 1.5
     animationName: Idle
-    interruptType: 0
+    duration: 1.5
+    nextStateName: 
     elapsedTime: 0
-  - name: ReceivedDamage
+  - stateName: 
+    interruptType: 1
     condition: {fileID: 11400000, guid: 960d4d5cbecefb64a91edc2270ebe061, type: 2}
     action: {fileID: 11400000, guid: 09e11716c12862b4ea611672a523ef07, type: 2}
-    nextStateIndex: 0
-    duration: 0.3
     animationName: TakeDamage
-    interruptType: 1
+    duration: 0.3
+    nextStateName: 
     elapsedTime: 0
-  - name: RandomMove
+  - stateName: 
+    interruptType: 0
     condition: {fileID: 11400000, guid: 0d6b969333b85804682f2e40e594741b, type: 2}
     action: {fileID: 11400000, guid: b5378424ca11825429a54472046e9d4d, type: 2}
-    nextStateIndex: 0
-    duration: 2
     animationName: Walk
-    interruptType: 0
+    duration: 2
+    nextStateName: 
     elapsedTime: 0
-  - name: Chase
+  - stateName: 
+    interruptType: 1
     condition: {fileID: 11400000, guid: 5d631a9ac75a18e43971f6bc999f3fe5, type: 2}
     action: {fileID: 11400000, guid: 6d69d3c84d9d98c41ac72bfc3d5cdaac, type: 2}
-    nextStateIndex: 0
-    duration: 1
     animationName: Walk
-    interruptType: 1
+    duration: 1
+    nextStateName: 
     elapsedTime: 0
-  - name: Die
+  - stateName: 
+    interruptType: 2
     condition: {fileID: 11400000, guid: 2a425859d13f26549ba07012b3378421, type: 2}
     action: {fileID: 11400000, guid: cd45aa9ac2adf8441aa5864b6f4ee629, type: 2}
-    nextStateIndex: -1
-    duration: 1
     animationName: Die
-    interruptType: 2
+    duration: 1
+    nextStateName: 
     elapsedTime: 0
   RushAttackTrigger: {fileID: 0}
   isDamaged: 0
+  projectileFiredCount: 0
+  projectileIntervalTimer: 0
+  isSpawnedMite: 0
 --- !u!114 &2290517153993942967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,6 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTag: Player
+  attackCooldown: 0
 --- !u!114 &5407967122771582705
 MonoBehaviour:
   m_ObjectHideFlags: 0
