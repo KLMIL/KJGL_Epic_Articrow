@@ -31,6 +31,8 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public int projectileFiredCount;
     [HideInInspector] public float projectileIntervalTimer;
 
+    [HideInInspector] public bool isSpawnedMite;
+
 
     private void Awake()
     {

@@ -30,6 +30,19 @@ public class EnemyDealDamage : MonoBehaviour
                 ownerController.ForceToNextState();
             }
 
+            // Mite는 공격 즉시 파괴
+            if (gameObject.name.Contains("Mite"))
+            {
+                if (ownerController != null)
+                {
+                    ownerController.ForceState("Die");
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
+            }
+
             // 투사체의 경우 파괴
             //if (gameObject.CompareTag("Projectile")) Destroy(gameObject);
         }
