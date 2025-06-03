@@ -10,9 +10,9 @@ namespace CKT
         }
 
         #region [ICastEffectable]
-        public void CastEffect(EquipedArtifact artifact)
+        public void CastEffect(GameObject artifact)
         {
-            artifact.AddScatterCount(2);
+            artifact.GetComponent<EquipedArtifact>().AddScatterCount(2);
         }
         #endregion
     }

@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace CKT
 {
-    public class ImageParts_CastAdditional : ImageParts, ICastEffectable
+    public class ImageParts_CastTrace : ImageParts, ICastEffectable
     {
         private void Awake()
         {
-            base.Init("FieldParts/FieldParts_CastAdditional");
+            base.Init("FieldParts/FieldParts_CastTrace");
         }
 
         #region [ICastEffectable]
         public void CastEffect(GameObject artifact)
         {
-            artifact.GetComponent<EquipedArtifact>().AddAttackCount(1);
+
         }
         #endregion
     }

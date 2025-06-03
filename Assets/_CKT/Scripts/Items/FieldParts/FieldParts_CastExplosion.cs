@@ -1,10 +1,13 @@
 using CKT;
 using UnityEngine;
 
-public class FieldParts_CastExplosion : FieldParts
+namespace CKT
 {
-    void Awake()
+    public class FieldParts_CastExplosion : FieldParts
     {
-        base.Init("ImageParts/ImageParts_CastExplosion");
+        void Awake()
+        {
+            base.Init("ImageParts/ImageParts_CastExplosion");
+        }
     }
 }

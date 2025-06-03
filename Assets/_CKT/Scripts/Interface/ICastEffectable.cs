@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public interface ICastEffectable
+namespace CKT
 {
-    public void CastEffect(EquipedArtifact artifact);
+    public interface ICastEffectable
+    {
+        public void CastEffect(GameObject artifact);
+    }
 }

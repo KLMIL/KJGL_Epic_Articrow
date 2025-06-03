@@ -1,16 +1,19 @@
 using System.Collections;
 using UnityEngine;
 
-public class Trace : MonoBehaviour
+namespace CKT
 {
-    private void OnEnable()
+    public class Trace : MonoBehaviour
     {
-        StartCoroutine(ActiveTimerCoroutine());
-    }
+        private void OnEnable()
+        {
+            StartCoroutine(ActiveTimerCoroutine());
+        }
 
-    IEnumerator ActiveTimerCoroutine()
-    {
-        yield return new WaitForSeconds(0.6f);
-        this.gameObject.SetActive(false);
+        IEnumerator ActiveTimerCoroutine()
+        {
+            yield return new WaitForSeconds(0.6f);
+            this.gameObject.SetActive(false);
+        }
     }
 }

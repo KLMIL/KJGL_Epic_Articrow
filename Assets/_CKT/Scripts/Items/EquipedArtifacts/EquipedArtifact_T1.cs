@@ -26,9 +26,12 @@ namespace CKT
 
         protected override IEnumerator AttackCoroutine(List<GameObject> list)
         {
-            //착용 중인 파츠 갱신
+            //착용 중인 파츠 효과 확인
             Init("FieldArtifacts/FieldArtifact_T1");
             base.CheckParts(list);
+
+            //시전시 효과 호출
+            GameManager.Instance.Inventory.InvokeCastEffect(this.gameObject);
 
             //마우스 위치 (공격 입력 순간의 마우스 위치 고정)
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

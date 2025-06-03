@@ -15,7 +15,6 @@ namespace YSJ
 
             SetPrefab("Prefabs", "Bullet", _prefabDict);
             SetPrefab("Prefabs", "Explosion", _prefabDict);
-            SetPrefab("Prefabs", "TraceSpawner", _prefabDict);
             SetPrefab("Prefabs", "Trace", _prefabDict);
         }
 

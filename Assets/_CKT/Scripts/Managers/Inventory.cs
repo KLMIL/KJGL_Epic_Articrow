@@ -41,29 +41,66 @@ namespace CKT
         }
         #endregion
 
-        
+        int _maxCount = 8;
+
+        #region [LeftList]
         List<GameObject> _leftList = new List<GameObject>();
         event Action<List<GameObject>> _onUpdateLeftListEvent;
         public void SubUpdateLeftList(Action<List<GameObject>> newSub)
         {
             _onUpdateLeftListEvent += newSub;
         }
+        #endregion
 
+        #region [RightList]
         List<GameObject> _rightList = new List<GameObject>();
         event Action<List<GameObject>> _onUpdateRightListEvent;
         public void SubUpdateRightList(Action<List<GameObject>> newSub)
         {
             _onUpdateRightListEvent += newSub;
         }
+        #endregion
 
+        #region [InventoryList]
         List<GameObject> _inventoryList = new List<GameObject>();
         event Action<List<GameObject>> _onUpdateInventoryListEvent;
         public void SubUpdateInventoryList(Action<List<GameObject>> newSub)
         {
             _onUpdateInventoryListEvent += newSub;
         }
+        #endregion
 
-        int _maxCount = 8;
+        #region [CastEffect]
+        event Action<GameObject> _onCastEffectEvent;
+        public void InitCastEffect()
+        {
+            _onCastEffectEvent = null;
+        }
+        public void SubCastEffect(Action<GameObject> newSub)
+        {
+            _onCastEffectEvent += newSub;
+        }
+        public void InvokeCastEffect(GameObject obj)
+        {
+            _onCastEffectEvent?.Invoke(obj);
+        }
+        #endregion
+
+        #region[HitEffect]
+        event Action<GameObject> _onHitEffectEvent;
+        public void InitHitEffect()
+        {
+            _onHitEffectEvent = null;
+        }
+        public void SubHitEffect(Action<GameObject> newSub)
+        {
+            _onHitEffectEvent += newSub;
+        }
+        public void InvokeHitEffect(GameObject obj)
+        {
+            _onHitEffectEvent?.Invoke(obj);
+        }
+        #endregion
 
         public void Init()
         {
@@ -78,6 +115,8 @@ namespace CKT
 
             _inventoryList = new List<GameObject>();
             _onUpdateInventoryListEvent = null;
+
+            _onCastEffectEvent = null;
         }
 
         public bool CheckInventorySlotFull()

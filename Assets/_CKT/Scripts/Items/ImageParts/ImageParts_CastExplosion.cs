@@ -1,17 +1,20 @@
 using CKT;
 using UnityEngine;
 
-public class ImageParts_CastExplosion : ImageParts, ICastEffectable
+namespace CKT
 {
-    private void Awake()
+    public class ImageParts_CastExplosion : ImageParts, ICastEffectable
     {
-        base.Init("FieldParts/FieldParts_CastExplosion");
-    }
+        private void Awake()
+        {
+            base.Init("FieldParts/FieldParts_CastExplosion");
+        }
 
-    #region [ICastEffectable]
-    public void CastEffect(EquipedArtifact artifact)
-    {
-        GameObject explosion = YSJ.Managers.Pool.InstPrefab("Explosion", null, artifact.transform.position);
+        #region [ICastEffectable]
+        public void CastEffect(GameObject artifact)
+        {
+            GameObject explosion = YSJ.Managers.Pool.InstPrefab("Explosion", null, artifact.transform.position);
+        }
+        #endregion
     }
-    #endregion
 }
