@@ -12,6 +12,11 @@ GameObject:
   - component: {fileID: 6019710688196908923}
   - component: {fileID: 9033224559896948354}
   - component: {fileID: 937202242649137197}
+  - component: {fileID: 8724007646122723216}
+  - component: {fileID: 4252226339735146189}
+  - component: {fileID: 5956855788176318021}
+  - component: {fileID: 8997758229710443328}
+  - component: {fileID: 1880961654122264856}
   m_Layer: 0
   m_Name: SporeSlime
   m_TagString: Untagged
@@ -28,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 409916835729264519}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.02, y: -0.35, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -101,28 +106,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28991b7ecaa04e74f9284c72439a1200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Status: {fileID: 11400000, guid: 9a7b0886072f50042bc2f8af2375cad7, type: 2}
+  StatusOrigin: {fileID: 11400000, guid: 9a7b0886072f50042bc2f8af2375cad7, type: 2}
+  Status: {fileID: 0}
   Player: {fileID: 0}
   Animation: {fileID: 0}
   Behaviours:
-  - name: Retreat
-    condition: {fileID: 11400000, guid: 2d674e0ec0fd42242b98784426ad71b4, type: 2}
-    action: {fileID: 11400000, guid: 4dd6f7ab12f3cfe45a084daa589287e4, type: 2}
-    nextStateIndex: 1
+  - stateName: Idle
+    interruptType: 0
+    condition: {fileID: 11400000, guid: b9a1f98169a1ff947839ab17e96aa15e, type: 2}
+    action: {fileID: 11400000, guid: 4af73e69333144b4797c96f6b8577934, type: 2}
+    animationName: Idle
+    duration: 1.5
+    nextStateName: RandomMove
+    elapsedTime: 0
+  - stateName: RandomMove
+    interruptType: 0
+    condition: {fileID: 11400000, guid: d7c80ab1c84db0c4cb3df39735edf5f9, type: 2}
+    action: {fileID: 11400000, guid: a17a9db5a6498d548a77631f7093da71, type: 2}
+    animationName: Walk
     duration: 2
+    nextStateName: Idle
     elapsedTime: 0
-  - name: ProjectileAttack
-    condition: {fileID: 11400000, guid: 54746de718013bc4489f226ad6de3ced, type: 2}
-    action: {fileID: 11400000, guid: c134736e1c7745e4f924d287be0033ef, type: 2}
-    nextStateIndex: 0
-    duration: 0.2
-    elapsedTime: 0
-  - name: CooldownIdle
-    condition: {fileID: 11400000, guid: 32d747d5e43c54649aa2b340a0973362, type: 2}
-    action: {fileID: 11400000, guid: 0082bec128eb3014ab0e9dcd69d2f642, type: 2}
-    nextStateIndex: 0
+  - stateName: MoveAway
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 86d3ecc8eafef63498a8720f54c8d29c, type: 2}
+    action: {fileID: 11400000, guid: e4ebade23f8743e45be0f84d8b710018, type: 2}
+    animationName: Walk
     duration: 1
+    nextStateName: Idle
     elapsedTime: 0
+  - stateName: AttackReady
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 72820d2ba8c07c74a86ac80a2047ebaa, type: 2}
+    action: {fileID: 11400000, guid: 197e98cec89df214cada463f62425d11, type: 2}
+    animationName: Charge
+    duration: 0.4
+    nextStateName: ProjectileAttack
+    elapsedTime: 0
+  - stateName: ProjectileAttack
+    interruptType: 2
+    condition: {fileID: 11400000, guid: b67872a69674f794d826d6a79fcba9f7, type: 2}
+    action: {fileID: 11400000, guid: 0e4b1eca4fd1d1c488334fb4df45480b, type: 2}
+    animationName: Shoot
+    duration: 0.3
+    nextStateName: AttackCooldown
+    elapsedTime: 0
+  - stateName: AttackCooldown
+    interruptType: 1
+    condition: {fileID: 11400000, guid: dc9ec8735213b834fac0a4d47e6ce00d, type: 2}
+    action: {fileID: 11400000, guid: 382072d7f62724647a0e77b4ebf030d6, type: 2}
+    animationName: Idle
+    duration: 1
+    nextStateName: Idle
+    elapsedTime: 0
+  - stateName: ReceivedDamage
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 569b80d2554abab4f8c9b5aac9e1f4ab, type: 2}
+    action: {fileID: 11400000, guid: 592858365d69aab43b958b63c4271007, type: 2}
+    animationName: Hurt
+    duration: 0.3
+    nextStateName: Idle
+    elapsedTime: 0
+  - stateName: Die
+    interruptType: 2
+    condition: {fileID: 11400000, guid: 6883ad74524cf5b489206d6d2df1b488, type: 2}
+    action: {fileID: 11400000, guid: 0857aa174293b7d4e9956c173078ea52, type: 2}
+    animationName: Die
+    duration: 1
+    nextStateName: Die
+    elapsedTime: 0
+  RushAttackTrigger: {fileID: 0}
+  isDamaged: 0
+  projectileFiredCount: 0
+  projectileIntervalTimer: 0
+  isSpawnedMite: 0
 --- !u!114 &937202242649137197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,3 +192,138 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8724007646122723216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409916835729264519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bb483f51c68f64489c9293913ab932a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTag: Player
+  attackCooldown: 0
+--- !u!114 &4252226339735146189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409916835729264519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56c6d0d2206720d42aac1acd7beb8482, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &5956855788176318021
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409916835729264519}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!58 &8997758229710443328
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409916835729264519}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
+--- !u!50 &1880961654122264856
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409916835729264519}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

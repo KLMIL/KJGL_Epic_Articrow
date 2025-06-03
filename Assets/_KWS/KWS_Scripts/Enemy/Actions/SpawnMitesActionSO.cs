@@ -9,11 +9,15 @@ public class SpawnMitesActionSO : EnemyActionSO
 
     public override void Act(EnemyController controller)
     {
+        if (controller.isSpawnedMite) return;
+
+        controller.isSpawnedMite = true;
+
         for (int i = 0; i < spawnCount; i++)
         {
             Vector2 rand = Random.insideUnitCircle * spawnRadius;
             Vector3 spawnPos = controller.transform.position + new Vector3(rand.x, 0, rand.y);
-            Instantiate(mitePrefab, spawnPos, Quaternion.identity);
+            Instantiate(mitePrefab, spawnPos, Quaternion.identity, controller.transform);
         }
         //controller.Animation.Play("Spawn");
     }

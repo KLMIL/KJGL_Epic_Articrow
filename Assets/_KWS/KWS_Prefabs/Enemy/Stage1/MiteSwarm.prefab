@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3006341480942975301}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.53, y: -0.35, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -101,34 +101,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28991b7ecaa04e74f9284c72439a1200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Status: {fileID: 11400000, guid: 572883ed34dc059458aa9319cd60ad55, type: 2}
+  StatusOrigin: {fileID: 11400000, guid: 572883ed34dc059458aa9319cd60ad55, type: 2}
+  Status: {fileID: 0}
   Player: {fileID: 0}
   Animation: {fileID: 0}
   Behaviours:
-  - name: TriggerByPlayer
-    condition: {fileID: 11400000, guid: e42da465ab1045e42b3d65f86292444e, type: 2}
-    action: {fileID: 11400000, guid: 54bd55a5e1a44a94dac44d01d45725c9, type: 2}
-    nextStateIndex: 2
-    duration: 0.1
+  - stateName: Idle
+    interruptType: 0
+    condition: {fileID: 11400000, guid: f75a9770b1eb34a4d8b54b7ae0fa478d, type: 2}
+    action: {fileID: 11400000, guid: ce1688df0985b2f418ec42fe12c0d7e9, type: 2}
+    animationName: Idle
+    duration: 1.5
+    nextStateName: Idle
     elapsedTime: 0
-  - name: TriggerByDamage
-    condition: {fileID: 11400000, guid: dce29df88e459e647a766a9d79334135, type: 2}
-    action: {fileID: 11400000, guid: 8049c3431f787be4fa3d2ee017c491c1, type: 2}
-    nextStateIndex: 2
-    duration: 0.1
+  - stateName: ReceivedDamage
+    interruptType: 1
+    condition: {fileID: 11400000, guid: d522263e2ce9534459375d33f3e43a91, type: 2}
+    action: {fileID: 11400000, guid: 70e3758974321a249803a61b8bba037e, type: 2}
+    animationName: Hurt
+    duration: 0.3
+    nextStateName: Summon
     elapsedTime: 0
-  - name: PostSpawnIdle
-    condition: {fileID: 11400000, guid: 2e7a1968d140fc048aff99f71cb4e17e, type: 2}
-    action: {fileID: 11400000, guid: e4a0e183151b6a343ab0279ccf9ecf6b, type: 2}
-    nextStateIndex: 2
+  - stateName: PlayerApproach
+    interruptType: 2
+    condition: {fileID: 11400000, guid: c5f5f35d28553c64992581882105a619, type: 2}
+    action: {fileID: 11400000, guid: 6894d43cc4d0f40418b9d4d38ee46bc2, type: 2}
+    animationName: SummonReady
+    duration: 0.3
+    nextStateName: Summon
+    elapsedTime: 0
+  - stateName: Summon
+    interruptType: 2
+    condition: {fileID: 11400000, guid: 817398126ae1ec84f8ec3fd6b031d68d, type: 2}
+    action: {fileID: 11400000, guid: c734c748dbe0b654083dc903d12d8c66, type: 2}
+    animationName: SUmmon
+    duration: 0.2
+    nextStateName: SummonCooldown
+    elapsedTime: 0
+  - stateName: SummonCooldown
+    interruptType: 2
+    condition: {fileID: 11400000, guid: 631ed6028d1576e48941d68c10f6d6df, type: 2}
+    action: {fileID: 11400000, guid: 61b80f8721520e64b8fa43919a4df3b7, type: 2}
+    animationName: Idle
+    duration: 3
+    nextStateName: Idle
+    elapsedTime: 0
+  - stateName: Die
+    interruptType: 2
+    condition: {fileID: 11400000, guid: 03572baa279f2b940bd55d12ca84144b, type: 2}
+    action: {fileID: 11400000, guid: c714342091c225745b17870b379bcbf8, type: 2}
+    animationName: Die
     duration: 1
+    nextStateName: Die
     elapsedTime: 0
-  - name: Cooldown
-    condition: {fileID: 11400000, guid: 8fb4a41dfa82a3b4a92e0215732f0993, type: 2}
-    action: {fileID: 11400000, guid: e4f2fd3f16a9b24409edabc28538f74b, type: 2}
-    nextStateIndex: 0
-    duration: 5
-    elapsedTime: 0
+  RushAttackTrigger: {fileID: 0}
+  isDamaged: 0
+  projectileFiredCount: 0
+  projectileIntervalTimer: 0
+  isSpawnedMite: 0
 --- !u!114 &1655341474631979712
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class ChargeReadyActionSO : EnemyActionSO
 {
     public override void Act(EnemyController controller)
     {
+        
         // 이펙트, 사운드 호출?
     }
 }
