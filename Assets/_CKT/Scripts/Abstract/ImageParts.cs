@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace CKT
 {
-    public abstract class ImageParts : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public abstract class  ImageParts : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         GameObject _fieldParts;
 

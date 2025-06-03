@@ -26,7 +26,8 @@ namespace CKT
 
         protected override IEnumerator AttackCoroutine(List<GameObject> list)
         {
-            //착용 중인 파츠 확인
+            //착용 중인 파츠 갱신
+            Init("FieldArtifacts/FieldArtifact_T1");
             base.CheckParts(list);
 
             //마우스 위치 (공격 입력 순간의 마우스 위치 고정)
@@ -62,7 +63,6 @@ namespace CKT
             }
 
             yield return new WaitForSeconds(0.5f);
-            Init("FieldArtifacts/FieldArtifact_T1");
             _attackCoroutine = null;
         }
     }
