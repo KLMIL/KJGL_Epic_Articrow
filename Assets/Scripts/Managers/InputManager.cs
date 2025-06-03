@@ -1,10 +1,11 @@
 using BMC;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.RuleTile.TilingRuleOutput;
+using UnityEngine.UIElements;
 
 public class InputManager
 {
@@ -38,9 +39,15 @@ public class InputManager
 
         _keyActionDict = new Dictionary<KeyAction, InputAction>
         {
+            { KeyAction.Move, _inputSystemActions.Player.Move},
+            { KeyAction.Interact, _inputSystemActions.Player.Interact },
+            { KeyAction.Inventroy, _inputSystemActions.Player.Inventory},
+            { KeyAction.LeftHand, _inputSystemActions.Player.LeftHand },
+            { KeyAction.RightHand, _inputSystemActions.Player.RightHand },
             { KeyAction.Roll, _inputSystemActions.Player.Roll },
         };
-        LoadBind();
+
+        LoadKeyBind();
         SetInGame();
     }
 
@@ -91,17 +98,23 @@ public class InputManager
         _inputSystemActions.Player.Enable();
 
         // 3. 리바인딩된 키를 저장
-        var rebinds = _inputSystemActions.SaveBindingOverridesAsJson();
-        PlayerPrefs.SetString("rebinds", rebinds);
-        Debug.Log(rebinds + "\n 저장함");
+        SaveKeyBind();
 
         // 4. 저장한 리바인드 불러와서 입력 시스템에 적용
-        LoadBind();
+        LoadKeyBind();
         text.text = newBinding;
     }
 
-    // 바인드 불러오기
-    public void LoadBind()
+    // 키바인드 저장
+    public void SaveKeyBind()
+    {
+        var rebinds = _inputSystemActions.SaveBindingOverridesAsJson();
+        PlayerPrefs.SetString("rebinds", rebinds);
+        Debug.Log(rebinds + "\n 저장함");
+    }
+
+    // 키바인드 불러오기
+    public void LoadKeyBind()
     {
         var rebinds = PlayerPrefs.GetString("rebinds");
         if (!string.IsNullOrEmpty(rebinds))
@@ -111,11 +124,18 @@ public class InputManager
         }
     }
 
+    public void ApplyKeyBind(string savedBindings)
+    {
+        _inputSystemActions.LoadBindingOverridesFromJson(savedBindings);
+        Debug.Log("덮어쓰기");
+    }
+
     #endregion
 
     void OnMove(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>().normalized;
+        Debug.Log("MoveInput: " + MoveInput);
         //Debug.Log(MoveInput);
     }
 
@@ -132,6 +152,7 @@ public class InputManager
         if (context.performed)
         {
             OnRollAction?.Invoke(MoveInput);
+            Debug.Log("구르기");
         }
         //Debug.Log("IsPressDash: " + IsPressDash);
     }
@@ -149,7 +170,7 @@ public class InputManager
     {
         if (context.performed)
         {
-            Debug.Log("좌수");
+            //Debug.Log("좌수");
         }
         IsPressLeftHandAttack = context.ReadValueAsButton();
     }
@@ -158,7 +179,7 @@ public class InputManager
     {
         if (context.performed)
         {
-            Debug.Log("우수");
+            //Debug.Log("우수");
         }
         IsPressRightHandAttack = context.ReadValueAsButton();
     }

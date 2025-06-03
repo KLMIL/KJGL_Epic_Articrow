@@ -5,20 +5,6 @@ using YSJ;
 
 namespace BMC
 {
-    public enum KeyAction
-    {
-        MoveUp,
-        MoveDown,
-        MoveLeft,
-        MoveRight,
-        Cast,
-        Interact,
-        Inventroy,
-        LeftHand,
-        RightHand,
-        Roll,
-    }
-
     public class RebindBtn : MonoBehaviour
     {
         [SerializeField] KeyAction _keyAction;      // 담당하는 키 액션
@@ -35,7 +21,7 @@ namespace BMC
         // 클릭 시 호출
         public void OnClicked()
         {
-            _text.text = "Choose a new Button";
+            _text.text = "...";
             Managers.Input.Rebind(_keyAction, _text);
         }
     }
