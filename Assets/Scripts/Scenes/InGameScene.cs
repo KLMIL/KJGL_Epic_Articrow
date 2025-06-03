@@ -17,7 +17,7 @@ namespace YSJ
         {
             // 씬 정리
             //Managers.Sound.Stop();
-            Managers.Input.CancelAction();
+            Managers.Input.ClearAction();
             Debug.Log("인게임 씬 정리");
         }
     }

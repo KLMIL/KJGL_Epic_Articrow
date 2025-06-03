@@ -65,6 +65,16 @@ namespace YSJ
             _sfxSource.PlayOneShot(_sfxDict[sfx]);
         }
 
+        public void UpdateBGMVolume(float volume)
+        {
+            _bgmSource.volume = volume;
+        }
+
+        public void UpdateSFXVolume(float volume)
+        {
+            _sfxSource.volume = volume;
+        }
+
         public void Stop()
         {
             _bgmSource.Stop();

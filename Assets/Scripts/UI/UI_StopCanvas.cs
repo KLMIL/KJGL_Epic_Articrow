@@ -12,7 +12,6 @@ public class UI_StopCanvas : MonoBehaviour
 
     void Start()
     {
-        UI_InGameEventBus.OnPaused += ToggleCanvas;
     }
 
     public void ToggleCanvas()
@@ -22,6 +21,5 @@ public class UI_StopCanvas : MonoBehaviour
 
     void OnDestroy()
     {
-        UI_InGameEventBus.OnPaused = null;
     }
 }
