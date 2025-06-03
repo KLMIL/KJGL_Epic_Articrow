@@ -10,9 +10,16 @@ namespace CKT
         }
 
         #region [ICastEffectable]
-        public void CastEffect(GameObject artifact)
+        public void CastEffect(int handID)
         {
-            artifact.GetComponent<EquipedArtifact>().AddScatterCount(2);
+            if (handID == 1)
+            {
+                GameManager.Instance.LeftSkillManager.CastScatterLevelUp(1);
+            }
+            else if (handID == 2)
+            {
+                GameManager.Instance.RightSkillManager.CastScatterLevelUp(1);
+            }
         }
         #endregion
     }

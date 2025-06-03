@@ -6,14 +6,26 @@ namespace CKT
 {
     public class Bullet : MonoBehaviour
     {
+        float _bulletSpeed = 30f;
+
         private void OnEnable()
         {
+            StartCoroutine(MoveCoroutine());
             StartCoroutine(DisableCoroutine());
         }
 
         private void OnDisable()
         {
-            //GameManager.Instance.Inventory.InvokeHitEffect(this.gameObject);
+
+        }
+
+        IEnumerator MoveCoroutine()
+        {
+            while (this.gameObject.activeSelf)
+            {
+                transform.position += transform.up * _bulletSpeed * Time.deltaTime;
+                yield return null;
+            }
         }
 
         IEnumerator DisableCoroutine()

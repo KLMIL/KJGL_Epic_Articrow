@@ -4,6 +4,6 @@ namespace CKT
 {
     public interface IHitEffectable
     {
-        public void HitEffect(GameObject hitBox);
+        public void HitEffect(int handID);
     }
 }

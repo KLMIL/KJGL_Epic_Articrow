@@ -11,9 +11,16 @@ namespace CKT
         }
 
         #region [ICastEffectable]
-        public void CastEffect(GameObject artifact)
+        public void CastEffect(int handID)
         {
-            GameObject explosion = YSJ.Managers.Pool.InstPrefab("Explosion", null, artifact.transform.position);
+            if (handID == 1)
+            {
+                GameManager.Instance.LeftSkillManager.CastExplosionLevelUp(1);
+            }
+            else if (handID == 2)
+            {
+                GameManager.Instance.RightSkillManager.CastExplosionLevelUp(1);
+            }
         }
         #endregion
     }

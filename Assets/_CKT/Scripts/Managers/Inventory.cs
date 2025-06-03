@@ -70,38 +70,6 @@ namespace CKT
         }
         #endregion
 
-        #region [CastEffect]
-        event Action<GameObject> _onCastEffectEvent;
-        public void InitCastEffect()
-        {
-            _onCastEffectEvent = null;
-        }
-        public void SubCastEffect(Action<GameObject> newSub)
-        {
-            _onCastEffectEvent += newSub;
-        }
-        public void InvokeCastEffect(GameObject obj)
-        {
-            _onCastEffectEvent?.Invoke(obj);
-        }
-        #endregion
-
-        #region[HitEffect]
-        event Action<GameObject> _onHitEffectEvent;
-        public void InitHitEffect()
-        {
-            _onHitEffectEvent = null;
-        }
-        public void SubHitEffect(Action<GameObject> newSub)
-        {
-            _onHitEffectEvent += newSub;
-        }
-        public void InvokeHitEffect(GameObject obj)
-        {
-            _onHitEffectEvent?.Invoke(obj);
-        }
-        #endregion
-
         public void Init()
         {
             _onLeftHandEvent = null;
@@ -115,8 +83,6 @@ namespace CKT
 
             _inventoryList = new List<GameObject>();
             _onUpdateInventoryListEvent = null;
-
-            _onCastEffectEvent = null;
         }
 
         public bool CheckInventorySlotFull()
@@ -125,13 +91,39 @@ namespace CKT
         }
 
         /// <summary>
-        /// 왼손, 오른손, 인벤토리 내용물 갱신
+        /// 왼손, 오른손, 인벤토리 내용물 갱신, 왼손, 오른손 스킬 레벨 갱신
         /// </summary>
         public void InvokeUpdateList()
         {
+            //각 슬롯 내용물 확인
             _onUpdateLeftListEvent?.Invoke(_leftList);
             _onUpdateRightListEvent?.Invoke(_rightList);
             _onUpdateInventoryListEvent?.Invoke(_inventoryList);
+
+            //스킬 매니저 초기화 후 슬롯 효과 다시 적용
+            GameManager.Instance.LeftSkillManager.InitLevel();
+            GameManager.Instance.RightSkillManager.InitLevel();
+            ApplyList(_leftList, 1);
+            ApplyList(_rightList, 2);
+        }
+        void ApplyList(List<GameObject> list, int handID)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                //시전 시 효과
+                ICastEffectable cast = list[i].GetComponent<ICastEffectable>();
+                if (cast != null)
+                {
+                    cast.CastEffect(handID);
+                }
+
+                //적중 시 효과
+                IHitEffectable hit = list[i].GetComponent<IHitEffectable>();
+                if (hit != null)
+                {
+                    hit.HitEffect(handID);
+                }
+            }
         }
     }
 }

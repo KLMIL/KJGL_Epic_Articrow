@@ -4,6 +4,6 @@ namespace CKT
 {
     public interface ICastEffectable
     {
-        public void CastEffect(GameObject artifact);
+        public void CastEffect(int handID);
     }
 }

@@ -11,9 +11,16 @@ namespace CKT
         }
 
         #region [IHitEffectable]
-        public void HitEffect(GameObject hitBox)
+        public void HitEffect(int handID)
         {
-            Debug.Log("HitScatter");
+            if (handID == 1)
+            {
+                GameManager.Instance.LeftSkillManager.HitScatterLevelUp(1);
+            }
+            else if (handID == 2)
+            {
+                GameManager.Instance.RightSkillManager.HitScatterLevelUp(1);
+            } 
         }
         #endregion
     }

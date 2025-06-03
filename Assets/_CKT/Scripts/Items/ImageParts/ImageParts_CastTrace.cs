@@ -11,7 +11,7 @@ namespace CKT
         }
 
         #region [ICastEffectable]
-        public void CastEffect(GameObject artifact)
+        public void CastEffect(int handID)
         {
 
         }
