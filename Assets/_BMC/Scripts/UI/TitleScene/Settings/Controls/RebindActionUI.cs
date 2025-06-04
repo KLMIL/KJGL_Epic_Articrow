@@ -21,7 +21,6 @@ namespace BMC
         [Tooltip("리바인딩 대상이 되는 Binding ID, Guid.Parse(m_BindingId) 형태로 사용")]
         [SerializeField] InputBinding.DisplayStringOptions m_DisplayStringOptions;  // 바인딩 문자열 표시 옵션, ex) W, Spacebar, Gamepad Button
 
-        [Tooltip("액션 이름 표시할 텍스트 <- 바인딩 옆 라벨, ex) Move, Jump")]
         [SerializeField] TextMeshProUGUI _actionLabel; // 무슨 액션인지 표시하는 라벨 ex) Move 등
 
         [Tooltip("바인딩 문자열 표시할 텍스트(버튼의 텍스트), ex) W, Spacebar, Gamepad Button")]
@@ -48,7 +47,6 @@ namespace BMC
         static List<RebindActionUI> s_RebindActionUIs;
 
         [SerializeField] Button _btn;
-        [SerializeField] TextMeshProUGUI _btnText;
 
         #region 프로퍼티
         public InputActionReference actionReference
@@ -282,13 +280,12 @@ namespace BMC
             m_RebindOperation.Start();
         }
 
-
         void SaveActionBinding()
         {
             var currentBindings = _inputSystemAction.action.actionMap.SaveBindingOverridesAsJson();
             //PlayerPrefs.SetString(_inputSystemAction.action.name + _bindingId, currentBindings);
             PlayerPrefs.SetString("rebinds", currentBindings);
-            Debug.Log($"{transform.name} 저장: \n 키: {_inputSystemAction.action.name + _bindingId} \n 값: {currentBindings}");
+            //Debug.Log($"{transform.name} 저장: \n 키: {_inputSystemAction.action.name + _bindingId} \n 값: {currentBindings}");
             Managers.Input.ApplyKeyBind(currentBindings);
         }
 
@@ -300,10 +297,9 @@ namespace BMC
             {
                 actionReference.action.actionMap.LoadBindingOverridesFromJson(savedBindings);
                 Managers.Input.ApplyKeyBind(savedBindings);
-                Debug.Log($"{transform.name} 로드: \n 키: {_inputSystemAction.action.name + _bindingId} \n 값: {savedBindings}");
+                //Debug.Log($"{transform.name} 로드: \n 키: {_inputSystemAction.action.name + _bindingId} \n 값: {savedBindings}");
             }
         }
-
 
         protected void OnEnable()
         {

@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class UI_MainCanvas : MonoBehaviour
+public class UI_MainBtnCanvas : MonoBehaviour
 {
     Canvas _canvas;
 
     void Awake()
     {
         _canvas = GetComponent<Canvas>();
-        UI_TitleEventBus.OnToggleMainCanvas += ToggleMainCanvas;
+        UI_TitleEventBus.OnToggleMainBtnCanvas += ToggleMainCanvas;
     }
 
     void ToggleMainCanvas(bool isActive)

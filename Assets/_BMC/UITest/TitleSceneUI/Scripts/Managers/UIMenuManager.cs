@@ -256,7 +256,7 @@ namespace SlimUI.ModernMenu
             AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
             operation.allowSceneActivation = false;
 
-            UI_TitleEventBus.OnToggleMainCanvas?.Invoke(false);
+            UI_TitleEventBus.OnToggleMainBtnCanvas?.Invoke(false);
             loadingMenu.SetActive(true);
 
             while (!operation.isDone)
