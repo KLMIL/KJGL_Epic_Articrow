@@ -35,7 +35,7 @@ public class Hand_YSJ : MonoBehaviour
     {
         if (checkDirection) 
         {
-            transform.rotation = Quaternion.Euler(0, 0, checkDirection.Angle - 90);
+            transform.rotation = Quaternion.Euler(0, 0, checkDirection.Angle);
         }
     }
 }
