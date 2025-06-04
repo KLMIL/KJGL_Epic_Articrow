@@ -16,18 +16,6 @@ namespace YSJ
 
         void Awake()
         {
-            if (_instance == null)
-            {
-                _instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-
-            _followCamera = FindAnyObjectByType<CinemachineCamera>();
-            _cinemachineBasicMultiChannelPerlin = _followCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
-
             Init();
         }
 
@@ -41,16 +29,24 @@ namespace YSJ
 
             if (_shakeTimer > 0)
             {
-                _shakeTimer -= Time.deltaTime;
-                if (_shakeTimer <= 0)
-                {
-                    _cinemachineBasicMultiChannelPerlin.AmplitudeGain = Mathf.Lerp(_startIntensity, 0f, 1 - (_shakeTimer / _shakeTimerTotal));
-                }
+                Shake();
             }
         }
 
         public void Init()
         {
+            if (_instance == null)
+            {
+                _instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
+            _followCamera = FindAnyObjectByType<CinemachineCamera>();
+            _cinemachineBasicMultiChannelPerlin = _followCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
+
             // 목표 설정
             //CameraTarget cameraTarget = new CameraTarget();
             //cameraTarget.TrackingTarget = GameObject.FindGameObjectWithTag("Player").transform;
@@ -64,6 +60,15 @@ namespace YSJ
             _startIntensity = intensity;
             _shakeTimerTotal = time;
             _shakeTimer = time;
+        }
+
+        public void Shake()
+        {
+            _shakeTimer -= Time.deltaTime;
+            if (_shakeTimer <= 0)
+            {
+                _cinemachineBasicMultiChannelPerlin.AmplitudeGain = Mathf.Lerp(_startIntensity, 0f, 1 - (_shakeTimer / _shakeTimerTotal));
+            }
         }
     }
 }

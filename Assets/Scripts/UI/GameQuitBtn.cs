@@ -6,6 +6,11 @@ public class GameQuitBtn : MonoBehaviour
     Button _quitBtn;
     void Start()
     {
+        Init();
+    }
+
+    public void Init()
+    {
         _quitBtn = GetComponent<Button>();
         _quitBtn.onClick.AddListener(OnQuitGame);
     }
