@@ -1,4 +1,5 @@
 using UnityEngine;
+using YSJ;
 
 public class BreakableObject : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class BreakableObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<PlayerStatus>())
+        if (collision.GetComponent<PlayerController>())
         {
             animator.Play("Break");
         }
