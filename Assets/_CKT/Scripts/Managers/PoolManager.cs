@@ -42,7 +42,7 @@ namespace YSJ
         }
 
         //오브젝트 생성
-        public GameObject InstPrefab(string name, Transform parent, Vector3 position)
+        public GameObject InstPrefab(string name)
         {
             if (!_prefabDict.ContainsKey(name))
             {
@@ -65,9 +65,6 @@ namespace YSJ
                 select = GameObject.Instantiate(_prefabDict[name]);
                 _poolDict[name].Add(select);
             }
-
-            select.transform.parent = null;
-            select.transform.position = position;
 
             return select; //select 반환
         }

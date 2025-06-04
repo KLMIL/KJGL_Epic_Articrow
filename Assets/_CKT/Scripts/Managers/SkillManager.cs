@@ -52,7 +52,7 @@ namespace CKT
         }
         #endregion
 
-        #region [EquipedArtifact에서 호출할 함수]
+        #region [CastSkill]
         public void CastScatter(GameObject origin)
         {
             int scatterCount = _castScatterLevel * 2;
@@ -63,7 +63,8 @@ namespace CKT
                 float sign = ((k % 2 == 0) ? 1 : -1) * (Mathf.Floor(k / 2.0f) + 1);
                 Vector2 scatterDir = RotateVector(origin.transform.up, (sign * _scatterAngle)).normalized;
 
-                GameObject castScatterCopy = YSJ.Managers.Pool.InstPrefab(origin.name, null, origin.transform.position);
+                GameObject castScatterCopy = YSJ.Managers.Pool.InstPrefab(origin.name);
+                castScatterCopy.transform.position = origin.transform.position;
                 castScatterCopy.transform.up = scatterDir;
                 castScatterCopy.name = origin.name;
             }
@@ -76,7 +77,8 @@ namespace CKT
             for (int i = 0; i < _castAdditionalLevel; i++)
             {
                 yield return new WaitForSeconds(0.05f);
-                GameObject castAdditionalCopy = YSJ.Managers.Pool.InstPrefab(origin.name, null, startPos);
+                GameObject castAdditionalCopy = YSJ.Managers.Pool.InstPrefab(origin.name);
+                castAdditionalCopy.transform.position = startPos;
                 castAdditionalCopy.transform.up = origin.transform.up;
                 castAdditionalCopy.name = origin.name;
                 CastScatter(castAdditionalCopy);
@@ -89,10 +91,15 @@ namespace CKT
 
             for (int i = 0; i < _castExplosionLevel; i++)
             {
-                GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("Explosion", null, startPos);
+                GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("Explosion");
+                castExplosion.transform.position = startPos;
                 yield return new WaitForSeconds(0.05f);
             }
         }
+        #endregion
+
+        #region [HitSkill]
+        
         #endregion
 
         #region [Utils]
