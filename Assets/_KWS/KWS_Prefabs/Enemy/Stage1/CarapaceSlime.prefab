@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 2290517153993942967}
   - component: {fileID: 5407967122771582705}
   - component: {fileID: 8499125943605411335}
-  - component: {fileID: 1616726411315507655}
-  - component: {fileID: 8574079143603373116}
+  - component: {fileID: 7075056058336455284}
+  - component: {fileID: 6138305768212257025}
   - component: {fileID: 6248683875554354744}
+  - component: {fileID: 6889939306903329399}
   m_Layer: 0
   m_Name: CarapaceSlime
   m_TagString: Untagged
@@ -83,8 +84,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.16078432, g: 0.25490198, b: 0.2627451, a: 1}
+  m_Sprite: {fileID: -2135605920485991734, guid: 49df887836f4ce0438302e856fed8c01, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -111,45 +112,45 @@ MonoBehaviour:
   Player: {fileID: 0}
   Animation: {fileID: 0}
   Behaviours:
-  - stateName: 
+  - stateName: Idle
     interruptType: 0
     condition: {fileID: 11400000, guid: 7f1207a471265c543bd4e5922f32eecd, type: 2}
     action: {fileID: 11400000, guid: 9190c2cb1bc75334490992ca070d16a7, type: 2}
     animationName: Idle
     duration: 1.5
-    nextStateName: 
+    nextStateName: RandomMove
     elapsedTime: 0
-  - stateName: 
+  - stateName: ReceivedDamage
     interruptType: 1
     condition: {fileID: 11400000, guid: 960d4d5cbecefb64a91edc2270ebe061, type: 2}
     action: {fileID: 11400000, guid: 09e11716c12862b4ea611672a523ef07, type: 2}
     animationName: TakeDamage
     duration: 0.3
-    nextStateName: 
+    nextStateName: Idle
     elapsedTime: 0
-  - stateName: 
+  - stateName: RandomMove
     interruptType: 0
     condition: {fileID: 11400000, guid: 0d6b969333b85804682f2e40e594741b, type: 2}
     action: {fileID: 11400000, guid: b5378424ca11825429a54472046e9d4d, type: 2}
     animationName: Walk
     duration: 2
-    nextStateName: 
+    nextStateName: Idle
     elapsedTime: 0
-  - stateName: 
+  - stateName: Chase
     interruptType: 1
     condition: {fileID: 11400000, guid: 5d631a9ac75a18e43971f6bc999f3fe5, type: 2}
     action: {fileID: 11400000, guid: 6d69d3c84d9d98c41ac72bfc3d5cdaac, type: 2}
     animationName: Walk
     duration: 1
-    nextStateName: 
+    nextStateName: Idle
     elapsedTime: 0
-  - stateName: 
+  - stateName: Die
     interruptType: 2
     condition: {fileID: 11400000, guid: 2a425859d13f26549ba07012b3378421, type: 2}
     action: {fileID: 11400000, guid: cd45aa9ac2adf8441aa5864b6f4ee629, type: 2}
     animationName: Die
     duration: 1
-    nextStateName: 
+    nextStateName: Die
     elapsedTime: 0
   RushAttackTrigger: {fileID: 0}
   isDamaged: 0
@@ -194,8 +195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &1616726411315507655
-BoxCollider2D:
+--- !u!60 &7075056058336455284
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -232,15 +233,29 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.84375, y: 0.8125}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!58 &8574079143603373116
+  m_Points:
+    m_Paths:
+    - - {x: -0.2527709, y: 0.124409676}
+      - {x: -0.39077568, y: -0.27781463}
+      - {x: -0.2895522, y: -0.36348844}
+      - {x: 0.19191504, y: -0.3712635}
+      - {x: 0.39466333, y: -0.22697687}
+      - {x: 0.3208022, y: 0.06265092}
+      - {x: 0.10314989, y: 0.20429826}
+      - {x: 0.11495781, y: 0.31879425}
+      - {x: -0.014753342, y: 0.4047084}
+      - {x: 0.006495476, y: 0.19866157}
+      - {x: -0.16191244, y: 0.17524624}
+      - {x: -0.17409468, y: 0.39779568}
+      - {x: -0.27406883, y: 0.32320094}
+  m_UseDelaunayMesh: 0
+--- !u!58 &6138305768212257025
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -274,8 +289,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: 0.014299154, y: -0.108264744}
+  m_Radius: 0.19308972
 --- !u!50 &6248683875554354744
 Rigidbody2D:
   serializedVersion: 5
@@ -303,3 +318,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &6889939306903329399
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7109929917498522947}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c8c04d654aa40ad4a8c19415ed7c8d00, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
