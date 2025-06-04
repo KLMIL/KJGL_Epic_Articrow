@@ -2,8 +2,15 @@ using UnityEngine;
 
 public class EnemyAnimation : MonoBehaviour
 {
+    Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     public void Play(string animationName)
     {
-        //Debug.Log($"> {gameObject.name} 애니메이션 재생: {animationName}");
+        animator.SetTrigger(animationName);
     }
 }

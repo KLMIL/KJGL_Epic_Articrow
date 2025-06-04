@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 937202242649137197}
   - component: {fileID: 8724007646122723216}
   - component: {fileID: 4252226339735146189}
-  - component: {fileID: 5956855788176318021}
-  - component: {fileID: 8997758229710443328}
+  - component: {fileID: 8198060193585517885}
+  - component: {fileID: 1809723945502985464}
   - component: {fileID: 1880961654122264856}
   m_Layer: 0
   m_Name: SporeSlime
@@ -83,8 +83,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.6039216, g: 0.79215693, b: 0, a: 1}
+  m_Sprite: {fileID: -5403462550852187832, guid: 84130495b8cc51242b678f591ac7079e, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -218,8 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56c6d0d2206720d42aac1acd7beb8482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &5956855788176318021
-BoxCollider2D:
+--- !u!60 &8198060193585517885
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -256,15 +256,25 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.78125, y: 0.65625}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!58 &8997758229710443328
+  m_Points:
+    m_Paths:
+    - - {x: -0.07145059, y: 0.3050754}
+      - {x: -0.2173683, y: 0.20886493}
+      - {x: -0.27666545, y: 0.09280777}
+      - {x: -0.35882235, y: -0.17176175}
+      - {x: -0.3036604, y: -0.23200965}
+      - {x: 0.19803482, y: -0.28979468}
+      - {x: 0.36412275, y: -0.20886517}
+      - {x: 0.3005174, y: 0.08552313}
+      - {x: 0.11036718, y: 0.30427313}
+  m_UseDelaunayMesh: 0
+--- !u!58 &1809723945502985464
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -298,8 +308,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: 0, y: -0.030082464}
+  m_Radius: 0.20411372
 --- !u!50 &1880961654122264856
 Rigidbody2D:
   serializedVersion: 5

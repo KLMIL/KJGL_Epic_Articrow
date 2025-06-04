@@ -13,7 +13,7 @@ public class SettingsBtn : MonoBehaviour
 
     void OnClick()
     {
-        UI_TitleEventBus.OnToggleMainCanvas?.Invoke(false);
+        UI_TitleEventBus.OnToggleMainBtnCanvas?.Invoke(false);
         UI_TitleEventBus.OnToggleSettingsCanvas?.Invoke();
         UI_TitleEventBus.OnActivePanelCanvas?.Invoke(0);
         UI_TitleEventBus.OnActivePanelBtnHighlightLine?.Invoke(0);

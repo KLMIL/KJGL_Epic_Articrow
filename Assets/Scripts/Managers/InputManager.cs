@@ -1,10 +1,9 @@
-using BMC;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
+using static Define;
 
 public class InputManager
 {
@@ -14,22 +13,24 @@ public class InputManager
     #region 입력 변수
     public Vector2 MoveInput { get; private set; }
     public Vector2 MouseWorldPos { get; private set; }       // 마우스 입력(월드 좌표)
+    public bool IsPressInteract { get; private set; }        // 상호작용 입력 여부
     public bool IsPressLeftHandAttack { get; private set; }  // 왼손 공격 입력 여부
     public bool IsPressRightHandAttack { get; private set; } // 오른손 공격 입력 여부
     public bool IsPressRoll { get; private set; }            // 구르기 입력 여부
+    public bool IsPressInventory { get; private set; }       // 인벤토리 입력 여부
     #endregion
 
+    #region 액션
+    public Action<Vector2> OnRollAction;          // 구르기
+    public Action OnInteractAction;               // 상호작용(줍기)
+    public Action OnInventoryAction;              // 인벤토리
+    public Action OnLeftHandAction;               // 좌수
+    public Action OnRightHandAction;              // 우수
+    #endregion
 
     [Header("Rebind")]
     InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
     Dictionary<KeyAction, InputAction> _keyActionDict;
-
-    #region 액션
-    public Action<Vector2> OnRollAction;          // 구르기
-    public Action OnInteractAction;               // 상호작용(줍기) 
-    public Action OnLeftHandAction;               // 좌수
-    public Action OnRightHandAction;              // 우수
-    #endregion
 
     public void Init()
     {
@@ -38,9 +39,15 @@ public class InputManager
 
         _keyActionDict = new Dictionary<KeyAction, InputAction>
         {
+            { KeyAction.Move, _inputSystemActions.Player.Move},
+            { KeyAction.Interact, _inputSystemActions.Player.Interact },
+            { KeyAction.Inventroy, _inputSystemActions.Player.Inventory},
+            { KeyAction.LeftHand, _inputSystemActions.Player.LeftHand },
+            { KeyAction.RightHand, _inputSystemActions.Player.RightHand },
             { KeyAction.Roll, _inputSystemActions.Player.Roll },
         };
-        LoadBind();
+
+        LoadKeyBind();
         SetInGame();
     }
 
@@ -57,6 +64,9 @@ public class InputManager
         _inputSystemActions.Player.Interact.performed += OnInteract;
         _inputSystemActions.Player.Interact.canceled += OnInteract;
 
+        _inputSystemActions.Player.Inventory.performed += OnInventory;
+        _inputSystemActions.Player.Inventory.canceled += OnInventory;
+
         //_inputSystemActions.Player.MousePos.performed += OnMousePos;
         _inputSystemActions.Player.LeftHand.performed += OnLeftHand;
         _inputSystemActions.Player.LeftHand.canceled += OnLeftHand;
@@ -64,44 +74,10 @@ public class InputManager
         _inputSystemActions.Player.RightHand.canceled += OnRightHand;
     }
 
-    #region 리바인딩 관련
+    #region 키 리바인드 관련
 
-    // 리바인딩
-    public void Rebind(KeyAction keyAction, TextMeshProUGUI text)
-    {
-        // 1. 리바인드 전 비활성화 (기존 입력 액션 작동하지 않도록 막음)
-        _inputSystemActions.Player.Disable();
-
-        // 2. 리바인딩 작업을 구성하는 객체 구성
-        _rebindingOperation = _keyActionDict[keyAction].PerformInteractiveRebinding().OnComplete(operation => RebindCompleted(keyAction, text));
-
-        // 3. 입력 대기 상태로 진입 (입력 들어오면 OnComplete 콜백 실행됨)
-        _rebindingOperation.Start();
-    }
-
-    // 리바인딩이 완료되었을 때 실행할 메서드
-    void RebindCompleted(KeyAction keyAction, TextMeshProUGUI text)
-    {
-        // 1. 현재 진행중이던 리바인딩 작업 종료하고 리소스 해제
-        _rebindingOperation.Dispose();
-        string newBinding = _keyActionDict[keyAction].bindings[0].effectivePath;
-        Debug.Log("New Binding: " + newBinding);
-
-        // 2. 리바인딩 후 Player 다시 활성화
-        _inputSystemActions.Player.Enable();
-
-        // 3. 리바인딩된 키를 저장
-        var rebinds = _inputSystemActions.SaveBindingOverridesAsJson();
-        PlayerPrefs.SetString("rebinds", rebinds);
-        Debug.Log(rebinds + "\n 저장함");
-
-        // 4. 저장한 리바인드 불러와서 입력 시스템에 적용
-        LoadBind();
-        text.text = newBinding;
-    }
-
-    // 바인드 불러오기
-    public void LoadBind()
+    // 키바인드 불러오기
+    public void LoadKeyBind()
     {
         var rebinds = PlayerPrefs.GetString("rebinds");
         if (!string.IsNullOrEmpty(rebinds))
@@ -111,12 +87,17 @@ public class InputManager
         }
     }
 
+    public void ApplyKeyBind(string savedBindings)
+    {
+        _inputSystemActions.LoadBindingOverridesFromJson(savedBindings);
+        Debug.Log("적용하기");
+    }
     #endregion
 
     void OnMove(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>().normalized;
-        //Debug.Log(MoveInput);
+        //Debug.Log("MoveInput: " + MoveInput);
     }
 
     void OnMousePos(InputAction.CallbackContext context)
@@ -132,12 +113,14 @@ public class InputManager
         if (context.performed)
         {
             OnRollAction?.Invoke(MoveInput);
+            Debug.Log("구르기");
         }
         //Debug.Log("IsPressDash: " + IsPressDash);
     }
 
     void OnInteract(InputAction.CallbackContext context)
     {
+        IsPressInteract = context.ReadValueAsButton();
         if (context.performed)
         {
             OnInteractAction?.Invoke();
@@ -145,30 +128,40 @@ public class InputManager
         }
     }
 
-    void OnLeftHand(InputAction.CallbackContext context)
+    void OnInventory(InputAction.CallbackContext context)
     {
+        IsPressInventory = context.ReadValueAsButton();
         if (context.performed)
         {
-            Debug.Log("좌수");
+            Debug.Log("인벤토리");
         }
+    }
+
+    void OnLeftHand(InputAction.CallbackContext context)
+    {
         IsPressLeftHandAttack = context.ReadValueAsButton();
+        if (context.performed)
+        {
+            //Debug.Log("좌수");
+        }
     }
 
     void OnRightHand(InputAction.CallbackContext context)
     {
+        IsPressRightHandAttack = context.ReadValueAsButton();
         if (context.performed)
         {
-            Debug.Log("우수");
+            //Debug.Log("우수");
         }
-        IsPressRightHandAttack = context.ReadValueAsButton();
     }
 
     public void ClearAction()
     {
-        OnLeftHandAction = null;
-        OnRightHandAction = null;
         OnRollAction = null;
         OnInteractAction = null;
+        OnInventoryAction = null;
+        OnLeftHandAction = null;
+        OnRightHandAction = null;
     }
 
     public void Clear()

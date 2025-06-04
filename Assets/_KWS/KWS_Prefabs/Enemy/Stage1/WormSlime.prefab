@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 6757336873928180719}
   - component: {fileID: 867253434297699822}
   - component: {fileID: 8566294338215011395}
-  - component: {fileID: 4224398241014864726}
-  - component: {fileID: 8888002566891108586}
+  - component: {fileID: 8111610383855847771}
+  - component: {fileID: 6792046540482657379}
   - component: {fileID: 5244815503509521101}
+  - component: {fileID: 6786290199110939000}
   m_Layer: 0
   m_Name: WormSlime
   m_TagString: Untagged
@@ -84,8 +85,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.23137257, g: 0.70980394, b: 0.63529414, a: 1}
+  m_Sprite: {fileID: -6363429443671316131, guid: 96bc394c2fd60434e94d59d76351478a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -227,8 +228,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTag: Player
   attackCooldown: 0
---- !u!61 &4224398241014864726
-BoxCollider2D:
+--- !u!60 &8111610383855847771
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -265,15 +266,30 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.96875, y: 0.90625}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!58 &8888002566891108586
+  m_Points:
+    m_Paths:
+    - - {x: -0.27830994, y: 0.42142457}
+      - {x: -0.36210173, y: 0.3000522}
+      - {x: -0.37801483, y: 0.15148835}
+      - {x: -0.27731606, y: 0.063723095}
+      - {x: -0.31228667, y: -0.16872166}
+      - {x: -0.19136484, y: -0.3172658}
+      - {x: 0.38066673, y: -0.26292217}
+      - {x: 0.4526745, y: -0.04237023}
+      - {x: 0.23334268, y: 0.05334948}
+      - {x: 0.12451431, y: 0.05434501}
+      - {x: 0.011629298, y: -0.05176592}
+      - {x: 0.076797396, y: 0.08175267}
+      - {x: 0.0761013, y: 0.30237973}
+      - {x: -0.058635145, y: 0.4304818}
+  m_UseDelaunayMesh: 0
+--- !u!58 &6792046540482657379
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -307,8 +323,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: 0, y: -0.054343715}
+  m_Radius: 0.23077117
 --- !u!50 &5244815503509521101
 Rigidbody2D:
   serializedVersion: 5
@@ -336,6 +352,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &6786290199110939000
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280942326239313078}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f39885c443668434da8f1c3a7e283f7a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2000667354312455480
 GameObject:
   m_ObjectHideFlags: 0
