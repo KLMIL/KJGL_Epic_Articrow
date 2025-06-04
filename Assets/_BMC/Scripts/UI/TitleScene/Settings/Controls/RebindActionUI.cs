@@ -223,16 +223,16 @@ namespace BMC
 
             m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
                 .WithCancelingThrough("<Keyboard>/escape")      // 키보드의 ESC 키로 취소 가능
-                .OnCancel( 
+                .OnCancel(
                     // 리바인딩 도중에 취소된 경우 실행되는 콜백
                     operation =>
                     {
-                        m_RebindStopEvent?.Invoke(this, operation);     
+                        m_RebindStopEvent?.Invoke(this, operation);
                         UI_TitleEventBus.OnActiveKeyConfirmationCanvas?.Invoke(false); // 키 확인 캔버스 닫기
                         UpdateBindingDisplay();
                         CleanUp();
                     })
-                .OnComplete( 
+                .OnComplete(
                     // 리바인딩이 완료되어 호출되는 콜백
                     operation =>
                     {
@@ -240,6 +240,15 @@ namespace BMC
                         UI_TitleEventBus.OnActiveKeyConfirmationCanvas?.Invoke(false); // 키 확인 캔버스 닫기
                         UpdateBindingDisplay();
                         CleanUp();
+
+                        // 중복 키 방지
+                        if (CheckDuplicateBindings(action, bindingIndex, allCompositeParts))
+                        {
+                            action.RemoveBindingOverride(bindingIndex);
+                            CleanUp();
+                            PerformInteractiveRebind(action, bindingIndex, allCompositeParts);
+                            return;
+                        }
 
                         // Composite 파트 처리
                         if (allCompositeParts)
@@ -278,6 +287,82 @@ namespace BMC
             m_RebindStartEvent?.Invoke(this, m_RebindOperation);
 
             m_RebindOperation.Start();
+        }
+
+        // 중복 바인딩 확인 여부
+        // TODO Composite의 한 부분이 중복되는지 확인하는 로직을 추가해야 함
+        bool CheckDuplicateBindings(InputAction action, int bindingIndex, bool allCompositeParts = false)
+        {
+            InputBinding newBinding = action.bindings[bindingIndex];
+            foreach (InputBinding binding in action.actionMap.bindings)
+            {
+                if (binding.action == newBinding.action)
+                {
+                    continue;
+                }
+
+                if (binding.effectivePath == newBinding.effectivePath)
+                {
+                    Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+                    return true;
+                }
+            }
+
+            // Composite의 일부인 경우, 파트들끼리 중복되는지 확인
+            // ex) Move가 WASD가 매핑되어 있을 때, W를 A로 바꾸어 AASD가 되면 중복으로 간주하는 부분
+            int compositeStartIndex = -1;
+            if (newBinding.isPartOfComposite)
+            {
+                // Debug.Log("Composite의 일부분");
+                // Composite 시작 인덱스 찾기
+                for (int i = bindingIndex - 1; i >= 0; i--)
+                {
+                    if (action.bindings[i].isComposite)
+                    {
+                        compositeStartIndex = i;
+                        break;
+                    }
+                }
+
+                if (compositeStartIndex != -1)
+                {
+                    // 같은 Composite 그룹 내 파트들과만 비교
+                    for (int i = compositeStartIndex + 1; i < action.bindings.Count; i++)
+                    {
+                        if (!action.bindings[i].isPartOfComposite)
+                            break;
+
+                        if (i == bindingIndex)
+                            continue;
+
+                        string otherPath = action.bindings[i].overridePath ?? action.bindings[i].path;
+                        string newPath = action.bindings[bindingIndex].overridePath ?? action.bindings[bindingIndex].path;
+
+                        if (otherPath == newPath)
+                        {
+                            Debug.Log($"Composite 내부 중복 발견: {newPath} (index {i})");
+                            return true;
+                        }
+                    }
+                }
+
+            }
+
+            // Composite 바인딩 자체의 경우, 다른 키와 중복되는지 확인
+            // ex) Move가 WASD로 매핑되고 Interact가 E일 때, Move를 EASD로 바꾸면 중복으로 간주
+            if (allCompositeParts)
+            {
+                // 인덱스 0번은 Composite 전체이므로 1부터 시작
+                for (int i = 1; i < bindingIndex; i++)
+                {
+                    if (action.bindings[i].effectivePath == newBinding.effectivePath)
+                    {
+                        Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         void SaveActionBinding()
@@ -399,7 +484,7 @@ namespace BMC
         }
         #endregion
 
-        #region 주석
+        #region 주석 처리
         //public TextMeshProUGUI actionLabel
         //{
         //    get => _actionLabel;
