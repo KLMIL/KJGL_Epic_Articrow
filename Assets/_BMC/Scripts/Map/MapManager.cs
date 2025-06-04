@@ -72,6 +72,7 @@ namespace BMC
                 Room newRoom = CreateRoom(roomType);
                 if (newRoom != null)
                 {
+                    newRoom.transform.SetParent(transform);
                     newRoom.Init(row, col);
                     Vector2 spawnPos = new Vector2(col * _roomOffset.y, -row * _roomOffset.x);
                     newRoom.transform.position = spawnPos;
@@ -85,7 +86,7 @@ namespace BMC
         // 방 생성
         public Room CreateRoom(RoomType roomType)
         {
-            Room newRoomPrefab = Managers.Resource.Load<Room>($"Prefabs/RoomTemplate/{roomType}");
+            Room newRoomPrefab = YSJ.Managers.Resource.Load<Room>($"Prefabs/RoomTemplate/{roomType}");
             return (newRoomPrefab != null) ? Instantiate(newRoomPrefab) : null;
         }
 

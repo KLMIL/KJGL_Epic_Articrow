@@ -38,7 +38,8 @@ namespace BMC
             Transform playerTransform = FindAnyObjectByType<DummyPlayerController>().transform;
             currentSeletedDoor.TransferToNextRoom(playerTransform);
             MapManager.Instance.CurrentDoor = null;
-            UI_EventBus.OnToggleChoiceRoomCanvas?.Invoke(); // 창 닫기
+            UI_InGameEventBus.OnToggleChoiceRoomCanvas?.Invoke(); // 창 닫기
+            Time.timeScale = 1f;
         }
     }
 }

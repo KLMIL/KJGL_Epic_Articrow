@@ -45,7 +45,7 @@ namespace BMC
             foreach (var door in _doors)
             {
                 _doorDict.Add(door.DoorPosition, door);
-                Debug.Log(door.name);
+                //Debug.Log(door.name);
             }
         }
 

@@ -9,7 +9,7 @@ namespace BMC
         void Awake()
         {
             _canvas = GetComponent<Canvas>();
-            UI_EventBus.OnToggleChoiceRoomCanvas += ToggleCanvas;
+            UI_InGameEventBus.OnToggleChoiceRoomCanvas += ToggleCanvas;
         }
 
         void Start()
@@ -25,7 +25,7 @@ namespace BMC
 
         void OnDestroy()
         {
-            UI_EventBus.OnToggleChoiceRoomCanvas -= ToggleCanvas;
+            UI_InGameEventBus.OnToggleChoiceRoomCanvas -= ToggleCanvas;
         }
     }
 }

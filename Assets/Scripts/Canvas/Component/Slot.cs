@@ -1,5 +1,8 @@
 using UnityEngine;
 
-public class Slot : MonoBehaviour
+namespace YSJ
 {
+    public class Slot : MonoBehaviour
+    {
+    }
 }

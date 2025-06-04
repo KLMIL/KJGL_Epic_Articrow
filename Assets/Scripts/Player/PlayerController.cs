@@ -1,42 +1,32 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+namespace YSJ
 {
-    MagicHand _magicHand;
-    PlayerMove _playerMove;
-
-    void Awake()
+    public class PlayerController : MonoBehaviour
     {
-        _magicHand = GetComponent<MagicHand>();
-        _playerMove = GetComponent<PlayerMove>();
+        PlayerMove _playerMove;
 
-        //_playerStatus.A_Dead += ShowRetry;
-    }
+        void Awake()
+        {
+            _playerMove = GetComponent<PlayerMove>();
 
-
-    void OnEnable()
-    {
-        //GameManager.Instance.player = this;
-    }
+            //_playerStatus.A_Dead += ShowRetry;
+        }
 
 
-    void Update()
-    {
-        //UIManager.Instance.inventoryStat_MaxHealth.TextUpdate(_playerStatus.MaxHealth);
-        //UIManager.Instance.inventoryStat_MaxMana.TextUpdate(_playerStatus.MaxMana);
-        //UIManager.Instance.inventoryStat_ManaRecovery.TextUpdate(_playerStatus.ManaRecoverySpeed);
-        //UIManager.Instance.inventoryStat_MoveSpeed.TextUpdate(_playerStatus.MoveSpeed);
-        //UIManager.Instance.inventoryStat_L_CoolTime.TextUpdate(_magicHand.L_CoolTime);
-        //UIManager.Instance.InventoryStat_R_CoolTime.TextUpdate(_magicHand.R_CoolTime);
-    }
+        void OnEnable()
+        {
+            //GameManager.Instance.player = this;
+        }
 
-    void FixedUpdate()
-    {
-        _playerMove.Move();
-    }
+        void FixedUpdate()
+        {
+            _playerMove.Move();
+        }
 
-    void ShowRetry() 
-    {
-        //UIManager.Instance.CanvasRestart.GetComponent<Canvas>().enabled = true;
+        void ShowRetry()
+        {
+            //UIManager.Instance.CanvasRestart.GetComponent<Canvas>().enabled = true;
+        }
     }
 }

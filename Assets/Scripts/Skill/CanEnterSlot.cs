@@ -1,24 +1,26 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class CanEnterSlot : MonoBehaviour
+namespace YSJ
 {
-    GameObject isSelect;
-    public virtual void Init() 
+    public abstract class CanEnterSlot : MonoBehaviour
     {
-        isSelect = Instantiate(Resources.Load<GameObject>("Canvas/SelectBox"));
-        isSelect.transform.SetParent(transform, false);
-        isSelect.transform.SetSiblingIndex(0);
-        isSelect.SetActive(false);
-    }
+        GameObject isSelect;
+        public virtual void Init()
+        {
+            isSelect = Instantiate(Resources.Load<GameObject>("Canvas/SelectBox"));
+            isSelect.transform.SetParent(transform, false);
+            isSelect.transform.SetSiblingIndex(0);
+            isSelect.SetActive(false);
+        }
 
-    public void EnterSlot()
-    {
-        isSelect.SetActive(true);
-    }
+        public void EnterSlot()
+        {
+            isSelect.SetActive(true);
+        }
 
-    public void ExitSlot()
-    {
-        isSelect.SetActive(false);
+        public void ExitSlot()
+        {
+            isSelect.SetActive(false);
+        }
     }
 }
