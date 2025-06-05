@@ -63,19 +63,13 @@ namespace CKT
             bullet.transform.up = mouseDir;
             //이름 설정 (복사본 만들 때 이름을 받아서 생성하는 용도)
             bullet.name = prefabName;
-
-            //HitSkill
-            Projectile projectile = bullet.GetComponent<Projectile>();
-            projectile.SkillManager = _skillManager;
+            bullet.GetComponent<Projectile>().SkillManager = _skillManager;
 
             //CastSkill
-            _skillManager.InvokeCastSkillEvent(bullet);
-            IEnumerator castSkillIEnumerator = _skillManager.InvokeCastSkillIEnumerator(bullet);
-            if (castSkillIEnumerator != null)
+            for (int i = 0; i < _skillManager.CastSkillList.Count; i++)
             {
-                StartCoroutine(castSkillIEnumerator);
+                StartCoroutine(_skillManager.CastSkillList[i](bullet));
             }
-            
 
             yield return new WaitForSeconds(0.5f);
             _attackCoroutine = null;

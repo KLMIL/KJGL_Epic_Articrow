@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CKT
@@ -12,52 +13,18 @@ namespace CKT
         int _castScatterLevel;
         int _castAdditionalLevel;
         int _castExplosionLevel;
+        int _castDamageAreaLevel;
 
         int _hitScatterLevel;
         int _hitExplosionLevel;
+        int _hitDamageAreaLevel;
 
-        #region [Action, Func]
-        event Action<GameObject> _onCastSkillEvent;
-        void SubCastSkillEvent(Action<GameObject> newSub)
-        {
-            _onCastSkillEvent += newSub;
-        }
-        public void InvokeCastSkillEvent(GameObject obj)
-        {
-            _onCastSkillEvent?.Invoke(obj);
-        }
+        #region [Passive, Cast, Hit]
+        public List<Func<GameObject, IEnumerator>> CastSkillList => _castSkillList;
+        List<Func<GameObject, IEnumerator>> _castSkillList = new List<Func<GameObject, IEnumerator>>();
 
-        event Func<GameObject, IEnumerator> _getCastSkillIEnumerator;
-        void SubCastSkillIEnumerator(Func<GameObject, IEnumerator> newSub)
-        {
-            _getCastSkillIEnumerator += newSub;
-        }
-        public IEnumerator InvokeCastSkillIEnumerator(GameObject obj)
-        {
-            return _getCastSkillIEnumerator?.Invoke(obj);
-        }
-
-        //===========================================================
-
-        event Action<GameObject> _onHitSkillEvent;
-        void SubHitSkillEvent(Action<GameObject> newSub)
-        {
-            _onHitSkillEvent += newSub;
-        }
-        public void InvokeHitSkillEvent(GameObject obj)
-        {
-            _onHitSkillEvent?.Invoke(obj);
-        }
-
-        event Func<GameObject, IEnumerator> _getHitSkillIEnumerator;
-        void SubHitSkillIEnumerator(Func<GameObject, IEnumerator> newSub)
-        {
-            _getHitSkillIEnumerator += newSub;
-        }
-        public IEnumerator InvokeHitSkillIEnumerator(GameObject obj)
-        {
-            return _getHitSkillIEnumerator?.Invoke(obj);
-        }
+        public List<Func<GameObject, IEnumerator>> HitSkillList => _hitSkillList;
+        List<Func<GameObject, IEnumerator>> _hitSkillList = new List<Func<GameObject, IEnumerator>>();
         #endregion
 
         #region [Inventory에서 호출할 함수]
@@ -68,24 +35,24 @@ namespace CKT
             _castScatterLevel = 0;
             _castAdditionalLevel = 0;
             _castExplosionLevel = 0;
+            _castDamageAreaLevel = 0;
 
             _hitScatterLevel = 0;
             _hitExplosionLevel = 0;
+            _hitDamageAreaLevel = 0;
 
             //CastSkill
-            _onCastSkillEvent = null;
-            SubCastSkillEvent((obj) => CastScatter(obj));
-
-            _getCastSkillIEnumerator = null;
-            SubCastSkillIEnumerator((obj) => CastAdditionalCoroutine(obj));
-            SubCastSkillIEnumerator((obj) => CastExplosionCoroutine(obj));
-
+            _castSkillList.Clear();
+            _castSkillList.Add((obj) => CastScatterCoroutine(obj));
+            _castSkillList.Add((obj) => CastAdditionalCoroutine(obj));
+            _castSkillList.Add((obj) => CastExplosionCoroutine(obj));
+            _castSkillList.Add((obj) => CastDamageAreaCoroutine(obj));
+            
             //HitSkill
-            _onHitSkillEvent = null;
-            SubHitSkillEvent((obj) => HitScatter(obj));
-
-            _getHitSkillIEnumerator = null;
-            SubHitSkillIEnumerator((obj) => HitExplosionCoroutine(obj));
+            _hitSkillList.Clear();
+            _hitSkillList.Add((obj) => HitScatter(obj));
+            _hitSkillList.Add((obj) => HitExplosionCoroutine(obj));
+            _hitSkillList.Add((obj) => HitDamageAreaCoroutine(obj));
         }
         #endregion
 
@@ -105,7 +72,12 @@ namespace CKT
             _castExplosionLevel += amount;
         }
 
-        
+        public void CastDamageAreaLevelUp(int amount)
+        {
+            _castDamageAreaLevel += amount;
+        }
+
+
 
         public void HitScatterLevelUp(int amount)
         {
@@ -116,24 +88,36 @@ namespace CKT
         {
             _hitExplosionLevel += amount;
         }
+
+        public void HitDamageAreaLevelUp(int amount)
+        {
+            _hitDamageAreaLevel += amount;
+        }
         #endregion
 
         #region [CastSkill]
-        void CastScatter(GameObject origin)
+        void Scatter(GameObject origin, string prefabName, int level, int startIndex)
         {
-            int scatterCount = _castScatterLevel * 2;
+            int scatterCount = (level == 0) ? 0 : (level * 2) + 1;
 
-            for (int k = 0; k < scatterCount; k++)
+            for (int k = startIndex; k < scatterCount; k++)
             {
                 //분산 각도
-                float sign = ((k % 2 == 0) ? 1 : -1) * (Mathf.Floor(k / 2.0f) + 1);
+                float sign = ((k % 2 == 0) ? 1 : -1) * (Mathf.Ceil(k / 2.0f));
                 Vector2 scatterDir = RotateVector(origin.transform.up, (sign * _scatterAngle)).normalized;
 
-                GameObject castScatterCopy = YSJ.Managers.Pool.InstPrefab(origin.name);
+                GameObject castScatterCopy = YSJ.Managers.Pool.InstPrefab(prefabName);
                 castScatterCopy.transform.position = origin.transform.position;
                 castScatterCopy.transform.up = scatterDir;
-                castScatterCopy.name = origin.name;
+                castScatterCopy.name = prefabName;
+                castScatterCopy.GetComponent<Projectile>().SkillManager = this;
             }
+        }
+
+        IEnumerator CastScatterCoroutine(GameObject origin)
+        {
+            Scatter(origin, origin.name, _castScatterLevel, 1);
+            yield return null;
         }
 
         IEnumerator CastAdditionalCoroutine(GameObject origin)
@@ -147,7 +131,9 @@ namespace CKT
                 castAdditionalCopy.transform.position = startPos;
                 castAdditionalCopy.transform.up = origin.transform.up;
                 castAdditionalCopy.name = origin.name;
-                CastScatter(castAdditionalCopy);
+                castAdditionalCopy.GetComponent<Projectile>().SkillManager = this;
+
+                Scatter(castAdditionalCopy, origin.name, _castScatterLevel, 1);
             }
         }
 
@@ -162,12 +148,25 @@ namespace CKT
                 yield return new WaitForSeconds(0.05f);
             }
         }
+
+        IEnumerator CastDamageAreaCoroutine(GameObject origin)
+        {
+            Vector3 startPos = origin.transform.position;
+
+            for (int i = 0; i < _castDamageAreaLevel; i++)
+            {
+                GameObject castDamageArea = YSJ.Managers.Pool.InstPrefab("DamageArea");
+                castDamageArea.transform.position = startPos;
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
         #endregion
 
         #region [HitSkill]
-        void HitScatter(GameObject origin)
+        IEnumerator HitScatter(GameObject origin)
         {
-            int scatterCount = (_hitScatterLevel == 0) ? 0 : ((_hitScatterLevel * 2) + 1);
+            Scatter(origin, "HitScatter", _hitScatterLevel, 0);
+            /*int scatterCount = (_hitScatterLevel == 0) ? 0 : ((_hitScatterLevel * 2) + 1);
 
             for (int k = 0; k < scatterCount; k++)
             {
@@ -178,7 +177,9 @@ namespace CKT
                 GameObject hitScatterCopy = YSJ.Managers.Pool.InstPrefab("HitScatter");
                 hitScatterCopy.transform.position = origin.transform.position;
                 hitScatterCopy.transform.up = scatterDir;
-            }
+            }*/
+
+            yield return null;
         }
 
         IEnumerator HitExplosionCoroutine(GameObject origin)
@@ -189,6 +190,18 @@ namespace CKT
             {
                 GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("Explosion");
                 castExplosion.transform.position = startPos;
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
+
+        IEnumerator HitDamageAreaCoroutine(GameObject origin)
+        {
+            Vector3 startPos = origin.transform.position;
+
+            for (int i = 0; i < _hitDamageAreaLevel; i++)
+            {
+                GameObject hitDamageArea = YSJ.Managers.Pool.InstPrefab("DamageArea");
+                hitDamageArea.transform.position = startPos;
                 yield return new WaitForSeconds(0.05f);
             }
         }

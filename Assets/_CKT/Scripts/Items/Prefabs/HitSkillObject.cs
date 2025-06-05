@@ -9,11 +9,9 @@ namespace CKT
         {
             if (skillManager != null)
             {
-                skillManager.InvokeHitSkillEvent(gameObject);
-                IEnumerator iEnumerator = skillManager.InvokeHitSkillIEnumerator(gameObject);
-                if (iEnumerator != null)
+                for (int i = 0; i < skillManager.HitSkillList.Count; i++)
                 {
-                    StartCoroutine(iEnumerator);
+                    StartCoroutine(skillManager.HitSkillList[i](this.gameObject));
                 }
             }
 
