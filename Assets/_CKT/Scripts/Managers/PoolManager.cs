@@ -66,6 +66,7 @@ namespace YSJ
             if (!select) //못 찾으면? 새롭게 생성하고 >> select 변수에 할당
             {
                 select = GameObject.Instantiate(_prefabDict[name]);
+                select.transform.SetParent(Managers.Instance.transform);
                 _poolDict[name].Add(select);
             }
 
