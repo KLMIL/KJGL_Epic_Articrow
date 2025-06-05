@@ -1,11 +1,17 @@
 using System;
 using UnityEngine;
 
-namespace BMC
+/// <summary>
+/// InGameScene에서 사용할 이벤트 버스
+/// </summary>
+public class UI_InGameEventBus : MonoBehaviour
 {
-    public class UI_InGameEventBus : MonoBehaviour
+    public static Action OnToggleChoiceRoomCanvas;
+    public static Action<float> OnHpSliderValueUpdate;
+
+    public static void Clear()
     {
-        public static Action OnToggleChoiceRoomCanvas;
-        public static Action<float> OnHpSliderValueUpdate;
+        OnToggleChoiceRoomCanvas = null;
+        OnHpSliderValueUpdate = null;
     }
 }

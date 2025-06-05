@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class GameQuitBtn : MonoBehaviour
 {
-    Button _quitBtn;
+    Button _btn;
     void Start()
     {
         Init();
@@ -11,11 +11,11 @@ public class GameQuitBtn : MonoBehaviour
 
     public void Init()
     {
-        _quitBtn = GetComponent<Button>();
-        _quitBtn.onClick.AddListener(OnQuitGame);
+        _btn = GetComponent<Button>();
+        _btn.onClick.AddListener(OnClicked);
     }
 
-    void OnQuitGame()
+    void OnClicked()
     {
         // 빌드할 때는 Editor 부분 지우기
 #if UNITY_EDITOR

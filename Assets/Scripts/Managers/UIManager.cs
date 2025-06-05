@@ -8,7 +8,7 @@ namespace YSJ
         event Action<GameObject> OnAddInventorySlotEvent;
         public void SubAddInventorySlot(Action<GameObject> newSub)
         {
-            OnAddInventorySlotEvent += newSub;
+            OnAddInventorySlotEvent = newSub;
         }
         public void InvokeAddInventorySlot(GameObject item)
         {

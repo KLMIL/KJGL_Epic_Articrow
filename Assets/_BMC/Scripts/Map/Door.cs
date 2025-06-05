@@ -115,6 +115,7 @@ namespace BMC
             _currentRoom.SelectedDoor = null;
         }
 
+        // 다음 방의 행,열 반환
         public Tuple<int, int> GetNextRoomIndex()
         {
             // 다음 방 위치 계산

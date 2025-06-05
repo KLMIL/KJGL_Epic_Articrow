@@ -13,9 +13,11 @@ public class RestartBtn : MonoBehaviour
     public void Init()
     {
         _btn = GetComponent<Button>();
-        _btn.onClick.AddListener(() =>
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        });
+        _btn.onClick.AddListener(OnClicked);
+    }
+
+    void OnClicked()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
