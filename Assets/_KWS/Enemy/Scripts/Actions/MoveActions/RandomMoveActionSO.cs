@@ -1,31 +1,44 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RandomMoveAction", menuName = "Enemy/Action/Move/Random Move")]
+/*
+ * 상, 하, 좌, 우 랜덤으로 이동. 벽에 닿으면 다른 방향 선택
+ */
+[CreateAssetMenu(
+    fileName = "RandomMoveAction", 
+    menuName = "Enemy/Action/Move/Random Move"
+)]
 public class RandomMoveActionSO : EnemyActionSO
 {
-    public Rect moveBounds = new Rect(-8, -4, 16,  8);
-
-    private Vector3 _randomDirection = Vector3.zero;
-    private float _changeDirectionCooldown = 0f;
+    public float minMoveCooldown = 1f;
+    public float maxMoveCooldown = 3f;
+    public float wallCheckDistance = 0.5f;
 
     public override void Act(EnemyController controller)
     {
-        if (_changeDirectionCooldown <= 0f)
+        // 쿨타임이 지났다면 새로운 방향과 지속시간 생성
+        if (controller.randomMoveChangeCooldown <= 0f)
         {
-            _randomDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized;
-            _changeDirectionCooldown = Random.Range(1f, 3f);
+            controller.randomMoveDirection = new Vector3(
+                    Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f
+                ).normalized;
+            controller.randomMoveChangeCooldown = Random.Range(minMoveCooldown, maxMoveCooldown);
         }
 
-        controller.transform.Translate(_randomDirection * controller.Status.moveSpeed * Time.deltaTime);
+        // 이동
+        if (!Physics.Raycast(controller.transform.position, controller.randomMoveDirection, wallCheckDistance))
+        {
+            controller.transform.Translate(
+                controller.randomMoveDirection * controller.Status.moveSpeed * Time.deltaTime
+            );  
+        }
+        else
+        {
+            // 벽에 막혀 있으면 즉시 새 방향 선택
+            controller.randomMoveChangeCooldown = 0f;
+        }
 
-        Vector3 pos = controller.transform.position;
-        pos.x = Mathf.Clamp(pos.x, moveBounds.xMin, moveBounds.xMax);
-        pos.y = Mathf.Clamp(pos.y, moveBounds.yMin, moveBounds.yMax);
-        pos.z = 0;
-        controller.transform.position = pos;
 
-
-        //controller.Animation.Play("RandomMove");
-        _changeDirectionCooldown -= Time.deltaTime;
+        // 지속시간 갱신
+        controller.randomMoveChangeCooldown -= Time.deltaTime;
     }
 }

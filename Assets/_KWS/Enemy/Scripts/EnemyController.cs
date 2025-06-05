@@ -28,6 +28,9 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public float projectileIntervalTimer;
     [HideInInspector] public bool isSpawnedMite;
 
+    [HideInInspector] public Vector3 randomMoveDirection = Vector3.zero;
+    [HideInInspector] public float randomMoveChangeCooldown = 0f;
+
 
     #region Initialization
     private void Awake()
