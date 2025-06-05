@@ -5,20 +5,24 @@ using YSJ;
 
 public class EnemyController : MonoBehaviour
 {
+    // 스텟 정보
     [Header("Status")]
     [SerializeField] EnemyStatusSO _statusOrigin;
     [HideInInspector] public EnemyStatusSO Status;
 
-    [Space(10)]
+    // 해당 유닛이 수행할 행동 배열
     [Header("Behaviour List")]
     public List<EnemyBehaviourUnit> Behaviours = new();
-    [Space(10)]
+
+    // 공격 쿨타임 딕셔너리
+    [HideInInspector]
+    public Dictionary<string, float> lastAttackTimes = new Dictionary<string, float>();
 
     [HideInInspector] public Transform Player;
     EnemyAnimation Animation;
 
-    public GameObject RushAttackTrigger;
 
+    public GameObject RushAttackTrigger;
 
     [HideInInspector] public string CurrentStateName = "Idle";
     [HideInInspector] public string CurrentAnimation = "";
@@ -34,11 +38,26 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public bool isContactDamageActive = false;
     [HideInInspector] public float currentActionDamageMultiply = 1.0f;
 
+    [HideInInspector] public bool isRushing = false;
+    [HideInInspector] public Vector3 rushDirection;
+
 
     #region Initialization
     private void Awake()
     {
         Status = Instantiate(_statusOrigin);
+
+        foreach (var behaviour in Behaviours)
+        {
+            if (behaviour.action is MeleeAttackActionSO)
+            {
+                string key = behaviour.stateName;
+                if (!lastAttackTimes.ContainsKey(key))
+                {
+                    lastAttackTimes[key] = -Mathf.Infinity;
+                }
+            }
+        }
     }
 
     private void Start()
@@ -219,12 +238,17 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Attack Check
-    public void DealDamageToPlayer(float damage)
+    public void DealDamageToPlayer(float damage, bool forceToNextState = false)
     {
         IDamagable target = Player.GetComponent<IDamagable>();
         if (target != null)
         {
             target.TakeDamage(damage);
+
+            if (forceToNextState)
+            {
+                ForceToNextState();
+            }
         }
     }
     #endregion
