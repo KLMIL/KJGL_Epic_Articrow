@@ -31,6 +31,9 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public Vector3 randomMoveDirection = Vector3.zero;
     [HideInInspector] public float randomMoveChangeCooldown = 0f;
 
+    [HideInInspector] public bool isContactDamageActive = false;
+    [HideInInspector] public float currentActionDamageMultiply = 1.0f;
+
 
     #region Initialization
     private void Awake()
@@ -211,6 +214,17 @@ public class EnemyController : MonoBehaviour
                 CurrentStateName = next;
                 PlayAnimationOnce(Behaviours[nextIdx].animationName);
             }
+        }
+    }
+    #endregion
+
+    #region Attack Check
+    public void DealDamageToPlayer(float damage)
+    {
+        IDamagable target = Player.GetComponent<IDamagable>();
+        if (target != null)
+        {
+            target.TakeDamage(damage);
         }
     }
     #endregion
