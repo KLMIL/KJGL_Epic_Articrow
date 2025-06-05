@@ -59,6 +59,7 @@ namespace YSJ
         {
             Debug.LogWarning("Managers 파괴");
             UI_TitleEventBus.Clear();
+            UI_InGameEventBus.Clear();
             Clear();
             s_instance = null;
         }

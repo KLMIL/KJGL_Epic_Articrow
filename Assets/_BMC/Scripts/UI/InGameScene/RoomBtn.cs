@@ -17,10 +17,10 @@ namespace BMC
             _text = GetComponentInChildren<TextMeshProUGUI>();
 
             _text.text = _roomType.ToString();
-            _btn.onClick.AddListener(() => OnClickedCreateRoom());
+            _btn.onClick.AddListener(OnClickedCreateRoom);
         }
 
-        public void OnClickedCreateRoom()
+        void OnClickedCreateRoom()
         {
             Debug.Log($"{_roomType} 생성 버튼이 클릭되었습니다.");
             Room currentRoom = MapManager.Instance.CurrentRoom;

@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public CKT.SkillManager LeftSkillManager { get; private set; } = new CKT.SkillManager();
     public CKT.SkillManager RightSkillManager { get; private set; } = new CKT.SkillManager();
 
+    [field: SerializeField] bool IsPaused { get; set; } = false;
+
     void Awake()
     {
         if (_instance == null)
@@ -32,5 +34,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+    }
+
+    // 일시 정지 및 재개 기능
+    public void TogglePauseGame()
+    {
+        IsPaused = !IsPaused;
+        Time.timeScale = IsPaused ? 0f : 1f;
     }
 }

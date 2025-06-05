@@ -43,7 +43,7 @@ namespace YSJ
             GameObject spawnedObj = Instantiate(DamageTextPrefab, transform.position, Quaternion.identity);
             //spawnedObj.transform.SetParent(transform,false);
             spawnedObj.GetComponent<TextMeshPro>().text = damage.ToString();
-            BMC.UI_InGameEventBus.OnHpSliderValueUpdate?.Invoke(Health);
+            UI_InGameEventBus.OnHpSliderValueUpdate?.Invoke(Health);
 
             if (Health <= 0)
             {
