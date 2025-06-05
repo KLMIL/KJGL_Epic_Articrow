@@ -7,14 +7,14 @@ using UnityEngine.InputSystem;
  * Basic: 일반 공격
  * Rush: 돌진 공격
  */
-public enum AttackMode { Contact, Basic, Rush }
+public enum MeleeAttackMode { Contact, Basic, Rush }
 [CreateAssetMenu(
     fileName = "MeleeAttackAction",
     menuName = "Enemy/Action/Attack/Melee Attack"
 )]
 public class MeleeAttackActionSO : EnemyActionSO
 {
-    public AttackMode attackMode = AttackMode.Contact;
+    public MeleeAttackMode meleeAttackMode = MeleeAttackMode.Contact;
 
     [Header("Common Field: Contact Attack")]
     public float damageMultiply = 1.0f;
@@ -43,15 +43,15 @@ public class MeleeAttackActionSO : EnemyActionSO
 
 
         // 공격 처리
-        switch (attackMode)
+        switch (meleeAttackMode)
         {
-            case AttackMode.Contact:
+            case MeleeAttackMode.Contact:
                 ContactAttack(controller);
                 break;
-            case AttackMode.Basic:
+            case MeleeAttackMode.Basic:
                 BasicAttack(controller);
                 break;
-            case AttackMode.Rush:
+            case MeleeAttackMode.Rush:
                 RushAttack(controller);
                 break;
         }
@@ -63,13 +63,13 @@ public class MeleeAttackActionSO : EnemyActionSO
 
     public override void OnExit(EnemyController controller)
     {
-        switch (attackMode)
+        switch (meleeAttackMode)
         {
-            case AttackMode.Contact:
+            case MeleeAttackMode.Contact:
                 break;
-            case AttackMode.Basic:
+            case MeleeAttackMode.Basic:
                 break;
-            case AttackMode.Rush:
+            case MeleeAttackMode.Rush:
                 controller.isRushing = false;
                 break;
         }
