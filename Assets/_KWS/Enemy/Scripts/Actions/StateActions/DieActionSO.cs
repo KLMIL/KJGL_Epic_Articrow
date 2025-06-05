@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "DieAction", menuName = "Enemy/Action/Die")]
+[CreateAssetMenu(fileName = "DieAction", menuName = "Enemy/Action/State/Die")]
 public class DieActionSO : EnemyActionSO
 {
     public override void Act(EnemyController controller)

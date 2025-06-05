@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ReceivedDamageAction", menuName = "Enemy/Action/Received Damage")]
+[CreateAssetMenu(fileName = "ReceivedDamageAction", menuName = "Enemy/Action/State/Received Damage")]
 public class ReceivedDamageActionSO : EnemyActionSO
 {
     public float hurtDuration = 0.2f;

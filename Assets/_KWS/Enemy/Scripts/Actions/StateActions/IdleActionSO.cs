@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "IdleAction", menuName = "Enemy/Action/Idle")]
+[CreateAssetMenu(fileName = "IdleAction", menuName = "Enemy/Action/State/Idle")]
 public class IdleActionSO : EnemyActionSO
 {
     public override void Act(EnemyController controller)

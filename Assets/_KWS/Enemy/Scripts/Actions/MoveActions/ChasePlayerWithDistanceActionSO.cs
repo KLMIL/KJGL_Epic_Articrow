@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ChasePlayerWithDistance", menuName = "Enemy/Action/Chase Player With Distance")]
+[CreateAssetMenu(fileName = "ChasePlayerWithDistance", menuName = "Enemy/Action/Move/Chase Player With Distance")]
 public class ChasePlayerWithDistanceActionSO : EnemyActionSO
 {
     public float minDistance = 2.0f;

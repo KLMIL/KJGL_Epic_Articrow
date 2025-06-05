@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RushAttackCooldownAction", menuName = "Enemy/Action/Rush Attack Cooldown")]
+[CreateAssetMenu(fileName = "RushAttackCooldownAction", menuName = "Enemy/Action/State/Rush Attack Cooldown")]
 public class RushAttackCooldownActionSO : EnemyActionSO
 {
     public override void Act(EnemyController controller)

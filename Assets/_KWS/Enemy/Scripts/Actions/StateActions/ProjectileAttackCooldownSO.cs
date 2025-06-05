@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ProjectileAttackCooldownAction", menuName = "Enemy/Action/Projectile Attack Cooldown")]
+[CreateAssetMenu(fileName = "ProjectileAttackCooldownAction", menuName = "Enemy/Action/State/Projectile Attack Cooldown")]
 public class ProjectileAttackCooldownSO : EnemyActionSO
 {
     public override void Act(EnemyController controller)

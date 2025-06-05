@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RandomMoveAction", menuName = "Enemy/Action/Random Move")]
+[CreateAssetMenu(fileName = "RandomMoveAction", menuName = "Enemy/Action/Move/Random Move")]
 public class RandomMoveActionSO : EnemyActionSO
 {
     public Rect moveBounds = new Rect(-8, -4, 16,  8);

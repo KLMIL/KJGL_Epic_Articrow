@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MoveAwayAction", menuName = "Enemy/Action/Move Away")]
+[CreateAssetMenu(fileName = "MoveAwayAction", menuName = "Enemy/Action/Move/Move Away")]
 public class MoveAwayActionSO : EnemyActionSO
 {
     public float moveAwaySpeed = 4f;
