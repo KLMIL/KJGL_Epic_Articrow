@@ -1,13 +1,12 @@
-using CKT;
 using UnityEngine;
 
 namespace CKT
 {
-    public class ImageParts_HitScatter : ImageParts, IHitEffectable
+    public class ImageParts_HitExplosion : ImageParts, IHitEffectable
     {
         private void Awake()
         {
-            base.Init("FieldParts/FieldParts_HitScatter");
+            base.Init("FieldParts/FieldParts_HitExplosion");
         }
 
         #region [IHitEffectable]
@@ -25,7 +24,7 @@ namespace CKT
 
             if (skillManager != null)
             {
-                skillManager.HitScatterLevelUp(1);
+                skillManager.HitExplosionLevelUp(1);
             }
         }
         #endregion

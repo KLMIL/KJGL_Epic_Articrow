@@ -7,13 +7,58 @@ namespace CKT
     [System.Serializable]
     public class SkillManager
     {
-        float _scatterAngle = 3f;
+        float _scatterAngle;
 
-        int _castScatterLevel = 0;
-        int _castAdditionalLevel = 0;
-        int _castExplosionLevel = 0;
+        int _castScatterLevel;
+        int _castAdditionalLevel;
+        int _castExplosionLevel;
 
-        int _hitScatterLevel = 0;
+        int _hitScatterLevel;
+        int _hitExplosionLevel;
+
+        #region [Action, Func]
+        event Action<GameObject> _onCastSkillEvent;
+        void SubCastSkillEvent(Action<GameObject> newSub)
+        {
+            _onCastSkillEvent += newSub;
+        }
+        public void InvokeCastSkillEvent(GameObject obj)
+        {
+            _onCastSkillEvent?.Invoke(obj);
+        }
+
+        event Func<GameObject, IEnumerator> _getCastSkillIEnumerator;
+        void SubCastSkillIEnumerator(Func<GameObject, IEnumerator> newSub)
+        {
+            _getCastSkillIEnumerator += newSub;
+        }
+        public IEnumerator InvokeCastSkillIEnumerator(GameObject obj)
+        {
+            return _getCastSkillIEnumerator?.Invoke(obj);
+        }
+
+        //===========================================================
+
+        event Action<GameObject> _onHitSkillEvent;
+        void SubHitSkillEvent(Action<GameObject> newSub)
+        {
+            _onHitSkillEvent += newSub;
+        }
+        public void InvokeHitSkillEvent(GameObject obj)
+        {
+            _onHitSkillEvent?.Invoke(obj);
+        }
+
+        event Func<GameObject, IEnumerator> _getHitSkillIEnumerator;
+        void SubHitSkillIEnumerator(Func<GameObject, IEnumerator> newSub)
+        {
+            _getHitSkillIEnumerator += newSub;
+        }
+        public IEnumerator InvokeHitSkillIEnumerator(GameObject obj)
+        {
+            return _getHitSkillIEnumerator?.Invoke(obj);
+        }
+        #endregion
 
         #region [Inventory에서 호출할 함수]
         public void InitLevel()
@@ -25,6 +70,22 @@ namespace CKT
             _castExplosionLevel = 0;
 
             _hitScatterLevel = 0;
+            _hitExplosionLevel = 0;
+
+            //CastSkill
+            _onCastSkillEvent = null;
+            SubCastSkillEvent((obj) => CastScatter(obj));
+
+            _getCastSkillIEnumerator = null;
+            SubCastSkillIEnumerator((obj) => CastAdditionalCoroutine(obj));
+            SubCastSkillIEnumerator((obj) => CastExplosionCoroutine(obj));
+
+            //HitSkill
+            _onHitSkillEvent = null;
+            SubHitSkillEvent((obj) => HitScatter(obj));
+
+            _getHitSkillIEnumerator = null;
+            SubHitSkillIEnumerator((obj) => HitExplosionCoroutine(obj));
         }
         #endregion
 
@@ -50,10 +111,15 @@ namespace CKT
         {
             _hitScatterLevel += amount;
         }
+
+        public void HitExplosionLevelUp(int amount)
+        {
+            _hitExplosionLevel += amount;
+        }
         #endregion
 
         #region [CastSkill]
-        public void CastScatter(GameObject origin)
+        void CastScatter(GameObject origin)
         {
             int scatterCount = _castScatterLevel * 2;
 
@@ -70,7 +136,7 @@ namespace CKT
             }
         }
 
-        public IEnumerator CastAdditionalCoroutine(GameObject origin)
+        IEnumerator CastAdditionalCoroutine(GameObject origin)
         {
             Vector3 startPos = origin.transform.position;
             
@@ -85,7 +151,7 @@ namespace CKT
             }
         }
 
-        public IEnumerator CastExplosionCoroutine(GameObject origin)
+        IEnumerator CastExplosionCoroutine(GameObject origin)
         {
             Vector3 startPos = origin.transform.position;
 
@@ -99,7 +165,33 @@ namespace CKT
         #endregion
 
         #region [HitSkill]
-        
+        void HitScatter(GameObject origin)
+        {
+            int scatterCount = (_hitScatterLevel == 0) ? 0 : ((_hitScatterLevel * 2) + 1);
+
+            for (int k = 0; k < scatterCount; k++)
+            {
+                //분산 각도
+                float sign = ((k % 2 == 0) ? 1 : -1) * (Mathf.Ceil(k / 2.0f));
+                Vector2 scatterDir = RotateVector(origin.transform.up, (sign * _scatterAngle)).normalized;
+
+                GameObject hitScatterCopy = YSJ.Managers.Pool.InstPrefab("HitScatter");
+                hitScatterCopy.transform.position = origin.transform.position;
+                hitScatterCopy.transform.up = scatterDir;
+            }
+        }
+
+        IEnumerator HitExplosionCoroutine(GameObject origin)
+        {
+            Vector3 startPos = origin.transform.position;
+
+            for (int i = 0; i < _hitExplosionLevel; i++)
+            {
+                GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("Explosion");
+                castExplosion.transform.position = startPos;
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
         #endregion
 
         #region [Utils]

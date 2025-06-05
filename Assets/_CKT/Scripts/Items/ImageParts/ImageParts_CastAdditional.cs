@@ -13,13 +13,19 @@ namespace CKT
         #region [ICastEffectable]
         public void CastEffect(int handID)
         {
+            SkillManager skillManager = null;
             if (handID == 1)
             {
-                GameManager.Instance.LeftSkillManager.CastAdditionalLevelUp(1);
+                skillManager = GameManager.Instance.LeftSkillManager;
             }
             else if (handID == 2)
             {
-                GameManager.Instance.RightSkillManager.CastAdditionalLevelUp(1);
+                skillManager = GameManager.Instance.RightSkillManager;
+            }
+
+            if (skillManager != null)
+            {
+                skillManager.CastAdditionalLevelUp(1);
             }
         }
         #endregion
