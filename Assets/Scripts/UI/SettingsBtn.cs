@@ -7,11 +7,16 @@ public class SettingsBtn : MonoBehaviour
 
     void Start()
     {
-        _btn = GetComponent<Button>();
-        _btn.onClick.AddListener(OnClick);
+        Init();
     }
 
-    void OnClick()
+    public void Init()
+    {
+        _btn = GetComponent<Button>();
+        _btn.onClick.AddListener(OnClicked);
+    }
+
+    void OnClicked()
     {
         UI_TitleEventBus.OnToggleMainBtnCanvas?.Invoke(false);
         UI_TitleEventBus.OnToggleSettingsCanvas?.Invoke();

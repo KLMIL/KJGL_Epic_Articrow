@@ -8,17 +8,18 @@ namespace BMC
     {
         Button _btn;
 
-        void Awake()
-        {
-            _btn = GetComponent<Button>();
-        }
-
         void Start()
         {
-            _btn.onClick.AddListener(OnClick);
+            Init();
         }
 
-        void OnClick()
+        public void Init()
+        {
+            _btn = GetComponent<Button>();
+            _btn.onClick.AddListener(OnClicked);
+        }
+
+        void OnClicked()
         {
             Managers.Input.OnPauseAction?.Invoke();
             Managers.Input.SetGameMode();

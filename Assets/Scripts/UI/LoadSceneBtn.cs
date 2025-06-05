@@ -17,11 +17,13 @@ namespace YSJ
         public void Init()
         {
             _btn = GetComponent<Button>();
-            _btn.onClick.AddListener(() =>
-            {
-                //Managers.Scene.LoadScene(_sceneType);
-                Managers.Scene.LoadScene(_sceneName);
-            });
+            _btn.onClick.AddListener(OnClicked);
+        }
+
+        void OnClicked()
+        {
+            //Managers.Scene.LoadScene(_sceneType);
+            Managers.Scene.LoadScene(_sceneName);
         }
     }
 }
