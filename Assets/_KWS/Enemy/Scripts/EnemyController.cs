@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
-using YSJ;
 
 public class EnemyController : MonoBehaviour
 {
@@ -129,9 +127,10 @@ public class EnemyController : MonoBehaviour
             }
             else
             {
-                current.ResetTimer();
-                CurrentStateName = current.nextStateName;
-                PlayAnimationOnce(Behaviours.Find(b => b.stateName == CurrentStateName)?.animationName ?? "");
+                //current.ResetTimer();
+                ChangeState(current.nextStateName);
+                //CurrentStateName = current.nextStateName;
+                //PlayAnimationOnce(Behaviours.Find(b => b.stateName == CurrentStateName)?.animationName ?? "");
             }
             // Hard Type Interrupt 수행 중에는 이후 검사 수행하지 않음
             return true;
@@ -146,9 +145,10 @@ public class EnemyController : MonoBehaviour
 
         if (hardIdx >= 0 && Behaviours[hardIdx].stateName != CurrentStateName)
         {
-            CurrentStateName = Behaviours[hardIdx].stateName;
-            Behaviours[hardIdx].ResetTimer();
-            PlayAnimationOnce(Behaviours[hardIdx].animationName);
+            ChangeState(Behaviours[hardIdx].stateName);
+            //CurrentStateName = Behaviours[hardIdx].stateName;
+            //Behaviours[hardIdx].ResetTimer();
+            //PlayAnimationOnce(Behaviours[hardIdx].animationName);
         }
         return false;
     }
@@ -169,9 +169,10 @@ public class EnemyController : MonoBehaviour
 
         if (softIdx >= 0 && Behaviours[softIdx].stateName != CurrentStateName)
         {
-            CurrentStateName = Behaviours[softIdx].stateName;
-            Behaviours[softIdx].ResetTimer();
-            PlayAnimationOnce(Behaviours[softIdx].animationName);
+            ChangeState(Behaviours[softIdx].stateName);
+            //CurrentStateName = Behaviours[softIdx].stateName;
+            //Behaviours[softIdx].ResetTimer();
+            //PlayAnimationOnce(Behaviours[softIdx].animationName);
         }
     }
 
@@ -189,9 +190,10 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            current.ResetTimer();
-            CurrentStateName = current.nextStateName;
-            PlayAnimationOnce(Behaviours.Find(b => b.stateName == CurrentStateName)?.animationName ?? "");
+            ChangeState(current.nextStateName);
+            //current.ResetTimer();
+            //CurrentStateName = current.nextStateName;
+            //PlayAnimationOnce(Behaviours.Find(b => b.stateName == CurrentStateName)?.animationName ?? "");
         }
     }
 
@@ -209,13 +211,14 @@ public class EnemyController : MonoBehaviour
     // 상태 강제 전이 함수 (ex, 돌진 중 충돌 시 돌진 중지)
     public void ForceState(string stateName)
     {
-        int idx = Behaviours.FindIndex(b => b.stateName == stateName);
-        if (idx >= 0)
-        {
-            CurrentStateName = stateName;
-            Behaviours[idx].ResetTimer();
-            PlayAnimationOnce(Behaviours[idx].animationName);
-        }
+        ChangeState(stateName);
+        //int idx = Behaviours.FindIndex(b => b.stateName == stateName);
+        //if (idx >= 0)
+        //{
+        //    CurrentStateName = stateName;
+        //    Behaviours[idx].ResetTimer();
+        //    PlayAnimationOnce(Behaviours[idx].animationName);
+        //}
     }
 
     public void ForceToNextState()
@@ -225,14 +228,39 @@ public class EnemyController : MonoBehaviour
         if (idx >= 0)
         {
             string next = Behaviours[idx].nextStateName;
-            int nextIdx = Behaviours.FindIndex(b => b.stateName == next);
+            //int nextIdx = Behaviours.FindIndex(b => b.stateName == next);
 
-            if (nextIdx >= 0)
-            {
-                Behaviours[nextIdx].ResetTimer();
-                CurrentStateName = next;
-                PlayAnimationOnce(Behaviours[nextIdx].animationName);
-            }
+            //if (nextIdx >= 0)
+            //{
+            //    Behaviours[nextIdx].ResetTimer();
+            //    CurrentStateName = next;
+            //    PlayAnimationOnce(Behaviours[nextIdx].animationName);
+            //}
+            ChangeState(next);
+        }
+    }
+
+    // 일반 상태 전이 함수
+    private void ChangeState(string nextStateName)
+    {
+        int prevIdx = Behaviours.FindIndex(b => b.stateName == CurrentStateName);
+        int nextIdx = Behaviours.FindIndex(b => b.stateName == nextStateName);
+
+        // 이전 상태 Exit
+        if (prevIdx >= 0)
+        {
+            Behaviours[prevIdx].action?.OnExit(this);
+        }
+
+        // 상태 이름 변경
+        CurrentStateName = nextStateName;
+
+        // 다음 상태 Enter
+        if (nextIdx >= 0)
+        {
+            Behaviours[nextIdx].ResetTimer();
+            Behaviours[nextIdx].action?.OnEnter(this);
+            PlayAnimationOnce(Behaviours[nextIdx].animationName);
         }
     }
     #endregion
