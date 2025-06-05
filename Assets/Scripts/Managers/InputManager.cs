@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using static Define;
+using YSJ;
 
 public class InputManager
 {
@@ -26,6 +27,7 @@ public class InputManager
     public Action OnInventoryAction;              // 인벤토리
     public Action OnLeftHandAction;               // 좌수
     public Action OnRightHandAction;              // 우수
+    public Action OnPauseAction;                  // 일시정지
     #endregion
 
     [Header("Rebind")]
@@ -48,14 +50,13 @@ public class InputManager
         };
 
         LoadKeyBind();
-        SetInGame();
+        SubscribeAction();
+
+        SetGameMode();
     }
 
-    public void SetInGame()
+    public void SubscribeAction()
     {
-        _inputSystemActions.Player.Enable();
-        _inputSystemActions.Inventory.Disable();
-
         _inputSystemActions.Player.Move.performed += OnMove;
         _inputSystemActions.Player.Move.canceled += OnMove;
         _inputSystemActions.Player.Roll.performed += OnRoll;
@@ -72,6 +73,23 @@ public class InputManager
         _inputSystemActions.Player.LeftHand.canceled += OnLeftHand;
         _inputSystemActions.Player.RightHand.performed += OnRightHand;
         _inputSystemActions.Player.RightHand.canceled += OnRightHand;
+
+        _inputSystemActions.Player.Pause.performed += OnPause;
+        _inputSystemActions.UI.Cancel.performed += OnPause;
+    }
+
+    // 게임 모드로 전환
+    public void SetGameMode()
+    {
+        _inputSystemActions.Player.Enable();
+        _inputSystemActions.UI.Disable();
+    }
+
+    // UI 모드로 전한
+    public void SetUIMode()
+    {
+        _inputSystemActions.Player.Disable();
+        _inputSystemActions.UI.Enable();
     }
 
     #region 키 리바인드 관련
@@ -94,6 +112,7 @@ public class InputManager
     }
     #endregion
 
+    #region GamePlay
     void OnMove(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>().normalized;
@@ -154,6 +173,30 @@ public class InputManager
             //Debug.Log("우수");
         }
     }
+    #endregion
+
+    void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (Managers.Scene.CurrentScene.SceneType == SceneType.InGameScene)
+            {
+                if (_inputSystemActions.Player.enabled)
+                {
+                    _inputSystemActions.Player.Disable();
+                    _inputSystemActions.UI.Enable();
+                    Debug.Log("플레이어 -> UI 모드로 전환");
+                }
+                else if (_inputSystemActions.UI.enabled)
+                {
+                    _inputSystemActions.UI.Disable();
+                    _inputSystemActions.Player.Enable();
+                    Debug.Log("UI -> 플레이어 모드로 전환");
+                }
+                OnPauseAction?.Invoke();
+            }
+        }
+    }
 
     public void ClearAction()
     {
@@ -162,6 +205,7 @@ public class InputManager
         OnInventoryAction = null;
         OnLeftHandAction = null;
         OnRightHandAction = null;
+        OnPauseAction = null;
     }
 
     public void Clear()
