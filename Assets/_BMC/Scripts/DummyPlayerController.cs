@@ -34,7 +34,7 @@ namespace BMC
 
             _playerMove = GetComponent<PlayerMove>();
 
-            YSJ.Managers.Input.interactAction = InteractItem;
+            YSJ.Managers.Input.OnInteractAction = InteractItem;
 
             _interactLayerMask = LayerMask.GetMask("Interact");
         }

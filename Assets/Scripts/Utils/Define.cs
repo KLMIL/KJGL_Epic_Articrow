@@ -25,4 +25,14 @@ public class Define
         None,
     }
     #endregion
+
+    public enum KeyAction
+    {
+        Move,
+        Interact,
+        Inventroy,
+        LeftHand,
+        RightHand,
+        Roll,
+    }
 }

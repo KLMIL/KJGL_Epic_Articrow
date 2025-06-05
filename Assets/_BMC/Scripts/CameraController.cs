@@ -5,8 +5,8 @@ namespace BMC
 {
     public class CameraController : MonoBehaviour
     {
-        static CameraController _instance;
-        public static CameraController Instance => _instance;
+        static CameraController s_instance;
+        public static CameraController Instance => s_instance;
 
         [SerializeField] CinemachineCamera _cinemachineCamera;
         CameraTarget _cameraTarget;
@@ -19,9 +19,14 @@ namespace BMC
 
         void Awake()
         {
-            if (_instance == null)
+            Init();
+        }
+
+        public void Init()
+        {
+            if (s_instance == null)
             {
-                _instance = this;
+                s_instance = this;
             }
             else
             {

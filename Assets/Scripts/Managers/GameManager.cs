@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,6 +9,9 @@ public class GameManager : MonoBehaviour
     public Camera MainCamera { get; private set; }
 
     public CKT.Inventory Inventory { get; private set; } = new CKT.Inventory();
+
+    public CKT.SkillManager LeftSkillManager { get; private set; } = new CKT.SkillManager();
+    public CKT.SkillManager RightSkillManager { get; private set; } = new CKT.SkillManager();
 
     void Awake()
     {
