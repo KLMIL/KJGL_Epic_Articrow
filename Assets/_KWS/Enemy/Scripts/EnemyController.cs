@@ -5,38 +5,34 @@ using YSJ;
 
 public class EnemyController : MonoBehaviour
 {
-    [Header("Status: ScriptableObject")]
-    public EnemyStatusSO StatusOrigin;
-    public EnemyStatusSO Status;
-
-    [Header("Player: Find by Tag")]
-    public Transform Player;
-    [Header("Animation Handler: GetComponent")]
-    public EnemyAnimation Animation;
+    [Header("Status")]
+    [SerializeField] EnemyStatusSO _statusOrigin;
+    [HideInInspector] public EnemyStatusSO Status;
 
     [Space(10)]
-    [Header("Behaviour List Assign on Inspector")]
+    [Header("Behaviour List")]
     public List<EnemyBehaviourUnit> Behaviours = new();
+    [Space(10)]
 
-    string _currentStateName = "Idle";
-    string _currentAnimation = "";
-
-    public string CurrentStateName => _currentStateName;
-
-    //float _lastAttackTime = -100f;
+    [HideInInspector] public Transform Player;
+    EnemyAnimation Animation;
 
     public GameObject RushAttackTrigger;
-    public bool isDamaged;
+
+
+    [HideInInspector] public string CurrentStateName = "Idle";
+    [HideInInspector] public string CurrentAnimation = "";
+    [HideInInspector] public bool isDamaged;
 
     [HideInInspector] public int projectileFiredCount;
     [HideInInspector] public float projectileIntervalTimer;
-
     [HideInInspector] public bool isSpawnedMite;
 
 
+    #region Initialization
     private void Awake()
     {
-        Status = Instantiate(StatusOrigin);
+        Status = Instantiate(_statusOrigin);
     }
 
     private void Start()
@@ -50,28 +46,52 @@ public class EnemyController : MonoBehaviour
             RushAttackTrigger.SetActive(false);
         }
     }
+    #endregion
 
+
+    // 추후, 공격 중 피격상태 등 커버를 위해 병렬 FSM 구현해야함.
+    // 현재 상태에서는, 0번에 Idle, None->Soft->Hard 순서로 할당.
     private void Update()
     {
-        // 추후, 공격 중 피격상태 등 커버를 위해 병렬 FSM 구현해야함.
-        // 현재 상태에서는, 0번에 Idle, None->Soft->Hard 순서로 할당할 것.
+        if (!IsBehaviourAssigned()) return;
+        if (IsEnemyDie()) return;
 
+        int idx = Behaviours.FindIndex(b => b.stateName == CurrentStateName);
+        EnemyBehaviourUnit current = Behaviours[idx];
+
+        if (HandleHardInterrupt(current)) return;
+        HandleSoftInterrupt(current);
+        HandleNoneInterrupt(current);
+    }
+
+    #region State Check
+    private bool IsBehaviourAssigned()
+    {
         // 0. 행동 미할당 예외 처리. 추후 안정화 작업 후 삭제 예정
         if (Behaviours == null || Behaviours.Count == 0)
         {
             Debug.LogWarning("No behaviour assigned");
-            return;
+            return false;
         }
+        return true;
+    }
 
+    private bool IsEnemyDie()
+    {
         // Die State
-        if (_currentStateName == "Die")
+        if (CurrentStateName == "Die")
         {
-            return;
+            return true;
         }
+        return false;
+    }
 
+    #endregion
 
-        int idx = Behaviours.FindIndex(b => b.stateName == _currentStateName);
-        var current = Behaviours[idx];
+    #region Interrupt
+    private bool HandleHardInterrupt(EnemyBehaviourUnit current)
+    {
+        //Debug.LogWarning("Handle Hard Inttrupt Functions Proceed");
 
         // 0. 현재 조건이 Hard일 경우, 상태가 전이되기 전까지 계속해서 수행
         if (current.interruptType == InterruptType.Hard)
@@ -85,11 +105,11 @@ public class EnemyController : MonoBehaviour
             else
             {
                 current.ResetTimer();
-                _currentStateName = current.nextStateName;
-                PlayAnimationOnce(Behaviours.Find(b => b.stateName == _currentStateName)?.animationName ?? "");
+                CurrentStateName = current.nextStateName;
+                PlayAnimationOnce(Behaviours.Find(b => b.stateName == CurrentStateName)?.animationName ?? "");
             }
             // Hard Type Interrupt 수행 중에는 이후 검사 수행하지 않음
-            return;
+            return true;
         }
 
 
@@ -99,13 +119,18 @@ public class EnemyController : MonoBehaviour
                 b => b.interruptType == InterruptType.Hard &&
                      b.condition.IsMet(this));
 
-        if (hardIdx >= 0 && Behaviours[hardIdx].stateName != _currentStateName)
+        if (hardIdx >= 0 && Behaviours[hardIdx].stateName != CurrentStateName)
         {
-            _currentStateName = Behaviours[hardIdx].stateName;
+            CurrentStateName = Behaviours[hardIdx].stateName;
             Behaviours[hardIdx].ResetTimer();
             PlayAnimationOnce(Behaviours[hardIdx].animationName);
         }
+        return false;
+    }
 
+    private void HandleSoftInterrupt(EnemyBehaviourUnit current)
+    {
+        //Debug.LogWarning("Handle Soft Inttrupt Functions Proceed");
 
         // 2. Soft: 우선순위 인터럽트 순서대로 검사
         // ex) 공격, 소환 등 => 특정 상황에서는 hard 일 수도 있음. 
@@ -117,12 +142,17 @@ public class EnemyController : MonoBehaviour
                          b.condition.IsMet(this));
         }
 
-        if (softIdx >= 0 && Behaviours[softIdx].stateName != _currentStateName)
+        if (softIdx >= 0 && Behaviours[softIdx].stateName != CurrentStateName)
         {
-            _currentStateName = Behaviours[softIdx].stateName;
+            CurrentStateName = Behaviours[softIdx].stateName;
             Behaviours[softIdx].ResetTimer();
             PlayAnimationOnce(Behaviours[softIdx].animationName);
         }
+    }
+
+    private void HandleNoneInterrupt(EnemyBehaviourUnit current)
+    {
+        //Debug.LogWarning("Handle None Inttrupt Functions Proceed");
 
         // 3. None: 기본 루프 수행
         // Idle, RandomMove 등
@@ -135,18 +165,20 @@ public class EnemyController : MonoBehaviour
         else
         {
             current.ResetTimer();
-            _currentStateName = current.nextStateName;
-            PlayAnimationOnce(Behaviours.Find(b => b.stateName == _currentStateName)?.animationName ?? "");
+            CurrentStateName = current.nextStateName;
+            PlayAnimationOnce(Behaviours.Find(b => b.stateName == CurrentStateName)?.animationName ?? "");
         }
     }
 
+    #endregion
 
+    #region Play Animations
     // 애니메이션 중복 재생 방지용 함수
     private void PlayAnimationOnce(string animName)
     {
-        if (_currentAnimation == animName) return;
+        if (CurrentAnimation == animName) return;
         Animation.Play(animName);
-        _currentAnimation = animName;
+        CurrentAnimation = animName;
     }
 
     // 상태 강제 전이 함수 (ex, 돌진 중 충돌 시 돌진 중지)
@@ -155,7 +187,7 @@ public class EnemyController : MonoBehaviour
         int idx = Behaviours.FindIndex(b => b.stateName == stateName);
         if (idx >= 0)
         {
-            _currentStateName = stateName;
+            CurrentStateName = stateName;
             Behaviours[idx].ResetTimer();
             PlayAnimationOnce(Behaviours[idx].animationName);
         }
@@ -163,7 +195,7 @@ public class EnemyController : MonoBehaviour
 
     public void ForceToNextState()
     {
-        int idx = Behaviours.FindIndex(b => b.stateName == _currentStateName);
+        int idx = Behaviours.FindIndex(b => b.stateName == CurrentStateName);
 
         if (idx >= 0)
         {
@@ -173,9 +205,10 @@ public class EnemyController : MonoBehaviour
             if (nextIdx >= 0)
             {
                 Behaviours[nextIdx].ResetTimer();
-                _currentStateName = next;
+                CurrentStateName = next;
                 PlayAnimationOnce(Behaviours[nextIdx].animationName);
             }
         }
     }
+    #endregion
 }

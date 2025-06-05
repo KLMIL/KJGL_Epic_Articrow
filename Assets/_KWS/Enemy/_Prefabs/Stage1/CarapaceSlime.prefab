@@ -107,10 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28991b7ecaa04e74f9284c72439a1200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusOrigin: {fileID: 11400000, guid: 949a9db12e950e04cab377cd9d009312, type: 2}
+  _statusOrigin: {fileID: 11400000, guid: 949a9db12e950e04cab377cd9d009312, type: 2}
   Status: {fileID: 0}
-  Player: {fileID: 0}
-  Animation: {fileID: 0}
   Behaviours:
   - stateName: Idle
     interruptType: 0
@@ -152,7 +150,10 @@ MonoBehaviour:
     duration: 1
     nextStateName: Die
     elapsedTime: 0
+  Player: {fileID: 0}
   RushAttackTrigger: {fileID: 0}
+  CurrentStateName: Idle
+  CurrentAnimation: 
   isDamaged: 0
   projectileFiredCount: 0
   projectileIntervalTimer: 0
