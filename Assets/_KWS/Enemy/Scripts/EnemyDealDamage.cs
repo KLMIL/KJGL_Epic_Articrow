@@ -17,7 +17,7 @@ public class EnemyDealDamage : MonoBehaviour
             ownerController.isContactDamageActive = true;
 
             // 접촉 공격 수행
-            if (Time.time - ownerController.lastContactAttackTime >= ownerController.contactAttackCooldown)
+            if (Time.time - ownerController.lastContactAttackTime >= ownerController.contactAttackCooldown && ownerController.CurrentStateName != "Die")
             {
                 ownerController.DealDamageToPlayer(ownerController.Status.attack);
                 ownerController.lastContactAttackTime = Time.time;
@@ -29,7 +29,7 @@ public class EnemyDealDamage : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        if (Time.time - ownerController.lastContactAttackTime >= ownerController.contactAttackCooldown)
+        if (Time.time - ownerController.lastContactAttackTime >= ownerController.contactAttackCooldown && ownerController.CurrentStateName != "Die")
         {
             ownerController.DealDamageToPlayer(ownerController.Status.attack);
             ownerController.lastContactAttackTime = Time.time;

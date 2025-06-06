@@ -89,19 +89,13 @@ public class EnemyController : MonoBehaviour
     // 현재 상태에서는, 0번에 Idle, None->Soft->Hard 순서로 할당.
     private void Update()
     {
-        // 디버깅용 대미지 부여 함수
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            GetComponent<EnemyTakeDamage>().TakeDamage(5);
-        }
-
         if (Player == null)
         {
             Player = GameObject.FindWithTag("Player")?.transform;
             if (Player == null) return;
         }
         if (!IsBehaviourAssigned()) return;
-        if (IsEnemyDie()) return;
+        //if (IsEnemyDie()) return;
 
         // 현재 상태 가져오기
         int idx = Behaviours.FindIndex(b => b.stateName == CurrentStateName);
@@ -111,6 +105,13 @@ public class EnemyController : MonoBehaviour
         if (HandleHardInterrupt(current)) return;
         HandleSoftInterrupt(current);
         HandleNoneInterrupt(current);
+
+        // 디버깅용 대미지 부여 함수
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    ChangeState("Damaged");
+        //    Status.healthPoint -= 5;
+        //}
     }
 
     #region State Check

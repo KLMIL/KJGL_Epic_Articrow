@@ -13,10 +13,14 @@ public class DieActionSO : EnemyActionSO
     public override void Act(EnemyController controller)
     {
         // (이팩트가 필요하다면 여기서 추가)
+
+        Debug.Log("Called Here?");
+        Object.Destroy(controller.gameObject, 1.0f);
     }
 
     public override void OnExit(EnemyController controller)
     {
-        Destroy(controller.gameObject);
+        //Destroy(controller.gameObject);
     }
+
 }
