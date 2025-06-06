@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: -3537599932091117165}
   - component: {fileID: -4103504567570328144}
   - component: {fileID: -1757476871613440081}
+  - component: {fileID: 6259362637251117960}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -268,6 +269,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859d536855082c945a90e11a3b91796b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldownTime: 2
+  damage: 10
 --- !u!114 &-1757476871613440081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,6 +287,11 @@ MonoBehaviour:
   m_BlackboardVariableOverridesList:
   - rid: 2503175800498159784
   - rid: 2503175800498159785
+  - rid: 2503175807961923685
+  - rid: 2503175807961923686
+  - rid: 2503175807961923687
+  - rid: 2503175807961923688
+  - rid: 2503175807961924429
   m_IsInitialised: 0
   m_IsStarted: 0
   references:
@@ -305,6 +313,60 @@ MonoBehaviour:
           m_Value1: 15355722873994988510
         Name: PatrolPoints
         m_Value: []
+    - rid: 2503175807961923685
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 7870665001514487030
+          m_Value1: 830810885876526462
+        Name: AttackDistance
+        m_Value: 4
+    - rid: 2503175807961923686
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 3532924550975610746
+          m_Value1: 17108836621234233778
+        Name: ChaseDistance
+        m_Value: 6
+    - rid: 2503175807961923687
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 4609435183535371525
+          m_Value1: 16352590324994423168
+        Name: FallOutDistance
+        m_Value: 10
+    - rid: 2503175807961923688
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 10693291423170507852
+          m_Value1: 16986204015875703274
+        Name: Target
+        m_Value: {fileID: 0}
+    - rid: 2503175807961924429
+      type: {class: 'BlackboardVariable`1[[WeaponBase, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 8586947710122668249
+          m_Value1: 18144165073986227475
+        Name: CurrentWeapon
+        m_Value: {fileID: 6259362637251117960}
+--- !u!114 &6259362637251117960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3760692274742708543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0078a613752b53d4a9127589156d5687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 8540242875880561692, guid: 96be69e353b520640bfdcc79479c525a, type: 3}
+  projectileSpawnPoint: {fileID: 6307022632840446001}
 --- !u!1 &5969705207161803235
 GameObject:
   m_ObjectHideFlags: 0
