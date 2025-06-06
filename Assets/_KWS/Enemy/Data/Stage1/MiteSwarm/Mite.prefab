@@ -105,40 +105,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28991b7ecaa04e74f9284c72439a1200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusOrigin: {fileID: 11400000, guid: 7eda9fe33630e7345a635cd45f228df5, type: 2}
+  _statusOrigin: {fileID: 0}
   Status: {fileID: 0}
   Player: {fileID: 0}
-  Animation: {fileID: 0}
   Behaviours:
-  - stateName: Idle
+  - stateName: Die
     interruptType: 0
-    condition: {fileID: 11400000, guid: 7c90ebddcabb1d741b2286fe55714b69, type: 2}
-    action: {fileID: 11400000, guid: be9ec16c7eb21f442914172754525169, type: 2}
-    animationName: Idle
-    duration: 0.5
-    nextStateName: Chase
+    condition: {fileID: 11400000, guid: 653cfe56079c0e74fa5281ce3d5ba31d, type: 2}
+    action: {fileID: 11400000, guid: 37d6f313264efc9498ce702f8c521c60, type: 2}
+    animationName: 
+    duration: 0
+    nextStateName: 
+    elapsedTime: 0
+  - stateName: Damaged
+    interruptType: 0
+    condition: {fileID: 11400000, guid: e8655f42c815acf4eb0f6b33cc3f34bd, type: 2}
+    action: {fileID: 11400000, guid: e767651b77cd3054bb431712b59468f9, type: 2}
+    animationName: 
+    duration: 0
+    nextStateName: 
     elapsedTime: 0
   - stateName: Chase
-    interruptType: 1
-    condition: {fileID: 11400000, guid: 00062e0fae488434998fbbafecdb7509, type: 2}
-    action: {fileID: 11400000, guid: 6b76d39b437907542844f1b6235af2a2, type: 2}
-    animationName: Walk
-    duration: 2
-    nextStateName: Chase
+    interruptType: 0
+    condition: {fileID: 11400000, guid: bc5922740a8a4d843a16e964d27cd50b, type: 2}
+    action: {fileID: 11400000, guid: 07082b3b325477141a59d21a6ce4ccda, type: 2}
+    animationName: 
+    duration: 0
+    nextStateName: 
     elapsedTime: 0
-  - stateName: Die
-    interruptType: 2
-    condition: {fileID: 11400000, guid: aa649995744bc15448c3c92cad49338b, type: 2}
-    action: {fileID: 11400000, guid: 5b296b860a4fa6748920d52058e8a4e1, type: 2}
-    animationName: Die
-    duration: 1
-    nextStateName: Die
-    elapsedTime: 0
-  RushAttackTrigger: {fileID: 0}
+  CurrentStateName: Idle
+  CurrentAnimation: 
   isDamaged: 0
+  pendingDamage: 0
   projectileFiredCount: 0
   projectileIntervalTimer: 0
   isSpawnedMite: 0
+  isRushing: 0
+  rushDirection: {x: 0, y: 0, z: 0}
+  isContactDamageActive: 0
+  currentActionDamageMultiply: 1
+  randomMoveDirection: {x: 0, y: 0, z: 0}
+  randomMoveChangeCooldown: 0
 --- !u!114 &3609502169777190607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +229,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTag: Player
-  attackCooldown: 0
 --- !u!95 &7737338413248189098
 Animator:
   serializedVersion: 7

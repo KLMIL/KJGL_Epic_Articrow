@@ -108,88 +108,95 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28991b7ecaa04e74f9284c72439a1200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusOrigin: {fileID: 11400000, guid: dc4e77f75fd922849a2c2f9f54aa7d9f, type: 2}
+  _statusOrigin: {fileID: 0}
   Status: {fileID: 0}
   Player: {fileID: 0}
-  Animation: {fileID: 0}
   Behaviours:
+  - stateName: Die
+    interruptType: 0
+    condition: {fileID: 11400000, guid: b1daceb7c40b8ec4f992dfbbd7dd02ee, type: 2}
+    action: {fileID: 11400000, guid: 664724dd8f3f880409145e7811957e77, type: 2}
+    animationName: 
+    duration: 0
+    nextStateName: 
+    elapsedTime: 0
+  - stateName: Damaged
+    interruptType: 0
+    condition: {fileID: 11400000, guid: 902d66524a2d1c04689f0d3b4523d910, type: 2}
+    action: {fileID: 11400000, guid: 52274b4cf3699d44588674501cc38c5a, type: 2}
+    animationName: 
+    duration: 0
+    nextStateName: 
+    elapsedTime: 0
+  - stateName: Approach
+    interruptType: 0
+    condition: {fileID: 11400000, guid: 50c9cd9cd56174143851021d61db8205, type: 2}
+    action: {fileID: 11400000, guid: d3ffc76877b6111488083b71bc06a6fa, type: 2}
+    animationName: 
+    duration: 0
+    nextStateName: 
+    elapsedTime: 0
+  - stateName: RushReady
+    interruptType: 0
+    condition: {fileID: 11400000, guid: 1c39bf414d9c4b94f82cc19e263aaa05, type: 2}
+    action: {fileID: 11400000, guid: 89fc4c5144ff64a4b8b62c5b4731cc45, type: 2}
+    animationName: 
+    duration: 0
+    nextStateName: 
+    elapsedTime: 0
+  - stateName: Rush
+    interruptType: 0
+    condition: {fileID: 11400000, guid: e8be2ebdd572cba41b4b999e140d20ca, type: 2}
+    action: {fileID: 11400000, guid: 621257996edb0bf468f081f8bac02404, type: 2}
+    animationName: 
+    duration: 0
+    nextStateName: 
+    elapsedTime: 0
+  - stateName: MoveAway
+    interruptType: 0
+    condition: {fileID: 11400000, guid: d6f9151595356fb4b88715fa5e8a18c6, type: 2}
+    action: {fileID: 11400000, guid: 42aa8c6e6186d7445a29859aac65b2a5, type: 2}
+    animationName: 
+    duration: 0
+    nextStateName: 
+    elapsedTime: 0
+  - stateName: PostAttack
+    interruptType: 0
+    condition: {fileID: 11400000, guid: 3ad4c907c527d9341b54ce8ca75e29cb, type: 2}
+    action: {fileID: 11400000, guid: e4fac3dc0c88202428de6c187aedd785, type: 2}
+    animationName: 
+    duration: 0
+    nextStateName: 
+    elapsedTime: 0
   - stateName: Idle
     interruptType: 0
-    condition: {fileID: 11400000, guid: bff88eb5973cef5449e21b876f295220, type: 2}
-    action: {fileID: 11400000, guid: 055d75e61e9f5d349b10ba37be066e3f, type: 2}
-    animationName: Idle
-    duration: 1
-    nextStateName: RandomMove
-    elapsedTime: 0
-  - stateName: ReceivedDamage
-    interruptType: 1
-    condition: {fileID: 11400000, guid: cde3508f6c69b094d9c28e97efa8e7a3, type: 2}
-    action: {fileID: 11400000, guid: f0fcabae3de0a2d459ee3a7e8a46020b, type: 2}
-    animationName: Hurt
-    duration: 0.3
-    nextStateName: Idle
+    condition: {fileID: 11400000, guid: b21430758a8b61748a63b63ea0b819b0, type: 2}
+    action: {fileID: 11400000, guid: f1987e4a6ad51e941b5f35440fe9c050, type: 2}
+    animationName: 
+    duration: 0
+    nextStateName: 
     elapsedTime: 0
   - stateName: RandomMove
     interruptType: 0
-    condition: {fileID: 11400000, guid: a5dc1301ae5b0384d9850d9467f9dcbc, type: 2}
-    action: {fileID: 11400000, guid: c9fbc560174cdcd419364d335f43129e, type: 2}
-    animationName: Walk
-    duration: 2
-    nextStateName: Idle
+    condition: {fileID: 11400000, guid: 1ea983744f56a48438b2814c20a30c2b, type: 2}
+    action: {fileID: 11400000, guid: 676f6b2055cbd814a81ab7238b87bdd9, type: 2}
+    animationName: 
+    duration: 0
+    nextStateName: 
     elapsedTime: 0
-  - stateName: Approach
-    interruptType: 1
-    condition: {fileID: 11400000, guid: 1c990547614614b4a92a8cc7b1b6786d, type: 2}
-    action: {fileID: 11400000, guid: 1137ea8cd740248418045eb3e290032c, type: 2}
-    animationName: Walk
-    duration: 1.5
-    nextStateName: ChargeReady
-    elapsedTime: 0
-  - stateName: ChargeReady
-    interruptType: 1
-    condition: {fileID: 11400000, guid: 4e08378a75f5ae44c967b52bfa3e90c1, type: 2}
-    action: {fileID: 11400000, guid: 2920b9ddcf4347e4da30846ac50fdbae, type: 2}
-    animationName: ChargeReady
-    duration: 0.6
-    nextStateName: Rush
-    elapsedTime: 0
-  - stateName: Rush
-    interruptType: 2
-    condition: {fileID: 11400000, guid: 5405670469ffa484795f454ef57fee7c, type: 2}
-    action: {fileID: 11400000, guid: 793324599db86774ba42f09a9be74402, type: 2}
-    animationName: Rush
-    duration: 1
-    nextStateName: MoveAway
-    elapsedTime: 0
-  - stateName: MoveAway
-    interruptType: 1
-    condition: {fileID: 11400000, guid: 99e1fcba35df40e47977dc7ea2a7643e, type: 2}
-    action: {fileID: 11400000, guid: 47b5c3ab793b667468256e64c6161af3, type: 2}
-    animationName: Walk
-    duration: 0.5
-    nextStateName: Cooldown
-    elapsedTime: 0
-  - stateName: Cooldown
-    interruptType: 0
-    condition: {fileID: 11400000, guid: d233ffb884bd1e04581e16fc5c82cd32, type: 2}
-    action: {fileID: 11400000, guid: 57df60756c796fd41b735d792c82056e, type: 2}
-    animationName: Idle
-    duration: 1.2
-    nextStateName: Idle
-    elapsedTime: 0
-  - stateName: Die
-    interruptType: 2
-    condition: {fileID: 11400000, guid: 1d8d0069026e4254da91a8ac579bee1b, type: 2}
-    action: {fileID: 11400000, guid: 1dfb45bf43637e54e921ac5dbe4b4d2a, type: 2}
-    animationName: Die
-    duration: 1
-    nextStateName: Die
-    elapsedTime: 0
-  RushAttackTrigger: {fileID: 2000667354312455480}
+  CurrentStateName: Idle
+  CurrentAnimation: 
   isDamaged: 0
+  pendingDamage: 0
   projectileFiredCount: 0
   projectileIntervalTimer: 0
   isSpawnedMite: 0
+  isRushing: 0
+  rushDirection: {x: 0, y: 0, z: 0}
+  isContactDamageActive: 0
+  currentActionDamageMultiply: 1
+  randomMoveDirection: {x: 0, y: 0, z: 0}
+  randomMoveChangeCooldown: 0
 --- !u!114 &6757336873928180719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,7 +234,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTag: Player
-  attackCooldown: 0
 --- !u!60 &8111610383855847771
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -466,4 +472,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTag: Player
-  attackCooldown: 0

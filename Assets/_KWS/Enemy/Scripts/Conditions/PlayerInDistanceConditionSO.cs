@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerInRangeCondition", menuName = "Enemy/Condition/Player In Range")]
+[CreateAssetMenu(fileName = "PlayerInDistanceCondition", menuName = "Enemy/Condition/Player In Distance")]
 public class PlayerInDistanceConditionSO : EnemyConditionSO
 {
     public float distance = 5f;

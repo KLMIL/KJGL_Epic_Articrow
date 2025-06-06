@@ -106,80 +106,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28991b7ecaa04e74f9284c72439a1200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusOrigin: {fileID: 11400000, guid: 9a7b0886072f50042bc2f8af2375cad7, type: 2}
+  _statusOrigin: {fileID: 0}
   Status: {fileID: 0}
   Player: {fileID: 0}
-  Animation: {fileID: 0}
   Behaviours:
-  - stateName: Idle
-    interruptType: 0
-    condition: {fileID: 11400000, guid: b9a1f98169a1ff947839ab17e96aa15e, type: 2}
-    action: {fileID: 11400000, guid: 4af73e69333144b4797c96f6b8577934, type: 2}
-    animationName: Idle
-    duration: 1.5
-    nextStateName: RandomMove
-    elapsedTime: 0
-  - stateName: RandomMove
-    interruptType: 0
-    condition: {fileID: 11400000, guid: d7c80ab1c84db0c4cb3df39735edf5f9, type: 2}
-    action: {fileID: 11400000, guid: a17a9db5a6498d548a77631f7093da71, type: 2}
-    animationName: Walk
-    duration: 2
-    nextStateName: Idle
-    elapsedTime: 0
-  - stateName: MoveAway
-    interruptType: 1
-    condition: {fileID: 11400000, guid: 86d3ecc8eafef63498a8720f54c8d29c, type: 2}
-    action: {fileID: 11400000, guid: e4ebade23f8743e45be0f84d8b710018, type: 2}
-    animationName: Walk
-    duration: 1
-    nextStateName: Idle
-    elapsedTime: 0
-  - stateName: AttackReady
-    interruptType: 1
-    condition: {fileID: 11400000, guid: 72820d2ba8c07c74a86ac80a2047ebaa, type: 2}
-    action: {fileID: 11400000, guid: 197e98cec89df214cada463f62425d11, type: 2}
-    animationName: Charge
-    duration: 0.4
-    nextStateName: ProjectileAttack
-    elapsedTime: 0
-  - stateName: ProjectileAttack
-    interruptType: 2
-    condition: {fileID: 11400000, guid: b67872a69674f794d826d6a79fcba9f7, type: 2}
-    action: {fileID: 11400000, guid: 0e4b1eca4fd1d1c488334fb4df45480b, type: 2}
-    animationName: Shoot
-    duration: 0.3
-    nextStateName: AttackCooldown
-    elapsedTime: 0
-  - stateName: AttackCooldown
-    interruptType: 1
-    condition: {fileID: 11400000, guid: dc9ec8735213b834fac0a4d47e6ce00d, type: 2}
-    action: {fileID: 11400000, guid: 382072d7f62724647a0e77b4ebf030d6, type: 2}
-    animationName: Idle
-    duration: 1
-    nextStateName: Idle
-    elapsedTime: 0
-  - stateName: ReceivedDamage
-    interruptType: 1
-    condition: {fileID: 11400000, guid: 569b80d2554abab4f8c9b5aac9e1f4ab, type: 2}
-    action: {fileID: 11400000, guid: 592858365d69aab43b958b63c4271007, type: 2}
-    animationName: Hurt
-    duration: 0.3
-    nextStateName: Idle
-    elapsedTime: 0
   - stateName: Die
     interruptType: 2
-    condition: {fileID: 11400000, guid: 6883ad74524cf5b489206d6d2df1b488, type: 2}
-    action: {fileID: 11400000, guid: 0857aa174293b7d4e9956c173078ea52, type: 2}
+    condition: {fileID: 11400000, guid: 799f27ca7d1e8da4f8ab28cbc475a556, type: 2}
+    action: {fileID: 11400000, guid: 6d927b443addc9f47b5952d96733d1ce, type: 2}
     animationName: Die
     duration: 1
     nextStateName: Die
     elapsedTime: 0
-  RushAttackTrigger: {fileID: 0}
+  - stateName: Damaged
+    interruptType: 1
+    condition: {fileID: 11400000, guid: a9ddd86430dba4c4ca9ed760e4d9eb88, type: 2}
+    action: {fileID: 11400000, guid: 3ca3ff1033b961a489a092d07489beb2, type: 2}
+    animationName: Hurt
+    duration: 0.3
+    nextStateName: Idle
+    elapsedTime: 0
+  - stateName: ProjectileReady
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 9fe8b9597dc597b48a54e07f52a375b4, type: 2}
+    action: {fileID: 11400000, guid: 4491d352bf8b05742b887789c75117e2, type: 2}
+    animationName: Charge
+    duration: 0.7
+    nextStateName: ProjectileAttack
+    elapsedTime: 0
+  - stateName: ProjectileAttack
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 0865d8f211a0aec4684a5c0fe932f3f0, type: 2}
+    action: {fileID: 11400000, guid: a006efbc428a29a4aa997015006bab34, type: 2}
+    animationName: Shoot
+    duration: 0.3
+    nextStateName: Idle
+    elapsedTime: 0
+  - stateName: MoveAway
+    interruptType: 1
+    condition: {fileID: 11400000, guid: b63c75e5b3be8204fa9fc368b3adf42b, type: 2}
+    action: {fileID: 11400000, guid: 876928a8d89b24747a56fe0391e4fb7f, type: 2}
+    animationName: Walk
+    duration: 0.6
+    nextStateName: Idle
+    elapsedTime: 0
+  - stateName: Idle
+    interruptType: 0
+    condition: {fileID: 11400000, guid: cb98b75165b4b174f869dfc07f862b50, type: 2}
+    action: {fileID: 11400000, guid: 7acd989d27a74b342a203fde9c683987, type: 2}
+    animationName: Idle
+    duration: 1.2
+    nextStateName: RandomMove
+    elapsedTime: 0
+  - stateName: RandomMove
+    interruptType: 0
+    condition: {fileID: 11400000, guid: 55705aed52c3f7f4e90d46d61001ff35, type: 2}
+    action: {fileID: 11400000, guid: cda5703fc559d1948ac140b728d126e7, type: 2}
+    animationName: Walk
+    duration: 1.7
+    nextStateName: Idle
+    elapsedTime: 0
+  CurrentStateName: Idle
+  CurrentAnimation: 
   isDamaged: 0
+  pendingDamage: 0
   projectileFiredCount: 0
   projectileIntervalTimer: 0
   isSpawnedMite: 0
+  isRushing: 0
+  rushDirection: {x: 0, y: 0, z: 0}
+  isContactDamageActive: 0
+  currentActionDamageMultiply: 1
+  randomMoveDirection: {x: 0, y: 0, z: 0}
+  randomMoveChangeCooldown: 0
 --- !u!114 &937202242649137197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +204,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTag: Player
-  attackCooldown: 0
 --- !u!114 &4252226339735146189
 MonoBehaviour:
   m_ObjectHideFlags: 0
