@@ -5,7 +5,8 @@ namespace CKT
 {
     public class GrabObject : MonoBehaviour
     {
-        float _moveSpeed = 1.3f;
+        float _minSqrDistance = 2f;
+        float _moveSpeed = 10f;
         LayerMask _playerLayerMask;
 
         Transform _target;
@@ -54,14 +55,11 @@ namespace CKT
 
             if ((player != null) && (target != null))
             {
-                float sqrDistance = (playerPos - this.transform.position).sqrMagnitude;
-                float cur = 0;
-
-                while (sqrDistance > 1)
+                float sqrDistance = float.MaxValue;
+                while (sqrDistance > _minSqrDistance)
                 {
-                    cur += Time.deltaTime;
-
-                    transform.position = Vector3.Lerp(startPos, playerPos, (cur * _moveSpeed));
+                    Vector3 moveDir = (player.position - startPos).normalized;
+                    transform.position += moveDir * _moveSpeed * Time.deltaTime;
                     sqrDistance = (playerPos - this.transform.position).sqrMagnitude;
                     yield return null;
                 }
