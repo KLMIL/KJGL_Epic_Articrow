@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace BMC
@@ -15,14 +16,13 @@ namespace BMC
     public class Door : MonoBehaviour
     {
         [Header("기본 컴포넌트")]
+        Animator _anim;
         SpriteRenderer _spriteRenderer;
         BoxCollider2D _boxCollider2D;
 
         [Header("상태")]
         [SerializeField] Room _currentRoom;
         [SerializeField] bool _isOpen = false;
-        Color _openColor = Color.yellow;
-        Color _closedColor = Color.black;
 
         [Header("다음 방 관련")]
         [field: SerializeField] public DoorPosition DoorPosition { get; private set; }    // 문 위치
@@ -33,7 +33,8 @@ namespace BMC
 
         void Awake()
         {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _anim = GetComponent<Animator>();
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
             _currentRoom = transform.root.GetComponent<Room>();
         }
@@ -43,15 +44,14 @@ namespace BMC
         public void Open()
         {
             _isOpen = true;
-            _spriteRenderer.color = _openColor;
             _boxCollider2D.isTrigger = true;
+            _anim.Play("Open");
         }
 
         // 닫기
         public void Close()
         {
             _isOpen = false;
-            _spriteRenderer.color = _closedColor;
             _boxCollider2D.isTrigger = false;
         }
 
@@ -104,7 +104,7 @@ namespace BMC
                 MapManager.Instance.CurrentRoom = NextRoom;
                 DoorPosition nextRoomDoorPosition = GetDoorPositionOfNextRoom();
                 Door spawnDoor = NextRoom.GetDoor(nextRoomDoorPosition);
-                _doorSpawnPlayerPositionOffset = (nextRoomDoorPosition == DoorPosition.Up || nextRoomDoorPosition == DoorPosition.Down) ? 1.75f : 1f;
+                _doorSpawnPlayerPositionOffset = (nextRoomDoorPosition == DoorPosition.Up || nextRoomDoorPosition == DoorPosition.Down) ? 1.5f : 1f;
                 playerTransform.position = spawnDoor.transform.position + spawnDoor.transform.up * _doorSpawnPlayerPositionOffset;
                 OnTransferToNextRoom.Invoke(NextRoom.transform);
 
@@ -139,6 +139,37 @@ namespace BMC
             }
             Tuple<int, int> nextRoomIndex = new Tuple<int, int>(row, col);
             return nextRoomIndex;
+        }
+
+        public void OnOpenAnimationEvent()
+        {
+            StartCoroutine(DestroyAfterOpenCoroutine());
+        }
+
+        IEnumerator DestroyAfterOpenCoroutine()
+        {
+            float alphaValue = 1;
+
+            Color color = _spriteRenderer.color;
+            while (alphaValue > 0)
+            {
+                alphaValue -= Time.deltaTime;
+                color.a = alphaValue;
+                _spriteRenderer.color = color;
+                yield return null;
+            }
+
+            alphaValue = 0;
+            color.a = alphaValue;
+            _spriteRenderer.color = color;
+        }
+
+        void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.V))
+            {
+                Open();
+            }
         }
 
         #region OnTrigger
