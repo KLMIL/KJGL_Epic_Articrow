@@ -4,15 +4,14 @@ public class EnemyTakeDamage : MonoBehaviour, IDamagable
 {
     EnemyController ownerController;
 
-    private void Awake()
+    private void Start()
     {
-        ownerController = GetComponent<EnemyController>();
+        ownerController = GetComponentInParent<EnemyController>();
     }
 
-    // FSM 상태 호출
     public void TakeDamage(float damage)
     {
-        ownerController.Status.healthPoint -= damage;
         ownerController.isDamaged = true;
+        ownerController.pendingDamage += damage;
     }
 }

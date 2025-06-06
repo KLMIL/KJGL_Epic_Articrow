@@ -24,11 +24,12 @@ public class EnemyController : MonoBehaviour
 
     [HideInInspector] public string CurrentStateName = "Idle";
     [HideInInspector] public string CurrentAnimation = "";
-    [HideInInspector] public bool isDamaged;
+    [HideInInspector] public bool isDamaged = false;
+    [HideInInspector] public float pendingDamage = 0;
 
-    [HideInInspector] public int projectileFiredCount;
-    [HideInInspector] public float projectileIntervalTimer;
-    [HideInInspector] public bool isSpawnedMite;
+    [HideInInspector] public int projectileFiredCount = 0;
+    [HideInInspector] public float projectileIntervalTimer = 0;
+    [HideInInspector] public bool isSpawnedMite = false;
 
     [HideInInspector] public Vector3 randomMoveDirection = Vector3.zero;
     [HideInInspector] public float randomMoveChangeCooldown = 0f;
@@ -37,7 +38,7 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public float currentActionDamageMultiply = 1.0f;
 
     [HideInInspector] public bool isRushing = false;
-    [HideInInspector] public Vector3 rushDirection;
+    [HideInInspector] public Vector3 rushDirection = Vector3.zero;
 
 
     #region Initialization

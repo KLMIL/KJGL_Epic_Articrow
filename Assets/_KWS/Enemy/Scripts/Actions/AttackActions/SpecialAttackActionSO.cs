@@ -12,6 +12,7 @@ public enum SpecialAttackMode { Summon };
 public class SpecialAttackActionSO: EnemyActionSO
 {
     public SpecialAttackMode specialAttackMode = SpecialAttackMode.Summon;
+    public float cooldown = 1.0f;
 
     [Header("Summon")]
     public GameObject summoningPrefab;

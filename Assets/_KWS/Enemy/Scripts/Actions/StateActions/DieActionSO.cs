@@ -1,12 +1,22 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "DieAction", menuName = "Enemy/Action/State/Die")]
+/*
+ * 몬스터가 죽을 때 -> 액션 종료시 오브젝트 제거
+ */
+[CreateAssetMenu(
+    fileName = "DieAction", 
+    menuName = "Enemy/Action/State/Die"
+)]
 public class DieActionSO : EnemyActionSO
 {
     public override void Act(EnemyController controller)
     {
-        // 행동 멈추기 정도?
-        //controller.Animation.Play("Die");
+        // (이팩트가 필요하다면 여기서 추가)
+    }
+
+    public override void OnExit(EnemyController controller)
+    {
+        Destroy(controller.gameObject);
     }
 }
