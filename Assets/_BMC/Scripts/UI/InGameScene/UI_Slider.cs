@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 namespace BMC
 {
+    // TODO: 현재 Hp만 존재하므로 Hp 보여주는 슬라이더로 사용중, 나중에 일반화하여 사용할 수 있도록 개선 필요
     public class UI_Slider : MonoBehaviour
     {
         Slider _slider;

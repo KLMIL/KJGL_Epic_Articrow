@@ -1,14 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
-using static Define;
+using YSJ;
 
-namespace YSJ
+namespace BMC
 {
-    public class LoadSceneBtn : MonoBehaviour
+    public class ContinueBtn : MonoBehaviour
     {
-        //[SerializeField] Define.SceneType _sceneType;
-        [SerializeField] string _sceneName; // 나중에 Enum으로 바꾸기
         Button _btn;
+
         void Start()
         {
             Init();
@@ -22,8 +21,8 @@ namespace YSJ
 
         void OnClicked()
         {
-            //Managers.Scene.LoadScene(_sceneType);
-            Managers.Scene.LoadScene(_sceneName);
+            Managers.Input.OnPauseAction?.Invoke();
+            Managers.Input.SetGameMode();
         }
     }
 }
