@@ -5,8 +5,11 @@ namespace CKT
 {
     public class DamageArea : MonoBehaviour
     {
+        LayerMask _playerLayerMask;
+
         private void OnEnable()
         {
+            _playerLayerMask = LayerMask.GetMask("Player");
             StartCoroutine(DisableCoroutine());
             StartCoroutine(TakeDamageCoroutine());
         }
@@ -23,7 +26,7 @@ namespace CKT
 
             while (this.gameObject.activeSelf)
             {
-                RaycastHit2D[] hits = Physics2D.CircleCastAll(this.transform.position, 3, Vector2.up, 0);
+                RaycastHit2D[] hits = Physics2D.CircleCastAll(this.transform.position, 3, Vector2.up, 0, ~_playerLayerMask);
                 for (int i = 0; i < hits.Length; i++)
                 {
                     IDamagable iDamageable = hits[i].transform.GetComponent<IDamagable>();

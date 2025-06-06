@@ -30,7 +30,7 @@ namespace CKT
         #region [Inventory에서 호출할 함수]
         public void InitLevel()
         {
-            _scatterAngle = 3f;
+            _scatterAngle = 6f;
 
             _castScatterLevel = 0;
             _castAdditionalLevel = 0;
@@ -96,27 +96,45 @@ namespace CKT
         #endregion
 
         #region [CastSkill]
-        void Scatter(GameObject origin, string prefabName, int level, int startIndex)
+        void Scatter(GameObject origin, string prefabName, int level, bool includeOrigin)
         {
-            int scatterCount = (level == 0) ? 0 : (level * 2) + 1;
-
-            for (int k = startIndex; k < scatterCount; k++)
+            Vector3 originUp = origin.transform.up; 
+            
+            //level이 0일 때는 for문 스킵 (레벨 + origin)
+            int scatterCount = (level == 0) ? 0 : ((includeOrigin) ? (level + 1) : level);
+            for (int k = 0; k < scatterCount; k++)
             {
                 //분산 각도
-                float sign = ((k % 2 == 0) ? 1 : -1) * (Mathf.Ceil(k / 2.0f));
-                Vector2 scatterDir = RotateVector(origin.transform.up, (sign * _scatterAngle)).normalized;
+                float sign = 0;
+                if (scatterCount % 2 == 0)
+                {
+                    sign = ((k % 2 == 0) ? -1 : 1) * (Mathf.Floor(k / 2.0f) + 0.5f);
+                }
+                else
+                {
+                    sign = ((k % 2 == 0) ? 1 : -1) * Mathf.Ceil(k / 2.0f);
+                }
+                Vector2 scatterDir = RotateVector(originUp, (sign * _scatterAngle)).normalized;
 
-                GameObject castScatterCopy = YSJ.Managers.Pool.InstPrefab(prefabName);
-                castScatterCopy.transform.position = origin.transform.position;
-                castScatterCopy.transform.up = scatterDir;
-                castScatterCopy.name = prefabName;
-                castScatterCopy.GetComponent<Projectile>().SkillManager = this;
+                //본체 포함일 때 = 0번째는 본체 + 회전만
+                if ((k == 0) && includeOrigin)
+                {
+                    origin.transform.up = scatterDir;
+                }
+                else
+                {
+                    GameObject castScatterCopy = YSJ.Managers.Pool.InstPrefab(prefabName);
+                    castScatterCopy.transform.position = origin.transform.position;
+                    castScatterCopy.transform.up = scatterDir;
+                    castScatterCopy.name = prefabName;
+                    castScatterCopy.GetComponent<Projectile>().SkillManager = this;
+                }
             }
         }
 
         IEnumerator CastScatterCoroutine(GameObject origin)
         {
-            Scatter(origin, origin.name, _castScatterLevel, 1);
+            Scatter(origin, origin.name, _castScatterLevel, true);
             yield return null;
         }
 
@@ -133,7 +151,7 @@ namespace CKT
                 castAdditionalCopy.name = origin.name;
                 castAdditionalCopy.GetComponent<Projectile>().SkillManager = this;
 
-                Scatter(castAdditionalCopy, origin.name, _castScatterLevel, 1);
+                Scatter(castAdditionalCopy, origin.name, _castScatterLevel, true);
             }
         }
 
@@ -165,7 +183,7 @@ namespace CKT
         #region [HitSkill]
         IEnumerator HitScatter(GameObject origin)
         {
-            Scatter(origin, "HitScatter", _hitScatterLevel, 0);
+            Scatter(origin, "HitScatter", _hitScatterLevel, false);
             /*int scatterCount = (_hitScatterLevel == 0) ? 0 : ((_hitScatterLevel * 2) + 1);
 
             for (int k = 0; k < scatterCount; k++)
