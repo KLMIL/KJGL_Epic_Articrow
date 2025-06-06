@@ -13,14 +13,20 @@ namespace CKT
         #region [IHitEffectable]
         public void HitEffect(int handID)
         {
+            SkillManager skillManager = null;
             if (handID == 1)
             {
-                GameManager.Instance.LeftSkillManager.HitScatterLevelUp(1);
+                skillManager = GameManager.Instance.LeftSkillManager;
             }
             else if (handID == 2)
             {
-                GameManager.Instance.RightSkillManager.HitScatterLevelUp(1);
-            } 
+                skillManager = GameManager.Instance.RightSkillManager;
+            }
+
+            if (skillManager != null)
+            {
+                skillManager.HitScatterLevelUp(1);
+            }
         }
         #endregion
     }

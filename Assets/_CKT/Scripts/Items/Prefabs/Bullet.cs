@@ -1,37 +1,17 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace CKT
 {
-    public class Bullet : MonoBehaviour
+    public class Bullet : Projectile
     {
-        float _bulletSpeed = 30f;
-
-        private void OnEnable()
+        protected override void CreateHitSkillObject()
         {
-            StartCoroutine(MoveCoroutine());
-            StartCoroutine(DisableCoroutine());
-        }
-
-        private void OnDisable()
-        {
-
-        }
-
-        IEnumerator MoveCoroutine()
-        {
-            while (this.gameObject.activeSelf)
-            {
-                transform.position += transform.up * _bulletSpeed * Time.deltaTime;
-                yield return null;
-            }
-        }
-
-        IEnumerator DisableCoroutine()
-        {
-            yield return new WaitForSeconds(1f);
-            this.gameObject.SetActive(false);
+            GameObject hitSkillObject = YSJ.Managers.Pool.InstPrefab("HitSkillObject");
+            hitSkillObject.transform.position = this.transform.position;
+            hitSkillObject.transform.up = this.transform.up;
+            hitSkillObject.transform.localScale = this.transform.localScale;
+            hitSkillObject.GetComponent<HitSkillObject>().HitSkill(SkillManager);
         }
     }
 }
