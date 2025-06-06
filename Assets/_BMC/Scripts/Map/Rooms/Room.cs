@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using YSJ;
 
 namespace BMC
 {
@@ -25,8 +26,8 @@ namespace BMC
         [SerializeField] protected Door[] _doors;
         [SerializeField] protected Dictionary<DoorPosition, Door> _doorDict; // 문 딕셔너리 (문 위치, 문)
         [field: SerializeField] public Door SelectedDoor { get; set; } // 선택된 문
-        int[] doorDirectionY = { -1, 0, 0, 1 }; // 상, 좌, 우, 하
-        int[] doorDirectionX = { 0, -1, 1, 0 }; // 상, 좌, 우, 하
+        int[] _doorDirectionY = { -1, 0, 0, 1 };    // 상, 좌, 우, 하
+        int[] _doorDirectionX = { 0, -1, 1, 0 };    // 상, 좌, 우, 하
 
         void Awake()
         {
@@ -95,8 +96,8 @@ namespace BMC
             for (int i = 0; i < 4; i++)
             {
                 // 맵 밖으로 나갈 수 있는 문은 폐기
-                newRow = row + doorDirectionY[i];
-                newCol = col + doorDirectionX[i];
+                newRow = row + _doorDirectionY[i];
+                newCol = col + _doorDirectionX[i];
                 if (newRow < 0 || newRow >= MapManager.Instance.MaxRow || newCol < 0 || newCol >= MapManager.Instance.MaxCol)
                 {
                     DoorPosition doorPosition = Util.IntToEnum<DoorPosition>(i + 1);
@@ -111,11 +112,35 @@ namespace BMC
         }
         #endregion
 
+        // 보상 소환 (임시)
+        public void SpawnReward()
+        {
+            if (_roomData.IsCleared)
+            {
+                int index = Random.Range(0, 4);
+                string path = $"Prefabs/Rewards/{_roomData.RoomType}/{index}";
+                GameObject rewardObject = Managers.Resource.Load<GameObject>(path);
+                if (rewardObject == null)
+                {
+                    Debug.Log("보상 오프젝트 없음");
+                    return;
+                }
+                else
+                {
+                    GameObject reward = Instantiate(rewardObject, transform.position, Quaternion.identity);
+                }
+            }
+        }
+
         // 방 클리어 완료
         public void Complete()
         {
-            _roomData.IsCleared = true;
-            OpenAllValidDoor();
+            if (!_roomData.IsCleared)
+            {
+                _roomData.IsCleared = true;
+                SpawnReward();
+                OpenAllValidDoor();
+            }
         }
     }
 }

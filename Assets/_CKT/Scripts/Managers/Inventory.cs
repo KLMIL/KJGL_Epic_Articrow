@@ -7,66 +7,122 @@ namespace CKT
     [System.Serializable]
     public class Inventory
     {
-        event Action<List<GameObject>> OnLeftHandEvent;
-        public void SubLeftHand(Action<List<GameObject>> newSub)
+        #region [OnLeftHandEvent]
+        event Action<List<GameObject>> _onLeftHandEvent;
+        public void InitLeftHand()
         {
-            OnLeftHandEvent = null;
-            OnLeftHandEvent += newSub;
+            _onLeftHandEvent = null;
+        }
+        public void SingleSubLeftHand(Action<List<GameObject>> newSub)
+        {
+            _onLeftHandEvent = null;
+            _onLeftHandEvent += newSub;
         }
         public void InvokeLeftHand()
         {
-            OnLeftHandEvent?.Invoke(_leftSlot);
+            _onLeftHandEvent?.Invoke(_leftList);
         }
+        #endregion
 
-        event Action<List<GameObject>> OnRightHandEvent;
-        public void SubRightHand(Action<List<GameObject>> newSub)
+        #region [OnRightHandEvent]
+        event Action<List<GameObject>> _onRightHandEvent;
+        public void InitRightHand()
         {
-            OnRightHandEvent = null;
-            OnRightHandEvent += newSub;
+            _onRightHandEvent = null;
+        }
+        public void SingleSubRightHand(Action<List<GameObject>> newSub)
+        {
+            _onRightHandEvent = null;
+            _onRightHandEvent += newSub;
         }
         public void InvokeRightHand()
         {
-            OnRightHandEvent?.Invoke(_rightSlot);
+            _onRightHandEvent?.Invoke(_rightList);
         }
-
-        public List<GameObject> LeftSlot => _leftSlot;
-        List<GameObject> _leftSlot = new List<GameObject>();
-
-        public List<GameObject> RightSlot => _rightSlot;
-        List<GameObject> _rightSlot = new List<GameObject>();
-
-        public List<GameObject> InventorySlot => _inventorySlot;
-        List<GameObject> _inventorySlot = new List<GameObject>();
+        #endregion
 
         int _maxCount = 8;
 
+        #region [LeftList]
+        List<GameObject> _leftList = new List<GameObject>();
+        event Action<List<GameObject>> _onUpdateLeftListEvent;
+        public void SubUpdateLeftList(Action<List<GameObject>> newSub)
+        {
+            _onUpdateLeftListEvent += newSub;
+        }
+        #endregion
+
+        #region [RightList]
+        List<GameObject> _rightList = new List<GameObject>();
+        event Action<List<GameObject>> _onUpdateRightListEvent;
+        public void SubUpdateRightList(Action<List<GameObject>> newSub)
+        {
+            _onUpdateRightListEvent += newSub;
+        }
+        #endregion
+
+        #region [InventoryList]
+        List<GameObject> _inventoryList = new List<GameObject>();
+        event Action<List<GameObject>> _onUpdateInventoryListEvent;
+        public void SubUpdateInventoryList(Action<List<GameObject>> newSub)
+        {
+            _onUpdateInventoryListEvent += newSub;
+        }
+        #endregion
+
         public void Init()
         {
-            OnLeftHandEvent = null;
-            OnRightHandEvent = null;
-            _leftSlot = new List<GameObject>();
-            _rightSlot = new List<GameObject>();
-            _inventorySlot = new List<GameObject>();
+            _onLeftHandEvent = null;
+            _onRightHandEvent = null;
+
+            _leftList = new List<GameObject>();
+            _onUpdateLeftListEvent = null;
+
+            _rightList = new List<GameObject>();
+            _onUpdateRightListEvent = null;
+
+            _inventoryList = new List<GameObject>();
+            _onUpdateInventoryListEvent = null;
         }
 
         public bool CheckInventorySlotFull()
         {
-            return _inventorySlot.Count >= _maxCount;
+            return _inventoryList.Count >= _maxCount;
         }
 
-        public void RemoveAtSlot(GameObject item)
+        /// <summary>
+        /// 왼손, 오른손, 인벤토리 내용물 갱신, 왼손, 오른손 스킬 레벨 갱신
+        /// </summary>
+        public void InvokeUpdateList()
         {
-            if (_leftSlot.Contains(item))
+            //각 슬롯 내용물 확인
+            _onUpdateLeftListEvent?.Invoke(_leftList);
+            _onUpdateRightListEvent?.Invoke(_rightList);
+            _onUpdateInventoryListEvent?.Invoke(_inventoryList);
+
+            //스킬 매니저 초기화 후 슬롯 효과 다시 적용
+            GameManager.Instance.LeftSkillManager.InitLevel();
+            GameManager.Instance.RightSkillManager.InitLevel();
+            ApplyList(_leftList, 1);
+            ApplyList(_rightList, 2);
+        }
+        void ApplyList(List<GameObject> list, int handID)
+        {
+            for (int i = 0; i < list.Count; i++)
             {
-                _leftSlot.Remove(item);
-            }
-            else if (_rightSlot.Contains(item))
-            {
-                _rightSlot.Remove(item);
-            }
-            else if (_inventorySlot.Contains(item))
-            {
-                _inventorySlot.Remove(item);
+                //시전 시 효과
+                ICastEffectable cast = list[i].GetComponent<ICastEffectable>();
+                if (cast != null)
+                {
+                    cast.CastEffect(handID);
+                }
+
+                //적중 시 효과
+                IHitEffectable hit = list[i].GetComponent<IHitEffectable>();
+                if (hit != null)
+                {
+                    hit.HitEffect(handID);
+                }
             }
         }
     }

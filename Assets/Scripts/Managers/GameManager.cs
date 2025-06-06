@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,6 +9,11 @@ public class GameManager : MonoBehaviour
     public Camera MainCamera { get; private set; }
 
     public CKT.Inventory Inventory { get; private set; } = new CKT.Inventory();
+
+    public CKT.SkillManager LeftSkillManager { get; private set; } = new CKT.SkillManager();
+    public CKT.SkillManager RightSkillManager { get; private set; } = new CKT.SkillManager();
+
+    [field: SerializeField] bool IsPaused { get; set; } = false;
 
     void Awake()
     {
@@ -31,5 +34,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+    }
+
+    // 일시 정지 및 재개 기능
+    public void TogglePauseGame()
+    {
+        IsPaused = !IsPaused;
+        Time.timeScale = IsPaused ? 0f : 1f;
     }
 }
