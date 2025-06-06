@@ -3,42 +3,53 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    #region Core Field
     // 스텟 정보
     [Header("Status")]
     [SerializeField] EnemyStatusSO _statusOrigin;
     [HideInInspector] public EnemyStatusSO Status;
 
+    [HideInInspector] public Transform Player;
+    EnemyAnimation Animation;
+
+
     // 해당 유닛이 수행할 행동 배열
     [Header("Behaviour List")]
     public List<EnemyBehaviourUnit> Behaviours = new();
+
 
     // 공격 쿨타임 딕셔너리
     [HideInInspector]
     public Dictionary<string, float> lastAttackTimes = new Dictionary<string, float>();
 
-    [HideInInspector] public Transform Player;
-    EnemyAnimation Animation;
 
-
-    public GameObject RushAttackTrigger;
-
+    // 현재 FSM 상태, 현재 애니메이션
     [HideInInspector] public string CurrentStateName = "Idle";
     [HideInInspector] public string CurrentAnimation = "";
+
+    #endregion
+
+    #region Behaviour Field 
+    // ----- 조건, 상태 관련 변수 -----
+    // 몬스터 피격 처리
     [HideInInspector] public bool isDamaged = false;
     [HideInInspector] public float pendingDamage = 0;
 
+    // 공격, 투사체 소환 등
     [HideInInspector] public int projectileFiredCount = 0;
     [HideInInspector] public float projectileIntervalTimer = 0;
     [HideInInspector] public bool isSpawnedMite = false;
 
-    [HideInInspector] public Vector3 randomMoveDirection = Vector3.zero;
-    [HideInInspector] public float randomMoveChangeCooldown = 0f;
+    [HideInInspector] public bool isRushing = false;
+    [HideInInspector] public Vector3 rushDirection = Vector3.zero;
 
     [HideInInspector] public bool isContactDamageActive = false;
     [HideInInspector] public float currentActionDamageMultiply = 1.0f;
 
-    [HideInInspector] public bool isRushing = false;
-    [HideInInspector] public Vector3 rushDirection = Vector3.zero;
+    // 이동
+    [HideInInspector] public Vector3 randomMoveDirection = Vector3.zero;
+    [HideInInspector] public float randomMoveChangeCooldown = 0f;
+    #endregion
 
 
     #region Initialization
@@ -48,7 +59,9 @@ public class EnemyController : MonoBehaviour
 
         foreach (var behaviour in Behaviours)
         {
-            if (behaviour.action is MeleeAttackActionSO)
+            if (behaviour.action is MeleeAttackActionSO ||
+                behaviour.action is ProjectileAttackActionSO ||
+                behaviour.action is SpecialAttackActionSO)
             {
                 string key = behaviour.stateName;
                 if (!lastAttackTimes.ContainsKey(key))
@@ -64,11 +77,6 @@ public class EnemyController : MonoBehaviour
         Animation = GetComponent<EnemyAnimation>();
         // Null체크 해야함.
         Player = GameObject.FindWithTag("Player")?.transform;
-
-        if (RushAttackTrigger != null)
-        {
-            RushAttackTrigger.SetActive(false);
-        }
     }
     #endregion
 
@@ -77,12 +85,19 @@ public class EnemyController : MonoBehaviour
     // 현재 상태에서는, 0번에 Idle, None->Soft->Hard 순서로 할당.
     private void Update()
     {
+        if (Player == null)
+        {
+            Player = GameObject.FindWithTag("Player")?.transform;
+            if (Player == null) return;
+        }
         if (!IsBehaviourAssigned()) return;
         if (IsEnemyDie()) return;
 
+        // 현재 상태 가져오기
         int idx = Behaviours.FindIndex(b => b.stateName == CurrentStateName);
         EnemyBehaviourUnit current = Behaviours[idx];
 
+        // 인터럽트 흐름에 따라 수행
         if (HandleHardInterrupt(current)) return;
         HandleSoftInterrupt(current);
         HandleNoneInterrupt(current);
@@ -115,26 +130,11 @@ public class EnemyController : MonoBehaviour
     #region Interrupt
     private bool HandleHardInterrupt(EnemyBehaviourUnit current)
     {
-        //Debug.LogWarning("Handle Hard Inttrupt Functions Proceed");
-
         // 0. 현재 조건이 Hard일 경우, 상태가 전이되기 전까지 계속해서 수행
         if (current.interruptType == InterruptType.Hard)
         {
-            current.elapsedTime += Time.deltaTime;
-            if (current.elapsedTime <= current.duration)
-            {
-                Debug.Log($"Act: {current.stateName}");
-                current.action?.Act(this);
-            }
-            else
-            {
-                //current.ResetTimer();
-                ChangeState(current.nextStateName);
-                //CurrentStateName = current.nextStateName;
-                //PlayAnimationOnce(Behaviours.Find(b => b.stateName == CurrentStateName)?.animationName ?? "");
-            }
-            // Hard Type Interrupt 수행 중에는 이후 검사 수행하지 않음
-            return true;
+            HandleNoneInterrupt(current);
+            return true; // Hard Type Interrupt 수행 중에는 이후 검사 수행하지 않음
         }
 
 
@@ -144,20 +144,15 @@ public class EnemyController : MonoBehaviour
                 b => b.interruptType == InterruptType.Hard &&
                      b.condition.IsMet(this));
 
-        if (hardIdx >= 0 && Behaviours[hardIdx].stateName != CurrentStateName)
+        if (hardIdx >= 0)
         {
             ChangeState(Behaviours[hardIdx].stateName);
-            //CurrentStateName = Behaviours[hardIdx].stateName;
-            //Behaviours[hardIdx].ResetTimer();
-            //PlayAnimationOnce(Behaviours[hardIdx].animationName);
         }
         return false;
     }
 
     private void HandleSoftInterrupt(EnemyBehaviourUnit current)
     {
-        //Debug.LogWarning("Handle Soft Inttrupt Functions Proceed");
-
         // 2. Soft: 우선순위 인터럽트 순서대로 검사
         // ex) 공격, 소환 등 => 특정 상황에서는 hard 일 수도 있음. 
         int softIdx = -1;
@@ -168,19 +163,14 @@ public class EnemyController : MonoBehaviour
                          b.condition.IsMet(this));
         }
 
-        if (softIdx >= 0 && Behaviours[softIdx].stateName != CurrentStateName)
+        if (softIdx >= 0)
         {
             ChangeState(Behaviours[softIdx].stateName);
-            //CurrentStateName = Behaviours[softIdx].stateName;
-            //Behaviours[softIdx].ResetTimer();
-            //PlayAnimationOnce(Behaviours[softIdx].animationName);
         }
     }
 
     private void HandleNoneInterrupt(EnemyBehaviourUnit current)
     {
-        //Debug.LogWarning("Handle None Inttrupt Functions Proceed");
-
         // 3. None: 기본 루프 수행
         // Idle, RandomMove 등
         current.elapsedTime += Time.deltaTime;
@@ -192,9 +182,6 @@ public class EnemyController : MonoBehaviour
         else
         {
             ChangeState(current.nextStateName);
-            //current.ResetTimer();
-            //CurrentStateName = current.nextStateName;
-            //PlayAnimationOnce(Behaviours.Find(b => b.stateName == CurrentStateName)?.animationName ?? "");
         }
     }
 
@@ -208,35 +195,16 @@ public class EnemyController : MonoBehaviour
         Animation.Play(animName);
         CurrentAnimation = animName;
     }
+    #endregion
 
-    // 상태 강제 전이 함수 (ex, 돌진 중 충돌 시 돌진 중지)
-    public void ForceState(string stateName)
-    {
-        ChangeState(stateName);
-        //int idx = Behaviours.FindIndex(b => b.stateName == stateName);
-        //if (idx >= 0)
-        //{
-        //    CurrentStateName = stateName;
-        //    Behaviours[idx].ResetTimer();
-        //    PlayAnimationOnce(Behaviours[idx].animationName);
-        //}
-    }
-
-    public void ForceToNextState()
+    #region State Change
+    private void ForceToNextState()
     {
         int idx = Behaviours.FindIndex(b => b.stateName == CurrentStateName);
 
         if (idx >= 0)
         {
             string next = Behaviours[idx].nextStateName;
-            //int nextIdx = Behaviours.FindIndex(b => b.stateName == next);
-
-            //if (nextIdx >= 0)
-            //{
-            //    Behaviours[nextIdx].ResetTimer();
-            //    CurrentStateName = next;
-            //    PlayAnimationOnce(Behaviours[nextIdx].animationName);
-            //}
             ChangeState(next);
         }
     }
@@ -244,6 +212,10 @@ public class EnemyController : MonoBehaviour
     // 일반 상태 전이 함수
     private void ChangeState(string nextStateName)
     {
+        // 같은 상태로의 전이는 아무것도 하지 않음
+        if (CurrentStateName == nextStateName) return; 
+
+
         int prevIdx = Behaviours.FindIndex(b => b.stateName == CurrentStateName);
         int nextIdx = Behaviours.FindIndex(b => b.stateName == nextStateName);
 
