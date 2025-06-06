@@ -22,7 +22,7 @@ namespace YSJ
             SetPrefab("Prefabs", "DamageArea", _prefabDict);
             SetPrefab("Prefabs", "HitSkillObject", _prefabDict);
             SetPrefab("Prefabs", "HitScatter", _prefabDict);
-
+            SetPrefab("Prefabs", "GrabObject", _prefabDict);
         }
 
         void SetPrefab(string path, string name, Dictionary<string, GameObject> dict)

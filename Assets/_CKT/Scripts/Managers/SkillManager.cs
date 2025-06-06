@@ -18,6 +18,7 @@ namespace CKT
         int _hitScatterLevel;
         int _hitExplosionLevel;
         int _hitDamageAreaLevel;
+        int _hitGrabLevel;
 
         #region [Passive, Cast, Hit]
         public List<Func<GameObject, IEnumerator>> CastSkillList => _castSkillList;
@@ -40,6 +41,7 @@ namespace CKT
             _hitScatterLevel = 0;
             _hitExplosionLevel = 0;
             _hitDamageAreaLevel = 0;
+            _hitGrabLevel = 0;
 
             //CastSkill
             _castSkillList.Clear();
@@ -53,6 +55,7 @@ namespace CKT
             _hitSkillList.Add((obj) => HitScatter(obj));
             _hitSkillList.Add((obj) => HitExplosionCoroutine(obj));
             _hitSkillList.Add((obj) => HitDamageAreaCoroutine(obj));
+            _hitSkillList.Add((obj) => HitGrabCoroutine(obj));
         }
         #endregion
 
@@ -92,6 +95,11 @@ namespace CKT
         public void HitDamageAreaLevelUp(int amount)
         {
             _hitDamageAreaLevel += amount;
+        }
+
+        public void HitGrabLevelUp(int amount)
+        {
+            _hitGrabLevel += amount;
         }
         #endregion
 
@@ -222,6 +230,18 @@ namespace CKT
                 hitDamageArea.transform.position = startPos;
                 yield return new WaitForSeconds(0.05f);
             }
+        }
+
+        IEnumerator HitGrabCoroutine(GameObject origin)
+        {
+            if (_hitGrabLevel > 0)
+            {
+                GameObject grabObject = YSJ.Managers.Pool.InstPrefab("GrabObject");
+                grabObject.transform.position = origin.transform.position;
+                grabObject.transform.localScale = origin.transform.localScale;
+            }
+
+            yield return null;
         }
         #endregion
 
