@@ -5,14 +5,18 @@ namespace YSJ
 {
     public class PoolManager
     {
+        GameObject _poolParent;
+        
         Dictionary<string, List<GameObject>> _poolDict = new Dictionary<string, List<GameObject>>();
         Dictionary<string, GameObject> _prefabDict = new Dictionary<string, GameObject>();
 
         public void Init()
         {
+            _poolParent = new GameObject("PoolParent");
+            GameObject.DontDestroyOnLoad(_poolParent);
+            
             _poolDict.Clear();
             _prefabDict.Clear();
-
             SetPrefab("Prefabs", "Bullet", _prefabDict);
             SetPrefab("Prefabs", "Explosion", _prefabDict);
             SetPrefab("Prefabs", "DamageArea", _prefabDict);
@@ -66,7 +70,7 @@ namespace YSJ
             if (!select) //못 찾으면? 새롭게 생성하고 >> select 변수에 할당
             {
                 select = GameObject.Instantiate(_prefabDict[name]);
-                select.transform.SetParent(Managers.Instance.transform);
+                select.transform.SetParent(_poolParent.transform);
                 _poolDict[name].Add(select);
             }
 
