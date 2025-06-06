@@ -29,10 +29,22 @@ namespace BMC
         int[] _doorDirectionY = { -1, 0, 0, 1 };    // 상, 좌, 우, 하
         int[] _doorDirectionX = { 0, -1, 1, 0 };    // 상, 좌, 우, 하
 
+        [Header("테스트 관련")]
+        GameObject _monsterGO;
+        GameObject[] _allReward;
+
         void Awake()
         {
             FindDoor();
             //RearrangeDoor();
+        }
+
+        void Update()
+        {
+            if (_monsterGO == null)
+            {
+                Complete();
+            }
         }
 
         public virtual void Init(int row, int col) { }
@@ -117,9 +129,13 @@ namespace BMC
         {
             if (_roomData.IsCleared)
             {
-                int index = Random.Range(0, 4);
-                string path = $"Prefabs/Rewards/{_roomData.RoomType}/{index}";
-                GameObject rewardObject = Managers.Resource.Load<GameObject>(path);
+
+                if(_allReward == null)
+                {
+                    _allReward = Managers.Resource.LoadAll<GameObject>($"Prefabs/Rewards");
+                }
+
+                GameObject rewardObject = _allReward[Random.Range(0, _allReward.Length)];
                 if (rewardObject == null)
                 {
                     Debug.Log("보상 오프젝트 없음");
@@ -131,7 +147,7 @@ namespace BMC
                 }
             }
         }
-
+        
         // 방 클리어 완료
         public void Complete()
         {
@@ -141,6 +157,14 @@ namespace BMC
                 SpawnReward();
                 OpenAllValidDoor();
             }
+        }
+
+        // 몬스터 소환 (임시)
+        public void SpawnMonster()
+        {
+            _monsterGO = Managers.Resource.Instantiate("Monster/CarapaceSlime");
+            _monsterGO.transform.SetParent(transform);
+            _monsterGO.transform.localPosition = Vector3.zero;
         }
     }
 }
