@@ -22,12 +22,30 @@ public class SpecialAttackActionSO: EnemyActionSO
 
     public override void Act(EnemyController controller)
     {
+        // 현재 공격 상태의 쿨타임 체크
+        string key = controller.CurrentStateName;
+        if (!controller.lastAttackTimes.ContainsKey(key))
+        {
+            controller.lastAttackTimes[key] = -Mathf.Infinity;
+        }
+
+        if (Time.time - controller.lastAttackTimes[key] < cooldown) return;
+
+
         switch (specialAttackMode)
         {
             case SpecialAttackMode.Summon:
                 Summon(controller);
                 break;
         }
+
+        // 쿨타임 부여
+        controller.lastAttackTimes[key] = Time.time;
+    }
+
+    public override void OnEnter(EnemyController controller)
+    {
+        controller.lastAttackTimes[controller.CurrentStateName] = -Mathf.Infinity;
     }
 
     public override void OnExit(EnemyController controller)

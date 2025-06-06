@@ -46,6 +46,10 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public bool isContactDamageActive = false;
     [HideInInspector] public float currentActionDamageMultiply = 1.0f;
 
+    // 접촉공격 쿨타임
+    [HideInInspector] public float lastContactAttackTime = -Mathf.Infinity;
+    [HideInInspector] public float contactAttackCooldown = 1.0f;
+
     // 이동
     [HideInInspector] public Vector3 randomMoveDirection = Vector3.zero;
     [HideInInspector] public float randomMoveChangeCooldown = 0f;
@@ -85,6 +89,12 @@ public class EnemyController : MonoBehaviour
     // 현재 상태에서는, 0번에 Idle, None->Soft->Hard 순서로 할당.
     private void Update()
     {
+        // 디버깅용 대미지 부여 함수
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            GetComponent<EnemyTakeDamage>().TakeDamage(5);
+        }
+
         if (Player == null)
         {
             Player = GameObject.FindWithTag("Player")?.transform;
@@ -241,9 +251,11 @@ public class EnemyController : MonoBehaviour
     #region Attack Check
     public void DealDamageToPlayer(float damage, bool forceToNextState = false)
     {
+        Debug.LogWarning("Deal Damage To Player");
+
         IDamagable target = Player.GetComponent<IDamagable>();
         if (target != null)
-        {
+        {    
             target.TakeDamage(damage);
 
             if (forceToNextState)

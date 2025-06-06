@@ -84,7 +84,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_Sprite: {fileID: -6363429443671316131, guid: 96bc394c2fd60434e94d59d76351478a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -108,81 +108,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28991b7ecaa04e74f9284c72439a1200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _statusOrigin: {fileID: 0}
+  _statusOrigin: {fileID: 11400000, guid: dc4e77f75fd922849a2c2f9f54aa7d9f, type: 2}
   Status: {fileID: 0}
   Player: {fileID: 0}
   Behaviours:
   - stateName: Die
-    interruptType: 0
+    interruptType: 2
     condition: {fileID: 11400000, guid: b1daceb7c40b8ec4f992dfbbd7dd02ee, type: 2}
     action: {fileID: 11400000, guid: 664724dd8f3f880409145e7811957e77, type: 2}
-    animationName: 
-    duration: 0
-    nextStateName: 
+    animationName: Dead
+    duration: 1
+    nextStateName: Die
     elapsedTime: 0
   - stateName: Damaged
-    interruptType: 0
+    interruptType: 1
     condition: {fileID: 11400000, guid: 902d66524a2d1c04689f0d3b4523d910, type: 2}
     action: {fileID: 11400000, guid: 52274b4cf3699d44588674501cc38c5a, type: 2}
-    animationName: 
-    duration: 0
-    nextStateName: 
-    elapsedTime: 0
-  - stateName: Approach
-    interruptType: 0
-    condition: {fileID: 11400000, guid: 50c9cd9cd56174143851021d61db8205, type: 2}
-    action: {fileID: 11400000, guid: d3ffc76877b6111488083b71bc06a6fa, type: 2}
-    animationName: 
-    duration: 0
-    nextStateName: 
+    animationName: Hurt
+    duration: 0.3
+    nextStateName: Idle
     elapsedTime: 0
   - stateName: RushReady
-    interruptType: 0
+    interruptType: 1
     condition: {fileID: 11400000, guid: 1c39bf414d9c4b94f82cc19e263aaa05, type: 2}
     action: {fileID: 11400000, guid: 89fc4c5144ff64a4b8b62c5b4731cc45, type: 2}
-    animationName: 
-    duration: 0
-    nextStateName: 
+    animationName: RushReady
+    duration: 0.5
+    nextStateName: Rush
     elapsedTime: 0
   - stateName: Rush
-    interruptType: 0
+    interruptType: 1
     condition: {fileID: 11400000, guid: e8be2ebdd572cba41b4b999e140d20ca, type: 2}
     action: {fileID: 11400000, guid: 621257996edb0bf468f081f8bac02404, type: 2}
-    animationName: 
-    duration: 0
-    nextStateName: 
+    animationName: Rush
+    duration: 1
+    nextStateName: MoveAway
     elapsedTime: 0
   - stateName: MoveAway
-    interruptType: 0
+    interruptType: 1
     condition: {fileID: 11400000, guid: d6f9151595356fb4b88715fa5e8a18c6, type: 2}
     action: {fileID: 11400000, guid: 42aa8c6e6186d7445a29859aac65b2a5, type: 2}
-    animationName: 
-    duration: 0
-    nextStateName: 
+    animationName: Walk
+    duration: 0.4
+    nextStateName: PostAttack
     elapsedTime: 0
   - stateName: PostAttack
-    interruptType: 0
+    interruptType: 1
     condition: {fileID: 11400000, guid: 3ad4c907c527d9341b54ce8ca75e29cb, type: 2}
     action: {fileID: 11400000, guid: e4fac3dc0c88202428de6c187aedd785, type: 2}
-    animationName: 
-    duration: 0
-    nextStateName: 
+    animationName: Idle
+    duration: 0.8
+    nextStateName: Idle
+    elapsedTime: 0
+  - stateName: Approach
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 50c9cd9cd56174143851021d61db8205, type: 2}
+    action: {fileID: 11400000, guid: d3ffc76877b6111488083b71bc06a6fa, type: 2}
+    animationName: Walk
+    duration: 1
+    nextStateName: Idle
     elapsedTime: 0
   - stateName: Idle
     interruptType: 0
     condition: {fileID: 11400000, guid: b21430758a8b61748a63b63ea0b819b0, type: 2}
     action: {fileID: 11400000, guid: f1987e4a6ad51e941b5f35440fe9c050, type: 2}
-    animationName: 
-    duration: 0
-    nextStateName: 
+    animationName: Idle
+    duration: 1
+    nextStateName: RandomMove
     elapsedTime: 0
   - stateName: RandomMove
     interruptType: 0
     condition: {fileID: 11400000, guid: 1ea983744f56a48438b2814c20a30c2b, type: 2}
     action: {fileID: 11400000, guid: 676f6b2055cbd814a81ab7238b87bdd9, type: 2}
-    animationName: 
-    duration: 0
-    nextStateName: 
+    animationName: Walk
+    duration: 1.5
+    nextStateName: Idle
     elapsedTime: 0
   CurrentStateName: Idle
   CurrentAnimation: 

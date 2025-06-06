@@ -83,7 +83,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_Sprite: {fileID: -2135605920485991734, guid: 49df887836f4ce0438302e856fed8c01, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -162,6 +162,8 @@ MonoBehaviour:
   rushDirection: {x: 0, y: 0, z: 0}
   isContactDamageActive: 0
   currentActionDamageMultiply: 1
+  lastContactAttackTime: -Infinity
+  contactAttackCooldown: 1
   randomMoveDirection: {x: 0, y: 0, z: 0}
   randomMoveChangeCooldown: 0
 --- !u!114 &2290517153993942967
@@ -323,7 +325,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!95 &6889939306903329399
 Animator:
   serializedVersion: 7

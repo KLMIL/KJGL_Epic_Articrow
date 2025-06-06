@@ -61,6 +61,11 @@ public class MeleeAttackActionSO : EnemyActionSO
         controller.lastAttackTimes[key] = Time.time;
     }
 
+    public override void OnEnter(EnemyController controller)
+    {
+        controller.lastAttackTimes[controller.CurrentStateName] = -Mathf.Infinity;
+    }
+
     public override void OnExit(EnemyController controller)
     {
         switch (meleeAttackMode)
