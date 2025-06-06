@@ -10,6 +10,7 @@ namespace CKT
             GameObject hitSkillObject = YSJ.Managers.Pool.InstPrefab("HitSkillObject");
             hitSkillObject.transform.position = this.transform.position;
             hitSkillObject.transform.up = this.transform.up;
+            hitSkillObject.transform.localScale = this.transform.localScale;
             hitSkillObject.GetComponent<HitSkillObject>().HitSkill(SkillManager);
         }
     }

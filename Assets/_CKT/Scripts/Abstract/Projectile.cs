@@ -6,7 +6,7 @@ namespace CKT
     public abstract class Projectile : MonoBehaviour
     {
         public SkillManager SkillManager;
-        float _bulletSpeed = 30f;
+        float _bulletSpeed = 25f;
 
         private void OnEnable()
         {
@@ -36,7 +36,7 @@ namespace CKT
 
         IEnumerator DisableCoroutine()
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.4f);
             CreateHitSkillObject();
             this.gameObject.SetActive(false);
         }
