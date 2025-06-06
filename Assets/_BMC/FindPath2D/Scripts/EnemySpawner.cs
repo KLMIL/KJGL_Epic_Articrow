@@ -16,6 +16,14 @@ public class EnemySpawner : MonoBehaviour
     private Vector3 offset = new Vector3(0.5f, 0.5f, 0);        // 적 배치는 타일 모서리 위치이므로 타일 중앙에 배치할 수 있도록하는 offset
     private List<Vector3> possibleTiles = new List<Vector3>();  // 적배치가 가능한 모든 타일의 위치를 저장하는 리스트
 
+    [System.Serializable]
+    private struct WayPointData
+    {
+        public GameObject[] wayPoints;
+    }
+    [SerializeField]
+    private WayPointData[] wayPointData;
+
     private void Awake()
     {
         // Tilemap의 Bounds 재설정 (맵을 수정했을 때 Bounds가 변경되지 않는 문제 해결)
@@ -28,8 +36,9 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < enemyCount; ++i)
         {
             int index = Random.Range(0, possibleTiles.Count);
+            int wayIndex = Random.Range(0, wayPointData.Length);
             GameObject clone = Instantiate(enemyPrefab, possibleTiles[index], Quaternion.identity, transform);
-            clone.GetComponent<EnemyFSM>().Setup(target);
+            clone.GetComponent<EnemyFSM>().Setup(target, wayPointData[wayIndex].wayPoints);
         }
     }
 
@@ -41,7 +50,7 @@ public class EnemySpawner : MonoBehaviour
         // 타일맵 내부 모든 타일의 정보를 불러와 allTiles 배열에 저장
         TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
 
-        // 외곽 라인을 제외한 모든 타일 검사(Background에서 벽이 배치된 부분은 비어있음)
+        // 외곽 라인을 제외한 모든 타일 검사(Background에서 벽이 배치된 부분은 비워놓았기 때문)
         for (int y = 1; y < bounds.size.y - 1; ++y)
         {
             for (int x = 1; x < bounds.size.x - 1; ++x)
