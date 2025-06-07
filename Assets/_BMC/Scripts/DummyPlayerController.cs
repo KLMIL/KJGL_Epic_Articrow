@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using CKT;
 using YSJ;
@@ -6,10 +7,9 @@ namespace BMC
 {
     public class DummyPlayerController : MonoBehaviour
     {
-        PlayerMove _playerMove = new PlayerMove();
-        PlayerDash _playerDash;
-        PlayerAnimator _playerAnimator;
         Rigidbody2D _rigid;
+        PlayerAnimator _playerAnimator;
+        Silhouette _silhouette;
 
         #region [자식 오브젝트]
         Transform _leftHand;
@@ -19,26 +19,31 @@ namespace BMC
         IAttackable _rightArtifact;
         #endregion
 
-        #region [입력값]
-        bool _leftHandValue;
-        bool _rightHandValue;
-        #endregion
-
         #region [값]
-        float _scanRange = 2f;
+        float _moveSpeed = 7f;
+        float _dampScale = 0.5f;
+
+        float _dashSpeed = 14f;
+        float _dashTime = 0.2f;
+        bool _isDash = false;
+        Coroutine _dashCoroutine;
+
+        float _scanRange = 1.5f;
         #endregion
 
         LayerMask _interactLayerMask;
 
         void Awake()
         {
-            _playerAnimator = GetComponent<PlayerAnimator>();
             _rigid = GetComponent<Rigidbody2D>();
+            _playerAnimator = GetComponent<PlayerAnimator>();
+            _silhouette = GetComponent<Silhouette>();
 
             _leftHand = GetComponentInChildren<LeftHand_YSJ>().transform;
             _rightHand = GetComponentInChildren<RightHand_YSJ>().transform;
 
-            YSJ.Managers.Input.OnInteractAction = InteractItem;
+            YSJ.Managers.Input.OnRollAction += Dash;
+            YSJ.Managers.Input.OnInteractAction += InteractItem;
 
             _interactLayerMask = LayerMask.GetMask("Interact");
         }
@@ -58,7 +63,18 @@ namespace BMC
 
         void FixedUpdate()
         {
-            _playerMove.Move(Managers.Input.MoveInput, _rigid, _playerAnimator);
+            Vector2 moveInput = YSJ.Managers.Input.MoveInput;
+            if (_dashCoroutine == null)
+            {
+                if (moveInput != Vector2.zero)
+                {
+                    Move(moveInput, _moveSpeed);
+                }
+                else
+                {
+                    Damp(_dampScale);
+                }
+            }
 
             if (YSJ.Managers.Input.IsPressLeftHandAttack)
             {
@@ -75,6 +91,55 @@ namespace BMC
             }
         }
 
+        #region [Move]
+        void Move(Vector2 inputValue, float moveSpeed)
+        {
+            if ((_rigid == null) || (_playerAnimator == null))
+            {
+                Debug.LogError("RigidBody2D or PlayerAnimator is null");
+                return;
+            }
+
+            _rigid.linearVelocity -= _rigid.linearVelocity;
+            _rigid.linearVelocity += inputValue * _moveSpeed;
+            _playerAnimator.currentState |= PlayerAnimator.State.Walk;
+        }
+        #endregion
+
+        #region [Damp]
+        void Damp(float dampScale)
+        {
+            if ((_rigid == null) || (_playerAnimator == null))
+            {
+                Debug.LogError("RigidBody2D or PlayerAnimator is null");
+                return;
+            }
+
+            _rigid.linearVelocity *= dampScale;
+            _playerAnimator.currentState &= ~PlayerAnimator.State.Walk;
+        }
+        #endregion
+
+        #region [Dash]
+        void Dash(Vector2 dashDir)
+        {
+            _dashCoroutine = _dashCoroutine ?? StartCoroutine(DashCoroutine(dashDir, _dashSpeed, _dashTime));
+        }
+
+        IEnumerator DashCoroutine(Vector2 dashDir, float dashSpeed, float dashTime)
+        {
+            _silhouette.IsActive = true;
+            _rigid.linearVelocity += dashDir * dashSpeed;
+
+            yield return new WaitForSeconds(dashTime);
+            _silhouette.IsActive = false;
+            _rigid.linearVelocity -= _rigid.linearVelocity;
+
+            _dashCoroutine = null;
+        }
+        #endregion
+
+        #region [Interact]
         void InteractItem()
         {
             Transform target = ScanTarget(_scanRange);
@@ -143,5 +208,6 @@ namespace BMC
 
             return target;
         }
+        #endregion
     }
 }
