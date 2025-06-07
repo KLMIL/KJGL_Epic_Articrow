@@ -161,6 +161,7 @@ public class InputManager
         IsPressLeftHandAttack = context.ReadValueAsButton();
         if (context.performed)
         {
+            OnLeftHandAction?.Invoke();
             //Debug.Log("좌수");
         }
     }
@@ -170,6 +171,7 @@ public class InputManager
         IsPressRightHandAttack = context.ReadValueAsButton();
         if (context.performed)
         {
+            OnRightHandAction?.Invoke();
             //Debug.Log("우수");
         }
     }
