@@ -5,7 +5,7 @@ namespace YSJ
     [System.Serializable]
     public class PlayerMove
     {
-        float _moveSpeed = 7f;
+        float _moveSpeed = 28f;
         float _damping = 0.5f;
 
         public void Move(Vector2 inputValue, Rigidbody2D rigid, PlayerAnimator animator)
@@ -18,12 +18,13 @@ namespace YSJ
             
             if (inputValue != Vector2.zero)
             {
-                rigid.linearVelocity = inputValue * _moveSpeed;
+                //rigid.linearVelocity = inputValue * _moveSpeed;
+                rigid.AddForce(inputValue * _moveSpeed, ForceMode2D.Force);
                 animator.currentState |= PlayerAnimator.State.Walk;
             }
             else
             {
-                rigid.linearVelocity *= _damping;
+                //rigid.linearVelocity *= _damping;
                 animator.currentState &= ~PlayerAnimator.State.Walk;
             }
         }
