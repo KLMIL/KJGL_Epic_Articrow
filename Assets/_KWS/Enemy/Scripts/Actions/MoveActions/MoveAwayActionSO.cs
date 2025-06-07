@@ -14,6 +14,7 @@ public enum MoveAwayMode { Simple, Smart }
 public class MoveAwayActionSO : EnemyActionSO
 {
     public float moveDistance = 3.0f;
+    public float moveDuration = 0.8f;
     public MoveAwayMode mode = MoveAwayMode.Simple;
     public float wallCheckDistance = 0.5f;
 
@@ -28,36 +29,60 @@ public class MoveAwayActionSO : EnemyActionSO
         switch (mode)
         {
             case MoveAwayMode.Simple:
-                if (!Physics.Raycast(controller.transform.position, awayDir, wallCheckDistance))
-                {
-                    controller.transform.Translate(awayDir * controller.Status.moveSpeed * Time.deltaTime);
-                }
+                controller.MoveTo(awayDir, moveDuration, "SimpleMoveAway");
+
+                //if (!Physics.Raycast(controller.transform.position, awayDir, wallCheckDistance))
+                //{
+                //    controller.transform.Translate(awayDir * controller.Status.moveSpeed * Time.deltaTime);
+                //}
                 break;
 
             case MoveAwayMode.Smart:
                 // 벽/장애물 체크
-                if (Physics.Raycast(controller.transform.position, awayDir, out RaycastHit hit, wallCheckDistance))
+                Vector3 chosenDir = awayDir;
+                if (Physics.Raycast(controller.transform.position, awayDir, wallCheckDistance))
                 {
                     // 벽에 막혀있으면, 벽을 따라 '오른쪽' or '왼쪽' 방향으로 이동
-                    Vector3 right = Vector3.Cross(Vector3.up, awayDir).normalized;
+                    Vector3 right = Vector3.Cross(Vector3.forward, awayDir).normalized;
                     Vector3 left = -right;
+
                     // 오른쪽 방향 우선 체크
                     if (!Physics.Raycast(controller.transform.position, right, wallCheckDistance))
                     {
-                        controller.transform.Translate(right * controller.Status.moveSpeed * Time.deltaTime);
+                        //controller.transform.Translate(right * controller.Status.moveSpeed * Time.deltaTime);
+                        chosenDir = right;
                     }
                     // 왼쪽 방향 우선 체크
                     else if (!Physics.Raycast(controller.transform.position, left, wallCheckDistance))
                     {
-                        controller.transform.Translate(left * controller.Status.moveSpeed * Time.deltaTime);
+                        //controller.transform.Translate(left * controller.Status.moveSpeed * Time.deltaTime);
+                        chosenDir = left;
+                    }
+                    else
+                    {
+                        chosenDir = Vector3.zero;
                     }
                     // 둘 다 막혀있으면 멈춤
                 }
                 else
                 {
-                    controller.transform.Translate(awayDir * controller.Status.moveSpeed * Time.deltaTime);
+                    //controller.transform.Translate(awayDir * controller.Status.moveSpeed * Time.deltaTime);
                 }
-                break;
+
+                if (chosenDir != Vector3.zero)
+                {
+                    controller.MoveTo(chosenDir, moveDuration, "SmartMoveAway");
+                }
+                else
+                {
+                    controller.StopMove();
+                }
+                    break;
         }
+    }
+
+    public override void OnExit(EnemyController controller)
+    {
+        controller.StopMove();
     }
 }

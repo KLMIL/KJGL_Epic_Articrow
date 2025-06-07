@@ -5,8 +5,8 @@ public class EnemyStatusSO : ScriptableObject
 {
     [Header("Basic Status")]
     public float healthPoint = 10f;     // HP: 체력
-    public int attack = 2;              // ATK: 공격력
-    public int defense = 0;             // DEF: 방어력
+    public float attack = 2;              // ATK: 공격력
+    public int defence = 0;             // DEF: 방어력
     public float moveSpeed = 2.5f;      // SPD: 이동 속도
     //public float attackSpeed = 1.0f;    // ASPD: 공격 속도
     //public float range = 1.0f;          // RNG: 공격 사거리

@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour
 
     [HideInInspector] public Transform Player;
     EnemyAnimation Animation;
+    EnemyMovement Movement;
 
 
     // 해당 유닛이 수행할 행동 배열
@@ -19,7 +20,7 @@ public class EnemyController : MonoBehaviour
 
 
     // 공격 쿨타임 딕셔너리
-    [HideInInspector]
+    //[HideInInspector]
     public Dictionary<string, float> lastAttackTimes = new Dictionary<string, float>();
 
 
@@ -38,10 +39,15 @@ public class EnemyController : MonoBehaviour
     // 공격, 투사체 소환 등
     [HideInInspector] public int projectileFiredCount = 0;
     [HideInInspector] public float projectileIntervalTimer = 0;
+    [HideInInspector] public Coroutine fireRoutine;
+
     [HideInInspector] public bool isSpawnedMite = false;
 
+    [HideInInspector] public bool isRushAttacked = true;
     [HideInInspector] public bool isRushing = false;
     [HideInInspector] public Vector3 rushDirection = Vector3.zero;
+    [HideInInspector] public float rushSpeedMultiply = 1f;
+    [HideInInspector] public float rushDamageMultuply = 1f;
 
     [HideInInspector] public bool isContactDamageActive = false;
     [HideInInspector] public float currentActionDamageMultiply = 1.0f;
@@ -79,6 +85,7 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         Animation = GetComponent<EnemyAnimation>();
+        Movement = GetComponent<EnemyMovement>();
         // Null체크 해야함.
         Player = GameObject.FindWithTag("Player")?.transform;
     }
@@ -209,7 +216,7 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region State Change
-    private void ForceToNextState()
+    public void ForceToNextState()
     {
         int idx = Behaviours.FindIndex(b => b.stateName == CurrentStateName);
 
@@ -264,6 +271,19 @@ public class EnemyController : MonoBehaviour
                 ForceToNextState();
             }
         }
+    }
+    #endregion
+
+
+    #region Movement
+    public void MoveTo(Vector3 dir, float duration, string moveType)
+    {
+        Movement.MoveTo(dir, duration, moveType);
+    }
+
+    public void StopMove()
+    {
+        Movement.Stop();
     }
     #endregion
 }

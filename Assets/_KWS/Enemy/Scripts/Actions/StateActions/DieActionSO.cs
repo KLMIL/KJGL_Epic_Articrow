@@ -13,6 +13,11 @@ public class DieActionSO : EnemyActionSO
     public override void Act(EnemyController controller)
     {
         // (이팩트가 필요하다면 여기서 추가)
+        foreach (var collider in controller.GetComponents<Collider2D>())
+        {
+            collider.enabled = false;
+        }
+        controller.StopMove();
 
         Debug.Log("Called Here?");
         Object.Destroy(controller.gameObject, 1.0f);
