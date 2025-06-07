@@ -24,8 +24,8 @@ namespace BMC
         float _dampScale = 0.5f;
 
         float _dashSpeed = 14f;
-        float _dashTime = 0.2f;
-        bool _isDash = false;
+        float _dashTime = 0.15f;
+        float _dashCoolTime = 0.4f;
         Coroutine _dashCoroutine;
 
         float _scanRange = 1.5f;
@@ -64,7 +64,7 @@ namespace BMC
         void FixedUpdate()
         {
             Vector2 moveInput = YSJ.Managers.Input.MoveInput;
-            if (_dashCoroutine == null)
+            if (!_silhouette.IsActive)
             {
                 if (moveInput != Vector2.zero)
                 {
@@ -100,8 +100,15 @@ namespace BMC
                 return;
             }
 
-            _rigid.linearVelocity -= _rigid.linearVelocity;
-            _rigid.linearVelocity += inputValue * _moveSpeed;
+            //최종 이동속도
+            Vector2 moveDir = inputValue * _moveSpeed;
+
+            //이동하기 전에 더 작은 속도를 뺄셈 (외력으로 인한 속도가 높아질 것을 고려)
+            bool lowSpeed = (_rigid.linearVelocity.sqrMagnitude <= moveDir.sqrMagnitude);
+            Vector2 reverseDir = lowSpeed ? _rigid.linearVelocity : moveDir;
+
+            _rigid.linearVelocity -= reverseDir;
+            _rigid.linearVelocity += moveDir;
             _playerAnimator.currentState |= PlayerAnimator.State.Walk;
         }
         #endregion
@@ -123,10 +130,10 @@ namespace BMC
         #region [Dash]
         void Dash(Vector2 dashDir)
         {
-            _dashCoroutine = _dashCoroutine ?? StartCoroutine(DashCoroutine(dashDir, _dashSpeed, _dashTime));
+            _dashCoroutine = _dashCoroutine ?? StartCoroutine(DashCoroutine(dashDir, _dashSpeed, _dashTime, _dashCoolTime));
         }
 
-        IEnumerator DashCoroutine(Vector2 dashDir, float dashSpeed, float dashTime)
+        IEnumerator DashCoroutine(Vector2 dashDir, float dashSpeed, float dashTime, float dashCoolTime)
         {
             _silhouette.IsActive = true;
             _rigid.linearVelocity += dashDir * dashSpeed;
@@ -135,6 +142,8 @@ namespace BMC
             _silhouette.IsActive = false;
             _rigid.linearVelocity -= _rigid.linearVelocity;
 
+            float remainCoolTime = dashCoolTime - dashTime;
+            yield return new WaitForSeconds(remainCoolTime);
             _dashCoroutine = null;
         }
         #endregion
