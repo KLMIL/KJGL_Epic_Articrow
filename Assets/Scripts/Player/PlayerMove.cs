@@ -2,36 +2,30 @@ using UnityEngine;
 
 namespace YSJ
 {
-    public class PlayerMove : MonoBehaviour
+    [System.Serializable]
+    public class PlayerMove
     {
-        float _moveSpeed =5f;
+        float _moveSpeed = 28f;
         float _damping = 0.5f;
-        Rigidbody2D _rb2d;
 
-        void Awake()
+        public void Move(Vector2 inputValue, Rigidbody2D rigid, PlayerAnimator animator)
         {
-            _rb2d = GetComponent<Rigidbody2D>();
-        }
-
-        public void Move()
-        {
-            Vector2 inputValue = Managers.Input.MoveInput;
-
+            if ((rigid == null) || (animator == null))
+            {
+                Debug.LogError("RigidBody2D or PlayerAnimator is null");
+                return;
+            }
+            
             if (inputValue != Vector2.zero)
             {
-                _rb2d.linearVelocity = inputValue * _moveSpeed;
-                if (TryGetComponent<PlayerAnimator_YSJ>(out PlayerAnimator_YSJ animator))
-                {
-                    animator.currentState |= PlayerAnimator_YSJ.State.Walk;
-                }
+                //rigid.linearVelocity = inputValue * _moveSpeed;
+                rigid.AddForce(inputValue * _moveSpeed, ForceMode2D.Force);
+                animator.currentState |= PlayerAnimator.State.Walk;
             }
             else
             {
-                _rb2d.linearVelocity *= _damping;
-                if (TryGetComponent<PlayerAnimator_YSJ>(out PlayerAnimator_YSJ animator))
-                {
-                    animator.currentState &= ~PlayerAnimator_YSJ.State.Walk;
-                }
+                //rigid.linearVelocity *= _damping;
+                animator.currentState &= ~PlayerAnimator.State.Walk;
             }
         }
     }

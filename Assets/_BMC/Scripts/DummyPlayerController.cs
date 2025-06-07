@@ -1,12 +1,15 @@
-using CKT;
 using UnityEngine;
+using CKT;
 using YSJ;
 
 namespace BMC
 {
     public class DummyPlayerController : MonoBehaviour
     {
-        PlayerMove _playerMove;
+        PlayerMove _playerMove = new PlayerMove();
+        PlayerDash _playerDash;
+        PlayerAnimator _playerAnimator;
+        Rigidbody2D _rigid;
 
         #region [자식 오브젝트]
         Transform _leftHand;
@@ -29,10 +32,11 @@ namespace BMC
 
         void Awake()
         {
+            _playerAnimator = GetComponent<PlayerAnimator>();
+            _rigid = GetComponent<Rigidbody2D>();
+
             _leftHand = GetComponentInChildren<LeftHand_YSJ>().transform;
             _rightHand = GetComponentInChildren<RightHand_YSJ>().transform;
-
-            _playerMove = GetComponent<PlayerMove>();
 
             YSJ.Managers.Input.OnInteractAction = InteractItem;
 
@@ -46,7 +50,7 @@ namespace BMC
 
         void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(2)) // 마우스 휠 클릭
             {
                 MapManager.Instance.CurrentRoom.Complete();
             }
@@ -54,7 +58,7 @@ namespace BMC
 
         void FixedUpdate()
         {
-            _playerMove.Move();
+            _playerMove.Move(Managers.Input.MoveInput, _rigid, _playerAnimator);
 
             if (YSJ.Managers.Input.IsPressLeftHandAttack)
             {
@@ -77,11 +81,10 @@ namespace BMC
             IInteractable iInteractable = null;
 
             //Debug.Log("1");
-
             if (target != null)
             {
-                iInteractable = target.GetComponent<IInteractable>();
                 //Debug.Log("2");
+                iInteractable = target.GetComponent<IInteractable>();
             }
 
             if (iInteractable != null)

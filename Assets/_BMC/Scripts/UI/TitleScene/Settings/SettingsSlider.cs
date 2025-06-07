@@ -19,22 +19,24 @@ namespace BMC
             _slider = GetComponent<Slider>();
         }
 
-
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
+            _slider.value = _sliderType == SliderType.MusicVolume ? PlayerPrefs.GetFloat("MusicVolume", 1.0f) : PlayerPrefs.GetFloat("SFXVolume", 1.0f);
             _slider.onValueChanged.AddListener(OnValueChanged);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         void OnValueChanged(float value)
         {
-
+            if(_sliderType == SliderType.MusicVolume)
+            {
+                PlayerPrefs.SetFloat("MusicVolume", value);
+                YSJ.Managers.Sound.UpdateBGMVolume(value);
+            }
+            else if (_sliderType == SliderType.SFXVolume)
+            {
+                PlayerPrefs.SetFloat("SFXVolume", value);
+                YSJ.Managers.Sound.UpdateSFXVolume(value);
+            }
         }
     }
 }

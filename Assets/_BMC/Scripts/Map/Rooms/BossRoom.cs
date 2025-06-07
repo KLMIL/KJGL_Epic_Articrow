@@ -18,7 +18,7 @@ namespace BMC
 
             gameObject.name = gameObject.name + $"({RoomData.Row}, {RoomData.Col})";
             DisposeInvalidDoor();
-            OpenAllValidDoor();
+            //OpenAllValidDoor();
         }
     }
 }
