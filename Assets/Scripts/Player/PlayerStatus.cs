@@ -39,6 +39,7 @@ namespace YSJ
 
         public void TakeDamage(float damage)
         {
+            Debug.Log("Player Hit");
             Health -= damage;
             GameObject spawnedObj = Instantiate(DamageTextPrefab, transform.position, Quaternion.identity);
             //spawnedObj.transform.SetParent(transform,false);

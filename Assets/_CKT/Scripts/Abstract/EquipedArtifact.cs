@@ -17,6 +17,11 @@ namespace CKT
 
         Animator _animator;
 
+        private void Start()
+        {
+            CheckWhichHand();
+        }
+
         protected void Init(string fieldArtifact, string prefab)
         {
             _fieldArtifact = _fieldArtifact ?? Resources.Load<GameObject>(fieldArtifact);
@@ -30,7 +35,7 @@ namespace CKT
             _animator = GetComponentInChildren<Animator>();
         }
 
-        protected void CheckWhichHand()
+        void CheckWhichHand()
         {
             if (this.transform.GetComponentInParent<LeftHand_YSJ>() != null)
             {
@@ -43,11 +48,6 @@ namespace CKT
                 GameManager.Instance.Inventory.SingleSubRightHand((list) => Attack(list));
                 _skillManager = GameManager.Instance.RightSkillManager;
                 _handID = 2;
-            }
-
-            if (transform.GetComponentInParent<LeftHand_YSJ>() == null)
-            {
-
             }
         }
 

@@ -191,25 +191,16 @@ namespace CKT
         #region [HitSkill]
         IEnumerator HitScatter(GameObject origin)
         {
-            GameObject hitScatterCopy = YSJ.Managers.Pool.InstPrefab("HitScatter");
-            hitScatterCopy.transform.position = origin.transform.position;
-            hitScatterCopy.transform.up = origin.transform.up;
-            hitScatterCopy.name = "HitScatter";
-            hitScatterCopy.GetComponent<Projectile>().SkillManager = this;
-
-            Scatter(hitScatterCopy, "HitScatter", _hitScatterLevel, true);
-            /*int scatterCount = (_hitScatterLevel == 0) ? 0 : ((_hitScatterLevel * 2) + 1);
-
-            for (int k = 0; k < scatterCount; k++)
+            if (_hitScatterLevel > 0)
             {
-                //분산 각도
-                float sign = ((k % 2 == 0) ? 1 : -1) * (Mathf.Ceil(k / 2.0f));
-                Vector2 scatterDir = RotateVector(origin.transform.up, (sign * _scatterAngle)).normalized;
-
                 GameObject hitScatterCopy = YSJ.Managers.Pool.InstPrefab("HitScatter");
                 hitScatterCopy.transform.position = origin.transform.position;
-                hitScatterCopy.transform.up = scatterDir;
-            }*/
+                hitScatterCopy.transform.up = origin.transform.up;
+                hitScatterCopy.name = "HitScatter";
+                hitScatterCopy.GetComponent<Projectile>().SkillManager = this;
+
+                Scatter(hitScatterCopy, "HitScatter", _hitScatterLevel, true);
+            }
 
             yield return null;
         }
