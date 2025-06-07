@@ -5,6 +5,7 @@ namespace YSJ
     public class PlayerController : MonoBehaviour
     {
         PlayerMove _playerMove = new PlayerMove();
+        PlayerDash _playerDash = new PlayerDash();
         PlayerAnimator _playerAnimator;
         Rigidbody2D _rigid;
 
