@@ -4,7 +4,7 @@ namespace YSJ
 {
     public class PlayerMove : MonoBehaviour
     {
-        float _moveSpeed = 10f;
+        float _moveSpeed =5f;
         float _damping = 0.5f;
         Rigidbody2D _rb2d;
 
