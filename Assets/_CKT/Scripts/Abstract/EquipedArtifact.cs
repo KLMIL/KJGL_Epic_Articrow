@@ -15,6 +15,8 @@ namespace CKT
 
         Coroutine _attackCoroutine = null;
 
+        Animator _animator;
+
         protected void Init(string fieldArtifact, string prefab)
         {
             _fieldArtifact = _fieldArtifact ?? Resources.Load<GameObject>(fieldArtifact);
@@ -24,6 +26,8 @@ namespace CKT
             _handID = 0;
 
             _attackCoroutine = null;
+
+            _animator = GetComponentInChildren<Animator>();
         }
 
         protected void CheckWhichHand()
@@ -54,9 +58,12 @@ namespace CKT
 
         protected virtual IEnumerator AttackCoroutine(List<GameObject> list)
         {
+            //애니메이션 재생
+            _animator.Play("Attack", -1, 0);
+
             //총알 생성
             GameObject bullet = YSJ.Managers.Pool.InstPrefab(prefabName);
-            bullet.transform.position = this.transform.position;
+            bullet.transform.position = this.transform.position + this.transform.up;
             //이동 방향
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mouseDir = (mousePos - this.transform.position).normalized;

@@ -31,7 +31,7 @@ namespace CKT
         #region [Inventory에서 호출할 함수]
         public void InitLevel()
         {
-            _scatterAngle = 6f;
+            _scatterAngle = 9f;
 
             _castScatterLevel = 0;
             _castAdditionalLevel = 0;
@@ -191,7 +191,13 @@ namespace CKT
         #region [HitSkill]
         IEnumerator HitScatter(GameObject origin)
         {
-            Scatter(origin, "HitScatter", _hitScatterLevel, false);
+            GameObject hitScatterCopy = YSJ.Managers.Pool.InstPrefab("HitScatter");
+            hitScatterCopy.transform.position = origin.transform.position;
+            hitScatterCopy.transform.up = origin.transform.up;
+            hitScatterCopy.name = "HitScatter";
+            hitScatterCopy.GetComponent<Projectile>().SkillManager = this;
+
+            Scatter(hitScatterCopy, "HitScatter", _hitScatterLevel, true);
             /*int scatterCount = (_hitScatterLevel == 0) ? 0 : ((_hitScatterLevel * 2) + 1);
 
             for (int k = 0; k < scatterCount; k++)

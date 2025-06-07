@@ -35,7 +35,8 @@ namespace CKT
             for (int i = 0; i < hits.Length; i++)
             {
                 IDamagable iDamagable = hits[i].transform.GetComponent<IDamagable>();
-                if (iDamagable != null)
+                GrabObject grabObject = hits[i].transform.GetComponentInParent<GrabObject>();
+                if ((iDamagable != null) && (grabObject == null))
                 {
                     _target = hits[i].transform;
                     StartCoroutine(MoveCoroutine(_target));
@@ -58,7 +59,7 @@ namespace CKT
                 float sqrDistance = float.MaxValue;
                 while (sqrDistance > _minSqrDistance)
                 {
-                    Vector3 moveDir = (player.position - startPos).normalized;
+                    Vector3 moveDir = (playerPos - startPos).normalized;
                     transform.position += moveDir * _moveSpeed * Time.deltaTime;
                     sqrDistance = (playerPos - this.transform.position).sqrMagnitude;
                     yield return null;
