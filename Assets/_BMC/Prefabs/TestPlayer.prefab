@@ -108,7 +108,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 241736877799578220}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -171,9 +171,10 @@ GameObject:
   - component: {fileID: 5255118131360047778}
   - component: {fileID: 1351234651984870935}
   - component: {fileID: 1624562987182914366}
-  - component: {fileID: 3066415994184489765}
   - component: {fileID: 8880886564970645708}
   - component: {fileID: 3724402034010047896}
+  - component: {fileID: 8072541874254790158}
+  - component: {fileID: 5037258871452788987}
   m_Layer: 3
   m_Name: TestPlayer
   m_TagString: Player
@@ -289,7 +290,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0
+  m_LinearDamping: 3
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -366,18 +367,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
---- !u!114 &3066415994184489765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 951508495468003780}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 676749db81e0735419fea8077f621d43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8880886564970645708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,6 +391,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcb682560f7a3354c95dfe6885757065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8072541874254790158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951508495468003780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d84e821801a72b428840d0dcd7e8fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5037258871452788987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951508495468003780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b9910de629482542b2c338145e2e60f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isActive: 0
+  _silhouetteCount: 10
+  _silhouetteTime: 0.1
+  _delta: 0
+  _idx: 0
+  _silhouetteParent: {fileID: 0}
+  _silhouetteList: []
 --- !u!1 &2038279459985655011
 GameObject:
   m_ObjectHideFlags: 0

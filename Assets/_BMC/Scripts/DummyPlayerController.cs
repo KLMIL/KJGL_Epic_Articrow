@@ -7,6 +7,7 @@ namespace BMC
     public class DummyPlayerController : MonoBehaviour
     {
         PlayerMove _playerMove = new PlayerMove();
+        PlayerDash _playerDash;
         PlayerAnimator _playerAnimator;
         Rigidbody2D _rigid;
 
