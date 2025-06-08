@@ -8,6 +8,8 @@ namespace CKT
         float range = 1.5f;
         LayerMask _playerLayerMask;
 
+        float _damage = 2f;
+
         private void OnEnable()
         {
             _playerLayerMask = LayerMask.GetMask("Player");
@@ -24,7 +26,7 @@ namespace CKT
                 IDamagable iDamageable = hits[i].transform.GetComponent<IDamagable>();
                 if (iDamageable != null)
                 {
-                    iDamageable.TakeDamage(10);
+                    iDamageable.TakeDamage(_damage);
                 }
             }
         }

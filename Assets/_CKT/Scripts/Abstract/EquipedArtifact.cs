@@ -73,6 +73,7 @@ namespace CKT
             bullet.transform.up = mouseDir;
             //이름 설정 (복사본 만들 때 이름을 받아서 생성하는 용도)
             bullet.name = prefabName;
+            //왼손||오른손 SkillManager 설정
             bullet.GetComponent<Projectile>().SkillManager = _skillManager;
 
             //CastSkill

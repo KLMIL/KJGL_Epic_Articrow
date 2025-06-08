@@ -20,10 +20,10 @@ namespace BMC
         #endregion
 
         #region [값]
-        float _moveSpeed = 7f;
+        float _moveSpeed = 5f;
         float _dampScale = 0.5f;
 
-        float _dashSpeed = 14f;
+        float _dashSpeed = 10f;
         float _dashTime = 0.15f;
         float _dashCoolTime = 0.4f;
         Coroutine _dashCoroutine;

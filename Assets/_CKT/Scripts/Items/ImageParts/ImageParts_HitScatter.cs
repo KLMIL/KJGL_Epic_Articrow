@@ -17,27 +17,13 @@ namespace CKT
 
         public string SkillName => "HitScatter";
 
-        public IEnumerator SkillCoroutine(GameObject origin, int level)
+        public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
         {
             Debug.Log($"{SkillName}, Level+{level}");
 
-            GameObject hitScatterCopy = YSJ.Managers.Pool.InstPrefab("HitScatter");
-            hitScatterCopy.transform.position = origin.transform.position;
-            hitScatterCopy.transform.up = origin.transform.up;
-            hitScatterCopy.name = "HitScatter";
-
-            Scatter(hitScatterCopy, "HitScatter", level, true);
-            //TODO : HitScatter 완성하기
-
-            yield return null;
-        }
-
-        void Scatter(GameObject origin, string prefabName, int level, bool includeOrigin)
-        {
+            int scatterCount = level + 1;
             Vector3 originUp = origin.transform.up;
 
-            //level이 0일 때는 for문 스킵 (레벨 + origin)
-            int scatterCount = (level == 0) ? 0 : ((includeOrigin) ? (level + 1) : level);
             for (int k = 0; k < scatterCount; k++)
             {
                 //분산 각도
@@ -50,36 +36,16 @@ namespace CKT
                 {
                     sign = ((k % 2 == 0) ? 1 : -1) * Mathf.Ceil(k / 2.0f);
                 }
-                Vector2 scatterDir = RotateVector(originUp, (sign * _scatterAngle)).normalized;
+                Vector2 scatterDir = Util.RotateVector(originUp, (sign * _scatterAngle)).normalized;
 
-                //본체 포함일 때 = 0번째는 본체 + 회전만
-                if ((k == 0) && includeOrigin)
-                {
-                    origin.transform.up = scatterDir;
-                }
-                else
-                {
-                    GameObject castScatterCopy = YSJ.Managers.Pool.InstPrefab(prefabName);
-                    castScatterCopy.transform.position = origin.transform.position;
-                    castScatterCopy.transform.up = scatterDir;
-                    castScatterCopy.name = prefabName;
-                    //castScatterCopy.GetComponent<Projectile>().SkillManager = this;
-                    //TODO : CastScatter 완성하기
-                }
+                GameObject hitScatterCopy = YSJ.Managers.Pool.InstPrefab("HitScatter");
+                hitScatterCopy.transform.position = origin.transform.position;
+                hitScatterCopy.transform.up = scatterDir;
+                hitScatterCopy.name = "HitScatter";
+                //hitScatterCopy.GetComponent<Projectile>().SkillManager = skillManager;
             }
-        }
 
-        Vector2 RotateVector(Vector2 vector, float angleDegrees)
-        {
-            float angleRad = angleDegrees * Mathf.Deg2Rad; // 도를 라디안으로 변환
-            float cos = Mathf.Cos(angleRad);
-            float sin = Mathf.Sin(angleRad);
-
-            // 2D 벡터 회전 공식 적용
-            float newX = vector.x * cos - vector.y * sin;
-            float newY = vector.x * sin + vector.y * cos;
-
-            return new Vector2(newX, newY);
+            yield return null;
         }
     }
 }
