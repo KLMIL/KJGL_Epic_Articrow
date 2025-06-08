@@ -87,7 +87,6 @@ namespace BMC
                 // 방 선택 UI 띄우고, 문 정보 넘기기
                 UI_InGameEventBus.OnToggleChoiceRoomCanvas?.Invoke();
                 MapManager.Instance.CurrentDoor = this;
-                Time.timeScale = 0f;
                 return;
             }
 
