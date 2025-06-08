@@ -23,7 +23,7 @@ public partial class RushAction : Action
 
     protected override Status OnStart()
     {
-        if (RushDirection.Value == Vector2.zero)
+        if (RushDirection.Value == Vector2.zero && Target != null && Self != null)
         {
             Debug.Log("돌진 방향 계산");
             _rb = Self.Value.GetComponent<Rigidbody2D>();
