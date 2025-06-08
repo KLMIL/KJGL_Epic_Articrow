@@ -43,10 +43,11 @@ namespace YSJ
                 }
                 foreach (AudioClip clip in sfxClips)
                 {
-                    if (System.Enum.IsDefined(typeof(BGM), clip.name))
+                    if (System.Enum.IsDefined(typeof(SFX), clip.name))
                     {
                         SFX sfx = Util.StringToEnum<SFX>(clip.name);
                         _sfxDict.Add(sfx, clip);
+                        Debug.Log(clip.name);
                     }
                 }
             }
