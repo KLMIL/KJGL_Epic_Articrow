@@ -18,10 +18,14 @@ namespace YSJ
             _poolDict.Clear();
             _prefabDict.Clear();
             SetPrefab("Prefabs", "Bullet", _prefabDict);
-            SetPrefab("Prefabs", "Explosion", _prefabDict);
-            SetPrefab("Prefabs", "DamageArea", _prefabDict);
             SetPrefab("Prefabs", "HitSkillObject", _prefabDict);
+
+            SetPrefab("Prefabs", "CastExplosion", _prefabDict);
+            SetPrefab("Prefabs", "CastDamageArea", _prefabDict);
+
             SetPrefab("Prefabs", "HitScatter", _prefabDict);
+            SetPrefab("Prefabs", "HitExplosion", _prefabDict);
+            SetPrefab("Prefabs", "HitDamageArea", _prefabDict);
             SetPrefab("Prefabs", "GrabObject", _prefabDict);
         }
 

@@ -11,12 +11,14 @@ namespace CKT
             _canvas = GetComponent<Canvas>();
         }
 
-        private void Update()
+        private void Start()
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                _canvas.enabled = !_canvas.enabled;
-            }
+            YSJ.Managers.Input.OnInventoryAction += UI_EnableSwitch;
+        }
+
+        void UI_EnableSwitch()
+        {
+            _canvas.enabled = !_canvas.enabled;
         }
     }
 }

@@ -169,7 +169,7 @@ namespace CKT
 
             for (int i = 0; i < _castExplosionLevel; i++)
             {
-                GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("Explosion");
+                GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("CastExplosion");
                 castExplosion.transform.position = startPos;
                 yield return new WaitForSeconds(0.05f);
             }
@@ -181,7 +181,7 @@ namespace CKT
 
             for (int i = 0; i < _castDamageAreaLevel; i++)
             {
-                GameObject castDamageArea = YSJ.Managers.Pool.InstPrefab("DamageArea");
+                GameObject castDamageArea = YSJ.Managers.Pool.InstPrefab("CastDamageArea");
                 castDamageArea.transform.position = startPos;
                 yield return new WaitForSeconds(0.05f);
             }
@@ -211,7 +211,7 @@ namespace CKT
 
             for (int i = 0; i < _hitExplosionLevel; i++)
             {
-                GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("Explosion");
+                GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("HitExplosion");
                 castExplosion.transform.position = startPos;
                 yield return new WaitForSeconds(0.05f);
             }
@@ -223,7 +223,7 @@ namespace CKT
 
             for (int i = 0; i < _hitDamageAreaLevel; i++)
             {
-                GameObject hitDamageArea = YSJ.Managers.Pool.InstPrefab("DamageArea");
+                GameObject hitDamageArea = YSJ.Managers.Pool.InstPrefab("HitDamageArea");
                 hitDamageArea.transform.position = startPos;
                 yield return new WaitForSeconds(0.05f);
             }

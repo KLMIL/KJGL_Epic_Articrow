@@ -132,7 +132,7 @@ public class InputManager
         if (context.performed)
         {
             OnRollAction?.Invoke(MoveInput);
-            Debug.Log("구르기");
+            //Debug.Log("구르기");
         }
         //Debug.Log("IsPressDash: " + IsPressDash);
     }
@@ -143,7 +143,7 @@ public class InputManager
         if (context.performed)
         {
             OnInteractAction?.Invoke();
-            Debug.Log("상호작용");
+            //Debug.Log("상호작용");
         }
     }
 
@@ -152,7 +152,8 @@ public class InputManager
         IsPressInventory = context.ReadValueAsButton();
         if (context.performed)
         {
-            Debug.Log("인벤토리");
+            OnInventoryAction?.Invoke();
+            //Debug.Log("인벤토리");
         }
     }
 
