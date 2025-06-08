@@ -23,7 +23,7 @@ namespace CKT
             for (int i = 0; i < level; i++)
             {
                 //TODO : 사운드_HitExplosion
-                
+                YSJ.Managers.Sound.PlaySFX(Define.SFX.HitExplosion);
                 GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("HitExplosion");
                 castExplosion.transform.position = startPos;
                 yield return new WaitForSeconds(0.05f);
