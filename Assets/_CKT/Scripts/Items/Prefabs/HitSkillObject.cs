@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -9,10 +10,14 @@ namespace CKT
         {
             if (skillManager != null)
             {
-                for (int i = 0; i < skillManager.HitSkillList.Count; i++)
+                foreach (Func<GameObject, IEnumerator> hitSkill in skillManager.HitSkillDict.Values)
                 {
-                    StartCoroutine(skillManager.HitSkillList[i](this.gameObject));
+                    StartCoroutine(hitSkill(this.gameObject));
                 }
+            }
+            else
+            {
+                Debug.LogError($"{this.name} skillManager is null");
             }
 
             StartCoroutine(DisableCoroutine());

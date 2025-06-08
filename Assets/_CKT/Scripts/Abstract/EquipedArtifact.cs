@@ -58,6 +58,8 @@ namespace CKT
 
         protected virtual IEnumerator AttackCoroutine(List<GameObject> list)
         {
+            //TODO : 사운드_투사체 발사
+            
             //애니메이션 재생
             _animator.Play("Attack", -1, 0);
 
@@ -73,9 +75,9 @@ namespace CKT
             bullet.GetComponent<Projectile>().SkillManager = _skillManager;
 
             //CastSkill
-            for (int i = 0; i < _skillManager.CastSkillList.Count; i++)
+            foreach (Func<GameObject, IEnumerator> castSkill in _skillManager.CastSkillDict.Values)
             {
-                StartCoroutine(_skillManager.CastSkillList[i](bullet));
+                StartCoroutine(castSkill(bullet));
             }
 
             yield return new WaitForSeconds(0.5f);

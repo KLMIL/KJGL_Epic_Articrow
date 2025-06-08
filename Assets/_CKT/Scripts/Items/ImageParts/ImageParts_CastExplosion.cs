@@ -1,33 +1,34 @@
 using CKT;
+using System.Collections;
 using UnityEngine;
 
 namespace CKT
 {
-    public class ImageParts_CastExplosion : ImageParts, ICastEffectable
+    public class ImageParts_CastExplosion : ImageParts, ISkillable
     {
         private void Awake()
         {
             base.Init("FieldParts/FieldParts_CastExplosion");
         }
 
-        #region [ICastEffectable]
-        public void CastEffect(int handID)
-        {
-            SkillManager skillManager = null;
-            if (handID == 1)
-            {
-                skillManager = GameManager.Instance.LeftSkillManager;
-            }
-            else if (handID == 2)
-            {
-                skillManager = GameManager.Instance.RightSkillManager;
-            }
+        public SkillType SkillType => SkillType.Cast;
 
-            if (skillManager != null)
+        public string SkillName => "CastExplosion";
+
+        public IEnumerator SkillCoroutine(GameObject origin, int level)
+        {
+            Debug.Log($"{SkillName}, Level+{level}");
+
+            Vector3 startPos = origin.transform.position;
+
+            for (int i = 0; i < level; i++)
             {
-                skillManager.CastExplosionLevelUp(1);
+                //TODO : 사운드_CastExplosion
+                
+                GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("CastExplosion");
+                castExplosion.transform.position = startPos;
+                yield return new WaitForSeconds(0.05f);
             }
         }
-        #endregion
     }
 }

@@ -41,6 +41,8 @@ namespace CKT
                     CreateHitSkillObject();
                     this.gameObject.SetActive(false);
                 }
+
+                //TODO : 사운드_투사체 적중
             }
         }
 

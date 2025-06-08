@@ -1,32 +1,31 @@
+using System.Collections;
 using UnityEngine;
 
 namespace CKT
 {
-    public class ImageParts_HitGrab : ImageParts, IHitEffectable
+    public class ImageParts_HitGrab : ImageParts, ISkillable
     {
         private void Awake()
         {
             base.Init("FieldParts/FieldParts_HitGrab");
         }
 
-        #region [IHitEffectable]
-        public void HitEffect(int handID)
+        public SkillType SkillType => SkillType.Hit;
+
+        public string SkillName => "HitGrab";
+
+        public IEnumerator SkillCoroutine(GameObject origin, int level)
         {
-            SkillManager skillManager = null;
-            if (handID == 1)
+            Debug.Log($"{SkillName}, Level+{level}");
+
+            if (level > 0)
             {
-                skillManager = GameManager.Instance.LeftSkillManager;
-            }
-            else if (handID == 2)
-            {
-                skillManager = GameManager.Instance.RightSkillManager;
+                GameObject grabObject = YSJ.Managers.Pool.InstPrefab("GrabObject");
+                grabObject.transform.position = origin.transform.position;
+                grabObject.transform.localScale = origin.transform.localScale;
             }
 
-            if (skillManager != null)
-            {
-                skillManager.HitGrabLevelUp(1);
-            }
+            yield return null;
         }
-        #endregion
     }
 }

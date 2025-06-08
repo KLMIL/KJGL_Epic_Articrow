@@ -1,32 +1,33 @@
+using System.Collections;
 using UnityEngine;
 
 namespace CKT
 {
-    public class ImageParts_CastDamageArea : ImageParts, ICastEffectable
+    public class ImageParts_CastDamageArea : ImageParts, ISkillable
     {
         private void Awake()
         {
             base.Init("FieldParts/FieldParts_CastDamageArea");
         }
 
-        #region [ICastEffectable]
-        public void CastEffect(int handID)
-        {
-            SkillManager skillManager = null;
-            if (handID == 1)
-            {
-                skillManager = GameManager.Instance.LeftSkillManager;
-            }
-            else if (handID == 2)
-            {
-                skillManager = GameManager.Instance.RightSkillManager;
-            }
+        public SkillType SkillType => SkillType.Cast;
 
-            if (skillManager != null)
+        public string SkillName => "CastDamageArea";
+
+        public IEnumerator SkillCoroutine(GameObject origin, int level)
+        {
+            Debug.Log($"{SkillName}, Level+{level}");
+
+            Vector3 startPos = origin.transform.position;
+
+            for (int i = 0; i < level; i++)
             {
-                skillManager.CastDamageAreaLevelUp(1);
+                //TODO : 사운드_CastDamageArea
+                
+                GameObject castDamageArea = YSJ.Managers.Pool.InstPrefab("CastDamageArea");
+                castDamageArea.transform.position = startPos;
+                yield return new WaitForSeconds(0.05f);
             }
         }
-        #endregion
     }
 }

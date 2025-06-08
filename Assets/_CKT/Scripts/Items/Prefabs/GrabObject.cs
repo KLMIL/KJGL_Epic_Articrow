@@ -40,6 +40,8 @@ namespace CKT
                 {
                     _target = hits[i].transform;
                     StartCoroutine(MoveCoroutine(_target));
+
+                    //TODO : 사운드_HitGrab
                     break;
                 }
             }

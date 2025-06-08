@@ -1,32 +1,33 @@
+using System.Collections;
 using UnityEngine;
 
 namespace CKT
 {
-    public class ImageParts_HitExplosion : ImageParts, IHitEffectable
+    public class ImageParts_HitExplosion : ImageParts, ISkillable
     {
         private void Awake()
         {
             base.Init("FieldParts/FieldParts_HitExplosion");
         }
 
-        #region [IHitEffectable]
-        public void HitEffect(int handID)
-        {
-            SkillManager skillManager = null;
-            if (handID == 1)
-            {
-                skillManager = GameManager.Instance.LeftSkillManager;
-            }
-            else if (handID == 2)
-            {
-                skillManager = GameManager.Instance.RightSkillManager;
-            }
+        public SkillType SkillType => SkillType.Hit;
 
-            if (skillManager != null)
+        public string SkillName => "HitExplosion";
+
+        public IEnumerator SkillCoroutine(GameObject origin, int level)
+        {
+            Debug.Log($"{SkillName}, Level+{level}");
+
+            Vector3 startPos = origin.transform.position;
+
+            for (int i = 0; i < level; i++)
             {
-                skillManager.HitExplosionLevelUp(1);
+                //TODO : 사운드_HitExplosion
+                
+                GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("HitExplosion");
+                castExplosion.transform.position = startPos;
+                yield return new WaitForSeconds(0.05f);
             }
         }
-        #endregion
     }
 }

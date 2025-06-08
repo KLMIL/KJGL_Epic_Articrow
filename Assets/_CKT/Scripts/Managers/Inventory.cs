@@ -101,29 +101,8 @@ namespace CKT
             _onUpdateInventoryListEvent?.Invoke(_inventoryList);
 
             //스킬 매니저 초기화 후 슬롯 효과 다시 적용
-            GameManager.Instance.LeftSkillManager.InitLevel();
-            GameManager.Instance.RightSkillManager.InitLevel();
-            ApplyList(_leftList, 1);
-            ApplyList(_rightList, 2);
-        }
-        void ApplyList(List<GameObject> list, int handID)
-        {
-            for (int i = 0; i < list.Count; i++)
-            {
-                //시전 시 효과
-                ICastEffectable cast = list[i].GetComponent<ICastEffectable>();
-                if (cast != null)
-                {
-                    cast.CastEffect(handID);
-                }
-
-                //적중 시 효과
-                IHitEffectable hit = list[i].GetComponent<IHitEffectable>();
-                if (hit != null)
-                {
-                    hit.HitEffect(handID);
-                }
-            }
+            GameManager.Instance.LeftSkillManager.CheckSkill(_leftList);
+            GameManager.Instance.RightSkillManager.CheckSkill(_rightList);
         }
     }
 }

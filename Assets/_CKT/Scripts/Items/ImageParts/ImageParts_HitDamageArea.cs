@@ -1,30 +1,32 @@
 using CKT;
+using System.Collections;
 using UnityEngine;
 
-public class ImageParts_HitDamageArea : ImageParts, IHitEffectable
+public class ImageParts_HitDamageArea : ImageParts, ISkillable
 {
     private void Awake()
     {
         base.Init("FieldParts/FieldParts_HitDamageArea");
     }
 
-    #region [IHitEffectable]
-    public void HitEffect(int handID)
-    {
-        SkillManager skillManager = null;
-        if (handID == 1)
-        {
-            skillManager = GameManager.Instance.LeftSkillManager;
-        }
-        else if (handID == 2)
-        {
-            skillManager = GameManager.Instance.RightSkillManager;
-        }
+    public SkillType SkillType => SkillType.Hit;
 
-        if (skillManager != null)
+    public string SkillName => "HitDamageArea";
+
+    public IEnumerator SkillCoroutine(GameObject origin, int level)
+    {
+        Debug.Log($"{SkillName}, Level+{level}");
+
+        Vector3 startPos = origin.transform.position;
+
+        for (int i = 0; i < level; i++)
         {
-            skillManager.HitDamageAreaLevelUp(1);
+            //TODO : 사운드_HitDamageArea
+            
+            GameObject hitDamageArea = YSJ.Managers.Pool.InstPrefab("HitDamageArea");
+            hitDamageArea.transform.position = startPos;
+            yield return new WaitForSeconds(0.05f);
         }
+        yield return null;
     }
-    #endregion
 }
