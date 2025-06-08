@@ -12,8 +12,13 @@ namespace BMC
         public int MaxRow { get; private set; } = 6;
         public int MaxCol { get; private set; } = 5;
 
-        [Header("방 생성 간격")]
+        [Header("방 생성 관련")]
         [SerializeField] Vector2 _roomOffset = new Vector2(14f, 25f); // row, col 간격
+
+        // Vertical Slice를 위한 방 생성 부분 /
+        Room[] _testRooms;
+
+        /* ------------------------------- */
 
         [Header("방 이동 관련")]
         [field: SerializeField] public Room CurrentRoom { get; set; }
@@ -86,6 +91,7 @@ namespace BMC
         // 방 생성
         public Room CreateRoom(RoomType roomType)
         {
+            // TODO: 방 타입별로 폴더를 만들어서 로드하도록 방을 해야함 (현재 MagicRoom만 폴더로 하게 해놓음)
             Room newRoomPrefab = YSJ.Managers.Resource.Load<Room>($"Prefabs/RoomTemplate/{roomType}");
             return (newRoomPrefab != null) ? Instantiate(newRoomPrefab) : null;
         }
@@ -100,6 +106,52 @@ namespace BMC
             int idx = row * MaxCol + col;
             Room room = _fullMap[idx];
             return room;
+        }
+
+        // TODO: Vertical Slide 후 삭제
+        // 특정 지점에 방 생성
+        public Room CreateRoomRandomInTypeAtPoint(RoomType roomType, int row = -1, int col = -1)
+        {
+            // 시작 방 및 보스 방
+            if (roomType == RoomType.StartRoom || roomType == RoomType.BossRoom)
+            {
+                row = (roomType == RoomType.StartRoom) ? MaxRow - 1 : 0;
+                col = Random.Range(0, MaxCol);
+            }
+
+            // 유효한 인덱스인지 확인
+            int idx = row * MaxCol + col;
+            if (row < 0 || row >= MaxRow || col < 0 || col >= MaxCol || idx < 0 || idx >= _fullMap.Length)
+            {
+                Debug.LogError($"유효하지 않은 행/열: row({row}) col({col}). MaxRow: {MaxRow}, MaxCol: {MaxCol}");
+                return null; // 유효하지 않은 경우 null 반환
+            }
+
+            // 해당 위치에 방이 없는 경우
+            if (_fullMap[idx] == null)
+            {
+                Room newRoom = CreateRoomRandomInType(roomType);
+                if (newRoom != null)
+                {
+                    newRoom.transform.SetParent(transform);
+                    newRoom.Init(row, col);
+                    Vector2 spawnPos = new Vector2(col * _roomOffset.y, -row * _roomOffset.x);
+                    newRoom.transform.position = spawnPos;
+                    _fullMap[idx] = newRoom;
+                    CurrentRoom = newRoom;
+                }
+            }
+            return _fullMap[idx];
+        }
+
+        public Room CreateRoomRandomInType(RoomType roomType)
+        {
+            if(_testRooms == null)
+            {
+                _testRooms = YSJ.Managers.Resource.LoadAll<Room>($"Prefabs/RoomTemplate/{roomType}");
+            }
+            Room newRoomPrefab = _testRooms[Random.Range(0, _testRooms.Length)];
+            return (newRoomPrefab != null) ? Instantiate(newRoomPrefab) : null;
         }
     }
 }
