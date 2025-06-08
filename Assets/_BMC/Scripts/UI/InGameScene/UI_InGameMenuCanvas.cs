@@ -20,7 +20,7 @@ namespace BMC
         void ToggleInGameMenuCanvas()
         {
             _canvas.enabled = !_canvas.enabled;
-            GameManager.Instance.TogglePauseGame();
+            GameManager.Instance.TogglePauseGame(_canvas.enabled);
         }
     }
 }

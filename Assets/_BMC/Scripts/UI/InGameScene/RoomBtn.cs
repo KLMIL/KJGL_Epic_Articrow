@@ -41,7 +41,6 @@ namespace BMC
             currentSeletedDoor.TransferToNextRoom(playerTransform);
             MapManager.Instance.CurrentDoor = null;
             UI_InGameEventBus.OnToggleChoiceRoomCanvas?.Invoke(); // 창 닫기
-            Time.timeScale = 1f;
         }
     }
 }
