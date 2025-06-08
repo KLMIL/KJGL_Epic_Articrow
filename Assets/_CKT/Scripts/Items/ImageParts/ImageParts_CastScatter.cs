@@ -1,32 +1,52 @@
+using System.Collections;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 namespace CKT
 {
-    public class ImageParts_CastScatter : ImageParts, ICastEffectable
+    public class ImageParts_CastScatter : ImageParts, ISkillable
     {
+        float _scatterAngle = 9f;
+
         private void Awake()
         {
             base.Init("FieldParts/FieldParts_CastScatter");
         }
 
-        #region [ICastEffectable]
-        public void CastEffect(int handID)
+        public SkillType SkillType => SkillType.Cast;
+
+        public string SkillName => "CastScatter";
+
+        public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
         {
-            SkillManager skillManager = null;
-            if (handID == 1)
+            Debug.Log($"{SkillName}, Level+{level}");
+
+            int scatterCount = level + 1;
+            Vector3 originUp = origin.transform.up;
+
+            for (int k = 0; k < scatterCount; k++)
             {
-                skillManager = GameManager.Instance.LeftSkillManager;
-            }
-            else if (handID == 2)
-            {
-                skillManager = GameManager.Instance.RightSkillManager;
+                //분산 각도
+                float sign = 0;
+                if (scatterCount % 2 == 0)
+                {
+                    sign = ((k % 2 == 0) ? -1 : 1) * (Mathf.Floor(k / 2.0f) + 0.5f);
+                }
+                else
+                {
+                    sign = ((k % 2 == 0) ? 1 : -1) * Mathf.Ceil(k / 2.0f);
+                }
+                Vector2 scatterDir = Util.RotateVector(originUp, (sign * _scatterAngle)).normalized;
+
+                GameObject castScatterCopy = YSJ.Managers.Pool.InstPrefab(origin.name);
+                castScatterCopy.transform.position = origin.transform.position;
+                castScatterCopy.transform.up = scatterDir;
+                castScatterCopy.name = origin.name;
+                castScatterCopy.GetComponent<Projectile>().SkillManager = skillManager;
             }
 
-            if (skillManager != null)
-            {
-                skillManager.CastScatterLevelUp(1);
-            }
+            origin.SetActive(false);
+            yield return null;
         }
-        #endregion
     }
 }

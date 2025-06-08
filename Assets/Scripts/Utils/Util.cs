@@ -79,4 +79,19 @@ public static class Util
     #endregion
 
     #endregion
+
+    #region Math
+    public static Vector2 RotateVector(Vector2 vector, float angleDegrees)
+    {
+        float angleRad = angleDegrees * Mathf.Deg2Rad; // 도를 라디안으로 변환
+        float cos = Mathf.Cos(angleRad);
+        float sin = Mathf.Sin(angleRad);
+
+        // 2D 벡터 회전 공식 적용
+        float newX = vector.x * cos - vector.y * sin;
+        float newY = vector.x * sin + vector.y * cos;
+
+        return new Vector2(newX, newY);
+    }
+    #endregion
 }

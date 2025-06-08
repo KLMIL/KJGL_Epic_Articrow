@@ -4,11 +4,15 @@ namespace YSJ
 {
     public class PlayerController : MonoBehaviour
     {
-        PlayerMove _playerMove;
+        PlayerMove _playerMove = new PlayerMove();
+        PlayerDash _playerDash = new PlayerDash();
+        PlayerAnimator _playerAnimator;
+        Rigidbody2D _rigid;
 
         void Awake()
         {
-            _playerMove = GetComponent<PlayerMove>();
+            _playerAnimator = GetComponent<PlayerAnimator>();
+            _rigid = GetComponent<Rigidbody2D>();
 
             //_playerStatus.A_Dead += ShowRetry;
         }
@@ -21,7 +25,7 @@ namespace YSJ
 
         void FixedUpdate()
         {
-            _playerMove.Move();
+            _playerMove.Move(Managers.Input.MoveInput, _rigid, _playerAnimator);
         }
 
         void ShowRetry()

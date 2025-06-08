@@ -1,12 +1,15 @@
-using CKT;
+using System.Collections;
 using UnityEngine;
+using CKT;
 using YSJ;
 
 namespace BMC
 {
     public class DummyPlayerController : MonoBehaviour
     {
-        PlayerMove _playerMove;
+        Rigidbody2D _rigid;
+        PlayerAnimator _playerAnimator;
+        Silhouette _silhouette;
 
         #region [자식 오브젝트]
         Transform _leftHand;
@@ -16,25 +19,31 @@ namespace BMC
         IAttackable _rightArtifact;
         #endregion
 
-        #region [입력값]
-        bool _leftHandValue;
-        bool _rightHandValue;
-        #endregion
-
         #region [값]
-        float _scanRange = 2f;
+        float _moveSpeed = 5f;
+        float _dampScale = 0.5f;
+
+        float _dashSpeed = 10f;
+        float _dashTime = 0.15f;
+        float _dashCoolTime = 0.4f;
+        Coroutine _dashCoroutine;
+
+        float _scanRange = 1.5f;
         #endregion
 
         LayerMask _interactLayerMask;
 
         void Awake()
         {
+            _rigid = GetComponent<Rigidbody2D>();
+            _playerAnimator = GetComponent<PlayerAnimator>();
+            _silhouette = GetComponent<Silhouette>();
+
             _leftHand = GetComponentInChildren<LeftHand_YSJ>().transform;
             _rightHand = GetComponentInChildren<RightHand_YSJ>().transform;
 
-            _playerMove = GetComponent<PlayerMove>();
-
-            YSJ.Managers.Input.OnInteractAction = InteractItem;
+            YSJ.Managers.Input.OnRollAction += Dash;
+            YSJ.Managers.Input.OnInteractAction += InteractItem;
 
             _interactLayerMask = LayerMask.GetMask("Interact");
         }
@@ -54,7 +63,18 @@ namespace BMC
 
         void FixedUpdate()
         {
-            _playerMove.Move();
+            Vector2 moveInput = YSJ.Managers.Input.MoveInput;
+            if (!_silhouette.IsActive)
+            {
+                if (moveInput != Vector2.zero)
+                {
+                    Move(moveInput, _moveSpeed);
+                }
+                else
+                {
+                    Damp(_dampScale);
+                }
+            }
 
             if (YSJ.Managers.Input.IsPressLeftHandAttack)
             {
@@ -71,17 +91,74 @@ namespace BMC
             }
         }
 
+        #region [Move]
+        void Move(Vector2 inputValue, float moveSpeed)
+        {
+            if ((_rigid == null) || (_playerAnimator == null))
+            {
+                Debug.LogError("RigidBody2D or PlayerAnimator is null");
+                return;
+            }
+
+            //최종 이동속도
+            Vector2 moveDir = inputValue * _moveSpeed;
+
+            //이동하기 전에 더 작은 속도를 뺄셈 (외력으로 인한 속도가 높아질 것을 고려)
+            bool lowSpeed = (_rigid.linearVelocity.sqrMagnitude <= moveDir.sqrMagnitude);
+            Vector2 reverseDir = lowSpeed ? _rigid.linearVelocity : moveDir;
+
+            _rigid.linearVelocity -= reverseDir;
+            _rigid.linearVelocity += moveDir;
+            _playerAnimator.currentState |= PlayerAnimator.State.Walk;
+        }
+        #endregion
+
+        #region [Damp]
+        void Damp(float dampScale)
+        {
+            if ((_rigid == null) || (_playerAnimator == null))
+            {
+                Debug.LogError("RigidBody2D or PlayerAnimator is null");
+                return;
+            }
+
+            _rigid.linearVelocity *= dampScale;
+            _playerAnimator.currentState &= ~PlayerAnimator.State.Walk;
+        }
+        #endregion
+
+        #region [Dash]
+        void Dash(Vector2 dashDir)
+        {
+            _dashCoroutine = _dashCoroutine ?? StartCoroutine(DashCoroutine(dashDir, _dashSpeed, _dashTime, _dashCoolTime));
+        }
+
+        IEnumerator DashCoroutine(Vector2 dashDir, float dashSpeed, float dashTime, float dashCoolTime)
+        {
+            _silhouette.IsActive = true;
+            _rigid.linearVelocity += dashDir * dashSpeed;
+
+            yield return new WaitForSeconds(dashTime);
+            _silhouette.IsActive = false;
+            _rigid.linearVelocity -= _rigid.linearVelocity;
+
+            float remainCoolTime = dashCoolTime - dashTime;
+            yield return new WaitForSeconds(remainCoolTime);
+            _dashCoroutine = null;
+        }
+        #endregion
+
+        #region [Interact]
         void InteractItem()
         {
             Transform target = ScanTarget(_scanRange);
             IInteractable iInteractable = null;
 
             //Debug.Log("1");
-
             if (target != null)
             {
-                iInteractable = target.GetComponent<IInteractable>();
                 //Debug.Log("2");
+                iInteractable = target.GetComponent<IInteractable>();
             }
 
             if (iInteractable != null)
@@ -140,5 +217,6 @@ namespace BMC
 
             return target;
         }
+        #endregion
     }
 }

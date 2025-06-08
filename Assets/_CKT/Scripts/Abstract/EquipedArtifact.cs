@@ -15,6 +15,13 @@ namespace CKT
 
         Coroutine _attackCoroutine = null;
 
+        Animator _animator;
+
+        private void Start()
+        {
+            CheckWhichHand();
+        }
+
         protected void Init(string fieldArtifact, string prefab)
         {
             _fieldArtifact = _fieldArtifact ?? Resources.Load<GameObject>(fieldArtifact);
@@ -24,9 +31,11 @@ namespace CKT
             _handID = 0;
 
             _attackCoroutine = null;
+
+            _animator = GetComponentInChildren<Animator>();
         }
 
-        protected void CheckWhichHand()
+        void CheckWhichHand()
         {
             if (this.transform.GetComponentInParent<LeftHand_YSJ>() != null)
             {
@@ -40,11 +49,6 @@ namespace CKT
                 _skillManager = GameManager.Instance.RightSkillManager;
                 _handID = 2;
             }
-
-            if (transform.GetComponentInParent<LeftHand_YSJ>() == null)
-            {
-
-            }
         }
 
         void Attack(List<GameObject> list)
@@ -54,21 +58,28 @@ namespace CKT
 
         protected virtual IEnumerator AttackCoroutine(List<GameObject> list)
         {
+            //TODO : 사운드_투사체 발사
+            YSJ.Managers.Sound.PlaySFX(Define.SFX.DefaultAttack);
+
+            //애니메이션 재생
+            _animator.Play("Attack", -1, 0);
+
             //총알 생성
             GameObject bullet = YSJ.Managers.Pool.InstPrefab(prefabName);
-            bullet.transform.position = this.transform.position;
+            bullet.transform.position = this.transform.position + this.transform.up;
             //이동 방향
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mouseDir = (mousePos - this.transform.position).normalized;
             bullet.transform.up = mouseDir;
             //이름 설정 (복사본 만들 때 이름을 받아서 생성하는 용도)
             bullet.name = prefabName;
+            //왼손||오른손 SkillManager 설정
             bullet.GetComponent<Projectile>().SkillManager = _skillManager;
 
             //CastSkill
-            for (int i = 0; i < _skillManager.CastSkillList.Count; i++)
+            foreach (Func<GameObject, IEnumerator> castSkill in _skillManager.CastSkillDict.Values)
             {
-                StartCoroutine(_skillManager.CastSkillList[i](bullet));
+                StartCoroutine(castSkill(bullet));
             }
 
             yield return new WaitForSeconds(0.5f);

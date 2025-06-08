@@ -21,6 +21,7 @@ namespace BMC
         {
             Debug.Log("캔버스");
             _canvas.enabled = !_canvas.enabled;
+            GameManager.Instance.TogglePauseGame(_canvas.enabled);
         }
 
         void OnDestroy()

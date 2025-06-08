@@ -30,7 +30,9 @@ namespace BMC
 
             if (currentRoom.RoomData.IsCleared && nextRoom == null)
             {
-                Room newRoom = MapManager.Instance.CreateRoomAtPoint(_roomType, nextRoomIndex.Item1, nextRoomIndex.Item2);
+                // TODO: Vertical Slice 후, 주석 복구하기
+                //Room newRoom = MapManager.Instance.CreateRoomAtPoint(_roomType, nextRoomIndex.Item1, nextRoomIndex.Item2);
+                Room newRoom = MapManager.Instance.CreateRoomRandomInTypeAtPoint(_roomType, nextRoomIndex.Item1, nextRoomIndex.Item2);
                 nextRoom = newRoom;
                 currentSeletedDoor.NextRoom = nextRoom; // 선택된 문에 다음 방 설정
             }
@@ -39,7 +41,6 @@ namespace BMC
             currentSeletedDoor.TransferToNextRoom(playerTransform);
             MapManager.Instance.CurrentDoor = null;
             UI_InGameEventBus.OnToggleChoiceRoomCanvas?.Invoke(); // 창 닫기
-            Time.timeScale = 1f;
         }
     }
 }

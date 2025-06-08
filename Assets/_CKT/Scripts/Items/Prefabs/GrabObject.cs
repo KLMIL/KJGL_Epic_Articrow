@@ -35,10 +35,13 @@ namespace CKT
             for (int i = 0; i < hits.Length; i++)
             {
                 IDamagable iDamagable = hits[i].transform.GetComponent<IDamagable>();
-                if (iDamagable != null)
+                GrabObject grabObject = hits[i].transform.GetComponentInParent<GrabObject>();
+                if ((iDamagable != null) && (grabObject == null))
                 {
                     _target = hits[i].transform;
                     StartCoroutine(MoveCoroutine(_target));
+
+                    //TODO : 사운드_HitGrab
                     break;
                 }
             }
@@ -50,7 +53,7 @@ namespace CKT
             target.position = this.transform.position;
             Vector3 startPos = this.transform.position;
 
-            Transform player = FindAnyObjectByType<YSJ.PlayerController>().transform;
+            Transform player = FindAnyObjectByType<BMC.DummyPlayerController>().transform;
             Vector3 playerPos = player.position;
 
             if ((player != null) && (target != null))
@@ -58,7 +61,7 @@ namespace CKT
                 float sqrDistance = float.MaxValue;
                 while (sqrDistance > _minSqrDistance)
                 {
-                    Vector3 moveDir = (player.position - startPos).normalized;
+                    Vector3 moveDir = (playerPos - startPos).normalized;
                     transform.position += moveDir * _moveSpeed * Time.deltaTime;
                     sqrDistance = (playerPos - this.transform.position).sqrMagnitude;
                     yield return null;

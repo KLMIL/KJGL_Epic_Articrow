@@ -5,7 +5,10 @@ namespace CKT
 {
     public class Explosion : MonoBehaviour
     {
+        float range = 1.5f;
         LayerMask _playerLayerMask;
+
+        float _damage = 2f;
 
         private void OnEnable()
         {
@@ -17,13 +20,13 @@ namespace CKT
         {
             yield return null;
 
-            RaycastHit2D[] hits = Physics2D.CircleCastAll(this.transform.position, 2, Vector2.up, 0, ~_playerLayerMask);
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(this.transform.position, range, Vector2.up, 0, ~_playerLayerMask);
             for (int i = 0; i < hits.Length; i++)
             {
                 IDamagable iDamageable = hits[i].transform.GetComponent<IDamagable>();
                 if (iDamageable != null)
                 {
-                    iDamageable.TakeDamage(10);
+                    iDamageable.TakeDamage(_damage);
                 }
             }
         }

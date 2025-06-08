@@ -5,6 +5,11 @@ namespace CKT
 {
     public class Bullet : Projectile
     {
+        protected override int BasePenetration => 0;
+        protected override float MoveSpeed => 15f;
+        protected override float Damage => 4f;
+        protected override float ExistTime => 0.5f;
+
         protected override void CreateHitSkillObject()
         {
             GameObject hitSkillObject = YSJ.Managers.Pool.InstPrefab("HitSkillObject");

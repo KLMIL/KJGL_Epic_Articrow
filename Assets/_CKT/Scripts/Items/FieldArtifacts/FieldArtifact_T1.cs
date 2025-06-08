@@ -20,6 +20,7 @@ namespace CKT
             GameObject equiped = Instantiate(_equipedArtifact);
             equiped.transform.parent = trans;
             equiped.transform.localPosition = Vector3.zero;
+            equiped.transform.localRotation = Quaternion.identity;
             Destroy(this.gameObject);
         }
     }
