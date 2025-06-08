@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using YSJ;
 
 namespace CKT
 {
@@ -23,7 +24,8 @@ namespace CKT
             for (int i = 0; i < level; i++)
             {
                 //TODO : 사운드_CastDamageArea
-                
+                Managers.Sound.PlaySFX(Define.SFX.CastDamageArea);
+
                 GameObject castDamageArea = YSJ.Managers.Pool.InstPrefab("CastDamageArea");
                 castDamageArea.transform.position = startPos;
                 yield return new WaitForSeconds(0.05f);

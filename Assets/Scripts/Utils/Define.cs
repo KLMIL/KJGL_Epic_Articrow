@@ -23,6 +23,17 @@ public class Define
     public enum SFX
     {
         None,
+        DoorOpen,
+        DoorClose,
+        DefaultAttack,
+        CastDamageArea,
+        CastExplosion,
+        HitDefaultAttack,
+        HitDamageArea,
+        HitExplosion,
+        HitGrab,
+        Put,
+        Pickup,
     }
     #endregion
 

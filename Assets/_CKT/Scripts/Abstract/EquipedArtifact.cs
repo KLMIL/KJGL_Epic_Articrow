@@ -59,7 +59,8 @@ namespace CKT
         protected virtual IEnumerator AttackCoroutine(List<GameObject> list)
         {
             //TODO : 사운드_투사체 발사
-            
+            YSJ.Managers.Sound.PlaySFX(Define.SFX.DefaultAttack);
+
             //애니메이션 재생
             _animator.Play("Attack", -1, 0);
 

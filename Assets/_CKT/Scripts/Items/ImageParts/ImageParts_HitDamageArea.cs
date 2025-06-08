@@ -22,7 +22,8 @@ public class ImageParts_HitDamageArea : ImageParts, ISkillable
         for (int i = 0; i < level; i++)
         {
             //TODO : 사운드_HitDamageArea
-            
+            YSJ.Managers.Sound.PlaySFX(Define.SFX.HitDamageArea);
+
             GameObject hitDamageArea = YSJ.Managers.Pool.InstPrefab("HitDamageArea");
             hitDamageArea.transform.position = startPos;
             yield return new WaitForSeconds(0.05f);
