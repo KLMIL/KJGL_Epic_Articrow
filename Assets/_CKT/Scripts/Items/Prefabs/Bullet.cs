@@ -6,8 +6,9 @@ namespace CKT
     public class Bullet : Projectile
     {
         protected override int BasePenetration => 0;
-        protected override float MoveSpeed => 25f;
-        protected override float Damage => 10f;
+        protected override float MoveSpeed => 15f;
+        protected override float Damage => 4f;
+        protected override float ExistTime => 0.5f;
 
         protected override void CreateHitSkillObject()
         {

@@ -14,7 +14,7 @@ namespace CKT
 
         public string SkillName => "HitExplosion";
 
-        public IEnumerator SkillCoroutine(GameObject origin, int level)
+        public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
         {
             Debug.Log($"{SkillName}, Level+{level}");
 

@@ -15,7 +15,7 @@ namespace CKT
 
         public string SkillName => "CastExplosion";
 
-        public IEnumerator SkillCoroutine(GameObject origin, int level)
+        public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
         {
             Debug.Log($"{SkillName}, Level+{level}");
 

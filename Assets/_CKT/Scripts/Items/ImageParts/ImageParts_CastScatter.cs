@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 namespace CKT
@@ -16,20 +17,13 @@ namespace CKT
 
         public string SkillName => "CastScatter";
 
-        public IEnumerator SkillCoroutine(GameObject origin, int level)
+        public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
         {
             Debug.Log($"{SkillName}, Level+{level}");
 
-            Scatter(origin, origin.name, level, true);
-            yield return null;
-        }
-
-        void Scatter(GameObject origin, string prefabName, int level, bool includeOrigin)
-        {
+            int scatterCount = level + 1;
             Vector3 originUp = origin.transform.up;
 
-            //level이 0일 때는 for문 스킵 (레벨 + origin)
-            int scatterCount = (level == 0) ? 0 : ((includeOrigin) ? (level + 1) : level);
             for (int k = 0; k < scatterCount; k++)
             {
                 //분산 각도
@@ -44,21 +38,15 @@ namespace CKT
                 }
                 Vector2 scatterDir = Util.RotateVector(originUp, (sign * _scatterAngle)).normalized;
 
-                //본체 포함일 때 = 0번째는 본체 + 회전만
-                if ((k == 0) && includeOrigin)
-                {
-                    origin.transform.up = scatterDir;
-                }
-                else
-                {
-                    GameObject castScatterCopy = YSJ.Managers.Pool.InstPrefab(prefabName);
-                    castScatterCopy.transform.position = origin.transform.position;
-                    castScatterCopy.transform.up = scatterDir;
-                    castScatterCopy.name = prefabName;
-                    //castScatterCopy.GetComponent<Projectile>().SkillManager = this;
-                    //TODO : CastScatter 완성하기
-                }
+                GameObject castScatterCopy = YSJ.Managers.Pool.InstPrefab(origin.name);
+                castScatterCopy.transform.position = origin.transform.position;
+                castScatterCopy.transform.up = scatterDir;
+                castScatterCopy.name = origin.name;
+                castScatterCopy.GetComponent<Projectile>().SkillManager = skillManager;
             }
+
+            origin.SetActive(false);
+            yield return null;
         }
     }
 }

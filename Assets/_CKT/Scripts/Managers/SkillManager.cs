@@ -43,7 +43,7 @@ namespace CKT
                     {
                         if (!skillDict.ContainsKey(skill.SkillName))
                         {
-                            skillDict.Add(skill.SkillName, (obj) => skill.SkillCoroutine(obj, SkillDupDict[skill.SkillName]));
+                            skillDict.Add(skill.SkillName, (obj) => skill.SkillCoroutine(obj, SkillDupDict[skill.SkillName], this));
                             SkillDupDict.Add(skill.SkillName, 1);
                         }
                         else
