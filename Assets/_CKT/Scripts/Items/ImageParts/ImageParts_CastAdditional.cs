@@ -15,7 +15,7 @@ namespace CKT
 
         public string SkillName => "CastAdditional";
 
-        public IEnumerator SkillCoroutine(GameObject origin, int level)
+        public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
         {
             Debug.Log($"{SkillName}, Level+{level}");
             
@@ -28,10 +28,12 @@ namespace CKT
                 castAdditionalCopy.transform.position = startPos;
                 castAdditionalCopy.transform.up = origin.transform.up;
                 castAdditionalCopy.name = origin.name;
-                //castAdditionalCopy.GetComponent<Projectile>().SkillManager = this;
+                castAdditionalCopy.GetComponent<Projectile>().SkillManager = skillManager;
 
-                //Scatter(castAdditionalCopy, origin.name, _castScatterLevel, true);
-                //TODO : CastAdditional Scatter 완성하기
+                if (skillManager.CastSkillDict.ContainsKey("CastScatter"))
+                {
+                    StartCoroutine(skillManager.CastSkillDict["CastScatter"](castAdditionalCopy));
+                }
             }
         }
     }

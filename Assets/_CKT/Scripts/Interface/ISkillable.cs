@@ -1,3 +1,4 @@
+using CKT;
 using System.Collections;
 using UnityEngine;
 
@@ -9,5 +10,5 @@ public interface ISkillable
 
     public string SkillName { get; }
 
-    public IEnumerator SkillCoroutine(GameObject origin, int level);
+    public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager);
 }

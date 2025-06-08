@@ -13,7 +13,7 @@ public class ImageParts_HitDamageArea : ImageParts, ISkillable
 
     public string SkillName => "HitDamageArea";
 
-    public IEnumerator SkillCoroutine(GameObject origin, int level)
+    public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
     {
         Debug.Log($"{SkillName}, Level+{level}");
 

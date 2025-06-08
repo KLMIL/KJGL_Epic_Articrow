@@ -11,6 +11,7 @@ namespace CKT
         protected abstract int BasePenetration { get; }
         protected abstract float MoveSpeed { get; }
         protected abstract float Damage { get; }
+        protected abstract float ExistTime { get; }
 
         private void OnEnable()
         {
@@ -23,9 +24,9 @@ namespace CKT
             SkillManager = null;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
-            transform.position += transform.up * MoveSpeed * Time.fixedDeltaTime;
+            transform.position += transform.up * MoveSpeed * Time.deltaTime;
         }
 
         private void OnTriggerEnter2D(Collider2D collider)
@@ -48,7 +49,7 @@ namespace CKT
 
         IEnumerator DisableCoroutine()
         {
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(ExistTime);
             //CreateHitSkillObject();
             this.gameObject.SetActive(false);
         }
