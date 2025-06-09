@@ -53,7 +53,7 @@ public class SpecialAttackActionSO: EnemyActionSO
         switch (specialAttackMode)
         {
             case SpecialAttackMode.Summon:
-                controller.isSpawnedMite = false;
+                controller.FSM.isSpawnedMite = false;
                 break;
         }
     }
@@ -61,8 +61,8 @@ public class SpecialAttackActionSO: EnemyActionSO
 
     private void Summon(EnemyController controller)
     {
-        if (controller.isSpawnedMite) return;
-        controller.isSpawnedMite = true;
+        if (controller.FSM.isSpawnedMite) return;
+        controller.FSM.isSpawnedMite = true;
 
         for (int i = 0; i < spawnCount; i++)
         {

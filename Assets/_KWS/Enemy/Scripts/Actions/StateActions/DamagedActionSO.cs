@@ -10,9 +10,9 @@ public class DamagedActionSO : EnemyActionSO
 
     public override void Act(EnemyController controller)
     {
-        controller.Status.healthPoint -= controller.pendingDamage;
-        controller.pendingDamage = 0;
-        controller.isDamaged = false;
+        controller.Status.healthPoint -= controller.FSM.pendingDamage;
+        controller.FSM.pendingDamage = 0;
+        controller.FSM.isDamaged = false;
 
         // (상태이상, 넉백, 이펙트 등 추가)
     }

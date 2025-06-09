@@ -69,8 +69,8 @@ public class MeleeAttackActionSO : EnemyActionSO
     {
         if (meleeAttackMode == MeleeAttackMode.Rush)
         {
-            controller.rushSpeedMultiply = this.rushSpeedMultiply;
-            controller.currentActionDamageMultiply = this.damageMultiply;
+            controller.FSM.rushSpeedMultiply = this.rushSpeedMultiply;
+            controller.FSM.currentActionDamageMultiply = this.damageMultiply;
         }
 
         //controller.lastAttackTimes[controller.CurrentStateName] = -Mathf.Infinity;
@@ -85,8 +85,8 @@ public class MeleeAttackActionSO : EnemyActionSO
             case MeleeAttackMode.Basic:
                 break;
             case MeleeAttackMode.Rush:
-                controller.isRushing = false;
-                controller.currentActionDamageMultiply = 1.0f;
+                controller.FSM.isRushing = false;
+                controller.FSM.currentActionDamageMultiply = 1.0f;
                 break;
         }
     }
@@ -104,18 +104,19 @@ public class MeleeAttackActionSO : EnemyActionSO
 
     private void BasicAttack(EnemyController controller)
     {
-        Vector2 attackOrigin = (Vector2)controller.transform.position + attackOffset;
+        // TODO: 구조 다시 구현할 것. EnemyDealDamage에서 대미지 부여하는 방식으로.
+        //Vector2 attackOrigin = (Vector2)controller.transform.position + attackOffset;
 
-        LayerMask playerMask = LayerMask.GetMask("Player");
-        Collider2D[] hits = Physics2D.OverlapCircleAll(attackOrigin, attackRange, playerMask);
+        //LayerMask playerMask = LayerMask.GetMask("Player");
+        //Collider2D[] hits = Physics2D.OverlapCircleAll(attackOrigin, attackRange, playerMask);
 
-        foreach (var hit in hits)
-        {
-            float damage = controller.Status.attack * damageMultiply;
-            controller.DealDamageToPlayer(damage, false);
+        //foreach (var hit in hits)
+        //{
+        //    float damage = controller.Status.attack * damageMultiply;
+        //    controller.DealDamageToPlayer(damage, false);
 
-            // (넉백이 필요하다면 이 부분에 추가)
-        }
+        //    // (넉백이 필요하다면 이 부분에 추가)
+        //}
         // (이팩트가 필요하다면 이 부분에 추가)
     }
 
@@ -128,16 +129,16 @@ public class MeleeAttackActionSO : EnemyActionSO
         //    controller.rushDirection = (controller.Player.position - controller.transform.position).normalized;
         //}
         //else if (!controller.isRushing)// 일반 돌진
-        if (!controller.isRushing)// 일반 돌진
+        if (!controller.FSM.isRushing)// 일반 돌진
         {
             // 첫 rush에서 방향 초기화
-            controller.rushDirection = (controller.Player.position - controller.transform.position).normalized;
+            controller.FSM.rushDirection = (controller.Player.position - controller.transform.position).normalized;
         }
 
-        controller.rushDamageMultuply = damageMultiply;
-        controller.isRushAttacked = false;
-        controller.isRushing = true;
-        controller.MoveTo(controller.rushDirection, rushDuration, "RushAttack");
+        controller.FSM.rushDamageMultuply = damageMultiply;
+        controller.FSM.isRushAttacked = false;
+        controller.FSM.isRushing = true;
+        controller.MoveTo(controller.FSM.rushDirection, rushDuration, "RushAttack");
 
         //controller.transform.Translate(controller.rushDirection * controller.Status.moveSpeed * rushSpeedMultiply * Time.deltaTime);
     }

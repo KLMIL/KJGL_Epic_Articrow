@@ -18,7 +18,7 @@ public class EnemyTakeDamage : MonoBehaviour, IDamagable
         TextMeshPro _damageTextInstance = Instantiate(_damageTextPrefab, transform.position, Quaternion.identity);
         _damageTextInstance.text = damage.ToString();
 
-        ownerController.isDamaged = true;
-        ownerController.pendingDamage += damage;
+        ownerController.FSM.isDamaged = true;
+        ownerController.FSM.pendingDamage += damage;
     }
 }

@@ -11,6 +11,6 @@ public class ContactToPlayerConditionSO: EnemyConditionSO
 {
     public override bool IsMet(EnemyController controller)
     {
-        return controller.isContactDamageActive;
+        return controller.FSM.isContactDamageActive;
     }
 }

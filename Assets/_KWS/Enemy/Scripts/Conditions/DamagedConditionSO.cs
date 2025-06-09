@@ -5,6 +5,6 @@ public class DamagedConditionSO : EnemyConditionSO
 {
     public override bool IsMet(EnemyController controller)
     {
-        return controller.isDamaged;
+        return controller.FSM.isDamaged;
     }
 }

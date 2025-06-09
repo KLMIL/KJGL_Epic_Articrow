@@ -16,14 +16,14 @@ public class RandomMoveActionSO : EnemyActionSO
     public override void Act(EnemyController controller)
     {
         // 쿨타임이 지났다면 새로운 방향과 지속시간 생성
-        if (controller.randomMoveChangeCooldown <= 0f)
+        if (controller.FSM.randomMoveChangeCooldown <= 0f)
         {
-            controller.randomMoveDirection = new Vector3(
+            controller.FSM.randomMoveDirection = new Vector3(
                     Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f
                 ).normalized;
-            controller.randomMoveChangeCooldown = Random.Range(minMoveCooldown, maxMoveCooldown);
+            controller.FSM.randomMoveChangeCooldown = Random.Range(minMoveCooldown, maxMoveCooldown);
 
-            controller.MoveTo(controller.randomMoveDirection, controller.randomMoveChangeCooldown, "Normal");
+            controller.MoveTo(controller.FSM.randomMoveDirection, controller.FSM.randomMoveChangeCooldown, "Normal");
         }
 
         //// 이동
@@ -41,7 +41,7 @@ public class RandomMoveActionSO : EnemyActionSO
 
 
         // 지속시간 갱신
-        controller.randomMoveChangeCooldown -= Time.deltaTime;
+        controller.FSM.randomMoveChangeCooldown -= Time.deltaTime;
     }
 
     public override void OnExit(EnemyController controller)
