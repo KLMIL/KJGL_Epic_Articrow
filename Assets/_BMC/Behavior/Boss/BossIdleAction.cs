@@ -5,16 +5,23 @@ using Action = Unity.Behavior.Action;
 using Unity.Properties;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "BossSpawn", story: "[Self] Spawn", category: "Action", id: "f00d65e1d972568654d8c63514c97c51")]
-public partial class BossSpawnAction : Action
+[NodeDescription(name: "BossIdle", story: "[Self] Idle", category: "Action", id: "cd9a262eb69bd4eb3463e622b09ea720")]
+public partial class BossIdleAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
-    Animator _anim;
+
     protected override Status OnStart()
     {
-        if(_anim == null)
-            _anim = Self.Value.GetComponent<Animator>();
-        _anim.Play("Spawn");
         return Status.Running;
     }
+
+    protected override Status OnUpdate()
+    {
+        return Status.Success;
+    }
+
+    protected override void OnEnd()
+    {
+    }
 }
+
