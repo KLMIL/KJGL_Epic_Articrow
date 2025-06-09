@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 3461897132877594448}
   - component: {fileID: 402500928716262526}
   - component: {fileID: 2634376200830251724}
-  - component: {fileID: 6757336873928180719}
+  - component: {fileID: 6048160050831150791}
   - component: {fileID: 867253434297699822}
   - component: {fileID: 8566294338215011395}
+  - component: {fileID: 6757336873928180719}
   - component: {fileID: 8111610383855847771}
   - component: {fileID: 6792046540482657379}
   - component: {fileID: 5244815503509521101}
@@ -117,11 +118,11 @@ MonoBehaviour:
     condition: {fileID: 11400000, guid: b1daceb7c40b8ec4f992dfbbd7dd02ee, type: 2}
     action: {fileID: 11400000, guid: 664724dd8f3f880409145e7811957e77, type: 2}
     animationName: Dead
-    duration: 1
+    duration: 5
     nextStateName: Die
     elapsedTime: 0
   - stateName: Damaged
-    interruptType: 1
+    interruptType: 2
     condition: {fileID: 11400000, guid: 902d66524a2d1c04689f0d3b4523d910, type: 2}
     action: {fileID: 11400000, guid: 52274b4cf3699d44588674501cc38c5a, type: 2}
     animationName: Hurt
@@ -191,13 +192,18 @@ MonoBehaviour:
   projectileFiredCount: 0
   projectileIntervalTimer: 0
   isSpawnedMite: 0
+  isRushAttacked: 1
   isRushing: 0
   rushDirection: {x: 0, y: 0, z: 0}
+  rushSpeedMultiply: 1
+  rushDamageMultuply: 1
   isContactDamageActive: 0
   currentActionDamageMultiply: 1
+  lastContactAttackTime: -Infinity
+  contactAttackCooldown: 1
   randomMoveDirection: {x: 0, y: 0, z: 0}
   randomMoveChangeCooldown: 0
---- !u!114 &6757336873928180719
+--- !u!114 &6048160050831150791
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,9 +212,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 280942326239313078}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
+  m_Script: {fileID: 11500000, guid: f262f1b822313c24589e57fee54e7c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeedMultiply: 1
+  wallCheckDistance: 0.5
+  wallLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &867253434297699822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +245,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTag: Player
+--- !u!114 &6757336873928180719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280942326239313078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!60 &8111610383855847771
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -357,7 +380,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!95 &6786290199110939000
 Animator:
   serializedVersion: 7

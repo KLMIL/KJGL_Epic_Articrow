@@ -30,18 +30,32 @@ namespace BMC
         int[] _doorDirectionX = { 0, -1, 1, 0 };    // 상, 좌, 우, 하
 
         [Header("테스트 관련")]
-        GameObject _monsterGO;
+        [SerializeField] EnemySpawner _enemySpawner; // 몬스터 소환기 (테스트용)
         GameObject[] _allReward;
 
         void Awake()
         {
+            _enemySpawner = transform.GetComponentInChildren<EnemySpawner>();
             FindDoor();
             //RearrangeDoor();
         }
 
+        void Start()
+        {
+            if (_roomData.RoomType != RoomType.StartRoom &&
+                _roomData.RoomType != RoomType.BossRoom)
+            {
+                _enemySpawner.Init();
+                SpawnEnemy();
+            }
+        }
+
         void Update()
         {
-            if (_monsterGO == null)
+            // (임시 코드) -> 나중에 Action으로 변경 필요
+            if(_roomData.RoomType != RoomType.StartRoom && 
+                _roomData.RoomType != RoomType.BossRoom && 
+                _enemySpawner.IsClear())
             {
                 Complete();
             }
@@ -124,6 +138,7 @@ namespace BMC
         }
         #endregion
 
+        #region 클리어 관련
         // 보상 소환 (임시)
         public void SpawnReward()
         {
@@ -158,13 +173,11 @@ namespace BMC
                 OpenAllValidDoor();
             }
         }
+        #endregion
 
-        // 몬스터 소환 (임시)
-        public void SpawnMonster()
+        public void SpawnEnemy()
         {
-            _monsterGO = Managers.Resource.Instantiate("Monster/CarapaceSlime");
-            _monsterGO.transform.SetParent(transform);
-            _monsterGO.transform.localPosition = Vector3.zero;
+            _enemySpawner.SpawnEnemy();
         }
     }
 }

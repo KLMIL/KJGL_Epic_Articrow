@@ -12,10 +12,12 @@ GameObject:
   - component: {fileID: 2338931620479230512}
   - component: {fileID: 3560995902832128039}
   - component: {fileID: 1655341474631979712}
+  - component: {fileID: -2885582330465787576}
   - component: {fileID: 4901763190083279578}
   - component: {fileID: 2636850451816888533}
   - component: {fileID: 1897248579523072285}
   - component: {fileID: 7698610394920153538}
+  - component: {fileID: 8788072636768756790}
   - component: {fileID: 4916100892339753108}
   m_Layer: 0
   m_Name: MiteSwarm
@@ -115,7 +117,7 @@ MonoBehaviour:
     condition: {fileID: 11400000, guid: 1204717907e2bca49aca307ab6c76ada, type: 2}
     action: {fileID: 11400000, guid: ad9899115d8ac464f8934572d5666f75, type: 2}
     animationName: Die
-    duration: 1
+    duration: 5
     nextStateName: Die
     elapsedTime: 0
   - stateName: Damaged
@@ -127,7 +129,7 @@ MonoBehaviour:
     nextStateName: Summon
     elapsedTime: 0
   - stateName: PlayerApproach
-    interruptType: 2
+    interruptType: 1
     condition: {fileID: 11400000, guid: 0c879e497d579c84f8e4a8b94dc635d2, type: 2}
     action: {fileID: 11400000, guid: cb35fde7b04dd8842aae056cde047c3c, type: 2}
     animationName: SummonReady
@@ -135,8 +137,8 @@ MonoBehaviour:
     nextStateName: Summon
     elapsedTime: 0
   - stateName: Summon
-    interruptType: 2
-    condition: {fileID: 11400000, guid: 32aac10744fd9164391740ee65bc28a8, type: 2}
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 4c2dd887f33c5614caeaf5bfe6c8a165, type: 2}
     action: {fileID: 11400000, guid: f6bfc6c8f96e078489fb843fda55e031, type: 2}
     animationName: Summon
     duration: 0.6
@@ -157,10 +159,15 @@ MonoBehaviour:
   projectileFiredCount: 0
   projectileIntervalTimer: 0
   isSpawnedMite: 0
+  isRushAttacked: 1
   isRushing: 0
   rushDirection: {x: 0, y: 0, z: 0}
+  rushSpeedMultiply: 1
+  rushDamageMultuply: 1
   isContactDamageActive: 0
   currentActionDamageMultiply: 1
+  lastContactAttackTime: -Infinity
+  contactAttackCooldown: 1
   randomMoveDirection: {x: 0, y: 0, z: 0}
   randomMoveChangeCooldown: 0
 --- !u!114 &1655341474631979712
@@ -175,6 +182,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2885582330465787576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3006341480942975301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f262f1b822313c24589e57fee54e7c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeedMultiply: 1
+  wallCheckDistance: 0.5
+  wallLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &4901763190083279578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,6 +314,33 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0.012993425, y: -0.004331082}
   m_Radius: 0.2661185
+--- !u!50 &8788072636768756790
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3006341480942975301}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!95 &4916100892339753108
 Animator:
   serializedVersion: 7
