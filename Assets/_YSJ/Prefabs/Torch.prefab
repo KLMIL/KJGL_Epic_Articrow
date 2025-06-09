@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1412935227901376960}
   - component: {fileID: 3384823035898447836}
+  - component: {fileID: 5651237705129940582}
   m_Layer: 0
   m_Name: Light 2D (1)
   m_TagString: Untagged
@@ -49,7 +50,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 0.96318656, b: 0.5235849, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.5
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -84,6 +85,20 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &5651237705129940582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3245466734452026469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06af0f74c53d46c458277dc26d466433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 3
+  valueMultifly: 0.25
 --- !u!1 &5568196603443178861
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1786806960687428445}
   - component: {fileID: 2189674739509217226}
+  - component: {fileID: 2687230197478624690}
   m_Layer: 0
   m_Name: Cave_Object_3
   m_TagString: Untagged
@@ -161,7 +177,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_Sprite: {fileID: 2665690583168742415, guid: 07074b1ba0e8fac47ac1c9f9cd4dfd72, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.62352943}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.23529412}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -171,6 +187,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2687230197478624690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5568196603443178861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211897bb2590d214cb60612643972249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 3
+  valueMultifly: 0.065
 --- !u!1 &5837889000076068662
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6376439476265180577
 Transform:
   m_ObjectHideFlags: 0
@@ -221,11 +251,11 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 00000000
-  m_LightCookieSprite: {fileID: -198653885079438854, guid: 07074b1ba0e8fac47ac1c9f9cd4dfd72, type: 3}
+  m_LightCookieSprite: {fileID: 2665690583168742415, guid: 07074b1ba0e8fac47ac1c9f9cd4dfd72, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
   m_AlphaBlendOnOverlap: 0
@@ -241,7 +271,7 @@ MonoBehaviour:
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.40625, y: 0.40625, z: 0}
+    m_Extent: {x: 0.46875, y: 0.46875, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0

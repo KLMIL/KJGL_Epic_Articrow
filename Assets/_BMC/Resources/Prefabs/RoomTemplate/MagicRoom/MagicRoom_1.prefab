@@ -9153,6 +9153,7 @@ MonoBehaviour:
     IsCleared: 0
   _doors: []
   <SelectedDoor>k__BackingField: {fileID: 0}
+  _enemySpawner: {fileID: 0}
 --- !u!1 &8326813410428975991
 GameObject:
   m_ObjectHideFlags: 0
@@ -9576,13 +9577,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3859219121193365038}
+  - component: {fileID: 1270260167567345087}
   m_Layer: 31
   m_Name: MinimapIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3859219121193365038
 Transform:
   m_ObjectHideFlags: 0
@@ -9601,6 +9603,18 @@ Transform:
   - {fileID: 1464536293844525023}
   m_Father: {fileID: 8029778904058124382}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &1270260167567345087
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8847756619954826101}
+  m_Enabled: 1
+  m_SortingLayerID: -1704098871
+  m_SortingLayer: 1
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &8868737410251505467
 GameObject:
   m_ObjectHideFlags: 0
@@ -10287,10 +10301,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4929837486182584799, guid: 5fb69608124be944c8a3c48b3e66ed8f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837889000076068662, guid: 5fb69608124be944c8a3c48b3e66ed8f, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6890658677252772554, guid: 5fb69608124be944c8a3c48b3e66ed8f, type: 3}
@@ -11309,10 +11319,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5837889000076068662, guid: 5fb69608124be944c8a3c48b3e66ed8f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6890658677252772554, guid: 5fb69608124be944c8a3c48b3e66ed8f, type: 3}
       propertyPath: m_Name
       value: Torch (2)
@@ -11559,10 +11565,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4929837486182584799, guid: 5fb69608124be944c8a3c48b3e66ed8f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837889000076068662, guid: 5fb69608124be944c8a3c48b3e66ed8f, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6890658677252772554, guid: 5fb69608124be944c8a3c48b3e66ed8f, type: 3}
