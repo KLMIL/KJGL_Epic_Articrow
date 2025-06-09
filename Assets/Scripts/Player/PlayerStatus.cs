@@ -28,8 +28,8 @@ namespace YSJ
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.G))
-                TakeDamage(10f);
+            //if (Input.GetKeyDown(KeyCode.G))
+            //    TakeDamage(10f);
         }
 
         public void Init()
