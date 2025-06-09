@@ -70,6 +70,7 @@ public class MeleeAttackActionSO : EnemyActionSO
         if (meleeAttackMode == MeleeAttackMode.Rush)
         {
             controller.rushSpeedMultiply = this.rushSpeedMultiply;
+            controller.currentActionDamageMultiply = this.damageMultiply;
         }
 
         //controller.lastAttackTimes[controller.CurrentStateName] = -Mathf.Infinity;
@@ -85,6 +86,7 @@ public class MeleeAttackActionSO : EnemyActionSO
                 break;
             case MeleeAttackMode.Rush:
                 controller.isRushing = false;
+                controller.currentActionDamageMultiply = 1.0f;
                 break;
         }
     }

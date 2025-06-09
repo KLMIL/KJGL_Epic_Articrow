@@ -47,13 +47,13 @@ public class MoveAwayActionSO : EnemyActionSO
                     Vector3 left = -right;
 
                     // 오른쪽 방향 우선 체크
-                    if (!Physics.Raycast(controller.transform.position, right, wallCheckDistance))
+                    if (!Physics2D.Raycast(controller.transform.position, right, wallCheckDistance))
                     {
                         //controller.transform.Translate(right * controller.Status.moveSpeed * Time.deltaTime);
                         chosenDir = right;
                     }
                     // 왼쪽 방향 우선 체크
-                    else if (!Physics.Raycast(controller.transform.position, left, wallCheckDistance))
+                    else if (!Physics2D.Raycast(controller.transform.position, left, wallCheckDistance))
                     {
                         //controller.transform.Translate(left * controller.Status.moveSpeed * Time.deltaTime);
                         chosenDir = left;
