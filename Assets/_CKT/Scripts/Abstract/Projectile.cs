@@ -16,7 +16,7 @@ namespace CKT
         private void OnEnable()
         {
             curPenetration = BasePenetration;
-            StartCoroutine(DisableCoroutine());
+            StartCoroutine(DisableCoroutine(ExistTime));
         }
 
         private void OnDisable()
@@ -31,6 +31,8 @@ namespace CKT
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
+            if (!collider.isTrigger) return;
+            
             IDamagable iDamagable = collider.GetComponent<IDamagable>();
             if (iDamagable != null)
             {
@@ -40,16 +42,18 @@ namespace CKT
                 if (curPenetration < 0)
                 {
                     CreateHitSkillObject();
-                    this.gameObject.SetActive(false);
+                    //this.gameObject.SetActive(false);
+                    StartCoroutine(DisableCoroutine(0));
                 }
 
                 //TODO : 사운드_투사체 적중
             }
         }
 
-        IEnumerator DisableCoroutine()
+        IEnumerator DisableCoroutine(float existTime)
         {
-            yield return new WaitForSeconds(ExistTime);
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(existTime);
             //CreateHitSkillObject();
             this.gameObject.SetActive(false);
         }
