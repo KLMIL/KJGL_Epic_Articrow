@@ -110,7 +110,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _statusOrigin: {fileID: 11400000, guid: 9a7b0886072f50042bc2f8af2375cad7, type: 2}
   Status: {fileID: 0}
-  Player: {fileID: 0}
   Behaviours:
   - stateName: Die
     interruptType: 2
@@ -126,6 +125,14 @@ MonoBehaviour:
     action: {fileID: 11400000, guid: 3ca3ff1033b961a489a092d07489beb2, type: 2}
     animationName: Hurt
     duration: 0.3
+    nextStateName: Idle
+    elapsedTime: 0
+  - stateName: MoveAway
+    interruptType: 1
+    condition: {fileID: 11400000, guid: b63c75e5b3be8204fa9fc368b3adf42b, type: 2}
+    action: {fileID: 11400000, guid: 876928a8d89b24747a56fe0391e4fb7f, type: 2}
+    animationName: Walk
+    duration: 0.6
     nextStateName: Idle
     elapsedTime: 0
   - stateName: ProjectileReady
@@ -144,14 +151,6 @@ MonoBehaviour:
     duration: 0.3
     nextStateName: Idle
     elapsedTime: 0
-  - stateName: MoveAway
-    interruptType: 1
-    condition: {fileID: 11400000, guid: b63c75e5b3be8204fa9fc368b3adf42b, type: 2}
-    action: {fileID: 11400000, guid: 876928a8d89b24747a56fe0391e4fb7f, type: 2}
-    animationName: Walk
-    duration: 0.6
-    nextStateName: Idle
-    elapsedTime: 0
   - stateName: Idle
     interruptType: 0
     condition: {fileID: 11400000, guid: cb98b75165b4b174f869dfc07f862b50, type: 2}
@@ -168,24 +167,7 @@ MonoBehaviour:
     duration: 1.7
     nextStateName: Idle
     elapsedTime: 0
-  CurrentStateName: Idle
-  CurrentAnimation: 
-  isDamaged: 0
-  pendingDamage: 0
-  projectileFiredCount: 0
-  projectileIntervalTimer: 0
-  isSpawnedMite: 0
-  isRushAttacked: 1
-  isRushing: 0
-  rushDirection: {x: 0, y: 0, z: 0}
-  rushSpeedMultiply: 1
-  rushDamageMultuply: 1
-  isContactDamageActive: 0
-  currentActionDamageMultiply: 1
-  lastContactAttackTime: -Infinity
-  contactAttackCooldown: 1
-  randomMoveDirection: {x: 0, y: 0, z: 0}
-  randomMoveChangeCooldown: 0
+  Player: {fileID: 0}
 --- !u!114 &8883541980013560107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentAnimation: 
 --- !u!60 &8198060193585517885
 PolygonCollider2D:
   m_ObjectHideFlags: 0

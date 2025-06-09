@@ -110,6 +110,8 @@ public class EnemyFSMCore
 
     public void ChangeState(string nextStateName)
     {
+        Debug.Log($"State Change: {nextStateName}");
+
         if (CurrentStateName == nextStateName) return; // 같은 상태라면 애니메이션 갱신 X
 
         int prevIdx = _behaviours.FindIndex(b => b.stateName == CurrentStateName);

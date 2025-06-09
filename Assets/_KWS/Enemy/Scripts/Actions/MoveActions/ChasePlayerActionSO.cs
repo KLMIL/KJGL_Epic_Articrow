@@ -51,10 +51,9 @@ public class ChasePlayerActionSO : EnemyActionSO
 
     private void SimpleChase(EnemyController controller)
     {
+        
         Vector3 dir = (controller.Player.position - controller.transform.position).normalized;
         controller.MoveTo(dir, Time.deltaTime, "SimpleChase");
-
-        //controller.transform.Translate(dir * controller.Status.moveSpeed * Time.deltaTime);
     }
 
     private void SmartChase(EnemyController controller)
