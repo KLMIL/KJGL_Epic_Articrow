@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 6792046540482657379}
   - component: {fileID: 5244815503509521101}
   - component: {fileID: 6786290199110939000}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WormSlime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _statusOrigin: {fileID: 11400000, guid: dc4e77f75fd922849a2c2f9f54aa7d9f, type: 2}
   Status: {fileID: 0}
-  Player: {fileID: 0}
   Behaviours:
   - stateName: Die
     interruptType: 2
@@ -185,24 +184,7 @@ MonoBehaviour:
     duration: 1.5
     nextStateName: Idle
     elapsedTime: 0
-  CurrentStateName: Idle
-  CurrentAnimation: 
-  isDamaged: 0
-  pendingDamage: 0
-  projectileFiredCount: 0
-  projectileIntervalTimer: 0
-  isSpawnedMite: 0
-  isRushAttacked: 1
-  isRushing: 0
-  rushDirection: {x: 0, y: 0, z: 0}
-  rushSpeedMultiply: 1
-  rushDamageMultuply: 1
-  isContactDamageActive: 0
-  currentActionDamageMultiply: 1
-  lastContactAttackTime: -Infinity
-  contactAttackCooldown: 1
-  randomMoveDirection: {x: 0, y: 0, z: 0}
-  randomMoveChangeCooldown: 0
+  Player: {fileID: 0}
 --- !u!114 &6048160050831150791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentAnimation: 
 --- !u!60 &8111610383855847771
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -414,7 +397,7 @@ GameObject:
   - component: {fileID: 5051700482260687727}
   - component: {fileID: 5869866769511199193}
   - component: {fileID: 4069992238894854445}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RushAttackTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
