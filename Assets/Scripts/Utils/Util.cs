@@ -18,6 +18,36 @@ public static class Util
     }
     #endregion
 
+    /// <summary>
+    /// 각도를 기준으로 원의 둘레를 구하는 메서드
+    /// </summary>
+    /// <param name="radius"></param>
+    /// <param name="angle"></param>
+    /// <returns></returns>
+    public static Vector3 GetPositionFromAngle(float radius, float angle)
+    {
+        Vector3 position = Vector3.zero;
+
+        angle = DegreeToRadian(angle);
+
+        position.x = Mathf.Cos(angle) * radius;
+        position.y = Mathf.Sin(angle) * radius;
+
+        return position;
+    }
+
+    /// <summary>
+    /// Degree 값을 Radian 값으로 변환
+    /// 1도는 "PI/180" radian
+    /// angle도는 "PI/180 * angle" radian 
+    /// </summary>
+    /// <param name="angle"></param>
+    /// <returns></returns>
+    public static float DegreeToRadian(float angle)
+    {
+        return MathF.PI * angle / 180;
+    }
+
     #region Extension 메서드
     #region 직계 자식에서 컴포넌트 찾기
     // 직계 자식들 중에서 컴포넌트 찾는 메서드
