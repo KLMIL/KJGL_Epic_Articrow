@@ -1,72 +1,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(EnemyMovement))]
+[RequireComponent(typeof(EnemyDealDamage))]
+[RequireComponent(typeof(EnemyTakeDamage))]
+[RequireComponent(typeof(EnemyAnimation))]
+[RequireComponent(typeof(PolygonCollider2D))]
+[RequireComponent(typeof(CircleCollider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 public class EnemyController : MonoBehaviour
 {
-    #region Core Field
-    // 스텟 정보
-    [Header("Status")]
+    [Header("Enemy Status")]
     [SerializeField] EnemyStatusSO _statusOrigin;
     [HideInInspector] public EnemyStatusSO Status;
 
+    [Header("Components")]
+    [HideInInspector] public EnemyFSMCore FSM;
+    EnemyAnimation _animation;
+    EnemyMovement _movement;
+    EnemyDealDamage _dealDamage;
+
+    [Header("FSM")]
+    public List<EnemyBehaviourUnit> Behaviours = new();       // 직접 할당할 FSM 상태 리스트
+    public Dictionary<string, float> lastAttackTimes = new(); // 공격 쿨타임 저장 딕셔너리
+
     [HideInInspector] public Transform Player;
-    EnemyAnimation Animation;
-    EnemyMovement Movement;
 
 
-    // 해당 유닛이 수행할 행동 배열
-    [Header("Behaviour List")]
-    public List<EnemyBehaviourUnit> Behaviours = new();
+    public string CurrentStateName => FSM.CurrentStateName;
+    public string CurrentAnimation => _animation.CurrentAnimation;
+    
 
-
-    // 공격 쿨타임 딕셔너리
-    //[HideInInspector]
-    public Dictionary<string, float> lastAttackTimes = new Dictionary<string, float>();
-
-
-    // 현재 FSM 상태, 현재 애니메이션
-    [HideInInspector] public string CurrentStateName = "Idle";
-    [HideInInspector] public string CurrentAnimation = "";
-
-    #endregion
-
-    #region Behaviour Field 
-    // ----- 조건, 상태 관련 변수 -----
-    // 몬스터 피격 처리
-    [HideInInspector] public bool isDamaged = false;
-    [HideInInspector] public float pendingDamage = 0;
-
-    // 공격, 투사체 소환 등
-    [HideInInspector] public int projectileFiredCount = 0;
-    [HideInInspector] public float projectileIntervalTimer = 0;
-    [HideInInspector] public Coroutine fireRoutine;
-
-    [HideInInspector] public bool isSpawnedMite = false;
-
-    [HideInInspector] public bool isRushAttacked = true;
-    [HideInInspector] public bool isRushing = false;
-    [HideInInspector] public Vector3 rushDirection = Vector3.zero;
-    [HideInInspector] public float rushSpeedMultiply = 1f;
-    [HideInInspector] public float rushDamageMultuply = 1f;
-
-    [HideInInspector] public bool isContactDamageActive = false;
-    [HideInInspector] public float currentActionDamageMultiply = 1.0f;
-
-    // 접촉공격 쿨타임
-    [HideInInspector] public float lastContactAttackTime = -Mathf.Infinity;
-    [HideInInspector] public float contactAttackCooldown = 1.0f;
-
-    // 이동
-    [HideInInspector] public Vector3 randomMoveDirection = Vector3.zero;
-    [HideInInspector] public float randomMoveChangeCooldown = 0f;
-    #endregion
 
 
     #region Initialization
     private void Awake()
     {
+        // 스텟 SO를 복사
         Status = Instantiate(_statusOrigin);
 
+        // 할당된 Behaviour 중 Attack 분류에 속하면 쿨타임 딕셔너리에 추가
         foreach (var behaviour in Behaviours)
         {
             if (behaviour.action is MeleeAttackActionSO ||
@@ -80,20 +55,21 @@ public class EnemyController : MonoBehaviour
                 }
             }
         }
+
+        // FSM 생성
+        FSM = new EnemyFSMCore(this, Behaviours);
     }
 
     private void Start()
     {
-        Animation = GetComponent<EnemyAnimation>();
-        Movement = GetComponent<EnemyMovement>();
-        // Null체크 해야함.
+        _animation = GetComponent<EnemyAnimation>();
+        _movement = GetComponent<EnemyMovement>();
+        _dealDamage = GetComponent<EnemyDealDamage>();
         Player = GameObject.FindWithTag("Player")?.transform;
     }
     #endregion
 
 
-    // 추후, 공격 중 피격상태 등 커버를 위해 병렬 FSM 구현해야함.
-    // 현재 상태에서는, 0번에 Idle, None->Soft->Hard 순서로 할당.
     private void Update()
     {
         if (Player == null)
@@ -101,189 +77,15 @@ public class EnemyController : MonoBehaviour
             Player = GameObject.FindWithTag("Player")?.transform;
             if (Player == null) return;
         }
-        if (!IsBehaviourAssigned()) return;
-        //if (IsEnemyDie()) return;
 
-        // 현재 상태 가져오기
-        int idx = Behaviours.FindIndex(b => b.stateName == CurrentStateName);
-        EnemyBehaviourUnit current = Behaviours[idx];
-
-        // 인터럽트 흐름에 따라 수행
-        if (HandleHardInterrupt(current)) return;
-        HandleSoftInterrupt(current);
-        HandleNoneInterrupt(current);
-
-        // 디버깅용 대미지 부여 함수
-        //if (Input.GetKeyDown(KeyCode.B))
-        //{
-        //    ChangeState("Damaged");
-        //    Status.healthPoint -= 5;
-        //}
+        FSM.Update();
     }
 
-    #region State Check
-    private bool IsBehaviourAssigned()
-    {
-        // 0. 행동 미할당 예외 처리. 추후 안정화 작업 후 삭제 예정
-        if (Behaviours == null || Behaviours.Count == 0)
-        {
-            Debug.LogWarning("No behaviour assigned");
-            return false;
-        }
-        return true;
-    }
-
-    private bool IsEnemyDie()
-    {
-        // Die State
-        if (CurrentStateName == "Die")
-        {
-            return true;
-        }
-        return false;
-    }
-
-    #endregion
-
-    #region Interrupt
-    private bool HandleHardInterrupt(EnemyBehaviourUnit current)
-    {
-        // 0. 현재 조건이 Hard일 경우, 상태가 전이되기 전까지 계속해서 수행
-        if (current.interruptType == InterruptType.Hard)
-        {
-            HandleNoneInterrupt(current);
-            return true; // Hard Type Interrupt 수행 중에는 이후 검사 수행하지 않음
-        }
-
-
-        // 1. Hard: 강제 인터럽트 조건 검사
-        // ex) 죽음, 특수공격 등
-        int hardIdx = Behaviours.FindIndex(
-                b => b.interruptType == InterruptType.Hard &&
-                     b.condition.IsMet(this));
-
-        if (hardIdx >= 0)
-        {
-            ChangeState(Behaviours[hardIdx].stateName);
-        }
-        return false;
-    }
-
-    private void HandleSoftInterrupt(EnemyBehaviourUnit current)
-    {
-        // 2. Soft: 우선순위 인터럽트 순서대로 검사
-        // ex) 공격, 소환 등 => 특정 상황에서는 hard 일 수도 있음. 
-        int softIdx = -1;
-        if (current.interruptType != InterruptType.Soft)
-        {
-            softIdx = Behaviours.FindIndex(
-                    b => b.interruptType == InterruptType.Soft &&
-                         b.condition.IsMet(this));
-        }
-
-        if (softIdx >= 0)
-        {
-            ChangeState(Behaviours[softIdx].stateName);
-        }
-    }
-
-    private void HandleNoneInterrupt(EnemyBehaviourUnit current)
-    {
-        // 3. None: 기본 루프 수행
-        // Idle, RandomMove 등
-        current.elapsedTime += Time.deltaTime;
-        if (current.elapsedTime <= current.duration)
-        {
-            Debug.Log($"Act: {current.stateName}");
-            current.action?.Act(this);
-        }
-        else
-        {
-            ChangeState(current.nextStateName);
-        }
-    }
-
-    #endregion
-
-    #region Play Animations
-    // 애니메이션 중복 재생 방지용 함수
-    private void PlayAnimationOnce(string animName)
-    {
-        if (CurrentAnimation == animName) return;
-        Animation.Play(animName);
-        CurrentAnimation = animName;
-    }
-    #endregion
-
-    #region State Change
-    public void ForceToNextState()
-    {
-        int idx = Behaviours.FindIndex(b => b.stateName == CurrentStateName);
-
-        if (idx >= 0)
-        {
-            string next = Behaviours[idx].nextStateName;
-            ChangeState(next);
-        }
-    }
-
-    // 일반 상태 전이 함수
-    private void ChangeState(string nextStateName)
-    {
-        // 같은 상태로의 전이는 아무것도 하지 않음
-        if (CurrentStateName == nextStateName) return; 
-
-
-        int prevIdx = Behaviours.FindIndex(b => b.stateName == CurrentStateName);
-        int nextIdx = Behaviours.FindIndex(b => b.stateName == nextStateName);
-
-        // 이전 상태 Exit
-        if (prevIdx >= 0)
-        {
-            Behaviours[prevIdx].action?.OnExit(this);
-        }
-
-        // 상태 이름 변경
-        CurrentStateName = nextStateName;
-
-        // 다음 상태 Enter
-        if (nextIdx >= 0)
-        {
-            Behaviours[nextIdx].ResetTimer();
-            Behaviours[nextIdx].action?.OnEnter(this);
-            PlayAnimationOnce(Behaviours[nextIdx].animationName);
-        }
-    }
-    #endregion
-
-    #region Attack Check
-    public void DealDamageToPlayer(float damage, bool forceToNextState = false)
-    {
-        Debug.LogWarning("Deal Damage To Player");
-
-        IDamagable target = Player.GetComponent<IDamagable>();
-        if (target != null)
-        {    
-            target.TakeDamage(damage);
-
-            if (forceToNextState)
-            {
-                ForceToNextState();
-            }
-        }
-    }
-    #endregion
-
-
-    #region Movement
-    public void MoveTo(Vector3 dir, float duration, string moveType)
-    {
-        Movement.MoveTo(dir, duration, moveType);
-    }
-
-    public void StopMove()
-    {
-        Movement.Stop();
-    }
+    #region Public API
+    public void PlayAnimationOnce(string animName) => _animation.PlayAnimationOnce(animName);
+    public void ForceToNextState() => FSM.ForceToNextState();
+    public void DealDamageToPlayer(float damage, bool forceToNextState = false) => _dealDamage.DealDamageToPlayer(damage, forceToNextState);
+    public void MoveTo(Vector3 dir, float duration, string moveType) => _movement.MoveTo(dir, duration, moveType);
+    public void StopMove() => _movement.Stop();
     #endregion
 }
