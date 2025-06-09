@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 3768855598464285853}
   - component: {fileID: 6019710688196908923}
   - component: {fileID: 9033224559896948354}
-  - component: {fileID: 937202242649137197}
+  - component: {fileID: 8883541980013560107}
   - component: {fileID: 8724007646122723216}
   - component: {fileID: 4252226339735146189}
+  - component: {fileID: 937202242649137197}
   - component: {fileID: 8198060193585517885}
   - component: {fileID: 1809723945502985464}
   - component: {fileID: 1880961654122264856}
@@ -116,11 +117,11 @@ MonoBehaviour:
     condition: {fileID: 11400000, guid: 799f27ca7d1e8da4f8ab28cbc475a556, type: 2}
     action: {fileID: 11400000, guid: 6d927b443addc9f47b5952d96733d1ce, type: 2}
     animationName: Die
-    duration: 1
+    duration: 5
     nextStateName: Die
     elapsedTime: 0
   - stateName: Damaged
-    interruptType: 1
+    interruptType: 2
     condition: {fileID: 11400000, guid: a9ddd86430dba4c4ca9ed760e4d9eb88, type: 2}
     action: {fileID: 11400000, guid: 3ca3ff1033b961a489a092d07489beb2, type: 2}
     animationName: Hurt
@@ -174,13 +175,18 @@ MonoBehaviour:
   projectileFiredCount: 0
   projectileIntervalTimer: 0
   isSpawnedMite: 0
+  isRushAttacked: 1
   isRushing: 0
   rushDirection: {x: 0, y: 0, z: 0}
+  rushSpeedMultiply: 1
+  rushDamageMultuply: 1
   isContactDamageActive: 0
   currentActionDamageMultiply: 1
+  lastContactAttackTime: -Infinity
+  contactAttackCooldown: 1
   randomMoveDirection: {x: 0, y: 0, z: 0}
   randomMoveChangeCooldown: 0
---- !u!114 &937202242649137197
+--- !u!114 &8883541980013560107
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -189,9 +195,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 409916835729264519}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
+  m_Script: {fileID: 11500000, guid: f262f1b822313c24589e57fee54e7c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeedMultiply: 1
+  wallCheckDistance: 0.5
 --- !u!114 &8724007646122723216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +223,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56c6d0d2206720d42aac1acd7beb8482, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &937202242649137197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409916835729264519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!60 &8198060193585517885
@@ -335,7 +355,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!95 &-621152143648561404
 Animator:
   serializedVersion: 7

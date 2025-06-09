@@ -45,7 +45,7 @@ public class SpecialAttackActionSO: EnemyActionSO
 
     public override void OnEnter(EnemyController controller)
     {
-        controller.lastAttackTimes[controller.CurrentStateName] = -Mathf.Infinity;
+        //controller.lastAttackTimes[controller.CurrentStateName] = -Mathf.Infinity;
     }
 
     public override void OnExit(EnemyController controller)
@@ -68,7 +68,7 @@ public class SpecialAttackActionSO: EnemyActionSO
         {
             Vector2 rand = Random.insideUnitCircle * spawnRadius;
             Vector3 spawnPos = controller.transform.position + new Vector3(rand.x, 0, rand.y);
-            Instantiate(summoningPrefab, spawnPos, Quaternion.identity, controller.transform);
+            Instantiate(summoningPrefab, spawnPos, Quaternion.identity);
         }
     }
 }

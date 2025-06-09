@@ -36,21 +36,32 @@ public class ChasePlayerActionSO : EnemyActionSO
                     SmartChase(controller);
                     break;
             }
-
-
         }
+        else
+        {
+            controller.StopMove();
+        }
+    }
+
+    public override void OnExit(EnemyController controller)
+    {
+        controller.StopMove();
     }
 
 
     private void SimpleChase(EnemyController controller)
     {
         Vector3 dir = (controller.Player.position - controller.transform.position).normalized;
-        controller.transform.Translate(dir * controller.Status.moveSpeed * Time.deltaTime);
+        controller.MoveTo(dir, Time.deltaTime, "SimpleChase");
+
+        //controller.transform.Translate(dir * controller.Status.moveSpeed * Time.deltaTime);
     }
 
     private void SmartChase(EnemyController controller)
     {
         Vector3 dir = (controller.Player.position - controller.transform.position).normalized;
+
+        Vector3 chosenDir = dir;
 
         if (Physics.Raycast(controller.transform.position, dir, obstacleCheckDistance))
         {
@@ -58,23 +69,41 @@ public class ChasePlayerActionSO : EnemyActionSO
             Vector3 right = Vector3.Cross(Vector3.forward, dir).normalized;
             if (!Physics.Raycast(controller.transform.position, right, obstacleCheckDistance))
             {
-                controller.transform.Translate(right * controller.Status.moveSpeed * Time.deltaTime);
-                return;
+                //controller.transform.Translate(right * controller.Status.moveSpeed * Time.deltaTime);
+                chosenDir = right;
+                //return;
             }
-
-            // 왼쪽 시도
-            Vector3 left = -right;
-            if (!Physics.Raycast(controller.transform.position, left, obstacleCheckDistance))
+            else
             {
-                controller.transform.Translate(left * controller.Status.moveSpeed * Time.deltaTime);
-                return;
+                // 왼쪽 시도
+                Vector3 left = -right;
+                if (!Physics.Raycast(controller.transform.position, left, obstacleCheckDistance))
+                {
+                    //controller.transform.Translate(left * controller.Status.moveSpeed * Time.deltaTime);
+                    chosenDir = left;
+                    //return;
+                }
+                else
+                {
+                    // 둘다 막히면 움직이지 않음
+                    chosenDir = Vector3.zero;
+                }
             }
 
             // 둘다 막히면 움직이지 않음
         }
         else
         {
-            controller.transform.Translate(dir * controller.Status.moveSpeed * Time.deltaTime);
+            //controller.transform.Translate(dir * controller.Status.moveSpeed * Time.deltaTime);
+        }
+
+        if (chosenDir != Vector3.zero)
+        {
+            controller.MoveTo(chosenDir, Time.deltaTime, "SmartChase");
+        }
+        else
+        {
+            controller.StopMove();
         }
     }
 }

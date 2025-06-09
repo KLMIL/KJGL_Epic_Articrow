@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1318204244272676649}
   - component: {fileID: 1657657421081430242}
   - component: {fileID: 416468600947769818}
+  - component: {fileID: -3441324506753662501}
   - component: {fileID: 2290517153993942967}
   - component: {fileID: 5407967122771582705}
   - component: {fileID: 8499125943605411335}
@@ -116,11 +117,11 @@ MonoBehaviour:
     condition: {fileID: 11400000, guid: 8339e8af7d61a8f4d865ff7ce92e782f, type: 2}
     action: {fileID: 11400000, guid: 04583169bac42c84e8b5a6ca076ce9f1, type: 2}
     animationName: Die
-    duration: 1
+    duration: 5
     nextStateName: Die
     elapsedTime: 0
   - stateName: Damaged
-    interruptType: 1
+    interruptType: 2
     condition: {fileID: 11400000, guid: 99ecb0813b23bfd4f9a82b4c88a75533, type: 2}
     action: {fileID: 11400000, guid: 3ef5e246510d17540bea137514f6107b, type: 2}
     animationName: Hurt
@@ -158,14 +159,31 @@ MonoBehaviour:
   projectileFiredCount: 0
   projectileIntervalTimer: 0
   isSpawnedMite: 0
+  isRushAttacked: 1
   isRushing: 0
   rushDirection: {x: 0, y: 0, z: 0}
+  rushSpeedMultiply: 1
+  rushDamageMultuply: 1
   isContactDamageActive: 0
   currentActionDamageMultiply: 1
   lastContactAttackTime: -Infinity
   contactAttackCooldown: 1
   randomMoveDirection: {x: 0, y: 0, z: 0}
   randomMoveChangeCooldown: 0
+--- !u!114 &-3441324506753662501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7109929917498522947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f262f1b822313c24589e57fee54e7c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeedMultiply: 1
+  wallCheckDistance: 0.5
 --- !u!114 &2290517153993942967
 MonoBehaviour:
   m_ObjectHideFlags: 0
