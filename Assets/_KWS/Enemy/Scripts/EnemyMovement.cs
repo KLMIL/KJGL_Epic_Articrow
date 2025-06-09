@@ -3,43 +3,37 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     EnemyController ownerController;
+    Rigidbody2D rb;
 
     public float moveSpeedMultiply = 1.0f;
-    Vector3 _currentDirection = Vector3.zero;
+    Vector2 _currentDirection = Vector2.zero;
 
     float duration = 0f;
     float elapsedTime = 0f;
     public float wallCheckDistance = 0.5f;
     string moveType;
 
+    public LayerMask wallLayerMask;      // 벽 감지용 (필수)
 
-    private void Start()
+    private void Awake()
     {
         ownerController = GetComponent<EnemyController>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (_currentDirection == Vector3.zero) return;
+        if (_currentDirection == Vector2.zero) return;
 
-        // 한 프레임만 이동하는 함수들
-        if (moveType == "SimpleChase")
-        {
-            ownerController.transform.Translate(_currentDirection * ownerController.Status.moveSpeed * Time.deltaTime);
-            return;
-        }
-        else if (moveType == "SmartChase")
-        {
-            ownerController.transform.Translate(_currentDirection * ownerController.Status.moveSpeed * Time.deltaTime);
-            return;
-        }
-
-
-        elapsedTime += Time.deltaTime;
+        elapsedTime += Time.fixedDeltaTime;
 
         if (moveType == "Normal")
         {
-            if (Physics.Raycast(transform.position, _currentDirection, wallCheckDistance))
+            Vector2 origin = rb.position + _currentDirection * 0.1f; // 자기 자신 피함
+            RaycastHit2D hit = Physics2D.Raycast(origin, _currentDirection, wallCheckDistance, wallLayerMask);
+            Debug.DrawRay(origin, _currentDirection * wallCheckDistance, Color.red);
+
+            if (hit.collider != null)
             {
                 Stop();
                 return;
@@ -47,54 +41,56 @@ public class EnemyMovement : MonoBehaviour
 
             if (elapsedTime < duration)
             {
-                transform.position += _currentDirection * ownerController.Status.moveSpeed * Time.deltaTime;
+                Vector2 nextPos = rb.position + _currentDirection * ownerController.Status.moveSpeed * moveSpeedMultiply * Time.fixedDeltaTime;
+                rb.MovePosition(nextPos);
             }
             else
             {
                 Stop();
             }
+        }
+        else if (moveType == "SimpleChase" || moveType == "SmartChase")
+        {
+            Vector2 nextPos = rb.position + _currentDirection * ownerController.Status.moveSpeed * moveSpeedMultiply * Time.fixedDeltaTime;
+            rb.MovePosition(nextPos);
+            // (단발 이동 원한다면 Stop();)
         }
         else if (moveType == "SimpleMoveAway" || moveType == "SmartMoveAway")
         {
             if (elapsedTime < duration)
             {
-                if (Physics.Raycast(transform.position, _currentDirection, wallCheckDistance))
+                Vector2 origin = rb.position + _currentDirection * 0.1f;
+                RaycastHit2D hit = Physics2D.Raycast(origin, _currentDirection, wallCheckDistance, wallLayerMask);
+                if (hit.collider != null)
                 {
                     Stop();
                     return;
                 }
-                transform.position += _currentDirection * ownerController.Status.moveSpeed * Time.deltaTime;
+                Vector2 nextPos = rb.position + _currentDirection * ownerController.Status.moveSpeed * moveSpeedMultiply * Time.fixedDeltaTime;
+                rb.MovePosition(nextPos);
             }
             else
             {
                 Stop();
             }
         }
-
-        if (moveType == "RushAttack")
+        else if (moveType == "RushAttack")
         {
-            //Debug.Log("Called Here");
-
-            // 테스트용 wallcheck distance
+            Vector2 rushDir = ownerController.rushDirection.normalized;
             wallCheckDistance = 1.0f;
 
-            // Rush 종료 조건(예시: 벽 충돌, 일정 거리 등)
-            if (CheckRushEndCondition())
+            Vector2 origin = rb.position + rushDir * 0.1f;
+            RaycastHit2D hit = Physics2D.Raycast(origin, rushDir, wallCheckDistance, wallLayerMask);
+            if (hit.collider != null || elapsedTime > duration || ownerController.isRushAttacked)
             {
                 Stop();
-                ownerController.ForceToNextState(); // Controller에 Rush 종료 신호
+                ownerController.ForceToNextState();
+                return;
             }
 
-            // 이동
-            transform.position += ownerController.rushDirection * ownerController.Status.moveSpeed * ownerController.rushSpeedMultiply * Time.deltaTime;
+            Vector2 nextPos = rb.position + rushDir * ownerController.Status.moveSpeed * ownerController.rushSpeedMultiply * Time.fixedDeltaTime;
+            rb.MovePosition(nextPos);
         }
-    }
-
-    private bool CheckRushEndCondition()
-    {
-        return Physics.Raycast(transform.position, ownerController.rushDirection, wallCheckDistance)
-            || elapsedTime > duration
-            || ownerController.isRushAttacked;
     }
 
     public void MoveTo(Vector3 direction, float duration, string moveType)
@@ -107,6 +103,7 @@ public class EnemyMovement : MonoBehaviour
 
     public void Stop()
     {
-        _currentDirection = Vector3.zero;
+        _currentDirection = Vector2.zero;
+        // 만약 velocity 기반이면: rb.velocity = Vector2.zero;
     }
 }

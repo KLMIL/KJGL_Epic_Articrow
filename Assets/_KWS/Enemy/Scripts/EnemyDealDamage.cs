@@ -31,13 +31,12 @@ public class EnemyDealDamage : MonoBehaviour
     {
         if (collision.CompareTag(targetTag))
         {
-            // 돌진 공격 수행
             if (gameObject.name.Contains("SporeSlimeProjectile"))
             {
                 ownerController.DealDamageToPlayer(ownerController.Status.attack);
                 Destroy(gameObject); // 투사체 파괴
             }
-            else if (!ownerController.isRushAttacked)
+            else if (!ownerController.isRushAttacked) // 돌진 공격 수행
             {
                 ownerController.DealDamageToPlayer(ownerController.Status.attack * ownerController.rushDamageMultuply);
                 ownerController.isRushAttacked = true;
