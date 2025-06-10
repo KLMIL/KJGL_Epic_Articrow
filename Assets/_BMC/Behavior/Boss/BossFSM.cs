@@ -1,43 +1,37 @@
-using System.Reflection;
 using Unity.Behavior;
-using UnityEditor;
 using UnityEngine;
 
 namespace BMC
 {
-    public class BossController : MonoBehaviour
+    public class BossFSM : MonoBehaviour
     {
-        Transform _visual;
         Rigidbody2D _rb;
+        Animator _anim;
+        Transform _visual;
 
         [SerializeField] BehaviorGraphAgent _behaviorGraphAgent;
         [SerializeField] Transform _target;
         [SerializeField] LayerMask _stopLayerMask;
+        bool _isReflect = false;
 
+        public Rigidbody2D RB => _rb;
+        public Animator Anim => _anim;
         public Vector2 RushDirection { get; set; } // 돌진 방향
 
-        bool _isReflect = false;
 
         void Awake()
         {
-            _visual = transform.Find("Visual");
             _rb = GetComponent<Rigidbody2D>();
-            _stopLayerMask = LayerMask.GetMask("Player") | LayerMask.GetMask("Obstacle");
+            _anim = GetComponent<Animator>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
+            _visual = transform.Find("Visual");
+            _stopLayerMask = LayerMask.GetMask("Player") | LayerMask.GetMask("Obstacle");
         }
 
         void Start()
         {
             _target = GameObject.FindWithTag("Player").transform;
             _behaviorGraphAgent.SetVariableValue("Target", _target.gameObject);
-        }
-
-        void Update()
-        {
-            //if (Input.GetKeyDown(KeyCode.Q))
-            //    Flip(1);
-            //else if (Input.GetKeyDown(KeyCode.E))
-            //    Flip(-1);
         }
 
         // x 방향으로 비주얼 회전

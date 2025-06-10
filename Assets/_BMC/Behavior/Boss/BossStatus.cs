@@ -49,8 +49,8 @@ namespace BMC
             if (Health <= 0)
             {
                 IsDead = true;
-                _behaviorGraphAgent.SetVariableValue("IsDead", IsDead);
-                _behaviorGraphAgent.SetVariableValue("CurrentState", BossState.Die);
+                //_behaviorGraphAgent.SetVariableValue("IsDead", IsDead);
+                //_behaviorGraphAgent.SetVariableValue("CurrentState", BossState.Die);
             }
         }
     }

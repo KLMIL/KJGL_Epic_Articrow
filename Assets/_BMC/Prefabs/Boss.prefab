@@ -412,8 +412,8 @@ GameObject:
   - component: {fileID: 2933568773814184860}
   - component: {fileID: 7335638781644291621}
   - component: {fileID: 4456645816696610926}
-  - component: {fileID: 561186870529472310}
   - component: {fileID: 3663158347290840319}
+  - component: {fileID: 1568347721076774337}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -536,11 +536,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Graph: {fileID: -1843964168446394920, guid: 85dc4aaa392344544b5a2499057355ac, type: 2}
+  m_Graph: {fileID: -1843964168446394920, guid: 82548fd7d511c244a8ccd88a2b4870b1, type: 2}
   m_BlackboardVariableOverridesList:
   - rid: 2503175821035307964
-  - rid: 2503175822101971146
-  - rid: 2503175822655357123
+  - rid: 2503175899303379497
   m_IsInitialised: 0
   m_IsStarted: 0
   references:
@@ -554,39 +553,14 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         m_Value: {fileID: 7402092579583754117}
-    - rid: 2503175822101971146
-      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+    - rid: 2503175899303379497
+      type: {class: 'BlackboardVariable`1[[BossState, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
-          m_Value0: 10693291423170507852
-          m_Value1: 16986204015875703274
-        Name: Target
-        m_Value: {fileID: 0}
-    - rid: 2503175822655357123
-      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 7870665001514487030
-          m_Value1: 830810885876526462
-        Name: RushDistance
-        m_Value: 3
---- !u!114 &561186870529472310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7402092579583754117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b29a8238d919b6488a08ca921ad301f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _behaviorGraphAgent: {fileID: 0}
-  _target: {fileID: 0}
-  _stopLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
+          m_Value0: 5148729968415189368
+          m_Value1: 18044513335661732394
+        Name: CurrentState
+        m_Value: 1
 --- !u!114 &3663158347290840319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,7 +574,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsDead>k__BackingField: 0
-  <Health>k__BackingField: 0
+  <Health>k__BackingField: 100
+--- !u!114 &1568347721076774337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7402092579583754117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e47bf000eed8e1e4f8cec0bd37fb6717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _behaviorGraphAgent: {fileID: 0}
+  _target: {fileID: 0}
+  _stopLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &8236712450846530890
 GameObject:
   m_ObjectHideFlags: 0
