@@ -6,7 +6,7 @@ namespace CKT
     {
         private void Awake()
         {
-            base.Init("FieldArtifacts/FieldArtifact_T1", "Bullet");
+            base.Init("FieldArtifacts/FieldArtifact_T1", "Bullet_T1");
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CKT
 {
-    public class Bullet : Projectile
+    public class Bullet_T1 : Projectile
     {
         protected override int BasePenetration => 0;
         protected override float MoveSpeed => 15f;

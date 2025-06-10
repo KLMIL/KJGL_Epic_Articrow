@@ -48,6 +48,7 @@ namespace CKT
                 GameManager.Instance.Inventory.SingleSubRightHand((list) => Attack(list));
                 _skillManager = GameManager.Instance.RightSkillManager;
                 _handID = 2;
+                GetComponentInChildren<SpriteRenderer>().flipY = true;
             }
         }
 
@@ -56,7 +57,7 @@ namespace CKT
             _attackCoroutine = _attackCoroutine ?? StartCoroutine(AttackCoroutine(list));
         }
 
-        protected virtual IEnumerator AttackCoroutine(List<GameObject> list)
+        protected IEnumerator AttackCoroutine(List<GameObject> list)
         {
             //TODO : 사운드_투사체 발사
             YSJ.Managers.Sound.PlaySFX(Define.SFX.DefaultAttack);
