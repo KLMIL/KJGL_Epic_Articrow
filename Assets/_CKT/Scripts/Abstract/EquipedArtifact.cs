@@ -8,14 +8,14 @@ namespace CKT
     public abstract class EquipedArtifact : MonoBehaviour
     {
         GameObject _fieldArtifact;
-        string prefabName;
-
+        string _prefabName;
         SkillManager _skillManager;
-        int _handID; //0=초기화, 1=왼손, 2=오른손
 
         Coroutine _attackCoroutine = null;
 
+        #region [자식 오브젝트]
         Animator _animator;
+        #endregion
 
         private void Start()
         {
@@ -25,10 +25,8 @@ namespace CKT
         protected void Init(string fieldArtifact, string prefab)
         {
             _fieldArtifact = _fieldArtifact ?? Resources.Load<GameObject>(fieldArtifact);
-            prefabName = prefab;
-
+            _prefabName = prefab;
             _skillManager = null;
-            _handID = 0;
 
             _attackCoroutine = null;
 
@@ -39,17 +37,15 @@ namespace CKT
         {
             if (this.transform.GetComponentInParent<LeftHand_YSJ>() != null)
             {
-                GameManager.Instance.Inventory.SingleSubLeftHand((list) => Attack(list));
                 _skillManager = GameManager.Instance.LeftSkillManager;
-                _handID = 1;
             }
             else if (this.transform.GetComponentInParent<RightHand_YSJ>() != null)
             {
-                GameManager.Instance.Inventory.SingleSubRightHand((list) => Attack(list));
                 _skillManager = GameManager.Instance.RightSkillManager;
-                _handID = 2;
                 GetComponentInChildren<SpriteRenderer>().flipY = true;
             }
+
+            _skillManager.SingleSubHand((list) => Attack(list));
         }
 
         void Attack(List<GameObject> list)
@@ -66,16 +62,7 @@ namespace CKT
             _animator.Play("Attack", -1, 0);
 
             //총알 생성
-            GameObject bullet = YSJ.Managers.Pool.InstPrefab(prefabName);
-            bullet.transform.position = this.transform.position + this.transform.up;
-            //이동 방향
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 mouseDir = (mousePos - this.transform.position).normalized;
-            bullet.transform.up = mouseDir;
-            //이름 설정 (복사본 만들 때 이름을 받아서 생성하는 용도)
-            bullet.name = prefabName;
-            //왼손||오른손 SkillManager 설정
-            bullet.GetComponent<Projectile>().SkillManager = _skillManager;
+            GameObject bullet = CreateBullet(_prefabName, _skillManager);
 
             //CastSkill
             foreach (Func<GameObject, IEnumerator> castSkill in _skillManager.CastSkillDict.Values)
@@ -87,20 +74,17 @@ namespace CKT
             _attackCoroutine = null;
         }
 
-        protected void ThrowAway()
-        {
-            GameObject equiped = Instantiate(_fieldArtifact);
-            equiped.transform.parent = null;
-            equiped.transform.localPosition = this.transform.position + Vector3.down;
+        protected abstract GameObject CreateBullet(string prefabName, SkillManager skillManager);
 
-            if (_handID == 1)
-            {
-                GameManager.Instance.Inventory.InitLeftHand();
-            }
-            else if (_handID == 2)
-            {
-                GameManager.Instance.Inventory.InitRightHand();
-            }
+        void ThrowAway()
+        {
+            //필드 아티팩트 생성
+            GameObject field = Instantiate(_fieldArtifact);
+            field.transform.parent = null;
+            field.transform.localPosition = this.transform.position + Vector3.down;
+
+            //빈 손으로 초기화
+            _skillManager.InitHand();
 
             Destroy(this.gameObject);
         }

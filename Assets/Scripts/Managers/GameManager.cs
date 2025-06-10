@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
 
         MainCamera = Camera.main;
         Inventory.Init();
+        LeftSkillManager.Init();
+        RightSkillManager.Init();
     }
 
     public List<GameObject> MagicItems = new();

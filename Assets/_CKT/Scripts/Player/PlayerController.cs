@@ -61,13 +61,13 @@ namespace CKT
             if (_leftHandValue)
             {
                 _leftHandValue = false;
-                GameManager.Instance.Inventory.InvokeLeftHand();
+                GameManager.Instance.LeftSkillManager.InvokeHand();
             }
 
             if (_rightHandValue)
             {
                 _rightHandValue = false;
-                GameManager.Instance.Inventory.InvokeRightHand();
+                GameManager.Instance.RightSkillManager.InvokeHand();
             }
         }
 
