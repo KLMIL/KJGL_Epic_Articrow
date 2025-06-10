@@ -56,21 +56,21 @@ public class ProjectileAttackActionSO : EnemyActionSO
 
     public override void OnExit(EnemyController controller)
     {
-        if (controller.fireRoutine != null)
+        if (controller.FSM.fireRoutine != null)
         {
-            controller.StopCoroutine(controller.fireRoutine);
+            controller.StopCoroutine(controller.FSM.fireRoutine);
         }
-        controller.projectileFiredCount = 0;
-        controller.projectileIntervalTimer = 0;
+        controller.FSM.projectileFiredCount = 0;
+        controller.FSM.projectileIntervalTimer = 0;
     }
 
     private void NormalAttack(EnemyController controller)
     {
         // null 할당 오류 return
         if (controller.Player == null || projectilePrefab == null) return;
-        if (controller.projectileFiredCount >= projectileAmount) return;
+        if (controller.FSM.projectileFiredCount >= projectileAmount) return;
 
-        controller.fireRoutine = controller.StartCoroutine(FireProjectiles(controller));
+        controller.FSM.fireRoutine = controller.StartCoroutine(FireProjectiles(controller));
 
         //controller.projectileIntervalTimer += Time.deltaTime;
         //while (controller.projectileIntervalTimer >= projectileTurm)

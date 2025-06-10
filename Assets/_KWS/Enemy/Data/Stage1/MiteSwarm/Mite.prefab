@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 8999987020883876950}
   - component: {fileID: 1519795909339377274}
   - component: {fileID: 7737338413248189098}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Mite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _statusOrigin: {fileID: 11400000, guid: 7eda9fe33630e7345a635cd45f228df5, type: 2}
   Status: {fileID: 0}
-  Player: {fileID: 0}
   Behaviours:
   - stateName: Die
     interruptType: 2
@@ -133,7 +132,7 @@ MonoBehaviour:
     condition: {fileID: 11400000, guid: bc5922740a8a4d843a16e964d27cd50b, type: 2}
     action: {fileID: 11400000, guid: 07082b3b325477141a59d21a6ce4ccda, type: 2}
     animationName: Walk
-    duration: 0.5
+    duration: 1
     nextStateName: Idle
     elapsedTime: 0
   - stateName: Idle
@@ -144,24 +143,7 @@ MonoBehaviour:
     duration: 0.5
     nextStateName: Idle
     elapsedTime: 0
-  CurrentStateName: Idle
-  CurrentAnimation: 
-  isDamaged: 0
-  pendingDamage: 0
-  projectileFiredCount: 0
-  projectileIntervalTimer: 0
-  isSpawnedMite: 0
-  isRushAttacked: 1
-  isRushing: 0
-  rushDirection: {x: 0, y: 0, z: 0}
-  rushSpeedMultiply: 1
-  rushDamageMultuply: 1
-  isContactDamageActive: 0
-  currentActionDamageMultiply: 1
-  lastContactAttackTime: -Infinity
-  contactAttackCooldown: 1
-  randomMoveDirection: {x: 0, y: 0, z: 0}
-  randomMoveChangeCooldown: 0
+  Player: {fileID: 0}
 --- !u!114 &3609502169777190607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentAnimation: 
 --- !u!114 &4533473617613132829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +196,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeedMultiply: 1
   wallCheckDistance: 0.5
+  wallLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!60 &3122520596267664748
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -329,7 +315,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 7
+  m_Constraints: 4
 --- !u!95 &7737338413248189098
 Animator:
   serializedVersion: 7

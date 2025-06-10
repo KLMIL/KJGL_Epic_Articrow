@@ -18,10 +18,10 @@ public class EnemyDealDamage : MonoBehaviour
         if (!isPlayerContact) return;
 
         // 접촉 공격 수행
-        if (Time.time - ownerController.lastContactAttackTime >= ownerController.contactAttackCooldown && ownerController.CurrentStateName != "Die")
+        if (Time.time - ownerController.FSM.lastContactAttackTime >= ownerController.FSM.contactAttackCooldown && ownerController.CurrentStateName != "Die")
         {
             ownerController.DealDamageToPlayer(ownerController.Status.attack);
-            ownerController.lastContactAttackTime = Time.time;
+            ownerController.FSM.lastContactAttackTime = Time.time;
         }
 
 
@@ -36,24 +36,24 @@ public class EnemyDealDamage : MonoBehaviour
                 ownerController.DealDamageToPlayer(ownerController.Status.attack);
                 Destroy(gameObject); // 투사체 파괴
             }
-            else if (!ownerController.isRushAttacked) // 돌진 공격 수행
+            else if (!ownerController.FSM.isRushAttacked) // 돌진 공격 수행
             {
-                ownerController.DealDamageToPlayer(ownerController.Status.attack * ownerController.rushDamageMultuply);
-                ownerController.isRushAttacked = true;
+                ownerController.DealDamageToPlayer(ownerController.Status.attack * ownerController.FSM.rushDamageMultuply);
+                ownerController.FSM.isRushAttacked = true;
 
                 // 임시로 접촉 공격 쿨타임도 돌도록 처리
-                ownerController.lastContactAttackTime = Time.time;
+                ownerController.FSM.lastContactAttackTime = Time.time;
                 return;
             }
 
             isPlayerContact = true;
-            ownerController.isContactDamageActive = true;
+            ownerController.FSM.isContactDamageActive = true;
         }
 
         // 임시로 Rush를 멈출 코드
-        if (ownerController.isRushAttacked == false)
+        if (ownerController.FSM.isRushAttacked == false)
         {
-            ownerController.isRushAttacked = true;
+            ownerController.FSM.isRushAttacked = true;
         }
     }
 
@@ -62,7 +62,22 @@ public class EnemyDealDamage : MonoBehaviour
         if (collision.CompareTag(targetTag))
         {
             isPlayerContact = false;
-            ownerController.isContactDamageActive = false;
+            ownerController.FSM.isContactDamageActive = false;
+        }
+    }
+
+
+    public void DealDamageToPlayer(float damage, bool forceToNextState)
+    {
+        IDamagable target = ownerController.Player.GetComponent<IDamagable>();
+        if (target != null)
+        {
+            target.TakeDamage(damage);
+
+            if (forceToNextState)
+            {
+                ownerController.ForceToNextState();
+            }
         }
     }
 }

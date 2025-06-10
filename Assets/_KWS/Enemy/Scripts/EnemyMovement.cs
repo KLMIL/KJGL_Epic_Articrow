@@ -76,19 +76,19 @@ public class EnemyMovement : MonoBehaviour
         }
         else if (moveType == "RushAttack")
         {
-            Vector2 rushDir = ownerController.rushDirection.normalized;
+            Vector2 rushDir = ownerController.FSM.rushDirection.normalized;
             wallCheckDistance = 1.0f;
 
             Vector2 origin = rb.position + rushDir * 0.1f;
             RaycastHit2D hit = Physics2D.Raycast(origin, rushDir, wallCheckDistance, wallLayerMask);
-            if (hit.collider != null || elapsedTime > duration || ownerController.isRushAttacked)
+            if (hit.collider != null || elapsedTime > duration || ownerController.FSM.isRushAttacked)
             {
                 Stop();
                 ownerController.ForceToNextState();
                 return;
             }
 
-            Vector2 nextPos = rb.position + rushDir * ownerController.Status.moveSpeed * ownerController.rushSpeedMultiply * Time.fixedDeltaTime;
+            Vector2 nextPos = rb.position + rushDir * ownerController.Status.moveSpeed * ownerController.FSM.rushSpeedMultiply * Time.fixedDeltaTime;
             rb.MovePosition(nextPos);
         }
     }

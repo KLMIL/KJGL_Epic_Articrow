@@ -19,7 +19,6 @@ public class DieActionSO : EnemyActionSO
         }
         controller.StopMove();
 
-        Debug.Log("Called Here?");
         Object.Destroy(controller.gameObject, 1.0f);
     }
 
