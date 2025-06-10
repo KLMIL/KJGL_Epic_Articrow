@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UI_SettingsCanvas : MonoBehaviour
@@ -8,7 +7,8 @@ public class UI_SettingsCanvas : MonoBehaviour
     void Awake()
     {
         _canvas = GetComponent<Canvas>();
-        UI_TitleEventBus.OnToggleSettingsCanvas = ToggleCanvas;
+        //UI_TitleEventBus.OnToggleSettingsCanvas = ToggleCanvas;
+        UI_CommonEventBus.OnToggleSettingsCanvas = ToggleCanvas;
     }
 
     void ToggleCanvas()

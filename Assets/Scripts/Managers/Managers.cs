@@ -44,6 +44,7 @@ namespace YSJ
                 Sound.Init();
                 Input.Init();
                 Pool.Init();
+                UI.InstantiateSettingsUI();
             }
         }
 
@@ -58,6 +59,7 @@ namespace YSJ
         void OnDisable()
         {
             Debug.LogWarning("Managers 파괴");
+            UI_CommonEventBus.Clear();
             UI_TitleEventBus.Clear();
             UI_InGameEventBus.Clear();
             Clear();

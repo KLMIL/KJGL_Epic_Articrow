@@ -18,13 +18,17 @@ public class SettingPanelBtn : MonoBehaviour
         _btn = GetComponent<Button>();
         _image = transform.GetChild(0).GetComponent<Image>();
         _btn.onClick.AddListener(OnClickBtn);
-        UI_TitleEventBus.OnActivePanelBtnHighlightLine += ActiveHighlightLine;
+        //UI_TitleEventBus.OnActivePanelBtnHighlightLine += ActiveHighlightLine;
+        UI_CommonEventBus.OnActivePanelBtnHighlightLine += ActiveHighlightLine;
     }
 
     void OnClickBtn()
     {
-        UI_TitleEventBus.OnActivePanelBtnHighlightLine?.Invoke(_index);
-        UI_TitleEventBus.OnActivePanelCanvas?.Invoke(_index);
+        //UI_TitleEventBus.OnActivePanelBtnHighlightLine?.Invoke(_index);
+        //UI_TitleEventBus.OnActivePanelCanvas?.Invoke(_index);
+
+        UI_CommonEventBus.OnActivePanelBtnHighlightLine?.Invoke(_index);
+        UI_CommonEventBus.OnActivePanelCanvas?.Invoke(_index);
     }
 
     void ActiveHighlightLine(int idx)

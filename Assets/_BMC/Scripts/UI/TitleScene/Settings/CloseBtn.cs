@@ -12,7 +12,7 @@ namespace BMC
         void Awake()
         {
             _btn = GetComponent<Button>();
-            _closeTargetCanvas = transform.root.GetComponent<Canvas>();
+            _closeTargetCanvas = transform.root.GetComponentInChildren<Canvas>();
             _btn.onClick.AddListener(OnClick);
         }
 
