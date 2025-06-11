@@ -41,6 +41,7 @@ namespace YSJ
                 s_instance = go.GetComponent<Managers>();
 
                 // 필요한 매니저 초기화
+                Resource.Init();
                 Sound.Init();
                 Input.Init();
                 Pool.Init();

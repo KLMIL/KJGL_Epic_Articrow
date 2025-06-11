@@ -45,6 +45,37 @@ public class Define
         Inventroy,
         LeftHand,
         RightHand,
-        Roll,
+        Dash,
     }
+
+    #region 맵
+    // 방 종류
+    public enum RoomType
+    {
+        None,
+        StartRoom,      // 시작
+        BossRoom,       // 보스
+        MagicRoom,      // 마법
+        ArtifactRoom,   // 아티팩트
+        HealRoom,       // 회복
+    }
+
+    // 방 상태
+    public enum RoomState
+    {
+        Undiscover,   // 미발견
+        Deactivate,   // 비활성화
+        Active,       // 활성화 
+    }
+
+    // 문 방향
+    public enum DoorPosition
+    {
+        None = 0,
+        Up = 1,
+        Left = 2,
+        Right = 3,
+        Down = 4,
+    }
+    #endregion
 }

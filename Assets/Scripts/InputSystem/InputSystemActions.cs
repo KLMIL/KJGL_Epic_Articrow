@@ -146,7 +146,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Roll"",
+                    ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""7d6d74c9-5d99-4222-acc2-a4cb2b8a0472"",
                     ""expectedControlType"": """",
@@ -238,7 +238,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Roll"",
+                    ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -249,7 +249,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Roll"",
+                    ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -289,7 +289,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""188fe76d-5040-4474-9f78-a60739036908"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
@@ -332,11 +332,33 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""285d9a97-97c7-4e31-bc0e-5c86612b0cec"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""c1dc64af-9f46-48cf-8baa-2d0d6c55b08d"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";PC"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""41be436f-54ce-458b-88d7-e9ddce757a6e"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -535,7 +557,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         m_Player_LeftHand = m_Player.FindAction("Left Hand", throwIfNotFound: true);
         m_Player_RightHand = m_Player.FindAction("Right Hand", throwIfNotFound: true);
-        m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
+        m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         // Inventory
         m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
@@ -632,7 +654,7 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Inventory;
     private readonly InputAction m_Player_LeftHand;
     private readonly InputAction m_Player_RightHand;
-    private readonly InputAction m_Player_Roll;
+    private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Pause;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
@@ -670,9 +692,9 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @RightHand => m_Wrapper.m_Player_RightHand;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Roll".
+        /// Provides access to the underlying input action "Player/Dash".
         /// </summary>
-        public InputAction @Roll => m_Wrapper.m_Player_Roll;
+        public InputAction @Dash => m_Wrapper.m_Player_Dash;
         /// <summary>
         /// Provides access to the underlying input action "Player/Pause".
         /// </summary>
@@ -721,9 +743,9 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
             @RightHand.started += instance.OnRightHand;
             @RightHand.performed += instance.OnRightHand;
             @RightHand.canceled += instance.OnRightHand;
-            @Roll.started += instance.OnRoll;
-            @Roll.performed += instance.OnRoll;
-            @Roll.canceled += instance.OnRoll;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
@@ -756,9 +778,9 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
             @RightHand.started -= instance.OnRightHand;
             @RightHand.performed -= instance.OnRightHand;
             @RightHand.canceled -= instance.OnRightHand;
-            @Roll.started -= instance.OnRoll;
-            @Roll.performed -= instance.OnRoll;
-            @Roll.canceled -= instance.OnRoll;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
@@ -1074,12 +1096,12 @@ public partial class @InputSystemActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRightHand(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Roll" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Dash" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRoll(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

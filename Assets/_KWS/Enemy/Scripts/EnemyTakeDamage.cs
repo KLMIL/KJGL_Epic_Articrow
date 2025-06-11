@@ -9,7 +9,7 @@ public class EnemyTakeDamage : MonoBehaviour, IDamagable
 
     private void Start()
     {
-        _damageTextPrefab = Managers.Resource.Load<TextMeshPro>("Text/DamageText");
+        _damageTextPrefab = Managers.Resource.DamageText;
         ownerController = GetComponentInParent<EnemyController>();
     }
 

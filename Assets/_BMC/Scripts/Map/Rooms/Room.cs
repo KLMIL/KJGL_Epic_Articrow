@@ -1,28 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using YSJ;
+using static Define;
 
 namespace BMC
 {
-    // 방 종류
-    public enum RoomType
-    {
-        None,
-        StartRoom,      // 시작
-        BossRoom,       // 보스
-        MagicRoom,      // 마법
-        ArtifactRoom,   // 아티팩트
-        HealRoom,       // 회복
-    }
-
-    // 방 상태
-    public enum RoomState
-    {
-        Undiscover,   // 미발견
-        Deactivate,   // 비활성화
-        Active,       // 활성화 
-    }
-
     // 방
     public class Room : MonoBehaviour
     {
@@ -39,8 +21,6 @@ namespace BMC
 
         [Header("테스트 관련")]
         [SerializeField] EnemySpawner _enemySpawner; // 몬스터 소환기 (테스트용)
-        GameObject[] _allMagicReward;
-        GameObject[] _allArtifactReward;
 
         void Awake()
         {
@@ -150,29 +130,14 @@ namespace BMC
         #endregion
 
         #region 클리어 관련
-        // TODO: 보상 소환 (임시) -> 나중에 ResourceManager를 이용해서 최적화 필요
+        // 보상 소환
         public void SpawnReward()
         {
             if (_roomData.IsCleared)
             {
-
-                if(_allMagicReward == null)
-                {
-                    _allMagicReward = Managers.Resource.LoadAll<GameObject>($"Prefabs/Rewards/MagicRoom");
-                    _allArtifactReward = Managers.Resource.LoadAll<GameObject>($"Prefabs/Rewards/ArtifactRoom");
-                }
-
-                GameObject rewardObject = null;
-                switch (RoomData.RoomType)
-                {
-                    case RoomType.MagicRoom:
-                        rewardObject = _allMagicReward[Random.Range(0, _allMagicReward.Length)];
-                        break;
-                    case RoomType.ArtifactRoom:
-                        rewardObject = _allArtifactReward[Random.Range(0, _allArtifactReward.Length)];
-                        break;
-                }
-                GameObject reward = Instantiate(rewardObject, transform.position, Quaternion.identity);
+                List<GameObject> rewardList = MapManager.Instance.RoomTypeRewardListDict[RoomData.RoomType];
+                GameObject rewardObject = rewardList[Random.Range(0, rewardList.Count)];
+                Instantiate(rewardObject, transform.position, Quaternion.identity);
             }
         }
         

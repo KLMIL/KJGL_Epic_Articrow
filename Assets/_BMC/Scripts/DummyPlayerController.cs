@@ -42,7 +42,7 @@ namespace BMC
             _leftHand = GetComponentInChildren<LeftHand_YSJ>().transform;
             _rightHand = GetComponentInChildren<RightHand_YSJ>().transform;
 
-            YSJ.Managers.Input.OnRollAction += Dash;
+            YSJ.Managers.Input.OnDashAction += Dash;
             YSJ.Managers.Input.OnInteractAction += InteractItem;
 
             _interactLayerMask = LayerMask.GetMask("Interact");

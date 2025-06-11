@@ -7,34 +7,34 @@ namespace YSJ
     public class ShowDescriptionWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public string Description;
-        GameObject descriptionWindow;
-        Canvas canvas;
+        GameObject _descriptionWindow;
+        Canvas _canvas;
 
-        GameObject spawnedObj;
+        GameObject _spawnedObj;
 
         private void Awake()
         {
-            descriptionWindow = Resources.Load<GameObject>("Canvas/DescriptionWindow");
-            canvas = transform.root.GetComponent<Canvas>();
+            _descriptionWindow = Resources.Load<GameObject>("Canvas/DescriptionWindow");
+            _canvas = transform.root.GetComponent<Canvas>();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (!Input.GetKey(KeyCode.Mouse0) && spawnedObj == null)
+            if (!Input.GetKey(KeyCode.Mouse0) && _spawnedObj == null)
             {
-                spawnedObj = Instantiate(descriptionWindow);
-                spawnedObj.transform.SetParent(transform.root, true);
-                spawnedObj.transform.position = transform.position + Vector3.right * 300f;
-                spawnedObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Description;
+                _spawnedObj = Instantiate(_descriptionWindow);
+                _spawnedObj.transform.SetParent(transform.root, true);
+                _spawnedObj.transform.position = transform.position + Vector3.right * 300f;
+                _spawnedObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Description;
             }
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (spawnedObj)
+            if (_spawnedObj)
             {
-                Destroy(spawnedObj);
-                spawnedObj = null;
+                Destroy(_spawnedObj);
+                _spawnedObj = null;
             }
         }
     }

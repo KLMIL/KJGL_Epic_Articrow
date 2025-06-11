@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 using static Define;
 using YSJ;
 
@@ -17,12 +16,12 @@ public class InputManager
     public bool IsPressInteract { get; private set; }        // 상호작용 입력 여부
     public bool IsPressLeftHandAttack { get; private set; }  // 왼손 공격 입력 여부
     public bool IsPressRightHandAttack { get; private set; } // 오른손 공격 입력 여부
-    public bool IsPressRoll { get; private set; }            // 구르기 입력 여부
+    public bool IsPressDash { get; private set; }            // 대시 입력 여부
     public bool IsPressInventory { get; private set; }       // 인벤토리 입력 여부
     #endregion
 
     #region 액션
-    public Action<Vector2> OnRollAction;          // 구르기
+    public Action<Vector2> OnDashAction;          // 구르기
     public Action OnInteractAction;               // 상호작용(줍기)
     public Action OnInventoryAction;              // 인벤토리
     public Action OnLeftHandAction;               // 좌수
@@ -30,24 +29,24 @@ public class InputManager
     public Action OnPauseAction;                  // 일시정지
     #endregion
 
-    [Header("Rebind")]
-    InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
-    Dictionary<KeyAction, InputAction> _keyActionDict;
+    //[Header("Rebind")]
+    //InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
+    //Dictionary<KeyAction, InputAction> _keyActionDict;
 
     public void Init()
     {
         _inputSystemActions = new InputSystemActions();
         _inputSystemActions.Enable();
 
-        _keyActionDict = new Dictionary<KeyAction, InputAction>
-        {
-            { KeyAction.Move, _inputSystemActions.Player.Move},
-            { KeyAction.Interact, _inputSystemActions.Player.Interact },
-            { KeyAction.Inventroy, _inputSystemActions.Player.Inventory},
-            { KeyAction.LeftHand, _inputSystemActions.Player.LeftHand },
-            { KeyAction.RightHand, _inputSystemActions.Player.RightHand },
-            { KeyAction.Roll, _inputSystemActions.Player.Roll },
-        };
+        //_keyActionDict = new Dictionary<KeyAction, InputAction>
+        //{
+        //    { KeyAction.Move, _inputSystemActions.Player.Move},
+        //    { KeyAction.Interact, _inputSystemActions.Player.Interact },
+        //    { KeyAction.Inventroy, _inputSystemActions.Player.Inventory},
+        //    { KeyAction.LeftHand, _inputSystemActions.Player.LeftHand },
+        //    { KeyAction.RightHand, _inputSystemActions.Player.RightHand },
+        //    { KeyAction.Dash, _inputSystemActions.Player.Dash },
+        //};
 
         LoadKeyBind();
         SubscribeAction();
@@ -59,8 +58,8 @@ public class InputManager
     {
         _inputSystemActions.Player.Move.performed += OnMove;
         _inputSystemActions.Player.Move.canceled += OnMove;
-        _inputSystemActions.Player.Roll.performed += OnRoll;
-        _inputSystemActions.Player.Roll.canceled += OnRoll;
+        _inputSystemActions.Player.Dash.performed += OnDash;
+        _inputSystemActions.Player.Dash.canceled += OnDash;
 
         _inputSystemActions.Player.Interact.performed += OnInteract;
         _inputSystemActions.Player.Interact.canceled += OnInteract;
@@ -126,13 +125,13 @@ public class InputManager
         //Debug.Log(MouseWorldPos);
     }
 
-    void OnRoll(InputAction.CallbackContext context)
+    void OnDash(InputAction.CallbackContext context)
     {
-        IsPressRoll = context.ReadValueAsButton();
+        IsPressDash = context.ReadValueAsButton();
         if (context.performed)
         {
-            OnRollAction?.Invoke(MoveInput);
-            //Debug.Log("구르기");
+            OnDashAction?.Invoke(MoveInput);
+            //Debug.Log("대시");
         }
         //Debug.Log("IsPressDash: " + IsPressDash);
     }
@@ -203,7 +202,7 @@ public class InputManager
 
     public void ClearAction()
     {
-        OnRollAction = null;
+        OnDashAction = null;
         OnInteractAction = null;
         OnInventoryAction = null;
         OnLeftHandAction = null;

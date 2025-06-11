@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// 여러 씬에서 사용할 UI 이벤트 버스
+/// </summary>
 public class UI_CommonEventBus : MonoBehaviour
 {
     public static Action OnToggleSettingsCanvas;              // 설정 캔버스 토글

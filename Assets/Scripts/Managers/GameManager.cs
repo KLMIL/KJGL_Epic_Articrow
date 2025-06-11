@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
 
-        PlayerController = FindAnyObjectByType<DummyPlayerController>();
         MainCamera = Camera.main;
         Inventory.Init();
         LeftSkillManager.Init();
@@ -43,6 +42,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        PlayerController = FindAnyObjectByType<DummyPlayerController>();
     }
 
     // 일시 정지 및 재개 기능

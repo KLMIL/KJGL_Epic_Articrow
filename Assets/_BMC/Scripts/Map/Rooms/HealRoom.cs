@@ -1,4 +1,4 @@
-using UnityEngine;
+using static Define;
 
 namespace BMC
 {
