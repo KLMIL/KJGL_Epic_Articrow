@@ -14,7 +14,8 @@ namespace BMC
 
         void OnClicked()
         {
-            UI_TitleEventBus.OnResetKeyBind?.Invoke();
+            //UI_TitleEventBus.OnResetKeyBind?.Invoke();
+            UI_CommonEventBus.OnResetKeyBind?.Invoke();
         }
     }
 }

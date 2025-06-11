@@ -3,22 +3,20 @@ using UnityEngine.UI;
 
 namespace BMC
 {
-    // 해당 버튼이 포함된 최상위 Canvas 비활성화 버튼
-    public class CloseBtn : MonoBehaviour
+    // 설정 창 닫기 버튼
+    public class SettingsCloseBtn : MonoBehaviour
     {
-        Canvas _closeTargetCanvas;
         Button _btn;
 
         void Awake()
         {
             _btn = GetComponent<Button>();
-            _closeTargetCanvas = transform.root.GetComponent<Canvas>();
             _btn.onClick.AddListener(OnClick);
         }
 
         void OnClick()
         {
-            _closeTargetCanvas.enabled = false;
+            UI_CommonEventBus.OnToggleSettingsCanvas?.Invoke();
         }
     }
 }

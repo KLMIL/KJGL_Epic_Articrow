@@ -9,6 +9,7 @@ namespace BMC
             _roomData = new RoomData
             {
                 RoomType = RoomType.ArtifactRoom,
+                RoomState = RoomState.Undiscover,
                 Row = row,
                 Col = col,
                 IsVisited = true,
