@@ -107,7 +107,8 @@ namespace BMC
         {
             LoadActionBinding();
             _btn.onClick.AddListener(StartInteractiveRebind);
-            UI_TitleEventBus.OnResetKeyBind += ResetToDefault; // 키 리셋 이벤트 등록
+            //UI_TitleEventBus.OnResetKeyBind += ResetToDefault; // 키 리셋 이벤트 등록
+            UI_CommonEventBus.OnResetKeyBind += ResetToDefault; // 키 리셋 이벤트 등록
         }
 
         #region 메서드
@@ -228,7 +229,8 @@ namespace BMC
                     operation =>
                     {
                         m_RebindStopEvent?.Invoke(this, operation);
-                        UI_TitleEventBus.OnActiveKeyConfirmationCanvas?.Invoke(false); // 키 확인 캔버스 닫기
+                        //UI_TitleEventBus.OnActiveKeyConfirmationCanvas?.Invoke(false); // 키 확인 캔버스 닫기
+                        UI_CommonEventBus.OnActiveKeyConfirmationCanvas?.Invoke(false); // 키 확인 캔버스 닫기
                         UpdateBindingDisplay();
                         CleanUp();
                     })
@@ -237,7 +239,8 @@ namespace BMC
                     operation =>
                     {
                         m_RebindStopEvent?.Invoke(this, operation);
-                        UI_TitleEventBus.OnActiveKeyConfirmationCanvas?.Invoke(false); // 키 확인 캔버스 닫기
+                        //UI_TitleEventBus.OnActiveKeyConfirmationCanvas?.Invoke(false); // 키 확인 캔버스 닫기
+                        UI_CommonEventBus.OnActiveKeyConfirmationCanvas?.Invoke(false); // 키 확인 캔버스 닫기
                         UpdateBindingDisplay();
                         CleanUp();
 
@@ -269,7 +272,9 @@ namespace BMC
 
             #region 키 리바인딩 오버레이 관련
             // 오버레이 켜기 및 Rebind 텍스트(ex: button, key, axis를 기다리는 중인지) 설정
-            UI_TitleEventBus.OnActiveKeyConfirmationCanvas?.Invoke(true); // 키 확인 캔버스 열기
+            //UI_TitleEventBus.OnActiveKeyConfirmationCanvas?.Invoke(true); // 키 확인 캔버스 열기
+            UI_CommonEventBus.OnActiveKeyConfirmationCanvas?.Invoke(true); // 키 확인 캔버스 열기
+            
             //if (m_RebindText != null)
             //{
             //    var text = !string.IsNullOrEmpty(m_RebindOperation.expectedControlType)

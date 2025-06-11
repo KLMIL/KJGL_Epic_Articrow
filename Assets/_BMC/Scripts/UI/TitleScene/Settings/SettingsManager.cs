@@ -39,10 +39,11 @@ namespace BMC
             if (s_instance == null)
             {
                 s_instance = this;
+                //DontDestroyOnLoad(gameObject);
             }
             else if (Instance != this)
             {
-                Destroy(this);
+                Destroy(gameObject);
             }
         }
 
