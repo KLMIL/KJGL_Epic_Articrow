@@ -39,7 +39,8 @@ namespace BMC
 
         [Header("테스트 관련")]
         [SerializeField] EnemySpawner _enemySpawner; // 몬스터 소환기 (테스트용)
-        GameObject[] _allReward;
+        GameObject[] _allMagicReward;
+        GameObject[] _allArtifactReward;
 
         void Awake()
         {
@@ -149,27 +150,29 @@ namespace BMC
         #endregion
 
         #region 클리어 관련
-        // 보상 소환 (임시)
+        // TODO: 보상 소환 (임시) -> 나중에 ResourceManager를 이용해서 최적화 필요
         public void SpawnReward()
         {
             if (_roomData.IsCleared)
             {
 
-                if(_allReward == null)
+                if(_allMagicReward == null)
                 {
-                    _allReward = Managers.Resource.LoadAll<GameObject>($"Prefabs/Rewards");
+                    _allMagicReward = Managers.Resource.LoadAll<GameObject>($"Prefabs/Rewards/MagicRoom");
+                    _allArtifactReward = Managers.Resource.LoadAll<GameObject>($"Prefabs/Rewards/ArtifactRoom");
                 }
 
-                GameObject rewardObject = _allReward[Random.Range(0, _allReward.Length)];
-                if (rewardObject == null)
+                GameObject rewardObject = null;
+                switch (RoomData.RoomType)
                 {
-                    Debug.Log("보상 오프젝트 없음");
-                    return;
+                    case RoomType.MagicRoom:
+                        rewardObject = _allMagicReward[Random.Range(0, _allMagicReward.Length)];
+                        break;
+                    case RoomType.ArtifactRoom:
+                        rewardObject = _allArtifactReward[Random.Range(0, _allArtifactReward.Length)];
+                        break;
                 }
-                else
-                {
-                    GameObject reward = Instantiate(rewardObject, transform.position, Quaternion.identity);
-                }
+                GameObject reward = Instantiate(rewardObject, transform.position, Quaternion.identity);
             }
         }
         

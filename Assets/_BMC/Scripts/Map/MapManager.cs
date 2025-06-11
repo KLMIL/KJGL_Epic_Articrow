@@ -145,12 +145,10 @@ namespace BMC
             return _fullMap[idx];
         }
 
+        // TODO: 추후에 최적화 필요 (급해서 일단 이렇게 함)
         public Room CreateRoomRandomInType(RoomType roomType)
         {
-            if(_testRooms == null)
-            {
-                _testRooms = YSJ.Managers.Resource.LoadAll<Room>($"Prefabs/RoomTemplate/{roomType}");
-            }
+            _testRooms = YSJ.Managers.Resource.LoadAll<Room>($"Prefabs/RoomTemplate/{roomType}");
             Room newRoomPrefab = _testRooms[Random.Range(0, _testRooms.Length)];
             return (newRoomPrefab != null) ? Instantiate(newRoomPrefab) : null;
         }

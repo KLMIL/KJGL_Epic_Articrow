@@ -7,7 +7,7 @@ namespace BMC
         void Start()
         {
             UI_InGameEventBus.OnPlayerHpSliderValueUpdate = base.UpdateSlider;
-            PlayerStatus playerStatus = GameManager.Instance.PlayerController.GetComponent<PlayerStatus>();
+            PlayerStatus playerStatus = FindAnyObjectByType<PlayerStatus>();
             base.Init(playerStatus.MaxHealth);
         }
     }
