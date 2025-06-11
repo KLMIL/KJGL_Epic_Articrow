@@ -5,15 +5,24 @@ using UnityEngine;
 
 namespace CKT
 {
-    public class EquipedArtifact_T1 : EquipedArtifact
+    public class EquipedArtifact_T3 : EquipedArtifact
     {
-        protected override GameObject _fieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T1");
-        protected override string _prefabName => "Bullet_T1";
-        protected override float _attackSpeed => 1f;
+        protected override GameObject _fieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T3");
+        protected override string _prefabName => "Bullet_T3";
+        protected override float _attackSpeed => 0.2f;
+
+        float _chargeAmount;
+        float _maxChargeAmount = 1f;
 
         protected override void Attack(List<GameObject> list)
         {
-            _attackCoroutine = _attackCoroutine ?? StartCoroutine(AttackCoroutine(list));
+            _chargeAmount += Time.fixedDeltaTime;
+
+            //if (_chargeAmount >= _maxChargeAmount)
+            {
+                _attackCoroutine = _attackCoroutine ?? StartCoroutine(AttackCoroutine(list));
+                _chargeAmount = 0;
+            }
         }
 
         protected override IEnumerator AttackCoroutine(List<GameObject> list)
