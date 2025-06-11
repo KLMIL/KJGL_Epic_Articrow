@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 20
-  m_Sprite: {fileID: -2135605920485991734, guid: 49df887836f4ce0438302e856fed8c01, type: 3}
+  m_Sprite: {fileID: -4663766497901569114, guid: 1a1e5b95af231864497c1a0255b90608, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -110,8 +110,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _statusOrigin: {fileID: 11400000, guid: 949a9db12e950e04cab377cd9d009312, type: 2}
   Status: {fileID: 0}
-  Player: {fileID: 0}
   Behaviours:
+  - stateName: Spawned
+    interruptType: 2
+    condition: {fileID: 11400000, guid: 08e7aea89eff33b4996b2c3f0a71554c, type: 2}
+    action: {fileID: 11400000, guid: 7b834d9d23152c84a81602ae73ea646d, type: 2}
+    animationName: Idle
+    duration: 1.5
+    nextStateName: Idle
+    elapsedTime: 0
   - stateName: Die
     interruptType: 2
     condition: {fileID: 11400000, guid: 8339e8af7d61a8f4d865ff7ce92e782f, type: 2}
@@ -152,24 +159,7 @@ MonoBehaviour:
     duration: 2
     nextStateName: Idle
     elapsedTime: 0
-  CurrentStateName: Idle
-  CurrentAnimation: 
-  isDamaged: 0
-  pendingDamage: 0
-  projectileFiredCount: 0
-  projectileIntervalTimer: 0
-  isSpawnedMite: 0
-  isRushAttacked: 1
-  isRushing: 0
-  rushDirection: {x: 0, y: 0, z: 0}
-  rushSpeedMultiply: 1
-  rushDamageMultuply: 1
-  isContactDamageActive: 0
-  currentActionDamageMultiply: 1
-  lastContactAttackTime: -Infinity
-  contactAttackCooldown: 1
-  randomMoveDirection: {x: 0, y: 0, z: 0}
-  randomMoveChangeCooldown: 0
+  Player: {fileID: 0}
 --- !u!114 &-3441324506753662501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentAnimation: 
 --- !u!60 &7075056058336455284
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -262,7 +253,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.84375, y: 0.8125}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
