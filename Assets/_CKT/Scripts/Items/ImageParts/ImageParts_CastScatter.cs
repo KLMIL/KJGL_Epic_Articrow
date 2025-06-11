@@ -6,7 +6,7 @@ namespace CKT
 {
     public class ImageParts_CastScatter : ImageParts, ISkillable
     {
-        float _scatterAngle = 9f;
+        float _scatterAngle = 15f;
 
         private void Awake()
         {
@@ -39,6 +39,7 @@ namespace CKT
                 Vector2 scatterDir = Util.RotateVector(originUp, (sign * _scatterAngle)).normalized;
 
                 GameObject castScatterCopy = YSJ.Managers.Pool.InstPrefab(origin.name);
+                castScatterCopy.transform.SetParent(origin.transform.parent);
                 castScatterCopy.transform.position = origin.transform.position;
                 castScatterCopy.transform.up = scatterDir;
                 castScatterCopy.name = origin.name;

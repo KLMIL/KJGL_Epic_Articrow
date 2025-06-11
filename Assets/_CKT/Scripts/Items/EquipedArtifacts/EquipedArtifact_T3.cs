@@ -5,15 +5,30 @@ using UnityEngine;
 
 namespace CKT
 {
-    public class EquipedArtifact_T1 : EquipedArtifact
+    public class EquipedArtifact_T3 : EquipedArtifact
     {
-        protected override GameObject _fieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T1");
-        protected override string _prefabName => "Bullet_T1";
-        protected override float _attackSpeed => 1f;
+        protected override GameObject _fieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T3");
+        protected override string _prefabName => "Bullet_T3";
+        protected override float _attackSpeed => 0.2f;
+
+        float _chargeAmount;
+        float _maxChargeAmount = 1f;
+
+        private void FixedUpdate()
+        {
+            _chargeAmount -= (2f * Time.fixedDeltaTime);
+            _chargeAmount = Mathf.Clamp01(_chargeAmount);
+        }
 
         protected override void Attack(List<GameObject> list)
         {
-            _attackCoroutine = _attackCoroutine ?? StartCoroutine(AttackCoroutine(list));
+            _chargeAmount += (3f * Time.fixedDeltaTime);
+
+            if (_chargeAmount >= _maxChargeAmount)
+            {
+                _attackCoroutine = _attackCoroutine ?? StartCoroutine(AttackCoroutine(list));
+                _chargeAmount = 0;
+            }
         }
 
         protected override IEnumerator AttackCoroutine(List<GameObject> list)
@@ -27,7 +42,7 @@ namespace CKT
             //총알 생성
             //총알 생성
             GameObject bullet = YSJ.Managers.Pool.InstPrefab(_prefabName);
-            bullet.transform.position = this.transform.position + this.transform.up;
+            bullet.transform.position = this.transform.position;
             //이동 방향
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mouseDir = (mousePos - this.transform.position).normalized;

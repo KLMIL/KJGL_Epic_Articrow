@@ -21,6 +21,7 @@ namespace YSJ
             _prefabDict.Clear();
             SetPrefab("Prefabs", "Bullet_T1", _prefabDict);
             SetPrefab("Prefabs", "Bullet_T2", _prefabDict);
+            SetPrefab("Prefabs", "Bullet_T3", _prefabDict);
 
             SetPrefab("Prefabs", "HitSkillObject", _prefabDict);
 

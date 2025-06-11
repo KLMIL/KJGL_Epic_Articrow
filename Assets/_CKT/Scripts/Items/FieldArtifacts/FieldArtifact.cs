@@ -2,17 +2,18 @@ using UnityEngine;
 
 namespace CKT
 {
-    public class FieldArtifact_T1 : MonoBehaviour, IInteractable
+    public class FieldArtifact : MonoBehaviour, IInteractable
     {
         public ItemType ItemType => _itemType;
         ItemType _itemType;
 
+        public string ArtifactName;
         GameObject _equipedArtifact;
 
         void Awake()
         {
             _itemType = ItemType.Artifact;
-            _equipedArtifact = Resources.Load<GameObject>("EquipedArtifacts/EquipedArtifact_T1");
+            _equipedArtifact = Resources.Load<GameObject>($"EquipedArtifacts/{ArtifactName}");
         }
 
         public void Interact(Transform trans)
@@ -21,7 +22,7 @@ namespace CKT
             equiped.transform.parent = trans;
             equiped.transform.localPosition = Vector3.zero;
             equiped.transform.localRotation = Quaternion.identity;
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }
