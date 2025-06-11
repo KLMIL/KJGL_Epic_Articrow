@@ -3,6 +3,7 @@ using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
+using BMC;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "BossHit", story: "[Self] hit by target", category: "Action", id: "61f427f47003c289c464918522b3740c")]
