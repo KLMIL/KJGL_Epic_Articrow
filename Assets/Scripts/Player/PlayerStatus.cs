@@ -39,12 +39,14 @@ namespace YSJ
 
         public void TakeDamage(float damage)
         {
+            Debug.Log("플레이어 맞음");
+
             Debug.Log("Player Hit");
             Health -= damage;
             GameObject spawnedObj = Instantiate(DamageTextPrefab, transform.position, Quaternion.identity);
             //spawnedObj.transform.SetParent(transform,false);
             spawnedObj.GetComponent<TextMeshPro>().text = damage.ToString();
-            UI_InGameEventBus.OnHpSliderValueUpdate?.Invoke(Health);
+            UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(Health);
 
             if (Health <= 0)
             {
