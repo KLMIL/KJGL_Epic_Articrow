@@ -29,28 +29,55 @@ namespace BMC
 
         public void Init()
         {
-            Health = 100;
+            Health = 5000;
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.H))
+                TakeDamage(5);
         }
 
         public void TakeDamage(float damage)
         {
+            Debug.Log("보스 처맞음");
+
             if (IsDead)
                 return;
 
             // 애니메이션 재생
             AnimatorStateInfo currentStateInfo = _anim.GetCurrentAnimatorStateInfo(0);
-            if (!currentStateInfo.IsName("Hit"))
-                _anim.Play("Hit");
+            if(!currentStateInfo.IsName("Shoot") && !currentStateInfo.IsName("Rush"))
+            {
+                if(!currentStateInfo.IsName("Hit") || currentStateInfo.IsName("Idle"))
+                {
+                    _anim.Play("Hit");
+                }
+            }
 
             Health -= damage;
+
+            Debug.Log($"보스 체력: {Health}");
+
             TextMeshPro spawnedObj = Instantiate(DamageTextPrefab, transform.position, Quaternion.identity);
             spawnedObj.text = damage.ToString();
-            UI_InGameEventBus.OnHpSliderValueUpdate?.Invoke(Health);
+
+            // TODO: 보스 체력 슬라이더
+            //UI_InGameEventBus.OnHpSliderValueUpdate?.Invoke(Health);
             if (Health <= 0)
             {
                 IsDead = true;
-                //_behaviorGraphAgent.SetVariableValue("IsDead", IsDead);
-                //_behaviorGraphAgent.SetVariableValue("CurrentState", BossState.Die);
+                _behaviorGraphAgent.SetVariableValue("IsDead", IsDead);
+                _behaviorGraphAgent.SetVariableValue("CurrentState", BossState.Die);
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if(collision.gameObject.CompareTag("Player"))
+            {
+                collision.gameObject.GetComponent<Rigidbody2D>()?.AddForce((collision.transform.position - transform.position).normalized * 10f, ForceMode2D.Impulse);
+                collision.gameObject.GetComponent<IDamagable>()?.TakeDamage(5f);
             }
         }
     }

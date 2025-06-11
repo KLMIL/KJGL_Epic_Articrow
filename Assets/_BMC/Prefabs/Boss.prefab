@@ -145,15 +145,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7830189, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -244,6 +244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8740518839205081043}
   - component: {fileID: 3199825967073727864}
+  - component: {fileID: 1339664439231805542}
   m_Layer: 0
   m_Name: HPSlider
   m_TagString: Untagged
@@ -271,7 +272,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -25}
-  m_SizeDelta: {x: 285.83, y: 20}
+  m_SizeDelta: {x: 500, y: 45}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &3199825967073727864
 MonoBehaviour:
@@ -320,10 +321,22 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 5.6
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1339664439231805542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4432760146798500492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec47728686d7c3145aa20e9e074dcda1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7182464240951760317
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,15 +395,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -411,10 +424,11 @@ GameObject:
   - component: {fileID: 9010284806134920889}
   - component: {fileID: 2933568773814184860}
   - component: {fileID: 7335638781644291621}
+  - component: {fileID: 2422531800791907868}
   - component: {fileID: 4456645816696610926}
   - component: {fileID: 3663158347290840319}
   - component: {fileID: 1568347721076774337}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -524,6 +538,66 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.15}
   m_Size: {x: 1.5, y: 2.3}
   m_Direction: 0
+--- !u!60 &2422531800791907868
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7402092579583754117}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.37943915, y: 0.8482243}
+      - {x: -0.66226435, y: 0.6689608}
+      - {x: -0.83560735, y: -0.355466}
+      - {x: -0.8382922, y: -0.84896505}
+      - {x: -0.64946705, y: -1.1349212}
+      - {x: -0.18167073, y: -1.3101797}
+      - {x: 0.107745856, y: -1.3146245}
+      - {x: 0.6693553, y: -1.1226027}
+      - {x: 0.74605685, y: -1.1252873}
+      - {x: 0.84613466, y: -0.17777935}
+      - {x: 0.756423, y: 0.094957724}
+      - {x: 0.18526697, y: 0.8543308}
+      - {x: -0.07884979, y: 0.8510731}
+  m_UseDelaunayMesh: 0
 --- !u!114 &4456645816696610926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,7 +648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsDead>k__BackingField: 0
-  <Health>k__BackingField: 100
+  <Health>k__BackingField: 5000
 --- !u!114 &1568347721076774337
 MonoBehaviour:
   m_ObjectHideFlags: 0

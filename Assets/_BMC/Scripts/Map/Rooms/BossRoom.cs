@@ -20,6 +20,24 @@ namespace BMC
             gameObject.name = gameObject.name + $"({RoomData.Row}, {RoomData.Col})";
             DisposeInvalidDoor();
             //OpenAllValidDoor();
+            //GetComponentInChildren<EnemySpawner>().SpawnBoss();
+        }
+
+        public void SpawnBoss()
+        {
+            GetComponentInChildren<EnemySpawner>().SpawnBoss();
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
+            {
+                if (!_roomData.IsCleared)
+                {
+                    // 보스 소환
+                    SpawnBoss();
+                }
+            }
         }
     }
 }

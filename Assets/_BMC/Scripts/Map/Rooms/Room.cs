@@ -50,8 +50,7 @@ namespace BMC
 
         void Start()
         {
-            if (_roomData.RoomType != RoomType.StartRoom &&
-                _roomData.RoomType != RoomType.BossRoom)
+            if (_roomData.RoomType != RoomType.StartRoom && _roomData.RoomType != RoomType.BossRoom)
             {
                 _enemySpawner.Init();
                 SpawnEnemy();
