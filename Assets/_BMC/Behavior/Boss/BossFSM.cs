@@ -50,7 +50,7 @@ namespace BMC
                 Debug.Log("벽 닿음");
                 _behaviorGraphAgent.SetVariableValue("IsCollisionWithObstacle", true);
 
-                Debug.Log("Normal of the first point: " + collision.contacts[0].normal);
+                //Debug.Log("Normal of the first point: " + collision.contacts[0].normal);
 
                 // 입사각
                 _behaviorGraphAgent.GetVariable<Vector2>("RushDirection", out BlackboardVariable<Vector2> rushDirection);
@@ -62,6 +62,8 @@ namespace BMC
                 Debug.DrawRay(collision.contacts[0].point, reflectDirection, Color.green, 1f);
                 _behaviorGraphAgent.SetVariableValue("RushDirection", reflectDirection);
 
+                Flip(reflectDirection.x);
+
                 // 법선 벡터
                 Debug.DrawRay(collision.contacts[0].point, collision.contacts[0].normal, Color.red, 1f);
 
@@ -70,7 +72,7 @@ namespace BMC
             else
             {
                 Debug.Log("벽 닿지 않음");
-                _behaviorGraphAgent.SetVariableValue("IsCollisionWithObstacle", false);
+                //_behaviorGraphAgent.SetVariableValue("IsCollisionWithObstacle", false);
             }
         }
 
