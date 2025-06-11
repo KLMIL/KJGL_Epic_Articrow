@@ -110,8 +110,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _statusOrigin: {fileID: 11400000, guid: 572883ed34dc059458aa9319cd60ad55, type: 2}
   Status: {fileID: 0}
-  Player: {fileID: 0}
   Behaviours:
+  - stateName: Spawned
+    interruptType: 2
+    condition: {fileID: 11400000, guid: b1743578de209d744a1df888ad42096c, type: 2}
+    action: {fileID: 11400000, guid: 94f4adba7e3991b42ad6f5d5c7c300e0, type: 2}
+    animationName: Idle
+    duration: 1.5
+    nextStateName: Idle
+    elapsedTime: 0
   - stateName: Die
     interruptType: 2
     condition: {fileID: 11400000, guid: 1204717907e2bca49aca307ab6c76ada, type: 2}
@@ -152,24 +159,7 @@ MonoBehaviour:
     duration: 1.2
     nextStateName: Idle
     elapsedTime: 0
-  CurrentStateName: Idle
-  CurrentAnimation: 
-  isDamaged: 0
-  pendingDamage: 0
-  projectileFiredCount: 0
-  projectileIntervalTimer: 0
-  isSpawnedMite: 0
-  isRushAttacked: 1
-  isRushing: 0
-  rushDirection: {x: 0, y: 0, z: 0}
-  rushSpeedMultiply: 1
-  rushDamageMultuply: 1
-  isContactDamageActive: 0
-  currentActionDamageMultiply: 1
-  lastContactAttackTime: -Infinity
-  contactAttackCooldown: 1
-  randomMoveDirection: {x: 0, y: 0, z: 0}
-  randomMoveChangeCooldown: 0
+  Player: {fileID: 0}
 --- !u!114 &1655341474631979712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baddd31faaa12e44c870c85c72d38582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentAnimation: 
 --- !u!114 &-2885582330465787576
 MonoBehaviour:
   m_ObjectHideFlags: 0
