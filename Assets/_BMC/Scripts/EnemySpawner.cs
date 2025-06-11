@@ -48,6 +48,13 @@ namespace BMC
             }
         }
 
+        public void SpawnBoss()
+        {
+            GameObject bossGO = transform.parent.GetComponentInChildren<BossFSM>(true).gameObject;
+            _spawnedEnemyList.Add(bossGO);
+            bossGO.SetActive(true);
+        }
+
         // 소환 가능한 타일 계산
         void CalculateSpawnPossibleTiles()
         {

@@ -55,10 +55,10 @@ namespace BMC
 
         void Update()
         {
-            //if (Input.GetMouseButtonDown(2)) // 마우스 휠 클릭
-            //{
-            //    MapManager.Instance.CurrentRoom.Complete();
-            //}
+            if (Input.GetMouseButtonDown(2)) // 마우스 휠 클릭
+            {
+                MapManager.Instance.CurrentRoom.Complete();
+            }
         }
 
         void FixedUpdate()

@@ -1,3 +1,4 @@
+using BMC;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class GameManager : MonoBehaviour
     static GameManager _instance;
     public static GameManager Instance => _instance;
 
+    public DummyPlayerController PlayerController { get; private set; }
+
     public Camera MainCamera { get; private set; }
 
     public CKT.Inventory Inventory { get; private set; } = new CKT.Inventory();
@@ -13,6 +16,7 @@ public class GameManager : MonoBehaviour
     public CKT.SkillManager LeftSkillManager { get; private set; } = new CKT.SkillManager();
     public CKT.SkillManager RightSkillManager { get; private set; } = new CKT.SkillManager();
 
+    [Header("일시 정지")]
     [field: SerializeField] bool IsPaused { get; set; } = false;
 
     [SerializeField] int _pauseLevel = 0; // 일시 정지 레벨 (0: 게임 진행 중, 1 이상 일시 정지)
@@ -28,6 +32,7 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
 
+        PlayerController = FindAnyObjectByType<DummyPlayerController>();
         MainCamera = Camera.main;
         Inventory.Init();
         LeftSkillManager.Init();
