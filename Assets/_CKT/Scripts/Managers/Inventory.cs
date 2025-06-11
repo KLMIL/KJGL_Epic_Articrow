@@ -7,87 +7,42 @@ namespace CKT
     [System.Serializable]
     public class Inventory
     {
-        #region [OnLeftHandEvent]
-        event Action<List<GameObject>> _onLeftHandEvent;
-        public void InitLeftHand()
-        {
-            _onLeftHandEvent = null;
-        }
-        public void SingleSubLeftHand(Action<List<GameObject>> newSub)
-        {
-            _onLeftHandEvent = null;
-            _onLeftHandEvent += newSub;
-        }
-        public void InvokeLeftHand()
-        {
-            _onLeftHandEvent?.Invoke(_leftList);
-        }
-        #endregion
-
-        #region [OnRightHandEvent]
-        event Action<List<GameObject>> _onRightHandEvent;
-        public void InitRightHand()
-        {
-            _onRightHandEvent = null;
-        }
-        public void SingleSubRightHand(Action<List<GameObject>> newSub)
-        {
-            _onRightHandEvent = null;
-            _onRightHandEvent += newSub;
-        }
-        public void InvokeRightHand()
-        {
-            _onRightHandEvent?.Invoke(_rightList);
-        }
-        #endregion
-
-        int _maxCount = 8;
-
-        #region [LeftList]
-        List<GameObject> _leftList = new List<GameObject>();
-        event Action<List<GameObject>> _onUpdateLeftListEvent;
-        public void SubUpdateLeftList(Action<List<GameObject>> newSub)
-        {
-            _onUpdateLeftListEvent += newSub;
-        }
-        #endregion
-
-        #region [RightList]
-        List<GameObject> _rightList = new List<GameObject>();
-        event Action<List<GameObject>> _onUpdateRightListEvent;
-        public void SubUpdateRightList(Action<List<GameObject>> newSub)
-        {
-            _onUpdateRightListEvent += newSub;
-        }
-        #endregion
-
-        #region [InventoryList]
+        #region [Inventory List]
         List<GameObject> _inventoryList = new List<GameObject>();
         event Action<List<GameObject>> _onUpdateInventoryListEvent;
         public void SubUpdateInventoryList(Action<List<GameObject>> newSub)
         {
             _onUpdateInventoryListEvent += newSub;
         }
+        void InvokeUpdateInventoryList(List<GameObject> list)
+        {
+            _onUpdateInventoryListEvent?.Invoke(list);
+        }
+        #endregion
+
+        #region [Slot Count]
+        Func<int> _getSlotCountInt;
+        public void SingleSubSlotCount(Func<int> newSub)
+        {
+            _getSlotCountInt = null;
+            _getSlotCountInt += newSub;
+        }
+        int InvokeSlotCount()
+        {
+            return _getSlotCountInt.Invoke();
+        }
         #endregion
 
         public void Init()
         {
-            _onLeftHandEvent = null;
-            _onRightHandEvent = null;
-
-            _leftList = new List<GameObject>();
-            _onUpdateLeftListEvent = null;
-
-            _rightList = new List<GameObject>();
-            _onUpdateRightListEvent = null;
-
             _inventoryList = new List<GameObject>();
             _onUpdateInventoryListEvent = null;
+            _getSlotCountInt = null;
         }
 
         public bool CheckInventorySlotFull()
         {
-            return _inventoryList.Count >= _maxCount;
+            return _inventoryList.Count >= InvokeSlotCount();
         }
 
         /// <summary>
@@ -95,14 +50,12 @@ namespace CKT
         /// </summary>
         public void InvokeUpdateList()
         {
-            //각 슬롯 내용물 확인
-            _onUpdateLeftListEvent?.Invoke(_leftList);
-            _onUpdateRightListEvent?.Invoke(_rightList);
-            _onUpdateInventoryListEvent?.Invoke(_inventoryList);
+            //인벤토리 내용물 확인
+            InvokeUpdateInventoryList(_inventoryList);
 
-            //스킬 매니저 초기화 후 슬롯 효과 다시 적용
-            GameManager.Instance.LeftSkillManager.CheckSkill(_leftList);
-            GameManager.Instance.RightSkillManager.CheckSkill(_rightList);
+            //왼손, 오른손 슬롯 확인 후 효과 다시 적용
+            GameManager.Instance.LeftSkillManager.CheckSkill();
+            GameManager.Instance.RightSkillManager.CheckSkill();
         }
     }
 }

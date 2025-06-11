@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
         PlayerController = FindAnyObjectByType<DummyPlayerController>();
         MainCamera = Camera.main;
         Inventory.Init();
+        LeftSkillManager.Init();
+        RightSkillManager.Init();
     }
 
     public List<GameObject> MagicItems = new();

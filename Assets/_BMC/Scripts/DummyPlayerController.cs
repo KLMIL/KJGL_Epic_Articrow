@@ -80,14 +80,14 @@ namespace BMC
             {
                 //_leftHandValue = false;
                 //Debug.Log("좌수1");
-                GameManager.Instance.Inventory.InvokeLeftHand();
+                GameManager.Instance.LeftSkillManager.InvokeHand();
             }
 
             if (YSJ.Managers.Input.IsPressRightHandAttack)
             {
                 //_rightHandValue = false;
                 //Debug.Log("우수");
-                GameManager.Instance.Inventory.InvokeRightHand();
+                GameManager.Instance.RightSkillManager.InvokeHand();
             }
         }
 

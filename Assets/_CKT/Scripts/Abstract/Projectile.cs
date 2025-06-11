@@ -3,23 +3,24 @@ using UnityEngine;
 
 namespace CKT
 {
+    [System.Serializable]
     public abstract class Projectile : MonoBehaviour
     {
         public SkillManager SkillManager;
 
-        int curPenetration;
+        protected int _curPenetration;
         protected abstract int BasePenetration { get; }
         protected abstract float MoveSpeed { get; }
         protected abstract float Damage { get; }
         protected abstract float ExistTime { get; }
 
-        private void OnEnable()
+        protected void OnEnable()
         {
-            curPenetration = BasePenetration;
+            _curPenetration = BasePenetration;
             StartCoroutine(DisableCoroutine(ExistTime));
         }
 
-        private void OnDisable()
+        protected void OnDisable()
         {
             SkillManager = null;
         }
@@ -38,11 +39,13 @@ namespace CKT
             {
                 iDamagable.TakeDamage(Damage);
 
-                curPenetration--;
-                if (curPenetration < 0)
+                _curPenetration--;
+                if (_curPenetration < 0)
                 {
-                    CreateHitSkillObject();
-                    //this.gameObject.SetActive(false);
+                    if (SkillManager != null)
+                    {
+                        CreateHitSkillObject(this.transform.position, this.transform.up, this.transform.localScale);
+                    }
                     StartCoroutine(DisableCoroutine(0));
                 }
 
@@ -50,17 +53,21 @@ namespace CKT
             }
         }
 
-        IEnumerator DisableCoroutine(float existTime)
+        protected IEnumerator DisableCoroutine(float existTime)
         {
-            yield return new WaitForEndOfFrame();
+            yield return null;
             yield return new WaitForSeconds(existTime);
             //CreateHitSkillObject();
             this.gameObject.SetActive(false);
         }
 
-        protected virtual void CreateHitSkillObject()
+        protected void CreateHitSkillObject(Vector3 postion, Vector3 up, Vector3 scale)
         {
-
+            GameObject hitSkillObject = YSJ.Managers.Pool.InstPrefab("HitSkillObject");
+            hitSkillObject.transform.position = postion;
+            hitSkillObject.transform.up = up;
+            hitSkillObject.transform.localScale = scale;
+            hitSkillObject.GetComponent<HitSkillObject>().HitSkill(SkillManager);
         }
     }
 }

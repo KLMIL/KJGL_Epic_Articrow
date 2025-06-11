@@ -25,6 +25,7 @@ namespace CKT
             {
                 yield return new WaitForSeconds(0.05f);
                 GameObject castAdditionalCopy = YSJ.Managers.Pool.InstPrefab(origin.name);
+                castAdditionalCopy.transform.SetParent(origin.transform.parent);
                 castAdditionalCopy.transform.position = startPos;
                 castAdditionalCopy.transform.up = origin.transform.up;
                 castAdditionalCopy.name = origin.name;

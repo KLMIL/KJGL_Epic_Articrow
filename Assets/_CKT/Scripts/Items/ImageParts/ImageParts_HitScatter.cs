@@ -11,7 +11,7 @@ namespace CKT
             base.Init("FieldParts/FieldParts_HitScatter");
         }
 
-        float _scatterAngle = 9f;
+        float _scatterAngle = 15f;
 
         public SkillType SkillType => SkillType.Hit;
 

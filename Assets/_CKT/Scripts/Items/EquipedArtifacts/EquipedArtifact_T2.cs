@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace CKT
 {
-    public class EquipedArtifact_T1 : EquipedArtifact
+    public class EquipedArtifact_T2 : EquipedArtifact
     {
-        protected override GameObject _fieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T1");
-        protected override string _prefabName => "Bullet_T1";
+        protected override GameObject _fieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T2");
+        protected override string _prefabName => "Bullet_T2";
         protected override float _attackSpeed => 0.8f;
 
         protected override void Attack(List<GameObject> list)

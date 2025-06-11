@@ -5,15 +5,29 @@ namespace CKT
 {
     public class Explosion : MonoBehaviour
     {
+        GameObject[] _traceArray;
+        
         float range = 1.5f;
         LayerMask _playerLayerMask;
-
         float _damage = 2f;
+        float _disableTime = 1f;
 
         private void OnEnable()
         {
+            StartCoroutine(CreateTrace());
+            
             _playerLayerMask = LayerMask.GetMask("Player");
             StartCoroutine(TakeDamageCoroutine());
+
+            StartCoroutine(DisableCoroutine(_disableTime));
+        }
+
+        IEnumerator CreateTrace()
+        {
+            yield return null;
+            _traceArray = Resources.LoadAll<GameObject>("ExplosionTraces");
+            int random = Random.Range(0, _traceArray.Length);
+            Instantiate(_traceArray[random], this.transform.position, Quaternion.identity);
         }
 
         IEnumerator TakeDamageCoroutine()
@@ -29,6 +43,12 @@ namespace CKT
                     iDamageable.TakeDamage(_damage);
                 }
             }
+        }
+
+        IEnumerator DisableCoroutine(float waitTime)
+        {
+            yield return new WaitForSeconds(waitTime);
+            this.gameObject.SetActive(false);
         }
     }
 }

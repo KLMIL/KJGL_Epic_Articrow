@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace YSJ
 {
+    [System.Serializable]
     public class PoolManager
     {
         GameObject _poolParent;
@@ -17,7 +19,10 @@ namespace YSJ
             
             _poolDict.Clear();
             _prefabDict.Clear();
-            SetPrefab("Prefabs", "Bullet", _prefabDict);
+            SetPrefab("Prefabs", "Bullet_T1", _prefabDict);
+            SetPrefab("Prefabs", "Bullet_T2", _prefabDict);
+            SetPrefab("Prefabs", "Bullet_T3", _prefabDict);
+
             SetPrefab("Prefabs", "HitSkillObject", _prefabDict);
 
             SetPrefab("Prefabs", "CastExplosion", _prefabDict);
@@ -61,24 +66,38 @@ namespace YSJ
                 return null;
             }
 
+            //삭제된 오브젝트 리스트에서 삭제
+            _poolDict[name] = _poolDict[name].Where(obj => (obj != null)).ToList();
+
+            //리스트에 비활성화된 오브젝트 있는지 찾기
             GameObject select = null;
             foreach (GameObject item in _poolDict[name])
             {
-                if (!item.activeSelf) //발견하면? select 변수에 할당
+                if (!item)
                 {
-                    select = item;
-                    select.SetActive(true);
-                    break;
+                    Debug.LogWarning($"{name} list has null object");
+                    continue;
+                }
+                else
+                {
+                    if (!item.activeSelf)
+                    {
+                        select = item;
+                        select.SetActive(true);
+                        break;
+                    }
                 }
             }
-            if (!select) //못 찾으면? 새롭게 생성하고 >> select 변수에 할당
+
+            //리스트에 비활성화된 오브젝트가 없다면 새롭게 생성
+            if (!select) 
             {
                 select = GameObject.Instantiate(_prefabDict[name]);
                 select.transform.SetParent(_poolParent.transform);
                 _poolDict[name].Add(select);
             }
 
-            return select; //select 반환
+            return select;
         }
 
         //특정 오브젝트 전체 비활성화
@@ -90,9 +109,9 @@ namespace YSJ
                 return;
             }
 
-            foreach (GameObject item in _poolDict[name]) //선택한 풀의 비활성화된 게임오브젝트에 접근
+            foreach (GameObject item in _poolDict[name])
             {
-                if (item.activeSelf) //발견하면? select 변수에 할당
+                if (item.activeSelf)
                 {
                     item.SetActive(false);
                 }
