@@ -6,7 +6,7 @@ public class EnemyFSMCore
     EnemyController _ownerController;
     List<EnemyBehaviourUnit> _behaviours;
 
-    public string CurrentStateName { get; private set; } = "Idle";
+    public string CurrentStateName { get; private set; } = "Spawned";
 
 
     #region Behaviour State Field 

@@ -63,7 +63,7 @@ public class EnemyController : MonoBehaviour
     private void OnEnable()
     {
         //SpawnTime = Time.time;
-        FSM.ChangeState("Spawned");
+        //FSM.ChangeState("Spawned");
     }
 
     private void Start()
