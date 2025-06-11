@@ -14,11 +14,17 @@ namespace CKT
         float _chargeAmount;
         float _maxChargeAmount = 1f;
 
+        private void FixedUpdate()
+        {
+            _chargeAmount -= (2f * Time.fixedDeltaTime);
+            _chargeAmount = Mathf.Clamp01(_chargeAmount);
+        }
+
         protected override void Attack(List<GameObject> list)
         {
-            _chargeAmount += Time.fixedDeltaTime;
+            _chargeAmount += (3f * Time.fixedDeltaTime);
 
-            //if (_chargeAmount >= _maxChargeAmount)
+            if (_chargeAmount >= _maxChargeAmount)
             {
                 _attackCoroutine = _attackCoroutine ?? StartCoroutine(AttackCoroutine(list));
                 _chargeAmount = 0;
@@ -36,7 +42,7 @@ namespace CKT
             //총알 생성
             //총알 생성
             GameObject bullet = YSJ.Managers.Pool.InstPrefab(_prefabName);
-            bullet.transform.position = this.transform.position + this.transform.up;
+            bullet.transform.position = this.transform.position;
             //이동 방향
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mouseDir = (mousePos - this.transform.position).normalized;

@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace CKT
 {
+    [System.Serializable]
     public abstract class Projectile : MonoBehaviour
     {
         public SkillManager SkillManager;
@@ -19,7 +20,7 @@ namespace CKT
             StartCoroutine(DisableCoroutine(ExistTime));
         }
 
-        private void OnDisable()
+        protected void OnDisable()
         {
             SkillManager = null;
         }
@@ -52,7 +53,7 @@ namespace CKT
 
         protected IEnumerator DisableCoroutine(float existTime)
         {
-            yield return new WaitForEndOfFrame();
+            yield return null;
             yield return new WaitForSeconds(existTime);
             //CreateHitSkillObject();
             this.gameObject.SetActive(false);

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace CKT
@@ -16,11 +17,19 @@ namespace CKT
         new protected void OnEnable()
         {
             base.OnEnable();
-            TakeDamage();
+            StartCoroutine(TakeDamage());
         }
 
-        void TakeDamage()
+        new protected void OnDisable()
         {
+            base.OnDisable();
+            _line.enabled = false;
+        }
+
+        IEnumerator TakeDamage()
+        {
+            yield return null;
+
             _line = _line ?? GetComponent<LineRenderer>();
             _playerLayerMask = LayerMask.GetMask("Player");
 
@@ -40,7 +49,7 @@ namespace CKT
                         iDamagable.TakeDamage(Damage);
 
                         GameObject hitSkillObject = YSJ.Managers.Pool.InstPrefab("HitSkillObject");
-                        hitSkillObject.transform.position = hits[i].transform.position;
+                        hitSkillObject.transform.position = hits[i].point;
                         hitSkillObject.transform.up = this.transform.up;
                         hitSkillObject.transform.localScale = transform.localScale;
                         hitSkillObject.GetComponent<HitSkillObject>().HitSkill(SkillManager);
@@ -52,6 +61,7 @@ namespace CKT
 
             _line.SetPosition(0, lineStart);
             _line.SetPosition(1, lineEnd);
+            _line.enabled = true;
         }
     }
 }
