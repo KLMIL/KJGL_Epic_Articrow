@@ -13,6 +13,7 @@ public class EnemyFSMCore
     // 몬스터 피격 처리
     public bool isDamaged = false;
     public float pendingDamage = 0;
+    public bool isDied = false;
 
     // 공격, 투사체 소환 등
     public int projectileFiredCount = 0;
