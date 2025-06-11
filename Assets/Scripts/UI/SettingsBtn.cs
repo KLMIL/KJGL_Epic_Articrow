@@ -19,8 +19,11 @@ public class SettingsBtn : MonoBehaviour
     void OnClicked()
     {
         UI_TitleEventBus.OnToggleMainBtnCanvas?.Invoke(false);
-        UI_TitleEventBus.OnToggleSettingsCanvas?.Invoke();
-        UI_TitleEventBus.OnActivePanelCanvas?.Invoke(0);
-        UI_TitleEventBus.OnActivePanelBtnHighlightLine?.Invoke(0);
+        //UI_TitleEventBus.OnToggleSettingsCanvas?.Invoke();
+        //UI_TitleEventBus.OnActivePanelCanvas?.Invoke(0);
+        //UI_TitleEventBus.OnActivePanelBtnHighlightLine?.Invoke(0);
+        UI_CommonEventBus.OnToggleSettingsCanvas?.Invoke();
+        UI_CommonEventBus.OnActivePanelCanvas?.Invoke(0);
+        UI_CommonEventBus.OnActivePanelBtnHighlightLine?.Invoke(0);
     }
 }

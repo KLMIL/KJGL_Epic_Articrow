@@ -10,6 +10,7 @@ namespace BMC
             _roomData = new RoomData
             {
                 RoomType = RoomType.StartRoom,
+                RoomState = RoomState.Active,
                 Row = row,
                 Col = col,
                 IsVisited = true,
@@ -19,6 +20,11 @@ namespace BMC
             gameObject.name = gameObject.name + $"({RoomData.Row}, {RoomData.Col})";
             DisposeInvalidDoor();
             OpenAllValidDoor();
+        }
+
+        void Start()
+        {
+            UI_InGameEventBus.OnActiveMinimapRoom?.Invoke(RoomData.Row * MapManager.Instance.MaxCol + RoomData.Col);
         }
     }
 }

@@ -34,6 +34,7 @@ public class Define
         HitGrab,
         Put,
         Pickup,
+        sfx_slime_die // 250611 KWS - test for enemy sound
     }
     #endregion
 

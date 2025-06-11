@@ -15,6 +15,14 @@ namespace BMC
         HealRoom,       // 회복
     }
 
+    // 방 상태
+    public enum RoomState
+    {
+        Undiscover,   // 미발견
+        Deactivate,   // 비활성화
+        Active,       // 활성화 
+    }
+
     // 방
     public class Room : MonoBehaviour
     {
@@ -42,12 +50,13 @@ namespace BMC
 
         void Start()
         {
-            if (_roomData.RoomType != RoomType.StartRoom &&
-                _roomData.RoomType != RoomType.BossRoom)
+            if (_roomData.RoomType != RoomType.StartRoom && _roomData.RoomType != RoomType.BossRoom)
             {
                 _enemySpawner.Init();
                 SpawnEnemy();
             }
+
+            UI_InGameEventBus.OnActiveMinimapRoom?.Invoke(RoomData.Row * MapManager.Instance.MaxCol + RoomData.Col); 
         }
 
         void Update()

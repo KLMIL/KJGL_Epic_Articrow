@@ -6,13 +6,14 @@ public class EnemyFSMCore
     EnemyController _ownerController;
     List<EnemyBehaviourUnit> _behaviours;
 
-    public string CurrentStateName { get; private set; } = "Idle";
+    public string CurrentStateName { get; private set; } = "Spawned";
 
 
     #region Behaviour State Field 
     // 몬스터 피격 처리
     public bool isDamaged = false;
     public float pendingDamage = 0;
+    public bool isDied = false;
 
     // 공격, 투사체 소환 등
     public int projectileFiredCount = 0;

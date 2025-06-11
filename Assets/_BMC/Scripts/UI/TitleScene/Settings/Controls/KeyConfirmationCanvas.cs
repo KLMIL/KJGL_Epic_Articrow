@@ -6,7 +6,8 @@ public class KeyConfirmationCanvas : MonoBehaviour
     void Awake()
     {
         _canvas = GetComponent<Canvas>();
-        UI_TitleEventBus.OnActiveKeyConfirmationCanvas = ToggleCanvas;
+        //UI_TitleEventBus.OnActiveKeyConfirmationCanvas = ToggleCanvas;
+        UI_CommonEventBus.OnActiveKeyConfirmationCanvas = ToggleCanvas;
     }
 
     void ToggleCanvas(bool isActive)
