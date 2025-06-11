@@ -7,20 +7,21 @@ namespace CKT
     {
         protected override int BasePenetration => 0;
         protected override float MoveSpeed => 0f;
-        protected override float Damage => 4f;
+        protected override float Damage => 90f;
         protected override float ExistTime => 0.15f;
 
         LineRenderer _line;
         LayerMask _playerLayerMask;
+        LayerMask _brokenLayerMask;
         float _distance = 6f;
 
-        new protected void OnEnable()
+        protected new void OnEnable()
         {
             base.OnEnable();
             StartCoroutine(TakeDamage());
         }
 
-        new protected void OnDisable()
+        protected new void OnDisable()
         {
             base.OnDisable();
             _line.enabled = false;
@@ -32,13 +33,14 @@ namespace CKT
 
             _line = _line ?? GetComponent<LineRenderer>();
             _playerLayerMask = LayerMask.GetMask("Player");
+            _brokenLayerMask = LayerMask.GetMask("BreakParts");
 
             Vector3 firePoint = this.transform.position + this.transform.up;
             Vector3 lineStart = firePoint;
             Vector3 lineEnd = firePoint + (this.transform.up * _distance);
 
             //Debug.DrawLine(lineStart, lineEnd, Color.green, 0.4f);
-            RaycastHit2D[] hits = Physics2D.CircleCastAll(lineStart, _line.startWidth, this.transform.up, _distance, ~_playerLayerMask);
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(lineStart, _line.startWidth, this.transform.up, _distance, ~(_playerLayerMask | _brokenLayerMask));
             if (hits.Length > 0)
             {
                 for (int i = 0; i < base._curPenetration + 1; i++)
@@ -48,11 +50,7 @@ namespace CKT
                     {
                         iDamagable.TakeDamage(Damage);
 
-                        GameObject hitSkillObject = YSJ.Managers.Pool.InstPrefab("HitSkillObject");
-                        hitSkillObject.transform.position = hits[i].point;
-                        hitSkillObject.transform.up = this.transform.up;
-                        hitSkillObject.transform.localScale = transform.localScale;
-                        hitSkillObject.GetComponent<HitSkillObject>().HitSkill(SkillManager);
+                        CreateHitSkillObject(hits[i].point, this.transform.up, this.transform.localScale);
                     }
                 }
 

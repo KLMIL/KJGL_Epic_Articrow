@@ -23,6 +23,14 @@ namespace CKT
             Init();
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                ThrowAway();
+            }
+        }
+
         protected void Init()
         {
             _animator = GetComponentInChildren<Animator>();

@@ -42,8 +42,10 @@ namespace CKT
                 _curPenetration--;
                 if (_curPenetration < 0)
                 {
-                    CreateHitSkillObject();
-                    //this.gameObject.SetActive(false);
+                    if (SkillManager != null)
+                    {
+                        CreateHitSkillObject(this.transform.position, this.transform.up, this.transform.localScale);
+                    }
                     StartCoroutine(DisableCoroutine(0));
                 }
 
@@ -59,9 +61,13 @@ namespace CKT
             this.gameObject.SetActive(false);
         }
 
-        protected virtual void CreateHitSkillObject()
+        protected void CreateHitSkillObject(Vector3 postion, Vector3 up, Vector3 scale)
         {
-
+            GameObject hitSkillObject = YSJ.Managers.Pool.InstPrefab("HitSkillObject");
+            hitSkillObject.transform.position = postion;
+            hitSkillObject.transform.up = up;
+            hitSkillObject.transform.localScale = scale;
+            hitSkillObject.GetComponent<HitSkillObject>().HitSkill(SkillManager);
         }
     }
 }
