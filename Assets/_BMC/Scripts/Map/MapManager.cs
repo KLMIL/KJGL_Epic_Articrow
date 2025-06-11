@@ -9,6 +9,7 @@ namespace BMC
 
         [Header("전체 맵")]
         [SerializeField] Room[] _fullMap;
+        public Room[] FullMap => _fullMap;
         public int MaxRow { get; private set; } = 6;
         public int MaxCol { get; private set; } = 5;
 
