@@ -56,7 +56,8 @@ namespace BMC
                 SpawnEnemy();
             }
 
-            UI_InGameEventBus.OnActiveMinimapRoom?.Invoke(RoomData.Row * MapManager.Instance.MaxCol + RoomData.Col); 
+            //UI_InGameEventBus.OnDeactivateMinimapRoom?.Invoke(RoomData.Row * MapManager.Instance.MaxCol + RoomData.Col);
+            //UI_InGameEventBus.OnActiveMinimapRoom?.Invoke(RoomData.Row * MapManager.Instance.MaxCol + RoomData.Col); 
         }
 
         void Update()

@@ -98,6 +98,10 @@ namespace BMC
         {
             if(NextRoom != null)
             {
+                // 미니맵에서 현재 방 비활성화 시키고, 다음 방 활성화
+                UI_InGameEventBus.OnDeactivateMinimapRoom?.Invoke(_currentRoom.RoomData.Row * MapManager.Instance.MaxCol + _currentRoom.RoomData.Col);
+                UI_InGameEventBus.OnActiveMinimapRoom?.Invoke(NextRoom.RoomData.Row * MapManager.Instance.MaxCol + NextRoom.RoomData.Col);
+
                 // TODO: 아이작처럼 하려면 벽 테두리에 간격이 있어야 일정한 소환 위치가 나올 것 같음, 이를 아트에 반영하고 코드 수정해야함
                 // 다음 방으로 입장할 때의 입장하는 문 위치에서 일정 거리만큼 떨어져서 이동
                 MapManager.Instance.CurrentRoom = NextRoom;
@@ -161,14 +165,6 @@ namespace BMC
             alphaValue = 0;
             color.a = alphaValue;
             _spriteRenderer.color = color;
-        }
-
-        void Update()
-        {
-            if(Input.GetKeyDown(KeyCode.V))
-            {
-                Open();
-            }
         }
 
         #region OnTrigger
