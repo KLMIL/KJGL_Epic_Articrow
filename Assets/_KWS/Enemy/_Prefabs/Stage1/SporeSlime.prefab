@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 1809723945502985464}
   - component: {fileID: 1880961654122264856}
   - component: {fileID: -621152143648561404}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SporeSlime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,6 +111,14 @@ MonoBehaviour:
   _statusOrigin: {fileID: 11400000, guid: 9a7b0886072f50042bc2f8af2375cad7, type: 2}
   Status: {fileID: 0}
   Behaviours:
+  - stateName: Spawned
+    interruptType: 2
+    condition: {fileID: 11400000, guid: 65d41dc7f9e2bdb4d806ae2ee43c5f6a, type: 2}
+    action: {fileID: 11400000, guid: 530cb9f28ec81d549a314505b9fb0be8, type: 2}
+    animationName: Idle
+    duration: 1.5
+    nextStateName: Idle
+    elapsedTime: 0
   - stateName: Die
     interruptType: 2
     condition: {fileID: 11400000, guid: 799f27ca7d1e8da4f8ab28cbc475a556, type: 2}

@@ -60,6 +60,12 @@ public class EnemyController : MonoBehaviour
         FSM = new EnemyFSMCore(this, Behaviours);
     }
 
+    private void OnEnable()
+    {
+        //SpawnTime = Time.time;
+        //FSM.ChangeState("Spawned");
+    }
+
     private void Start()
     {
         _animation = GetComponent<EnemyAnimation>();

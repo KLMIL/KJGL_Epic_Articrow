@@ -6,14 +6,28 @@ using UnityEngine;
 public class SettingsPanelCanvases : MonoBehaviour
 {
     Canvas[] _canvasArray;
-    void Start()
+
+    void Awake()
     {
         _canvasArray = gameObject.GetComponentsInDirectChildren<Canvas>();
-        UI_TitleEventBus.OnActivePanelCanvas += ActivePanelCanvas;
+        //UI_TitleEventBus.OnActivePanelCanvas += ActivePanelCanvas;
+        UI_CommonEventBus.OnActivePanelCanvas += ActivePanelCanvas;
+    }
+
+    void Start()
+    {
+        //_canvasArray = gameObject.GetComponentsInDirectChildren<Canvas>();
+        ////UI_TitleEventBus.OnActivePanelCanvas += ActivePanelCanvas;
+        //UI_CommonEventBus.OnActivePanelCanvas += ActivePanelCanvas;
     }
 
     public void ActivePanelCanvas(int idx)
     {
+        if (_canvasArray == null)
+            Debug.Log("설정창에서 캔버스가 널");
+        else
+            Debug.Log(_canvasArray.Length);
+
         foreach (Canvas canvas in _canvasArray)
         {
             canvas.enabled = false;
