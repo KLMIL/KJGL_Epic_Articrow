@@ -10,6 +10,8 @@ namespace BMC
         Animator _anim;
         Animator Anim => _anim;
 
+        CapsuleCollider2D _collider;
+
         BehaviorGraphAgent _behaviorGraphAgent;
         TextMeshPro DamageTextPrefab;
 
@@ -22,6 +24,7 @@ namespace BMC
         void Awake()
         {
             _anim = GetComponent<Animator>();
+            _collider = GetComponent<CapsuleCollider2D>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             Init();
             DamageTextPrefab = Managers.Resource.Load<TextMeshPro>("Text/DamageText");
@@ -67,6 +70,7 @@ namespace BMC
             if (Health <= 0)
             {
                 IsDead = true;
+                _collider.enabled = false;
                 _behaviorGraphAgent.SetVariableValue("IsDead", IsDead);
                 _behaviorGraphAgent.SetVariableValue("CurrentState", BossState.Die);
             }
