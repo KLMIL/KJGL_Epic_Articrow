@@ -9,9 +9,15 @@ public class UI_InGameEventBus : MonoBehaviour
     public static Action OnToggleChoiceRoomCanvas;
     public static Action<float> OnHpSliderValueUpdate;
 
+    public static Action<int> OnActiveMinimapRoom;
+    public static Action<int> OnDeactivateMinimapRoom;
+
     public static void Clear()
     {
         OnToggleChoiceRoomCanvas = null;
         OnHpSliderValueUpdate = null;
+
+        OnActiveMinimapRoom = null;
+        OnDeactivateMinimapRoom = null;
     }
 }

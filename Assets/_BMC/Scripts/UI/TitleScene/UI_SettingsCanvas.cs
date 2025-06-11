@@ -14,5 +14,6 @@ public class UI_SettingsCanvas : MonoBehaviour
     void ToggleCanvas()
     {
         _canvas.enabled = !_canvas.enabled;
+        _canvas.sortingOrder = (_canvas.enabled) ? 2 : -1; // 인게임에서 다른 UI 가리는 문제를 해결하기 위한 부분
     }
 }
