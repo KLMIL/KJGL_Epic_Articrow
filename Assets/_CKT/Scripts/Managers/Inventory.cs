@@ -7,9 +7,7 @@ namespace CKT
     [System.Serializable]
     public class Inventory
     {
-        int _maxCount = 8;
-
-        #region [InventoryList]
+        #region [Inventory List]
         List<GameObject> _inventoryList = new List<GameObject>();
         event Action<List<GameObject>> _onUpdateInventoryListEvent;
         public void SubUpdateInventoryList(Action<List<GameObject>> newSub)
@@ -22,15 +20,29 @@ namespace CKT
         }
         #endregion
 
+        #region [Slot Count]
+        Func<int> _getSlotCountInt;
+        public void SingleSubSlotCount(Func<int> newSub)
+        {
+            _getSlotCountInt = null;
+            _getSlotCountInt += newSub;
+        }
+        int InvokeSlotCount()
+        {
+            return _getSlotCountInt.Invoke();
+        }
+        #endregion
+
         public void Init()
         {
             _inventoryList = new List<GameObject>();
             _onUpdateInventoryListEvent = null;
+            _getSlotCountInt = null;
         }
 
         public bool CheckInventorySlotFull()
         {
-            return _inventoryList.Count >= _maxCount;
+            return _inventoryList.Count >= InvokeSlotCount();
         }
 
         /// <summary>
