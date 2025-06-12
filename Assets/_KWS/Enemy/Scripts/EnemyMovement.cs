@@ -4,6 +4,7 @@ public class EnemyMovement : MonoBehaviour
 {
     EnemyController ownerController;
     Rigidbody2D rb;
+    SpriteRenderer _spriteRenderer;
 
     public float moveSpeedMultiply = 1.0f;
     Vector2 _currentDirection = Vector2.zero;
@@ -19,11 +20,14 @@ public class EnemyMovement : MonoBehaviour
     {
         ownerController = GetComponent<EnemyController>();
         rb = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate()
     {
         if (_currentDirection == Vector2.zero) return;
+        // 좌우 이동 방향에 따라 flipX 결정
+
 
         elapsedTime += Time.fixedDeltaTime;
 
@@ -42,6 +46,7 @@ public class EnemyMovement : MonoBehaviour
             if (elapsedTime < duration)
             {
                 Vector2 nextPos = rb.position + _currentDirection * ownerController.Status.moveSpeed * moveSpeedMultiply * Time.fixedDeltaTime;
+                FlipSpirte();
                 rb.MovePosition(nextPos);
             }
             else
@@ -52,6 +57,7 @@ public class EnemyMovement : MonoBehaviour
         else if (moveType == "SimpleChase" || moveType == "SmartChase")
         {
             Vector2 nextPos = rb.position + _currentDirection * ownerController.Status.moveSpeed * moveSpeedMultiply * Time.fixedDeltaTime;
+            FlipSpirte();
             rb.MovePosition(nextPos);
             // (단발 이동 원한다면 Stop();)
         }
@@ -67,6 +73,7 @@ public class EnemyMovement : MonoBehaviour
                     return;
                 }
                 Vector2 nextPos = rb.position + _currentDirection * ownerController.Status.moveSpeed * moveSpeedMultiply * Time.fixedDeltaTime;
+                FlipSpirte();
                 rb.MovePosition(nextPos);
             }
             else
@@ -89,7 +96,18 @@ public class EnemyMovement : MonoBehaviour
             }
 
             Vector2 nextPos = rb.position + rushDir * ownerController.Status.moveSpeed * ownerController.FSM.rushSpeedMultiply * Time.fixedDeltaTime;
+            FlipSpirte();
             rb.MovePosition(nextPos);
+        }
+    }
+
+
+    // 임시로, 이동 전에 방향에 따라 회전시킬 함수
+    private void FlipSpirte()
+    {
+        if (_currentDirection.x != 0)
+        {
+            _spriteRenderer.flipX = _currentDirection.x > 0;
         }
     }
 
