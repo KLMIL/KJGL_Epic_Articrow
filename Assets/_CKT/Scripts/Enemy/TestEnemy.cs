@@ -18,7 +18,7 @@ namespace CKT
 
         public void TakeDamage(float damage)
         {
-            Debug.Log($"{this.name} : TakeDamage");
+            Debug.Log($"{this.name} : TakeDamage, {damage}");
         }
     }
 }
