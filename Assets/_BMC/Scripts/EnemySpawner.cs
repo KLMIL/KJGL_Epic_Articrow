@@ -23,7 +23,7 @@ namespace BMC
         public void Init()
         {
             // 적 프리팹 로드
-            _enemyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Monster");
+            _enemyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Monster/Stage1");
 
             SpawnArea spawnArea = transform.parent.GetComponentInChildren<SpawnArea>();
             _spawnAreaTilemap = spawnArea.GetComponent<Tilemap>();
