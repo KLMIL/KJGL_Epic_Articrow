@@ -78,4 +78,23 @@ public class Define
         Down = 4,
     }
     #endregion
+
+    #region 풀링
+    // 풀링 타입
+    public enum PoolType
+    {
+        None,
+        EnemyPool,
+        ProjectilePool,
+        ItemPool,
+        EffectPool,
+        TextPool,
+    }
+
+    // 풀링할 오브젝트에 부여할 ID
+    public enum PoolID
+    {
+        DamageText, // UI
+    }
+    #endregion
 }

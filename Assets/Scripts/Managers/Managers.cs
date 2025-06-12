@@ -14,12 +14,16 @@ namespace YSJ
         UIManager _ui = new UIManager();
         PoolManager _pool = new PoolManager();
 
+        BMC.PoolManager _testPool = new BMC.PoolManager();
+
         public static SoundManager Sound => Instance._sound;
         public static ResourceManager Resource => Instance._resource;
         public static SceneManagerEx Scene => Instance._scene;
         public static InputManager Input => Instance._input;
         public static UIManager UI => Instance._ui;
         public static PoolManager Pool => Instance._pool;
+
+        public static BMC.PoolManager TestPool => Instance._testPool;
 
         void Start()
         {
@@ -40,8 +44,10 @@ namespace YSJ
                 DontDestroyOnLoad(go);
                 s_instance = go.GetComponent<Managers>();
 
+
                 // 필요한 매니저 초기화
                 Resource.Init();
+                TestPool.Init();
                 Sound.Init();
                 Input.Init();
                 Pool.Init();
@@ -52,6 +58,7 @@ namespace YSJ
         // 게임 종료 시 매니저 정리
         public static void Clear()
         {
+            TestPool.Clear();
             Scene.Clear();
             Sound.Clear();
             Input.Clear();
