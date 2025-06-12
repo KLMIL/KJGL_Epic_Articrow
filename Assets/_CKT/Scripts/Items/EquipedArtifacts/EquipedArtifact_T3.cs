@@ -29,7 +29,6 @@ namespace CKT
         float _chargeAmount;
         float _maxChargeAmount = 0.8f;
 
-        Image _img_Charge;
         LineRenderer _line;
 
         Coroutine _chargeCoroutine;
@@ -62,7 +61,6 @@ namespace CKT
             }
             else
             {
-                Debug.LogWarning("Beam");
                 _attackCoroutine = _attackCoroutine ?? StartCoroutine(AttackCoroutine(list));
             }
         }

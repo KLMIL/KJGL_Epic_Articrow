@@ -15,7 +15,8 @@ public class EnemyTakeDamage : MonoBehaviour, IDamagable
 
     public void TakeDamage(float damage)
     {
-        TextMeshPro _damageTextInstance = Instantiate(_damageTextPrefab, transform.position, Quaternion.identity);
+        TextMeshPro _damageTextInstance = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+        _damageTextInstance.transform.position = transform.position;
         _damageTextInstance.text = damage.ToString();
 
         ownerController.FSM.isDamaged = true;

@@ -43,7 +43,20 @@ namespace CKT
                 StartCoroutine(castSkill(bullet));
             }
 
-            yield return new WaitForSeconds(_attackSpeed);
+            int castScatterCount = 0;
+            if (_skillManager.SkillDupDict.ContainsKey("CastScatter"))
+            {
+                castScatterCount = _skillManager.SkillDupDict["CastScatter"];
+            }
+
+            int castAdditionalCount = 0;
+            if (_skillManager.SkillDupDict.ContainsKey("CastAdditional"))
+            {
+                castAdditionalCount = _skillManager.SkillDupDict["CastAdditional"];
+            }
+
+            float attackCoolTime = _attackSpeed * (1 + (0.8f * (castScatterCount + castAdditionalCount)));
+            yield return new WaitForSeconds(attackCoolTime);
             base._attackCoroutine = null;
         }
     }
