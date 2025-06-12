@@ -8,8 +8,9 @@ namespace CKT
         float _range = 2.2f;
         LayerMask _playerLayerMask;
 
+        float _existTime = 2f;
         float _damage = 1f;
-        float _damageGap = 0.4f;
+        float _damageGap = 0.25f;
 
         private void OnEnable()
         {
@@ -20,7 +21,7 @@ namespace CKT
 
         IEnumerator DisableCoroutine()
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(_existTime);
             gameObject.SetActive(false);
         }
         

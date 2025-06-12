@@ -9,7 +9,7 @@ namespace CKT
     public class SkillManager
     {
         #region [OnHandEvent]
-        event Action<List<GameObject>> _onHandEvent;
+        Action<List<GameObject>> _onHandEvent;
         public void InitHand()
         {
             _onHandEvent = null;
@@ -22,6 +22,23 @@ namespace CKT
         public void InvokeHand()
         {
             _onHandEvent?.Invoke(_list);
+        }
+        #endregion
+
+        #region [OnHandCancleEvent]
+        Action _onHandCancleEvent;
+        public void InitHandCancle()
+        {
+            _onHandCancleEvent = null;
+        }
+        public void SingleSubHandCancle(Action newSub)
+        {
+            _onHandCancleEvent = null;
+            _onHandCancleEvent += newSub;
+        }
+        public void InvokeHandCancle()
+        {
+            _onHandCancleEvent?.Invoke();
         }
         #endregion
 
@@ -47,6 +64,7 @@ namespace CKT
         public void Init()
         {
             _onHandEvent = null;
+            _onHandCancleEvent = null;
 
             _list = new List<GameObject>();
             _onUpdateListEvent = null;

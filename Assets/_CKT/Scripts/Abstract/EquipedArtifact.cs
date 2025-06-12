@@ -14,9 +14,12 @@ namespace CKT
         protected abstract float _attackSpeed { get; }
         protected Coroutine _attackCoroutine = null;
 
-        #region [자식 오브젝트]
+        #region [컴포넌트]
+        protected SpriteRenderer _renderer;
         protected Animator _animator;
         #endregion
+
+        float _increaseCoolTimeAmount = 0.66f;
 
         private void Start()
         {
@@ -33,6 +36,7 @@ namespace CKT
 
         protected void Init()
         {
+            _renderer = GetComponentInChildren<SpriteRenderer>();
             _animator = GetComponentInChildren<Animator>();
 
             if (this.transform.GetComponentInParent<LeftHand_YSJ>() != null)
@@ -42,7 +46,7 @@ namespace CKT
             else if (this.transform.GetComponentInParent<RightHand_YSJ>() != null)
             {
                 _skillManager = GameManager.Instance.RightSkillManager;
-                GetComponentInChildren<SpriteRenderer>().flipY = true;
+                _renderer.flipY = true;
             }
 
             _skillManager.SingleSubHand((list) => Attack(list));
@@ -51,6 +55,35 @@ namespace CKT
         protected abstract void Attack(List<GameObject> list);
 
         protected abstract IEnumerator AttackCoroutine(List<GameObject> list);
+
+        protected float TotalCoolTime(float origin)
+        {
+            float total = origin;
+
+            if (_skillManager == null)
+            {
+                Debug.LogWarning("TotalCoolTime Method _skillManager is null");
+            }
+            else
+            {
+                int castScatterCount = 0;
+                if (_skillManager.SkillDupDict.ContainsKey("CastScatter"))
+                {
+                    castScatterCount = _skillManager.SkillDupDict["CastScatter"];
+                }
+
+                int castAdditionalCount = 0;
+                if (_skillManager.SkillDupDict.ContainsKey("CastAdditional"))
+                {
+                    castAdditionalCount = _skillManager.SkillDupDict["CastAdditional"];
+                }
+
+                total = origin * (1 + (_increaseCoolTimeAmount * (castScatterCount + castAdditionalCount)));
+            }
+
+            Debug.LogWarning(total);
+            return total;
+        }
 
         void ThrowAway()
         {

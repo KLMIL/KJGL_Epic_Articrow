@@ -43,7 +43,7 @@ namespace CKT
                 StartCoroutine(castSkill(bullet));
             }
 
-            yield return new WaitForSeconds(_attackSpeed);
+            yield return new WaitForSeconds(base.TotalCoolTime(_attackSpeed));
             base._attackCoroutine = null;
         }
     }

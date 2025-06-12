@@ -1,41 +1,51 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace YSJ
 {
     public class ShowDescriptionWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public string Description;
-        GameObject _descriptionWindow;
-        Canvas _canvas;
 
-        GameObject _spawnedObj;
+        Image _img_Panel;
+        TextMeshProUGUI _tmp_Description;
 
         private void Awake()
         {
-            _descriptionWindow = Resources.Load<GameObject>("Canvas/DescriptionWindow");
-            _canvas = transform.root.GetComponent<Canvas>();
+            Image[] images = GetComponentsInChildren<Image>();
+            for (int i = 0; i < images.Length; i++)
+            {
+                if (images[i].transform != this.transform)
+                {
+                    _img_Panel = images[i];
+                }
+            }
+
+            TextMeshProUGUI[] tmps = GetComponentsInChildren<TextMeshProUGUI>();
+            for (int i = 0; i < tmps.Length; i++)
+            {
+                if (tmps[i].transform != this.transform)
+                {
+                    _tmp_Description = tmps[i];
+                }
+            }
+
+            _img_Panel.gameObject.SetActive(false);
+            _tmp_Description.text = "";
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (!Input.GetKey(KeyCode.Mouse0) && _spawnedObj == null)
-            {
-                _spawnedObj = Instantiate(_descriptionWindow);
-                _spawnedObj.transform.SetParent(transform.root, true);
-                _spawnedObj.transform.position = transform.position + Vector3.right * 300f;
-                _spawnedObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Description;
-            }
+            _img_Panel.gameObject.SetActive(true);
+            _tmp_Description.text = Description;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (_spawnedObj)
-            {
-                Destroy(_spawnedObj);
-                _spawnedObj = null;
-            }
+            _img_Panel.gameObject.SetActive(false);
+            _tmp_Description.text = "";
         }
     }
 }

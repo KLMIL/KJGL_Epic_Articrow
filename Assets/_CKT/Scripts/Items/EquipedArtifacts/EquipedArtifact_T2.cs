@@ -36,6 +36,8 @@ namespace CKT
             bullet.name = _prefabName;
             //왼손||오른손 SkillManager 설정
             bullet.GetComponent<Projectile>().SkillManager = base._skillManager;
+            //좌우반전
+            bullet.GetComponentInChildren<SpriteRenderer>().flipY = base._renderer.flipY;
 
             //CastSkill
             foreach (Func<GameObject, IEnumerator> castSkill in _skillManager.CastSkillDict.Values)
@@ -43,7 +45,7 @@ namespace CKT
                 StartCoroutine(castSkill(bullet));
             }
 
-            yield return new WaitForSeconds(_attackSpeed);
+            yield return new WaitForSeconds(base.TotalCoolTime(_attackSpeed));
             base._attackCoroutine = null;
         }
     }
