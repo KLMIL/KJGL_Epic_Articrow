@@ -12,6 +12,7 @@ public class SettingsPanelCanvases : MonoBehaviour
         _canvasArray = gameObject.GetComponentsInDirectChildren<Canvas>();
         //UI_TitleEventBus.OnActivePanelCanvas += ActivePanelCanvas;
         UI_CommonEventBus.OnActivePanelCanvas += ActivePanelCanvas;
+        UI_CommonEventBus.OnDeactivatePanelCanvas += DeactivatePanelCanvas;
     }
 
     void Start()
@@ -28,10 +29,15 @@ public class SettingsPanelCanvases : MonoBehaviour
         else
             Debug.Log(_canvasArray.Length);
 
+        DeactivatePanelCanvas();
+        _canvasArray[idx].enabled = true;
+    }
+
+    public void DeactivatePanelCanvas()
+    {
         foreach (Canvas canvas in _canvasArray)
         {
             canvas.enabled = false;
         }
-        _canvasArray[idx].enabled = true;
     }
 }
