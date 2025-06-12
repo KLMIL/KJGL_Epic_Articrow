@@ -19,6 +19,8 @@ namespace CKT
         protected Animator _animator;
         #endregion
 
+        float _increaseCoolTimeAmount = 0.66f;
+
         private void Start()
         {
             Init();
@@ -53,6 +55,35 @@ namespace CKT
         protected abstract void Attack(List<GameObject> list);
 
         protected abstract IEnumerator AttackCoroutine(List<GameObject> list);
+
+        protected float TotalCoolTime(float origin)
+        {
+            float total = origin;
+
+            if (_skillManager == null)
+            {
+                Debug.LogWarning("TotalCoolTime Method _skillManager is null");
+            }
+            else
+            {
+                int castScatterCount = 0;
+                if (_skillManager.SkillDupDict.ContainsKey("CastScatter"))
+                {
+                    castScatterCount = _skillManager.SkillDupDict["CastScatter"];
+                }
+
+                int castAdditionalCount = 0;
+                if (_skillManager.SkillDupDict.ContainsKey("CastAdditional"))
+                {
+                    castAdditionalCount = _skillManager.SkillDupDict["CastAdditional"];
+                }
+
+                total = origin * (1 + (_increaseCoolTimeAmount * (castScatterCount + castAdditionalCount)));
+            }
+
+            Debug.LogWarning(total);
+            return total;
+        }
 
         void ThrowAway()
         {
