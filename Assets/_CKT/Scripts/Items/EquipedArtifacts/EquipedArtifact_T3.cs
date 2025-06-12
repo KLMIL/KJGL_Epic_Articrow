@@ -27,7 +27,7 @@ namespace CKT
             }
         }
         float _chargeAmount;
-        float _maxChargeAmount = 0.8f;
+        float _maxChargeAmount = 0.5f;
 
         LineRenderer _line;
 
