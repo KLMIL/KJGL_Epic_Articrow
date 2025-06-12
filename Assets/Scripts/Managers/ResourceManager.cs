@@ -4,15 +4,8 @@ using YSJ;
 
 public class ResourceManager
 {
-    #region 캐싱
-    public TextMeshPro DamageText { get; private set; } // 데미지 텍스트
-
-    #endregion
-
     public void Init()
     {
-        // 데미지 텍스트
-        DamageText = Managers.Resource.Load<TextMeshPro>("Text/DamageText");
     }
 
     // Resources 폴더 내에 있는 리소스 반환

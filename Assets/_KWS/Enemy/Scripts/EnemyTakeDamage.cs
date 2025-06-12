@@ -4,20 +4,18 @@ using YSJ;
 
 public class EnemyTakeDamage : MonoBehaviour, IDamagable
 {
-    TextMeshPro _damageTextPrefab;
     EnemyController ownerController;
 
     private void Start()
     {
-        _damageTextPrefab = Managers.Resource.DamageText;
         ownerController = GetComponentInParent<EnemyController>();
     }
 
     public void TakeDamage(float damage)
     {
-        TextMeshPro _damageTextInstance = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-        _damageTextInstance.transform.position = transform.position;
-        _damageTextInstance.text = damage.ToString();
+        TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+        damageText.text = damage.ToString();
+        damageText.transform.position = transform.position;
 
         ownerController.FSM.isDamaged = true;
         ownerController.FSM.pendingDamage += damage;

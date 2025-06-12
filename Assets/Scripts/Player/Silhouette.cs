@@ -46,6 +46,8 @@ public class Silhouette : MonoBehaviour
 
                 // SpriteRenderer 컴포넌트 추가
                 SpriteRenderer spriteRenderer = spriteCopy.AddComponent<SpriteRenderer>();
+                spriteRenderer.sortingLayerName = _spriteRenderer.sortingLayerName; // 주인의 스프라이트 렌더러와 동일한 정렬 레이어 사용
+                spriteRenderer.sortingOrder = _spriteRenderer.sortingOrder - 1;
                 _silhouetteList.Insert(i, spriteRenderer);
             }
         }
