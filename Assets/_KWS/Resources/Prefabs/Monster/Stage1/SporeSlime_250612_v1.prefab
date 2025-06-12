@@ -143,9 +143,17 @@ MonoBehaviour:
     duration: 0.6
     nextStateName: Idle
     elapsedTime: 0
+  - stateName: ProjectileCheck
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 80cfa604699ef2446b8d3b4e5032b48e, type: 2}
+    action: {fileID: 11400000, guid: e84fa950643dff746823a29db0042756, type: 2}
+    animationName: Idle
+    duration: 0.2
+    nextStateName: ProjectileReady
+    elapsedTime: 0
   - stateName: ProjectileReady
     interruptType: 1
-    condition: {fileID: 11400000, guid: 9fe8b9597dc597b48a54e07f52a375b4, type: 2}
+    condition: {fileID: 11400000, guid: fd94da2c4c5506d44975ab83d883b6dc, type: 2}
     action: {fileID: 11400000, guid: 4491d352bf8b05742b887789c75117e2, type: 2}
     animationName: Charge
     duration: 0.7
