@@ -52,5 +52,13 @@ namespace YSJ
         {
             Destroy(gameObject);
         }
+
+        public void IncreaseHealth(float amount) 
+        {
+            Health += amount;
+            Health = Mathf.Clamp(Health, 0, MaxHealth);
+
+            UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(Health);
+        }
     }
 }
