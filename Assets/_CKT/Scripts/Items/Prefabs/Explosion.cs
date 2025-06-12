@@ -14,7 +14,8 @@ namespace CKT
 
         private void OnEnable()
         {
-            StartCoroutine(CreateTrace());
+            //TOOD : 검댕 최적화하고 다시 호출하기
+            //StartCoroutine(CreateTrace());
             
             _playerLayerMask = LayerMask.GetMask("Player");
             StartCoroutine(TakeDamageCoroutine());

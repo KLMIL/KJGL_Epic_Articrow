@@ -35,6 +35,7 @@ namespace CKT
         Vector3 _firePoint;
         Vector3 _lineStart;
         Vector3 _lineEnd;
+        LayerMask _ignoreLayerMask;
         LayerMask _playerLayerMask;
         LayerMask _brokenLayerMask;
         float _distance = 4f;
@@ -43,6 +44,7 @@ namespace CKT
         private void Awake()
         {
             _line = _line ?? GetComponent<LineRenderer>();
+            _ignoreLayerMask = LayerMask.GetMask("Ignore Raycast");
             _playerLayerMask = LayerMask.GetMask("Player");
             _brokenLayerMask = LayerMask.GetMask("BreakParts");
         }
@@ -74,7 +76,7 @@ namespace CKT
             _lineEnd = _firePoint + (this.transform.up * _distance);
 
             float distance = _distance - (_line.startWidth * 0.5f);
-            RaycastHit2D hit = Physics2D.CircleCast(_lineStart, _line.startWidth, this.transform.up, distance, ~(_playerLayerMask | _brokenLayerMask));
+            RaycastHit2D hit = Physics2D.CircleCast(_lineStart, _line.startWidth, this.transform.up, distance, ~(_ignoreLayerMask | _playerLayerMask | _brokenLayerMask));
             if (hit)
             {
                 _lineEnd = hit.point;
