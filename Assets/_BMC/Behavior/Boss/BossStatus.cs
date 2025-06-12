@@ -66,8 +66,8 @@ namespace BMC
             TextMeshPro spawnedObj = Instantiate(DamageTextPrefab, transform.position, Quaternion.identity);
             spawnedObj.text = damage.ToString();
 
-            // TODO: 보스 체력 슬라이더
-            //UI_InGameEventBus.OnHpSliderValueUpdate?.Invoke(Health);
+            // 보스 체력 UI
+            UI_InGameEventBus.OnBossHpSliderValueUpdate?.Invoke(Health);
             if (Health <= 0)
             {
                 IsDead = true;
