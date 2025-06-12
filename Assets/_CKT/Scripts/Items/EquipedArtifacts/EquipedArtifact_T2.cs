@@ -9,7 +9,7 @@ namespace CKT
     {
         protected override GameObject _fieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T2");
         protected override string _prefabName => "Bullet_T2";
-        protected override float _attackSpeed => 0.8f;
+        protected override float _attackSpeed => 0.5f;
 
         protected override void Attack(List<GameObject> list)
         {

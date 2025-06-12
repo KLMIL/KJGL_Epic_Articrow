@@ -8,10 +8,11 @@ namespace CKT
     {
         protected override int BasePenetration => 0;
         protected override float MoveSpeed => 0f;
-        protected override float Damage => 70f;
+        protected override float Damage => 40f;
         protected override float ExistTime => 0.15f;
 
         LineRenderer _line;
+        LayerMask _ignoreLayerMask;
         LayerMask _playerLayerMask;
         LayerMask _brokenLayerMask;
         float _distance;
@@ -24,6 +25,7 @@ namespace CKT
             _line.startWidth = 0.2f;
             _distance = 4;
 
+            _ignoreLayerMask = LayerMask.GetMask("Ignore Raycast");
             _playerLayerMask = LayerMask.GetMask("Player");
             _brokenLayerMask = LayerMask.GetMask("BreakParts");
 
@@ -46,7 +48,7 @@ namespace CKT
 
             //Debug.DrawLine(lineStart, lineEnd, Color.green, 0.4f);
             float distance = _distance - (_line.startWidth * 0.5f);
-            RaycastHit2D[] hits = Physics2D.CircleCastAll(lineStart, _line.startWidth, this.transform.up, distance, ~(_playerLayerMask | _brokenLayerMask));
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(lineStart, _line.startWidth, this.transform.up, distance, ~(_ignoreLayerMask | _playerLayerMask | _brokenLayerMask));
             if (hits.Length > 0)
             {
                 for (int i = 0; i < base._curPenetration + 1; i++)

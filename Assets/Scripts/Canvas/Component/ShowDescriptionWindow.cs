@@ -12,40 +12,46 @@ namespace YSJ
         Image _img_Panel;
         TextMeshProUGUI _tmp_Description;
 
-        private void Awake()
+        private void Start()
         {
-            Image[] images = GetComponentsInChildren<Image>();
-            for (int i = 0; i < images.Length; i++)
-            {
-                if (images[i].transform != this.transform)
-                {
-                    _img_Panel = images[i];
-                }
-            }
+            GameObject description = Instantiate(Resources.Load<GameObject>("Prefabs/Description"));
+            description.transform.SetParent(this.transform);
 
-            TextMeshProUGUI[] tmps = GetComponentsInChildren<TextMeshProUGUI>();
-            for (int i = 0; i < tmps.Length; i++)
-            {
-                if (tmps[i].transform != this.transform)
-                {
-                    _tmp_Description = tmps[i];
-                }
-            }
+            RectTransform rect = description.GetComponent<RectTransform>();
+            rect.position = this.transform.GetComponent<RectTransform>().position;
 
-            _img_Panel.gameObject.SetActive(false);
-            _tmp_Description.text = "";
+            _img_Panel = description.GetComponentInChildren<Image>();
+            _tmp_Description = description.GetComponentInChildren<TextMeshProUGUI>();
+
+            SetDescription(false, "");
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _img_Panel.gameObject.SetActive(true);
-            _tmp_Description.text = Description;
+            SetDescription(true, Description);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            _img_Panel.gameObject.SetActive(false);
-            _tmp_Description.text = "";
+            SetDescription(false, "");
+        }
+
+        void SetDescription(bool value, string description)
+        {
+            if (_img_Panel == null)
+            {
+                Debug.LogError("Description Panel is null");
+                return;
+            }
+
+            if (value && (Description == null))
+            {
+                Debug.LogError("Description string is null");
+                return;
+            }
+            
+            _img_Panel.gameObject.SetActive(value);
+            _tmp_Description.text = description;
         }
     }
 }
