@@ -9,8 +9,8 @@ namespace CKT
         LayerMask _playerLayerMask;
 
         float _existTime = 2f;
-        float _damage = 1f;
-        float _damageGap = 0.25f;
+        float _damage = 2f;
+        float _damageGap = 0.5f;
 
         private void OnEnable()
         {
