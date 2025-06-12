@@ -7,7 +7,6 @@ namespace YSJ
     public class PlayerStatus : MonoBehaviour, IDamagable
     {
         public Action A_Dead;
-        TextMeshPro _damageTextPrefab;
 
         [Header("업그레이드 가능한 스테이터스")]
         public float MaxHealth { get; set; } = 200;
@@ -21,7 +20,6 @@ namespace YSJ
         void Awake()
         {
             Init();
-            _damageTextPrefab = Managers.Resource.DamageText;
             A_Dead += Death;
         }
 
@@ -36,7 +34,10 @@ namespace YSJ
 
             Debug.Log("Player Hit");
             Health -= damage;
-            TextMeshPro damageText = Instantiate(_damageTextPrefab, transform.position, Quaternion.identity);
+
+            TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            damageText.transform.position = transform.position;
+            //TextMeshPro damageText = Instantiate(_damageTextPrefab, transform.position, Quaternion.identity);
             //spawnedObj.transform.SetParent(transform,false);
             damageText.text = damage.ToString();
             UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(Health);

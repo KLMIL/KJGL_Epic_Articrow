@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using YSJ;
 
 public class TA_MoveUpRandom : MonoBehaviour
 {
@@ -11,11 +12,19 @@ public class TA_MoveUpRandom : MonoBehaviour
     TextMeshPro tmp;
     float elapsedTime;
 
+    void Awake()
+    {
+        tmp = GetComponent<TextMeshPro>();
+    }
+
     private void OnEnable()
     {
-        targetDirection = Vector2.up; //new Vector2(Random.Range(-1f, 1f), Random.Range(0f, 1f));
-        tmp = GetComponent<TextMeshPro>();
+        transform.position = Vector3.zero;
+        elapsedTime = 0f;
+        targetDirection = Vector2.up;
         color = tmp.color;
+        color.a = 1f;
+        tmp.color = color;
     }
     void FixedUpdate()
     {
@@ -25,7 +34,8 @@ public class TA_MoveUpRandom : MonoBehaviour
         elapsedTime += Time.fixedDeltaTime;
         if (elapsedTime > moveTime)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            Managers.TestPool.Return(Define.PoolID.DamageText, gameObject);
         }
 
         color.a = Mathf.Lerp(1, 0, elapsedTime / moveTime);

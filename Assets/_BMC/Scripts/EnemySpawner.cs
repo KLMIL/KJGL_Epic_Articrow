@@ -4,21 +4,19 @@ using UnityEngine.Tilemaps;
 
 namespace BMC
 {
-
     /// <summary>
     /// 적 소환하는 클래스, Room에서 명령을 내려야 함
     /// </summary>
     public class EnemySpawner : MonoBehaviour
     {
-        [Header("소환 위치 관련")]
-        Tilemap _spawnAreaTilemap;
-        Vector3 _offset = new Vector3(0.5f, 0.5f, 0);                   // 적 배치는 타일 모서리 위치이므로 타일 중앙에 배치할 수 있도록하는 offset
-        List<Vector3> _possibleSpawnPositionList = new List<Vector3>(); // 소환 가능한 위치 리스트
-
-        [Header("소환 관련")]
         GameObject[] _enemyPrefabs;
         List<GameObject> _spawnedEnemyList = new List<GameObject>();    // 소환된 적 리스트
         int _spawnCount = 10;
+
+        [Header("위치 관련")]
+        Tilemap _spawnAreaTilemap;
+        Vector3 _offset = new Vector3(0.5f, 0.5f, 0);                   // 적 배치는 타일 모서리 위치이므로 타일 중앙에 배치할 수 있도록하는 offset
+        List<Vector3> _possibleSpawnPositionList = new List<Vector3>(); // 소환 가능한 위치 리스트
 
         public void Init()
         {
