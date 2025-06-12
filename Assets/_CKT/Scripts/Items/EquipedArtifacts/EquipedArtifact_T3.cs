@@ -21,8 +21,9 @@ namespace CKT
             set
             {
                 _chargeAmount = value;
-                _img_Charge = _img_Charge ?? GetComponentInChildren<Image>();
-                _img_Charge.fillAmount = _chargeAmount / _maxChargeAmount;
+                //_img_Charge = _img_Charge ?? GetComponentInChildren<Image>();
+                //_img_Charge.fillAmount = _chargeAmount / _maxChargeAmount;
+                _line.startWidth = _maxWidth * (_chargeAmount / _maxChargeAmount);
             }
         }
         float _chargeAmount;
@@ -38,6 +39,7 @@ namespace CKT
         LayerMask _playerLayerMask;
         LayerMask _brokenLayerMask;
         float _distance = 4f;
+        float _maxWidth = 0.2f;
 
         private void Awake()
         {
@@ -53,7 +55,10 @@ namespace CKT
 
             if (ChargeAmount <= _maxChargeAmount)
             {
-                Charge();
+                if (_attackCoroutine == null)
+                {
+                    Charge();
+                }
             }
             else
             {
