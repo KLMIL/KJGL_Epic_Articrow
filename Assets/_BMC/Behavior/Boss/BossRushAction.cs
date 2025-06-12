@@ -15,7 +15,7 @@ public partial class BossRushAction : Action
     [SerializeReference] public BlackboardVariable<bool> IsCollisionWithObstacle;
 
     BossFSM _fsm;
-    float _rushForce = 15f;
+    float _rushForce = 12000f;
 
     protected override Status OnStart()
     {
@@ -45,12 +45,12 @@ public partial class BossRushAction : Action
             IsCollisionWithObstacle.Value = false;
             //float force = _rb.linearVelocity.magnitude;
             //_rb.linearVelocity = RushDirection.Value * force;
-            _fsm.RB.AddForce(RushDirection.Value * _rushForce, ForceMode2D.Force);
+            _fsm.RB.AddForce(RushDirection.Value * _rushForce * Time.deltaTime, ForceMode2D.Force);
         }
         else
         {
             // 해당 방향으로 직진
-            _fsm.RB.AddForce(RushDirection.Value * _rushForce, ForceMode2D.Force);
+            _fsm.RB.AddForce(RushDirection.Value * _rushForce * Time.deltaTime, ForceMode2D.Force);
         }
 
         return Status.Running;
