@@ -50,7 +50,7 @@ namespace YSJ
                 return;
             }
             
-            _img_Panel.gameObject.SetActive(value);
+            _img_Panel.enabled = value;
             _tmp_Description.text = description;
         }
     }
