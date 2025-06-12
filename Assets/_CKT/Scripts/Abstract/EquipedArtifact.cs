@@ -19,7 +19,7 @@ namespace CKT
         protected Animator _animator;
         #endregion
 
-        float _increaseCoolTimeAmount = 0.66f;
+        float _increaseCoolTimeAmount = 0.5f;
 
         private void Start()
         {
