@@ -11,7 +11,7 @@ namespace BMC
     {
         GameObject[] _enemyPrefabs;
         List<GameObject> _spawnedEnemyList = new List<GameObject>();    // 소환된 적 리스트
-        int _spawnCount = 10;
+        int _spawnCount = 7;
 
         [Header("위치 관련")]
         Tilemap _spawnAreaTilemap;
