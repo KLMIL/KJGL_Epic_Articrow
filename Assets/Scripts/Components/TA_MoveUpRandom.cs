@@ -13,7 +13,7 @@ public class TA_MoveUpRandom : MonoBehaviour
 
     private void OnEnable()
     {
-        targetDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(0f, 1f));
+        targetDirection = Vector2.up; //new Vector2(Random.Range(-1f, 1f), Random.Range(0f, 1f));
         tmp = GetComponent<TextMeshPro>();
         color = tmp.color;
     }
