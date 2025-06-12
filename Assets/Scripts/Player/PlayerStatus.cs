@@ -7,7 +7,7 @@ namespace YSJ
     public class PlayerStatus : MonoBehaviour, IDamagable
     {
         public Action A_Dead;
-        GameObject DamageTextPrefab;
+        TextMeshPro _damageTextPrefab;
 
         [Header("업그레이드 가능한 스테이터스")]
         public float MaxHealth { get; set; } = 200;
@@ -15,21 +15,14 @@ namespace YSJ
         public float LeftHandCollTime { get; set; } = 1f;
         public float RightHandCollTime { get; set; } = 1f;
 
-        [Header("일바 스테이터스")]
+        [Header("일반 스테이터스")]
         public float Health { get; set; }
-        public float Mana { get; set; }
 
         void Awake()
         {
             Init();
-            DamageTextPrefab = Managers.Resource.Load<GameObject>("Text/DamageText");
+            _damageTextPrefab = Managers.Resource.DamageText;
             A_Dead += Death;
-        }
-
-        void Update()
-        {
-            //if (Input.GetKeyDown(KeyCode.G))
-            //    TakeDamage(10f);
         }
 
         public void Init()
@@ -43,9 +36,9 @@ namespace YSJ
 
             Debug.Log("Player Hit");
             Health -= damage;
-            GameObject spawnedObj = Instantiate(DamageTextPrefab, transform.position, Quaternion.identity);
+            TextMeshPro damageText = Instantiate(_damageTextPrefab, transform.position, Quaternion.identity);
             //spawnedObj.transform.SetParent(transform,false);
-            spawnedObj.GetComponent<TextMeshPro>().text = damage.ToString();
+            damageText.text = damage.ToString();
             UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(Health);
 
             if (Health <= 0)

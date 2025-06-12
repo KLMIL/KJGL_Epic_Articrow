@@ -7,7 +7,7 @@ namespace BMC
 {
     public class RoomBtn : MonoBehaviour
     {
-        [SerializeField] RoomType _roomType; // 방 타입
+        [SerializeField] Define.RoomType _roomType; // 방 타입
         Button _btn;
         TextMeshProUGUI _text;
 
@@ -30,14 +30,12 @@ namespace BMC
 
             if (currentRoom.RoomData.IsCleared && nextRoom == null)
             {
-                // TODO: Vertical Slice 후, 주석 복구하기
-                //Room newRoom = MapManager.Instance.CreateRoomAtPoint(_roomType, nextRoomIndex.Item1, nextRoomIndex.Item2);
                 Room newRoom = MapManager.Instance.CreateRoomRandomInTypeAtPoint(_roomType, nextRoomIndex.Item1, nextRoomIndex.Item2);
                 nextRoom = newRoom;
                 currentSeletedDoor.NextRoom = nextRoom; // 선택된 문에 다음 방 설정
             }
 
-            Transform playerTransform = FindAnyObjectByType<DummyPlayerController>().transform;
+            Transform playerTransform = GameManager.Instance.PlayerController.transform;
             currentSeletedDoor.TransferToNextRoom(playerTransform);
             MapManager.Instance.CurrentDoor = null;
             UI_InGameEventBus.OnToggleChoiceRoomCanvas?.Invoke(); // 창 닫기

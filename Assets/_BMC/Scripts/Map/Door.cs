@@ -1,18 +1,10 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using static Define;
 
 namespace BMC
 {
-    public enum DoorPosition
-    {
-        None = 0,
-        Up = 1,
-        Left = 2,
-        Right = 3,
-        Down = 4,
-    }
-
     public class Door : MonoBehaviour
     {
         [Header("기본 컴포넌트")]

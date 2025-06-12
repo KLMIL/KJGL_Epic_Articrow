@@ -27,7 +27,8 @@ namespace BMC
             _collider = GetComponent<CapsuleCollider2D>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             Init();
-            DamageTextPrefab = Managers.Resource.Load<TextMeshPro>("Text/DamageText");
+
+            DamageTextPrefab = Managers.Resource.DamageText;
         }
 
         public void Init()

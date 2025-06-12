@@ -18,6 +18,20 @@ public static class Util
     }
     #endregion
 
+    #region Math
+    public static Vector2 RotateVector(Vector2 vector, float angleDegrees)
+    {
+        float angleRad = angleDegrees * Mathf.Deg2Rad; // 도를 라디안으로 변환
+        float cos = Mathf.Cos(angleRad);
+        float sin = Mathf.Sin(angleRad);
+
+        // 2D 벡터 회전 공식 적용
+        float newX = vector.x * cos - vector.y * sin;
+        float newY = vector.x * sin + vector.y * cos;
+
+        return new Vector2(newX, newY);
+    }
+
     /// <summary>
     /// 각도를 기준으로 원의 둘레를 구하는 메서드
     /// </summary>
@@ -46,52 +60,6 @@ public static class Util
     public static float DegreeToRadian(float angle)
     {
         return MathF.PI * angle / 180;
-    }
-
-    #region Extension 메서드
-    #region 직계 자식에서 컴포넌트 찾기
-    // 직계 자식들 중에서 컴포넌트 찾는 메서드
-    public static T GetComponentInDirectChildren<T>(this UnityEngine.GameObject go) where T : UnityEngine.Component
-    {
-        foreach (UnityEngine.Transform child in go.transform)
-        {
-            if (child.TryGetComponent<T>(out T component))
-            {
-                return component;
-            }
-        }
-        return null;
-    }
-
-    // 직계 자식들 중에서 컴포넌트들을 찾는 메서드
-    public static T[] GetComponentsInDirectChildren<T>(this UnityEngine.GameObject go) where T : UnityEngine.Component
-    {
-        List<T> componentList = new List<T>();
-        foreach (UnityEngine.Transform child in go.transform)
-        {
-            if (child.TryGetComponent<T>(out T component))
-            {
-                componentList.Add(component);
-            }
-        }
-        return (componentList.Count != 0) ? componentList.ToArray() : null;
-    }
-    #endregion
-
-    #endregion
-
-    #region Math
-    public static Vector2 RotateVector(Vector2 vector, float angleDegrees)
-    {
-        float angleRad = angleDegrees * Mathf.Deg2Rad; // 도를 라디안으로 변환
-        float cos = Mathf.Cos(angleRad);
-        float sin = Mathf.Sin(angleRad);
-
-        // 2D 벡터 회전 공식 적용
-        float newX = vector.x * cos - vector.y * sin;
-        float newY = vector.x * sin + vector.y * cos;
-
-        return new Vector2(newX, newY);
     }
     #endregion
 }
