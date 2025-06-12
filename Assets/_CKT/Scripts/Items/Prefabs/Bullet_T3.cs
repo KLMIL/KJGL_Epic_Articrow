@@ -8,7 +8,7 @@ namespace CKT
     {
         protected override int BasePenetration => 0;
         protected override float MoveSpeed => 0f;
-        protected override float Damage => 90f;
+        protected override float Damage => 70f;
         protected override float ExistTime => 0.15f;
 
         LineRenderer _line;

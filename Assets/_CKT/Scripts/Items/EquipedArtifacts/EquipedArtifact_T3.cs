@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CKT
 {
@@ -23,7 +22,8 @@ namespace CKT
                 _chargeAmount = value;
                 //_img_Charge = _img_Charge ?? GetComponentInChildren<Image>();
                 //_img_Charge.fillAmount = _chargeAmount / _maxChargeAmount;
-                _line.startWidth = _maxWidth * (_chargeAmount / _maxChargeAmount);
+                float amount = Mathf.Clamp01(_chargeAmount / base.TotalCoolTime(_maxChargeAmount));
+                _line.startWidth = _maxWidth * amount;
             }
         }
         float _chargeAmount;
@@ -52,7 +52,7 @@ namespace CKT
         {
             _skillManager.SingleSubHandCancle(() => AttackCancle());
 
-            if (ChargeAmount <= _maxChargeAmount)
+            if (ChargeAmount <= base.TotalCoolTime(_maxChargeAmount))
             {
                 if (_attackCoroutine == null)
                 {
