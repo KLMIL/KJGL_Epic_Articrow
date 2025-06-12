@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public EnemyStatusSO Status;
 
     [Header("Components")]
+    public SpriteRenderer SpriteRenderer;
     [HideInInspector] public EnemyFSMCore FSM;
     EnemyAnimation _animation;
     EnemyMovement _movement;
@@ -68,6 +69,7 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
+        SpriteRenderer = GetComponent<SpriteRenderer>();
         _animation = GetComponent<EnemyAnimation>();
         _movement = GetComponent<EnemyMovement>();
         _dealDamage = GetComponent<EnemyDealDamage>();

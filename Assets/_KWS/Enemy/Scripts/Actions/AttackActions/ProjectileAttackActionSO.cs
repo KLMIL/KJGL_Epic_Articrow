@@ -70,6 +70,12 @@ public class ProjectileAttackActionSO : EnemyActionSO
         if (controller.Player == null || projectilePrefab == null) return;
         if (controller.FSM.projectileFiredCount >= projectileAmount) return;
 
+        Vector3 playerDelta = controller.Player.position - controller.transform.position;
+        if (playerDelta.x != 0)
+        {
+            controller.SpriteRenderer.flipX = playerDelta.x > 0;
+        }
+
         controller.FSM.fireRoutine = controller.StartCoroutine(FireProjectiles(controller));
 
         //controller.projectileIntervalTimer += Time.deltaTime;
