@@ -13,7 +13,6 @@ namespace BMC
         CapsuleCollider2D _collider;
 
         BehaviorGraphAgent _behaviorGraphAgent;
-        TextMeshPro DamageTextPrefab;
 
         [Header("상태")]
         [field: SerializeField] public bool IsDead { get; set; }
@@ -28,7 +27,6 @@ namespace BMC
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             Init();
 
-            DamageTextPrefab = Managers.Resource.DamageText;
         }
 
         public void Init()
@@ -63,8 +61,9 @@ namespace BMC
 
             Debug.Log($"보스 체력: {Health}");
 
-            TextMeshPro spawnedObj = Instantiate(DamageTextPrefab, transform.position, Quaternion.identity);
-            spawnedObj.text = damage.ToString();
+            TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            damageText.text = damage.ToString();
+            damageText.transform.position = transform.position;
 
             // 보스 체력 UI
             UI_InGameEventBus.OnBossHpSliderValueUpdate?.Invoke(Health);
