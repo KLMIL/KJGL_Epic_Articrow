@@ -20,7 +20,7 @@ public partial class BossSpiralShootAction : Action
     float _shootTimer;
     float _angle;
     float _angleOffset = 10f;
-    float _shootForce = 10f;
+    float _shootForce = 15f;
 
     protected override Status OnStart()
     {

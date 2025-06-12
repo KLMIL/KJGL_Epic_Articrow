@@ -19,6 +19,7 @@ namespace BMC
 
         [Header("일반 스테이터스")]
         [field: SerializeField] public float Health { get; set; }
+        [field: SerializeField] public float Damage { get; set; } = 10f;
 
         void Awake()
         {
@@ -81,7 +82,7 @@ namespace BMC
             if(collision.gameObject.CompareTag("Player"))
             {
                 collision.gameObject.GetComponent<Rigidbody2D>()?.AddForce((collision.transform.position - transform.position).normalized * 10f, ForceMode2D.Impulse);
-                collision.gameObject.GetComponent<IDamagable>()?.TakeDamage(5f);
+                collision.gameObject.GetComponent<IDamagable>()?.TakeDamage(Damage);
             }
         }
     }
