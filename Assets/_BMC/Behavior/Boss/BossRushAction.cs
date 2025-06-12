@@ -19,8 +19,10 @@ public partial class BossRushAction : Action
 
     protected override Status OnStart()
     {
-        if(_fsm == null)
+        if (_fsm == null)
+        {
             _fsm = Self.Value.GetComponent<BossFSM>();
+        }
 
         if (RushDirection.Value == Vector2.zero && Target != null && Self != null)
         {
@@ -37,7 +39,7 @@ public partial class BossRushAction : Action
     {
         //_lastVelocity = _rb.linearVelocity;
 
-        if(IsCollisionWithObstacle.Value)
+        if (IsCollisionWithObstacle.Value)
         {
             Debug.Log("충돌 감지되어 반사해야함");
             IsCollisionWithObstacle.Value = false;

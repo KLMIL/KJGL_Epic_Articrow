@@ -19,7 +19,7 @@ public class TA_MoveUpRandom : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.position = Vector3.zero;
+        //transform.position = Vector3.zero;
         elapsedTime = 0f;
         targetDirection = Vector2.up;
         color = tmp.color;
