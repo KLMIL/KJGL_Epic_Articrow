@@ -17,9 +17,9 @@ namespace BMC
 
         void Start()
         {
-            YSJ.Managers.Input.OnDashAction += Dash;
             _rb = GetComponent<Rigidbody2D>();
             _silhouette = GetComponent<Silhouette>();
+            YSJ.Managers.Input.OnDashAction += Dash;
         }
 
         public void Dash(Vector2 dashDir)
