@@ -8,43 +8,30 @@ namespace CKT
     [System.Serializable]
     public class SkillManager
     {
-        #region [OnHandEvent]
-        Action<List<GameObject>> _onHandEvent;
-        public void InitHand()
+        #region [OnHandActionT1]
+        public ActionT1Handler<List<GameObject>> OnHandActionT1 = new();
+        public void TriggerHand()
         {
-            _onHandEvent = null;
-        }
-        public void SingleSubHand(Action<List<GameObject>> newSub)
-        {
-            _onHandEvent = null;
-            _onHandEvent += newSub;
-        }
-        public void InvokeHand()
-        {
-            _onHandEvent?.Invoke(_list);
+            OnHandActionT1.Trigger(_slotList);
         }
         #endregion
 
-        #region [OnHandCancleEvent]
-        Action _onHandCancleEvent;
-        public void InitHandCancle()
+        #region [OnHandCancelActionT0]
+        public ActionT0Handler OnHandCancelActionT0 = new();
+        public void TriggerHandCancel()
         {
-            _onHandCancleEvent = null;
-        }
-        public void SingleSubHandCancle(Action newSub)
-        {
-            _onHandCancleEvent = null;
-            _onHandCancleEvent += newSub;
-        }
-        public void InvokeHandCancle()
-        {
-            _onHandCancleEvent?.Invoke();
+            OnHandCancelActionT0?.Trigger();
         }
         #endregion
 
-        #region [List]
-        List<GameObject> _list = new List<GameObject>();
-        event Action<List<GameObject>> _onUpdateListEvent;
+        #region [UpdateListActionT1]
+        public ActionT1Handler<List<GameObject>> OnUpdateListActionT1 = new();
+        public void TriggerUpdateList(List<GameObject> list)
+        {
+            OnUpdateListActionT1?.Trigger(list);
+        }
+
+        /*event Action<List<GameObject>> _onUpdateListEvent;
         public void SubUpdateList(Action<List<GameObject>> newSub)
         {
             _onUpdateListEvent += newSub;
@@ -52,7 +39,11 @@ namespace CKT
         void InvokeUpdateList(List<GameObject> list)
         {
             _onUpdateListEvent?.Invoke(list);
-        }
+        }*/
+        #endregion
+        
+        #region [SlotList]
+        List<GameObject> _slotList = new List<GameObject>();
         #endregion
 
         #region [SkillDict]
@@ -63,26 +54,25 @@ namespace CKT
 
         public void Init()
         {
-            _onHandEvent = null;
-            _onHandCancleEvent = null;
-
-            _list = new List<GameObject>();
-            _onUpdateListEvent = null;
+            OnHandActionT1.Init();
+            OnHandCancelActionT0.Init();
+            OnUpdateListActionT1.Init();
         }
-        
+
+        #region [CheckSkill]
         public void CheckSkill()
         {
             //슬롯 확인
-            InvokeUpdateList(_list);
+            TriggerUpdateList(_slotList);
 
             //스킬 적용
             CastSkillDict.Clear();
             HitSkillDict.Clear();
             SkillDupDict.Clear();
 
-            for (int i = 0; i < _list.Count; i++)
+            for (int i = 0; i < _slotList.Count; i++)
             {
-                ISkillable skill = _list[i].GetComponent<ISkillable>();
+                ISkillable skill = _slotList[i].GetComponent<ISkillable>();
                 if (skill != null)
                 {
                     //알맞은 딕셔너리에 찾기
@@ -116,5 +106,6 @@ namespace CKT
                 }
             }
         }
+        #endregion
     }
 }

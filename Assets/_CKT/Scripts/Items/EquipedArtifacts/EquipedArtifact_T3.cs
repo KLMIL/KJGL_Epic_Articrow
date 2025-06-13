@@ -20,9 +20,7 @@ namespace CKT
             set
             {
                 _chargeAmount = value;
-                //_img_Charge = _img_Charge ?? GetComponentInChildren<Image>();
-                //_img_Charge.fillAmount = _chargeAmount / _maxChargeAmount;
-                float amount = Mathf.Clamp01(_chargeAmount / base.TotalCoolTime(_maxChargeAmount));
+                float amount = Mathf.Clamp01(_chargeAmount / _maxChargeAmount);
                 _line.startWidth = _maxWidth * amount;
             }
         }
@@ -52,9 +50,9 @@ namespace CKT
         #region [Attack]
         protected override void Attack(List<GameObject> list)
         {
-            _skillManager.SingleSubHandCancle(() => AttackCancle());
+            _skillManager.OnHandCancelActionT0.SingleRegister(() => AttackCancle());
 
-            if (ChargeAmount <= base.TotalCoolTime(_maxChargeAmount))
+            if (ChargeAmount <= _maxChargeAmount)
             {
                 if (_attackCoroutine == null)
                 {
@@ -144,10 +142,10 @@ namespace CKT
         }
         #endregion
 
-        #region [Attack Cancle]
+        #region [Attack Cancel]
         void AttackCancle()
         {
-            _skillManager.InitHandCancle();
+            _skillManager.OnHandCancelActionT0.Unregister(() => AttackCancle());
 
             ChargeAmount = 0;
             _line.enabled = false;

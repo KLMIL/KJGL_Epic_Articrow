@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
 
     public CKT.Inventory Inventory { get; private set; } = new CKT.Inventory();
 
-    public CKT.SkillManager LeftSkillManager { get; private set; } = new CKT.SkillManager();
-    public CKT.SkillManager RightSkillManager { get; private set; } = new CKT.SkillManager();
+    public CKT.SkillManager LeftSkillManager { get; private set; } = new();
+    public CKT.SkillManager RightSkillManager { get; private set; } = new();
 
     [Header("일시 정지")]
     [field: SerializeField] bool IsPaused { get; set; } = false;

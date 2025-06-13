@@ -77,22 +77,22 @@ namespace BMC
             {
                 //_leftHandValue = false;
                 //Debug.Log("좌수1");
-                GameManager.Instance.LeftSkillManager.InvokeHand();
+                GameManager.Instance.LeftSkillManager.TriggerHand();
             }
             else
             {
-                GameManager.Instance.LeftSkillManager.InvokeHandCancle();
+                GameManager.Instance.LeftSkillManager.TriggerHandCancel();
             }
 
             if (YSJ.Managers.Input.IsPressRightHandAttack)
             {
                 //_rightHandValue = false;
                 //Debug.Log("우수");
-                GameManager.Instance.RightSkillManager.InvokeHand();
+                GameManager.Instance.RightSkillManager.TriggerHand();
             }
             else
             {
-                GameManager.Instance.RightSkillManager.InvokeHandCancle();
+                GameManager.Instance.RightSkillManager.TriggerHandCancel();
             }
         }
 

@@ -8,7 +8,7 @@ namespace CKT
         {
             base.Init();
 
-            GameManager.Instance.RightSkillManager.SubUpdateList((list) => base.UpdateItemSlotList(list));
+            GameManager.Instance.RightSkillManager.OnUpdateListActionT1.Register((list) => base.UpdateItemSlotList(list));
         }
     }
 }
