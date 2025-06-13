@@ -6,38 +6,34 @@ namespace CKT
     [System.Serializable]
     public abstract class Projectile : MonoBehaviour
     {
+        public SkillManager SkillManager;
+
         protected int _curPenetration;
         protected abstract int BasePenetration { get; }
         protected abstract float MoveSpeed { get; }
         protected abstract float Damage { get; }
         protected abstract float ExistTime { get; }
 
-        public SkillManager SkillManager;
-        Rigidbody2D _rigid;
-        Collider2D _collider;
-
         protected void OnEnable()
         {
             _curPenetration = BasePenetration;
-
-            StartCoroutine(MoveCoroutine());
             StartCoroutine(DisableCoroutine(ExistTime));
         }
 
         protected void OnDisable()
         {
             SkillManager = null;
-            _rigid.linearVelocity = Vector2.zero;
-            _collider = null;
+        }
+
+        private void Update()
+        {
+            transform.position += transform.up * MoveSpeed * Time.deltaTime;
         }
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (!collider.isTrigger || (_collider != null)) return;
+            if (!collider.isTrigger) return;
             
-            _collider = collider;
-            //Debug.LogWarning(collider.name);
-
             IDamagable iDamagable = collider.GetComponent<IDamagable>();
             if (iDamagable != null)
             {
@@ -55,13 +51,6 @@ namespace CKT
 
                 //TODO : 사운드_투사체 적중
             }
-        }
-
-        IEnumerator MoveCoroutine()
-        {
-            yield return null;
-            _rigid = _rigid ?? GetComponent<Rigidbody2D>();
-            _rigid.linearVelocity = (Vector2)this.transform.up * MoveSpeed;
         }
 
         protected IEnumerator DisableCoroutine(float existTime)
