@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+// 해상도 설정 구버전
 public class ResolutionManager : MonoBehaviour
 {
     public TMP_Dropdown resolutionDropdown;
