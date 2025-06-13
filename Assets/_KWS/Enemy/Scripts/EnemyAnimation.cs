@@ -26,6 +26,7 @@ public class EnemyAnimation : MonoBehaviour
 
     public void PlayAnimationOnce(string animName)
     {
+        Debug.Log($"[{Time.time}]: Animation Chagne: {animName}");
         if (CurrentAnimation == animName) return;
         
         Play(animName);

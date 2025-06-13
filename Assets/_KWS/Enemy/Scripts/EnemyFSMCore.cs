@@ -62,11 +62,24 @@ public class EnemyFSMCore
 
     private bool HandleHardInterrupt(EnemyBehaviourUnit current)
     {
+        int currentIdx = _behaviours.FindIndex(b => b.stateName == CurrentStateName);
+
         if (current.interruptType == InterruptType.Hard)
         {
+            for (int i = 0; i < currentIdx; i++)
+            {
+                var candidate = _behaviours[i];
+                if (candidate.interruptType == InterruptType.Hard &&
+                    candidate.condition.IsMet(_ownerController))
+                {
+                    ChangeState(candidate.stateName);
+                    HandleNoneInterrupt(current);
+                    return true;
+                }
+            }
             HandleNoneInterrupt(current);
             return true;
-        }
+        }   
 
         int hardIdx = _behaviours.FindIndex(
                 b => b.interruptType == InterruptType.Hard &&
@@ -75,6 +88,7 @@ public class EnemyFSMCore
         if (hardIdx >= 0)
         {
             ChangeState(_behaviours[hardIdx].stateName);
+            return true;
         }
         return false;
     }
@@ -111,7 +125,7 @@ public class EnemyFSMCore
 
     public void ChangeState(string nextStateName)
     {
-        Debug.Log($"State Change: {nextStateName}");
+        Debug.Log($"[{Time.time}] State Change: {nextStateName}");
 
         if (CurrentStateName == nextStateName) return; // 같은 상태라면 애니메이션 갱신 X
 
