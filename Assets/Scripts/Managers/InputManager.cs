@@ -67,7 +67,7 @@ public class InputManager
         _inputSystemActions.Player.Inventory.performed += OnInventory;
         _inputSystemActions.Player.Inventory.canceled += OnInventory;
 
-        //_inputSystemActions.Player.MousePos.performed += OnMousePos;
+        _inputSystemActions.Player.MousePos.performed += OnMousePos;
         _inputSystemActions.Player.LeftHand.performed += OnLeftHand;
         _inputSystemActions.Player.LeftHand.canceled += OnLeftHand;
         _inputSystemActions.Player.RightHand.performed += OnRightHand;
@@ -122,7 +122,7 @@ public class InputManager
     {
         Vector2 mouseInput = context.ReadValue<Vector2>();
         MouseWorldPos = Camera.main.ScreenToWorldPoint(mouseInput);
-        //Debug.Log(MouseWorldPos);
+        Debug.Log(MouseWorldPos);
     }
 
     void OnDash(InputAction.CallbackContext context)
