@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public CKT.SkillManager RightSkillManager { get; private set; } = new();
 
     [Header("일시 정지")]
-    [field: SerializeField] bool IsPaused { get; set; } = false;
+    [field: SerializeField] public bool IsPaused { get; private set; } = false;
 
     [SerializeField] int _pauseLevel = 0; // 일시 정지 레벨 (0: 게임 진행 중, 1 이상 일시 정지)
 
