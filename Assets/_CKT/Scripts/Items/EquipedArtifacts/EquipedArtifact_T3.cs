@@ -50,8 +50,6 @@ namespace CKT
         #region [Attack]
         protected override void Attack(List<GameObject> list)
         {
-            _skillManager.OnHandCancelActionT0.SingleRegister(() => AttackCancle());
-
             if (ChargeAmount <= _maxChargeAmount)
             {
                 if (_attackCoroutine == null)
@@ -143,10 +141,8 @@ namespace CKT
         #endregion
 
         #region [Attack Cancel]
-        void AttackCancle()
+        protected override void AttackCancel()
         {
-            _skillManager.OnHandCancelActionT0.Unregister(() => AttackCancle());
-
             ChargeAmount = 0;
             _line.enabled = false;
             Debug.Log("Attack Cancle");

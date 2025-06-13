@@ -8,11 +8,11 @@ namespace CKT
     [System.Serializable]
     public class SkillManager
     {
-        #region [OnHandActionT1]
-        public ActionT1Handler<List<GameObject>> OnHandActionT1 = new();
+        #region [OnHandPerformActionT1]
+        public ActionT1Handler<List<GameObject>> OnHandPerformActionT1 = new();
         public void TriggerHand()
         {
-            OnHandActionT1.Trigger(_slotList);
+            OnHandPerformActionT1.Trigger(_slotList);
         }
         #endregion
 
@@ -24,22 +24,20 @@ namespace CKT
         }
         #endregion
 
-        #region [UpdateListActionT1]
-        public ActionT1Handler<List<GameObject>> OnUpdateListActionT1 = new();
+        #region [OnThrowAwayActionT0]
+        public ActionT0Handler OnThrowAwayActionT0 = new();
+        public void TriggerThrowAway()
+        {
+            OnThrowAwayActionT0?.Trigger();
+        }
+        #endregion
+
+        #region [UpdateSlotListActionT1]
+        public ActionT1Handler<List<GameObject>> OnUpdateSlotListActionT1 = new();
         public void TriggerUpdateList(List<GameObject> list)
         {
-            OnUpdateListActionT1?.Trigger(list);
+            OnUpdateSlotListActionT1?.Trigger(list);
         }
-
-        /*event Action<List<GameObject>> _onUpdateListEvent;
-        public void SubUpdateList(Action<List<GameObject>> newSub)
-        {
-            _onUpdateListEvent += newSub;
-        }
-        void InvokeUpdateList(List<GameObject> list)
-        {
-            _onUpdateListEvent?.Invoke(list);
-        }*/
         #endregion
         
         #region [SlotList]
@@ -54,9 +52,11 @@ namespace CKT
 
         public void Init()
         {
-            OnHandActionT1.Init();
+            OnHandPerformActionT1.Init();
             OnHandCancelActionT0.Init();
-            OnUpdateListActionT1.Init();
+            OnThrowAwayActionT0.Init();
+
+            OnUpdateSlotListActionT1.Init();
         }
 
         #region [CheckSkill]

@@ -4,7 +4,7 @@ namespace YSJ
 {
     public class LeftHand : Hand
     {
-        void Awake()
+        /*void Awake()
         {
             checkDirection = GetComponent<CheckPlayerDirection>();
         }
@@ -13,6 +13,6 @@ namespace YSJ
         {
             SpriteSort();
             SpriteRotation();
-        }
+        }*/
     }
 }

@@ -11,6 +11,7 @@ namespace CKT
         protected override string _prefabName => "Bullet_T1";
         protected override float _attackSpeed => 0.5f;
 
+        #region [Attack]
         protected override void Attack(List<GameObject> list)
         {
             _attackCoroutine = _attackCoroutine ?? StartCoroutine(AttackCoroutine(list));
@@ -46,5 +47,13 @@ namespace CKT
             yield return new WaitForSeconds(_attackSpeed);
             base._attackCoroutine = null;
         }
+        #endregion
+
+        #region [Attack Cancel]
+        protected override void AttackCancel()
+        {
+
+        }
+        #endregion
     }
 }

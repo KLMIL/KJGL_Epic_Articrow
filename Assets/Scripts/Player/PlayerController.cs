@@ -159,26 +159,14 @@ namespace BMC
                 }
                 else if (iInteractable.ItemType == ItemType.Artifact)
                 {
-                    //Debug.Log("6");
-                    if (_leftHand.childCount == 0)
+                    //Debug.Log("8");
+                    if (_rightHand.childCount != 0)
                     {
-                        //Debug.Log("7");
-                        iInteractable.Interact(_leftHand);
+                        //Debug.Log("9");
+                        GameManager.Instance.RightSkillManager.OnThrowAwayActionT0.Trigger();
                     }
-                    else
-                    {
-                        //Debug.Log("8");
-                        if (_rightHand.childCount == 0)
-                        {
-                            //Debug.Log("9");
-                            iInteractable.Interact(_rightHand);
-                        }
-                        else
-                        {
-                            //Debug.Log("10");
-                            Debug.Log("아티펙트 교체 UI 띄우기");
-                        }
-                    }
+
+                    iInteractable.Interact(_rightHand);
                 }
             }
         }
@@ -204,3 +192,55 @@ namespace BMC
         #endregion
     }
 }
+
+#if false
+void InteractItem()
+        {
+            Transform target = ScanTarget(_scanRange);
+            IInteractable iInteractable = null;
+
+            //Debug.Log("1");
+            if (target != null)
+            {
+                //Debug.Log("2");
+                iInteractable = target.GetComponent<IInteractable>();
+            }
+
+            if (iInteractable != null)
+            {
+                //Debug.Log("3");
+                if (iInteractable.ItemType == ItemType.Parts)
+                {
+                    //Debug.Log("4");
+                    if (!GameManager.Instance.Inventory.CheckInventorySlotFull())
+                    {
+                        //Debug.Log("5");
+                        iInteractable.Interact(null);
+                    }
+                }
+                else if (iInteractable.ItemType == ItemType.Artifact)
+                {
+                    //Debug.Log("6");
+                    if (_leftHand.childCount == 0)
+                    {
+                        //Debug.Log("7");
+                        iInteractable.Interact(_leftHand);
+                    }
+                    else
+                    {
+                        //Debug.Log("8");
+                        if (_rightHand.childCount == 0)
+                        {
+                            //Debug.Log("9");
+                            iInteractable.Interact(_rightHand);
+                        }
+                        else
+                        {
+                            //Debug.Log("10");
+                            Debug.Log("아티펙트 교체 UI 띄우기");
+                        }
+                    }
+                }
+            }
+        }
+#endif

@@ -5,7 +5,19 @@ namespace YSJ
 {
     public class Hand : MonoBehaviour
     {
-        protected CheckPlayerDirection checkDirection;
+        //protected CheckPlayerDirection checkDirection;
+        Camera _camera;
+
+        private void Awake()
+        {
+            _camera = Camera.main;
+        }
+
+        private void Update()
+        {
+            SpriteSort();
+            SpriteRotation();
+        }
 
         protected void SpriteSort()
         {
@@ -18,11 +30,13 @@ namespace YSJ
 
             if (TryGetComponent<SortingGroup>(out SortingGroup sortingGroup) && parent.TryGetComponent<SpriteRenderer>(out SpriteRenderer parentSprite))
             {
-                if (transform.position.y > parent.position.y)
+                float handY = this.transform.position.y + 0.2f;
+
+                if (handY > parent.position.y)
                 {
                     sortingGroup.sortingOrder = parentSprite.sortingOrder - 1;
                 }
-                else
+                else if (handY < parent.position.y)
                 {
                     sortingGroup.sortingOrder = parentSprite.sortingOrder + 1;
                 }
@@ -35,10 +49,16 @@ namespace YSJ
 
         protected void SpriteRotation()
         {
-            if (checkDirection)
+            /*if (checkDirection)
             {
                 transform.rotation = Quaternion.Euler(0, 0, checkDirection.Angle);
-            }
+            }*/
+            
+            Vector3 mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0;
+            Vector3 mouseDir = (mousePos - this.transform.position).normalized;
+            this.transform.up = mouseDir;
+            this.transform.localRotation = Quaternion.Euler(0, 0, this.transform.localRotation.z);
         }
     }
 }

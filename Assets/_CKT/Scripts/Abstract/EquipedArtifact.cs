@@ -29,36 +29,22 @@ namespace CKT
             Init();
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                ThrowAway();
-            }
-        }
-
         protected void Init()
         {
             _renderer = GetComponentInChildren<SpriteRenderer>();
             _animator = GetComponentInChildren<Animator>();
 
-            /*if (this.transform.GetComponentInParent<YSJ.LeftHand>() != null)
-            {
-                _skillManager = GameManager.Instance.LeftSkillManager;
-            }
-            else if (this.transform.GetComponentInParent<YSJ.RightHand>() != null)
-            {
-                _skillManager = GameManager.Instance.RightSkillManager;
-                _renderer.flipY = true;
-            }*/
-
             _skillManager = GameManager.Instance.RightSkillManager;
-            _skillManager.OnHandActionT1.SingleRegister((list) => Attack(list));
+            _skillManager.OnHandPerformActionT1.SingleRegister((list) => Attack(list));
+            _skillManager.OnHandCancelActionT0.SingleRegister(() => AttackCancel());
+            _skillManager.OnThrowAwayActionT0.SingleRegister(() => ThrowAway());
         }
 
         protected abstract void Attack(List<GameObject> list);
 
         protected abstract IEnumerator AttackCoroutine(List<GameObject> list);
+
+        protected abstract void AttackCancel();
 
         void ThrowAway()
         {
@@ -68,9 +54,23 @@ namespace CKT
             field.transform.localPosition = this.transform.position + Vector3.down;
 
             //빈 손으로 초기화
-            _skillManager.OnHandActionT1.Unregister((list) => Attack(list));
+            _skillManager.OnHandPerformActionT1.Unregister((list) => Attack(list));
+            _skillManager.OnHandCancelActionT0.Unregister(() => AttackCancel());
+            _skillManager.OnThrowAwayActionT0.Unregister(() => ThrowAway());
 
             Destroy(this.gameObject);
         }
     }
 }
+
+#if false
+            if (this.transform.GetComponentInParent<YSJ.LeftHand>() != null)
+            {
+                _skillManager = GameManager.Instance.LeftSkillManager;
+            }
+            else if (this.transform.GetComponentInParent<YSJ.RightHand>() != null)
+            {
+                _skillManager = GameManager.Instance.RightSkillManager;
+                _renderer.flipY = true;
+            }
+#endif
