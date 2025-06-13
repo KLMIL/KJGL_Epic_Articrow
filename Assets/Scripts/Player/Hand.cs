@@ -1,17 +1,12 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace YSJ
 {
     public class Hand : MonoBehaviour
     {
-        //protected CheckPlayerDirection checkDirection;
         Camera _camera;
-
-        private void Awake()
-        {
-            _camera = Camera.main;
-        }
 
         private void Update()
         {
@@ -49,16 +44,13 @@ namespace YSJ
 
         protected void SpriteRotation()
         {
-            /*if (checkDirection)
-            {
-                transform.rotation = Quaternion.Euler(0, 0, checkDirection.Angle);
-            }*/
-            
-            Vector3 mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = 0;
-            Vector3 mouseDir = (mousePos - this.transform.position).normalized;
-            this.transform.up = mouseDir;
-            this.transform.localRotation = Quaternion.Euler(0, 0, this.transform.localRotation.z);
+            _camera = _camera ?? Camera.main;
+
+            Vector2 mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mouseDir = (mousePos - (Vector2)this.transform.position).normalized;
+            float angleZ = Mathf.Atan2(mouseDir.y, mouseDir.x) * Mathf.Rad2Deg;
+
+            this.transform.rotation = Quaternion.Euler(0, 0, angleZ - 90f);
         }
     }
 }
