@@ -23,7 +23,6 @@ namespace CKT
 
             for (int i = 0; i < level; i++)
             {
-                //TODO : 사운드_CastExplosion
                 YSJ.Managers.Sound.PlaySFX(Define.SFX.CastExplosion);
 
                 GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("CastExplosion");

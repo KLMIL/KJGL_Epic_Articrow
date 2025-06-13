@@ -23,7 +23,6 @@ namespace CKT
 
             for (int i = 0; i < level; i++)
             {
-                //TODO : 사운드_CastDamageArea
                 Managers.Sound.PlaySFX(Define.SFX.CastDamageArea);
 
                 GameObject castDamageArea = YSJ.Managers.Pool.InstPrefab("CastDamageArea");

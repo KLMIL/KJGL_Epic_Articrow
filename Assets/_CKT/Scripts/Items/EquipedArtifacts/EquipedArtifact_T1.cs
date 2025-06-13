@@ -19,7 +19,6 @@ namespace CKT
 
         protected override IEnumerator AttackCoroutine(List<GameObject> list)
         {
-            //TODO : 사운드_투사체 발사
             YSJ.Managers.Sound.PlaySFX(Define.SFX.DefaultAttack);
 
             //애니메이션 재생
@@ -52,7 +51,7 @@ namespace CKT
         #region [Attack Cancel]
         protected override void AttackCancel()
         {
-
+            Debug.Log("Attack Cancel");
         }
         #endregion
     }

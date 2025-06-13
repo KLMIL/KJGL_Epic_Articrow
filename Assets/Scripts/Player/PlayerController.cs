@@ -39,19 +39,19 @@ namespace BMC
             {
                 GameManager.Instance.LeftSkillManager.TriggerHand();
             }
-            else
+            /*else
             {
-                GameManager.Instance.LeftSkillManager.TriggerHandCancel();
-            }
+                GameManager.Instance.LeftSkillManager.OnHandCancelActionT0?.Trigger();
+            }*/
 
             if (YSJ.Managers.Input.IsPressRightHandAttack)
             {
                 GameManager.Instance.RightSkillManager.TriggerHand();
             }
-            else
+            /*else
             {
-                GameManager.Instance.RightSkillManager.TriggerHandCancel();
-            }
+                GameManager.Instance.RightSkillManager.OnHandCancelActionT0?.Trigger();
+            }*/
         }
     }
 }

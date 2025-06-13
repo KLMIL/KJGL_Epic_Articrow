@@ -18,26 +18,14 @@ namespace CKT
 
         #region [OnHandCancelActionT0]
         public ActionT0Handler OnHandCancelActionT0 = new();
-        public void TriggerHandCancel()
-        {
-            OnHandCancelActionT0?.Trigger();
-        }
         #endregion
 
         #region [OnThrowAwayActionT0]
         public ActionT0Handler OnThrowAwayActionT0 = new();
-        public void TriggerThrowAway()
-        {
-            OnThrowAwayActionT0?.Trigger();
-        }
         #endregion
 
         #region [UpdateSlotListActionT1]
         public ActionT1Handler<List<GameObject>> OnUpdateSlotListActionT1 = new();
-        public void TriggerUpdateList(List<GameObject> list)
-        {
-            OnUpdateSlotListActionT1?.Trigger(list);
-        }
         #endregion
         
         #region [SlotList]
@@ -63,7 +51,7 @@ namespace CKT
         public void CheckSkill()
         {
             //슬롯 확인
-            TriggerUpdateList(_slotList);
+            OnUpdateSlotListActionT1?.Trigger(_slotList);
 
             //스킬 적용
             CastSkillDict.Clear();

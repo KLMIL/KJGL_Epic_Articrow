@@ -174,6 +174,12 @@ public class InputManager
             OnRightHandAction?.Invoke();
             //Debug.Log("우수");
         }
+        if (context.canceled)
+        {
+            //TODO : SkillManager 정리할 때 같이 정리하기
+            ActionT0Handler onHandCancelActionT0 = GameManager.Instance.RightSkillManager.OnHandCancelActionT0;
+            if (onHandCancelActionT0 != null) onHandCancelActionT0.Trigger();
+        }
     }
     #endregion
 
