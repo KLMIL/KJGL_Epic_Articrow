@@ -76,9 +76,11 @@ namespace BMC
         #region 비디오 & 오디오 설정
         public void ToggleFullScreen()
         {
-            string text = (Screen.fullScreen) ? "On" : "Off";
-            fullscreentext.text = text;
-            Screen.fullScreen = !Screen.fullScreen;
+            // Screen,fullScreen은 변경되지만, UI 텍스트 업데이트는 그 프레임에서는 반영되지 않고, 다음 프레임에 적용되는 경우가 있을 수 있음
+            // 즉, 화면 모드 전환이 일어나면서 Unity가 내부적으로 약간의 지연을 가지기 때문에, Screen.fullScreen을 즉시 읽어오는 것이 정확하지 않을 수 있음
+            bool newState = !Screen.fullScreen;
+            fullscreentext.text = newState ? "On" : "Off";
+            Screen.fullScreen = newState;
         }
 
         public void MusicSlider()
