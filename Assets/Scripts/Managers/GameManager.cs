@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     static GameManager _instance;
     public static GameManager Instance => _instance;
 
-    public DummyPlayerController PlayerController { get; private set; }
+    public BMC.PlayerController PlayerController { get; private set; }
 
     public Camera MainCamera { get; private set; }
 
@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        PlayerController = FindAnyObjectByType<DummyPlayerController>();
+        PlayerController = FindAnyObjectByType<BMC.PlayerController>();
     }
 
     // 일시 정지 및 재개 기능

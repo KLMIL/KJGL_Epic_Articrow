@@ -20,12 +20,12 @@ namespace YSJ
             {
                 //rigid.linearVelocity = inputValue * _moveSpeed;
                 rigid.AddForce(inputValue * _moveSpeed, ForceMode2D.Force);
-                animator.currentState |= PlayerAnimator.State.Walk;
+                animator.CurrentState |= PlayerAnimator.State.Walk;
             }
             else
             {
                 //rigid.linearVelocity *= _damping;
-                animator.currentState &= ~PlayerAnimator.State.Walk;
+                animator.CurrentState &= ~PlayerAnimator.State.Walk;
             }
         }
     }

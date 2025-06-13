@@ -1,28 +1,44 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerDash
+namespace BMC
 {
-    Rigidbody2D _rb;
-    float _dashSpeed = 12.5f;
-
-    private float _dashCoolTime = 0.5f;
-
-    Silhouette _silhouette;
-    Coroutine _dashCoroutine;
-
-    void Start()
+    public class PlayerDash : MonoBehaviour
     {
-        //YSJ.Managers.Input.OnRollAction += Dash;
-    }
+        Rigidbody2D _rb;
+        Silhouette _silhouette;
 
-    IEnumerator DashCoroutine(Vector2 direction)
-    {
-        _silhouette.IsActive = true;                        // 대시 중 실루엣 활성화
-        _rb.linearVelocity = direction * _dashSpeed;
+        public Silhouette Silhouette => _silhouette;
 
-        yield return new WaitForSeconds(_dashCoolTime);     // 대시 쿨타임
-        _silhouette.IsActive = false;                       // 대시 중 실루엣 비활성화
-        _dashCoroutine = null;
+        Coroutine _dashCoroutine;
+        float _dashSpeed = 10f;
+        float _dashTime = 0.15f;
+        float _dashCoolTime = 0.4f;
+
+        void Start()
+        {
+            YSJ.Managers.Input.OnDashAction += Dash;
+            _rb = GetComponent<Rigidbody2D>();
+            _silhouette = GetComponent<Silhouette>();
+        }
+
+        public void Dash(Vector2 dashDir)
+        {
+            _dashCoroutine = _dashCoroutine ?? StartCoroutine(DashCoroutine(dashDir, _dashSpeed, _dashTime, _dashCoolTime));
+        }
+
+        IEnumerator DashCoroutine(Vector2 dashDir, float dashSpeed, float dashTime, float dashCoolTime)
+        {
+            _silhouette.IsActive = true;
+            _rb.linearVelocity += dashDir * dashSpeed;
+
+            yield return new WaitForSeconds(dashTime);
+            _silhouette.IsActive = false;
+            _rb.linearVelocity -= _rb.linearVelocity;
+
+            float remainCoolTime = dashCoolTime - dashTime;
+            yield return new WaitForSeconds(remainCoolTime);
+            _dashCoroutine = null;
+        }
     }
 }

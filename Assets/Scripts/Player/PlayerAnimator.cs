@@ -11,24 +11,25 @@ namespace YSJ
             Attack = 1 << 2,
             Stun = 1 << 3
         }
-        public State currentState;
-        CheckDirection_YSJ checkDirection;
+
+        public State CurrentState { get; set; }
+        CheckPlayerDirection checkDirection;
         Animator animator;
         SpriteRenderer spriteRenderer;
 
         private void Awake()
         {
-            checkDirection = GetComponent<CheckDirection_YSJ>();
+            checkDirection = GetComponent<CheckPlayerDirection>();
             animator = GetComponent<Animator>();
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void Update()
         {
-            PlayAnimation(currentState);
+            PlayAnimation();
         }
 
-        public void PlayAnimation(State newState)
+        public void PlayAnimation()
         {
             if (!checkDirection)
             {
@@ -38,23 +39,23 @@ namespace YSJ
             }
 
             // 걷는상태일때
-            if ((currentState & State.Walk) == State.Walk)
+            if ((CurrentState & State.Walk) == State.Walk)
             {
                 switch (checkDirection.CurrentDirection)
                 {
-                    case CheckDirection_YSJ.Direction.down:
+                    case CheckPlayerDirection.Direction.down:
                         animator.Play("Walk_Down");
                         spriteRenderer.flipX = false;
                         break;
-                    case CheckDirection_YSJ.Direction.up:
+                    case CheckPlayerDirection.Direction.up:
                         animator.Play("Walk_Up");
                         spriteRenderer.flipX = false;
                         break;
-                    case CheckDirection_YSJ.Direction.right:
+                    case CheckPlayerDirection.Direction.right:
                         animator.Play("Walk_Right");
                         spriteRenderer.flipX = false;
                         break;
-                    case CheckDirection_YSJ.Direction.left:
+                    case CheckPlayerDirection.Direction.left:
                         animator.Play("Walk_Right");
                         spriteRenderer.flipX = true;
                         break;
@@ -63,23 +64,23 @@ namespace YSJ
             }
 
             // Idle상태일때
-            if ((currentState & State.Idle) == State.Idle)
+            if ((CurrentState & State.Idle) == State.Idle)
             {
                 switch (checkDirection.CurrentDirection)
                 {
-                    case CheckDirection_YSJ.Direction.down:
+                    case CheckPlayerDirection.Direction.down:
                         animator.Play("Idle_Down");
                         spriteRenderer.flipX = false;
                         break;
-                    case CheckDirection_YSJ.Direction.up:
+                    case CheckPlayerDirection.Direction.up:
                         animator.Play("Idle_Up");
                         spriteRenderer.flipX = false;
                         break;
-                    case CheckDirection_YSJ.Direction.right:
+                    case CheckPlayerDirection.Direction.right:
                         animator.Play("Idle_Right");
                         spriteRenderer.flipX = false;
                         break;
-                    case CheckDirection_YSJ.Direction.left:
+                    case CheckPlayerDirection.Direction.left:
                         animator.Play("Idle_Right");
                         spriteRenderer.flipX = true;
                         break;

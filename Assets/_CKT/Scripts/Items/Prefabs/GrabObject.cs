@@ -53,7 +53,7 @@ namespace CKT
             target.position = this.transform.position;
             Vector3 startPos = this.transform.position;
 
-            Transform player = FindAnyObjectByType<BMC.DummyPlayerController>().transform;
+            Transform player = FindAnyObjectByType<BMC.PlayerController>().transform;
             Vector3 playerPos = player.position;
 
             if ((player != null) && (target != null))
