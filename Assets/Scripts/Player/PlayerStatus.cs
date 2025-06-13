@@ -9,13 +9,16 @@ namespace YSJ
         public Action A_Dead;
 
         [Header("업그레이드 가능한 스테이터스")]
-        public float MaxHealth { get; set; } = 200;
+        public float MaxHealth { get; set; } = 100;
+        public float MaxMana { get; set; } = 100;
         public int MoveSpeed { get; set; } = 10;
+        public int AttackPoint { get; set; } = 10;
         public float LeftHandCollTime { get; set; } = 1f;
         public float RightHandCollTime { get; set; } = 1f;
 
-        [Header("일반 스테이터스")]
+        [Header("일반 스테이터스: 실시간으로 변하는 수치")]
         public float Health { get; set; }
+        public float Mana { get; set; }
 
         void Awake()
         {
@@ -57,7 +60,6 @@ namespace YSJ
         {
             Health += amount;
             Health = Mathf.Clamp(Health, 0, MaxHealth);
-
             UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(Health);
         }
     }
