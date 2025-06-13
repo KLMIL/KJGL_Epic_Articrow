@@ -39,11 +39,11 @@ namespace CKT
             _renderer = GetComponentInChildren<SpriteRenderer>();
             _animator = GetComponentInChildren<Animator>();
 
-            if (this.transform.GetComponentInParent<LeftHand_YSJ>() != null)
+            if (this.transform.GetComponentInParent<YSJ.LeftHand>() != null)
             {
                 _skillManager = GameManager.Instance.LeftSkillManager;
             }
-            else if (this.transform.GetComponentInParent<RightHand_YSJ>() != null)
+            else if (this.transform.GetComponentInParent<YSJ.RightHand>() != null)
             {
                 _skillManager = GameManager.Instance.RightSkillManager;
                 _renderer.flipY = true;
