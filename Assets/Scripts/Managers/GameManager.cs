@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour
     static GameManager _instance;
     public static GameManager Instance => _instance;
 
-    public BMC.PlayerController PlayerController { get; private set; }
-
     public Camera MainCamera { get; private set; }
 
     public CKT.Inventory Inventory { get; private set; } = new CKT.Inventory();
@@ -39,11 +37,6 @@ public class GameManager : MonoBehaviour
     }
 
     public List<GameObject> MagicItems = new();
-
-    void Start()
-    {
-        PlayerController = FindAnyObjectByType<BMC.PlayerController>();
-    }
 
     // 일시 정지 및 재개 기능
     public void TogglePauseGame(bool isActive)

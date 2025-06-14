@@ -1,26 +1,38 @@
 using UnityEngine;
 using CKT;
 using YSJ;
-using UnityEditor.SceneManagement;
 
 namespace BMC
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerManager : MonoBehaviour
     {
+        static PlayerManager s_instance;
+        public static PlayerManager Instance => s_instance;
+
         PlayerMove _playerMove;
         PlayerDash _playerDash;
         PlayerInteract _playerInteract;
+        PlayerStatus _playerStatus;
+        PlayerAttack _playerAttack;
 
         void Awake()
         {
+            if (s_instance == null)
+            {
+                s_instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
+
             _playerMove = this.gameObject.AddComponent<PlayerMove>();
             _playerDash = this.gameObject.AddComponent<PlayerDash>();
             _playerInteract = this.gameObject.AddComponent<PlayerInteract>();
-        }
-
-        void Start()
-        {
-            transform.SetParent(null);
+            _playerStatus = this.gameObject.AddComponent<PlayerStatus>();
+            _playerAttack = this.gameObject.AddComponent<PlayerAttack>();
         }
 
         void Update()
@@ -33,7 +45,11 @@ namespace BMC
 
         void FixedUpdate()
         {
-            _playerMove.enabled = !_playerDash.Silhouette.IsActive;
+            //_playerMove.enabled = !_playerDash.Silhouette.IsActive;
+            if (!_playerDash.Silhouette.IsActive && !_playerAttack.IsAttack)
+                _playerMove.Move();
+            //else
+            //    _playerMove.Stop();
 
             if (YSJ.Managers.Input.IsPressLeftHandAttack)
             {
