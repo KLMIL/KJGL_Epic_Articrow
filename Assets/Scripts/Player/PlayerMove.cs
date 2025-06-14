@@ -16,13 +16,8 @@ namespace YSJ
             _playerAnimator = GetComponentInChildren<PlayerAnimator>();
         }
 
-        private void FixedUpdate()
-        {
-            Move(Managers.Input.MoveInput, _moveSpeed);
-        }
-
         #region [Move]
-        void Move(Vector2 moveInput, float moveSpeed)
+        public void Move()
         {
             if ((_rigid == null) || (_playerAnimator == null))
             {
@@ -30,18 +25,18 @@ namespace YSJ
                 return;
             }
 
-            if (moveInput == Vector2.zero)
+            if (Managers.Input.MoveInput == Vector2.zero)
             {
                 _rigid.linearVelocity *= _dampScale;
-                _playerAnimator.CurrentState |= PlayerAnimator.State.Idle;
+                _playerAnimator.CurrentState = PlayerAnimator.State.Idle;
             }
             else
             {
                 Vector2 curDir = _rigid.linearVelocity;
 
-                if ((curDir.sqrMagnitude < (moveSpeed * moveSpeed)) || (moveInput != curDir.normalized))
+                if ((curDir.sqrMagnitude < (_moveSpeed * _moveSpeed)) || (Managers.Input.MoveInput != curDir.normalized))
                 {
-                    Vector2 moveDir = moveInput * moveSpeed;
+                    Vector2 moveDir = Managers.Input.MoveInput * _moveSpeed;
                     _rigid.linearVelocity += (moveDir - curDir);
                     _playerAnimator.CurrentState |= PlayerAnimator.State.Walk;
                 }

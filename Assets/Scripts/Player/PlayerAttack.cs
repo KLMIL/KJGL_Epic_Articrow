@@ -7,11 +7,28 @@ namespace BMC
     public class PlayerAttack : MonoBehaviour
     {
         //Animator _anim;
-        Coroutine _attackCoroutine;
-
+        Rigidbody2D _rb;
         AttackSlash _attackSlash;
 
+        [SerializeField] int _currentAttackStep = 0;     // 현재 공격 단계
+        [SerializeField] int _maxAttackStep = 3;         // 최대 공격 단계
+
+        float _comboTimer = 0f;
+        float _comboInputWindow = 0.6f; // 공격 입력 타이밍 윈도우
+        bool _canNextCombo = false;     // 다음 콤보 입력 가능 여부
+        bool _inputBuffered = false;    // 입력 버퍼 여부
+        float _attackCoolDown = 0.5f;   // 모든 콤보 후, 대기 타임
+
+        float _attackMoveDistance = 0.75f; // 공격 시, 플레이어가 전진하는 정도
+
         [field: SerializeField] public bool IsAttack { get; private set; }
+
+        void Awake()
+        {
+            _rb = GetComponent<Rigidbody2D>();
+            IsAttack = false;
+        }
+
         void Start()
         {
             //_anim = GetComponent<Animator>();
@@ -21,42 +38,85 @@ namespace BMC
 
         void Attack()
         {
+            // 게임 일시 정지 시, 공격 불가
             if (GameManager.Instance.IsPaused)
                 return;
 
+            if (IsAttack)
+            {
+                if (_canNextCombo)
+                    _inputBuffered = true;
+                //return;
+            }
+
+
             Debug.Log("Attack 시작");
             StartAttackCoroutine();
-
             Debug.Log("Attack 종료");
-            IsAttack = false;
         }
 
         public void StartAttackCoroutine()
         {
-            if (_attackCoroutine == null)
-                _attackCoroutine = StartCoroutine(AttackCoroutine());
+            StartCoroutine(AttackCoroutine());
         }
 
         IEnumerator AttackCoroutine()
         {
-            IsAttack = true;
+            if (_currentAttackStep >= _maxAttackStep)
+                yield break; // 이미 3단 콤보를 했으면 중단
 
+            IsAttack = true;
+            _currentAttackStep++;
+            _inputBuffered = false;
+
+            // 공격 방향으로 플레이어 약간 이동
             Vector3 mousePos = Managers.Input.MouseWorldPos;
             Vector2 dir = (mousePos - transform.position).normalized;
-            Debug.Log(dir);
+            //Debug.Log(dir);
+            _rb.linearVelocity = dir * _attackMoveDistance;
 
             // TODO: 플레이어가 공격 방향 보게 강제로 바꾸기
             //if (dir.x != 0)
             //    _playerFSM.Flip(dir.x);
 
-            //_anim.SetTrigger("AttackTrigger");
-            _attackSlash.Play();
+            // 단계에 맞는 공격 실행
+            _attackSlash.Play(_currentAttackStep);
 
-            // 애니메이션 길이만큼 대기 (예: 0.5초)
-            yield return new WaitForSeconds(0.5f);
+            // 다음 콤보 입력 대기 시간
+            _canNextCombo = _currentAttackStep < _maxAttackStep;
+            _comboTimer = 0;
+            while (_canNextCombo && _comboTimer < _comboInputWindow)
+            {
+                _comboTimer += Time.deltaTime;
+                if (_inputBuffered)
+                {
+                    _canNextCombo = false;
+                    yield return null;
+                    StartAttackCoroutine();
+                    yield break;
+                }
+                yield return null;
+            }
+
+            // 시간 내 입력 못했으면 초기화
+            _canNextCombo = false;
+
+            if (_currentAttackStep >= _maxAttackStep) // 3단 콤보 되었을 경우
+            {
+                yield return new WaitForSeconds(_attackCoolDown);
+                _currentAttackStep = 0; // 콤보 초기화
+            }
+            else // 입력 타이밍 놓친 경우
+            {
+                _currentAttackStep = 0;
+            }
 
             IsAttack = false;
-            _attackCoroutine = null;
+        }
+
+        void OnDestroy()
+        {
+            Managers.Input.OnLeftHandAction -= Attack;
         }
     }
 }

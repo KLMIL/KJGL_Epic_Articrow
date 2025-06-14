@@ -11,6 +11,7 @@ public class UI_InGameEventBus : MonoBehaviour
 
     // 플레이어, 보스 HP 슬라이더 업데이트
     public static Action<float> OnPlayerHpSliderValueUpdate;
+    public static Action<float> OnPlayerMpSliderValueUpdate;
     public static Action<float> OnBossHpSliderValueUpdate;
 
     // 미니맵

@@ -7,7 +7,7 @@ public class HealItem : MonoBehaviour
 
     public void Heal(PlayerStatus player)
     {
-        player.IncreaseHealth(_healAmount);
+        player.RecoverHealth(_healAmount);
         Destroy(gameObject);
     }
 }

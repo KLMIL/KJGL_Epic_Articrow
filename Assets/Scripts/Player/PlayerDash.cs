@@ -54,5 +54,10 @@ namespace BMC
             }
             _dashCoroutine = null;
         }
+
+        private void OnDestroy()
+        {
+            YSJ.Managers.Input.OnDashAction -= Dash;
+        }
     }
 }

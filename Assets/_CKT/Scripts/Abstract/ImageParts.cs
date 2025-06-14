@@ -34,7 +34,7 @@ namespace CKT
 
             // TODO: 더미 플레이어로 변경함 확인바람
             //Vector3 playerPos = FindAnyObjectByType<PlayerController>().transform.position;
-            Vector3 playerPos = FindAnyObjectByType<BMC.PlayerController>().transform.position;
+            Vector3 playerPos = FindAnyObjectByType<BMC.PlayerManager>().transform.position;
             item.transform.position = playerPos + Vector3.down;
 
             Destroy(this.gameObject);
