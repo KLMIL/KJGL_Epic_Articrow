@@ -17,7 +17,7 @@ namespace BMC
 
         void Start()
         {
-            Collider2D[] _colliderArray = GetComponentsInChildren<Collider2D>();
+            Collider2D[] _colliderArray = GetComponents<Collider2D>();
             for (int i = 0; i < _colliderArray.Length; i++)
             {
                 if (_colliderArray[i].isTrigger)
