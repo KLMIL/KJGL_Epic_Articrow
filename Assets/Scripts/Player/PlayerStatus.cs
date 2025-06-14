@@ -40,6 +40,7 @@ namespace YSJ
             if (IsDead)
                 return;
 
+            UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
             ShowDamageText(damage);
             UpdateHealth(-damage);
 
