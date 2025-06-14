@@ -14,6 +14,8 @@ namespace CKT
         protected abstract float Damage { get; }
         protected abstract float ExistTime { get; }
 
+        bool _isHit;
+
         protected void OnEnable()
         {
             _curPenetration = BasePenetration;
@@ -23,6 +25,7 @@ namespace CKT
         protected void OnDisable()
         {
             SkillManager = null;
+            _isHit = false;
         }
 
         private void Update()
@@ -33,7 +36,9 @@ namespace CKT
         private void OnTriggerEnter2D(Collider2D collider)
         {
             if (!collider.isTrigger) return;
-            
+            if (_isHit) return;
+
+            _isHit = true;
             IDamagable iDamagable = collider.GetComponent<IDamagable>();
             if (iDamagable != null)
             {

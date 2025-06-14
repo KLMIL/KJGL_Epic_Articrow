@@ -7,12 +7,13 @@ namespace YSJ
         Rigidbody2D _rigid;
         PlayerAnimator _playerAnimator;
 
-        float _moveSpeed = 5f;
+        float _moveSpeed = 6f;
+        float _dampScale = 0.5f;
 
         void Start ()
         {
             _rigid = GetComponent<Rigidbody2D>();
-            _playerAnimator = GetComponent<PlayerAnimator>();
+            _playerAnimator = GetComponentInChildren<PlayerAnimator>();
         }
 
         private void FixedUpdate()
@@ -21,7 +22,7 @@ namespace YSJ
         }
 
         #region [Move]
-        void Move(Vector2 inputValue, float moveSpeed)
+        void Move(Vector2 moveInput, float moveSpeed)
         {
             if ((_rigid == null) || (_playerAnimator == null))
             {
@@ -29,17 +30,22 @@ namespace YSJ
                 return;
             }
 
-            // 최종 이동속도
-            Vector2 moveDir = inputValue * _moveSpeed;
+            if (moveInput == Vector2.zero)
+            {
+                _rigid.linearVelocity *= _dampScale;
+                _playerAnimator.CurrentState |= PlayerAnimator.State.Idle;
+            }
+            else
+            {
+                Vector2 curDir = _rigid.linearVelocity;
 
-            // 이동하기 전에 더 작은 속도를 뺄셈 (외력으로 인한 속도가 높아질 것을 고려)
-            /*bool lowSpeed = (_rigid.linearVelocity.sqrMagnitude <= moveDir.sqrMagnitude);
-            Vector2 reverseDir = lowSpeed ? _rigid.linearVelocity : moveDir;
-
-            _rigid.linearVelocity -= reverseDir;
-            _rigid.linearVelocity += moveDir;*/
-            _rigid.MovePosition(_rigid.position + (moveDir * Time.fixedDeltaTime));
-            _playerAnimator.CurrentState |= PlayerAnimator.State.Walk;
+                if ((curDir.sqrMagnitude < (moveSpeed * moveSpeed)) || (moveInput != curDir.normalized))
+                {
+                    Vector2 moveDir = moveInput * moveSpeed;
+                    _rigid.linearVelocity += (moveDir - curDir);
+                    _playerAnimator.CurrentState |= PlayerAnimator.State.Walk;
+                }
+            }
         }
         #endregion
     }

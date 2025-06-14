@@ -9,7 +9,7 @@ namespace CKT
     {
         protected override GameObject _fieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T3");
         protected override string _prefabName => "Bullet_T3";
-        protected override float _attackSpeed => 0.1f;
+        protected override float _attackSpeed => 0.5f;
 
         float ChargeAmount
         {
@@ -26,6 +26,7 @@ namespace CKT
         }
         float _chargeAmount;
         float _maxChargeAmount = 0.5f;
+        float _chargeSpeed = 0.1f;
 
         LineRenderer _line;
 
@@ -101,7 +102,7 @@ namespace CKT
                 _lineEnd = hit.point;
             }
 
-            yield return new WaitForSeconds(_attackSpeed);
+            yield return new WaitForSeconds(_chargeSpeed);
             _chargeCoroutine = null;
         }
 

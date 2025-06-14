@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.Rendering;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace YSJ
 {
     public class Hand : MonoBehaviour
     {
         Camera _camera;
+        Transform _body;
 
-        private void Update()
+        private void FixedUpdate()
         {
             SpriteSort();
             SpriteRotation();
@@ -16,24 +16,25 @@ namespace YSJ
 
         protected void SpriteSort()
         {
-            Transform parent = transform.root;
+            _body = _body ?? transform.root.GetComponentInChildren<Animator>().transform;
 
-            if (!parent)
+            if (!_body)
             {
                 Debug.LogError("손의 부모 없음!");
             }
 
-            if (TryGetComponent<SortingGroup>(out SortingGroup sortingGroup) && parent.TryGetComponent<SpriteRenderer>(out SpriteRenderer parentSprite))
+            if (TryGetComponent<SortingGroup>(out SortingGroup sortingGroup) && _body.TryGetComponent<SpriteRenderer>(out SpriteRenderer bodySprite))
             {
-                float handY = this.transform.position.y + 0.2f;
+                bool isRight = (this.transform.position.x >_body.position.x);
+                float handY = this.transform.position.y + (isRight ? 0.4f : -0.1f);
 
-                if (handY > parent.position.y)
+                if (handY > _body.position.y)
                 {
-                    sortingGroup.sortingOrder = parentSprite.sortingOrder - 1;
+                    sortingGroup.sortingOrder = bodySprite.sortingOrder - 1;
                 }
-                else if (handY < parent.position.y)
+                else if (handY < _body.position.y)
                 {
-                    sortingGroup.sortingOrder = parentSprite.sortingOrder + 1;
+                    sortingGroup.sortingOrder = bodySprite.sortingOrder + 1;
                 }
             }
             else
