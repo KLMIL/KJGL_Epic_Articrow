@@ -7,17 +7,12 @@ namespace CKT
     [System.Serializable]
     public class Inventory
     {
-        #region [Inventory List]
+        #region [InventoryList]
         List<GameObject> _inventoryList = new List<GameObject>();
-        event Action<List<GameObject>> _onUpdateInventoryListEvent;
-        public void SubUpdateInventoryList(Action<List<GameObject>> newSub)
-        {
-            _onUpdateInventoryListEvent += newSub;
-        }
-        void InvokeUpdateInventoryList(List<GameObject> list)
-        {
-            _onUpdateInventoryListEvent?.Invoke(list);
-        }
+        #endregion
+
+        #region [OnUpdateInventoryListActionT1]
+        public ActionT1Handler<List<GameObject>> OnUpdateInventoryListActionT1 = new();
         #endregion
 
         #region [Slot Count]
@@ -36,7 +31,7 @@ namespace CKT
         public void Init()
         {
             _inventoryList = new List<GameObject>();
-            _onUpdateInventoryListEvent = null;
+            OnUpdateInventoryListActionT1.Init();
             _getSlotCountInt = null;
         }
 
@@ -51,7 +46,7 @@ namespace CKT
         public void InvokeUpdateList()
         {
             //인벤토리 내용물 확인
-            InvokeUpdateInventoryList(_inventoryList);
+            OnUpdateInventoryListActionT1.Trigger(_inventoryList);
 
             //왼손, 오른손 슬롯 확인 후 효과 다시 적용
             GameManager.Instance.LeftSkillManager.CheckSkill();

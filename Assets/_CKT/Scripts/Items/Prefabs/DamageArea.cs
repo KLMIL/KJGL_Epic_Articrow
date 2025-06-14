@@ -15,8 +15,8 @@ namespace CKT
         private void OnEnable()
         {
             _playerLayerMask = LayerMask.GetMask("Player");
-            StartCoroutine(DisableCoroutine());
             StartCoroutine(TakeDamageCoroutine());
+            StartCoroutine(DisableCoroutine());
         }
 
         IEnumerator DisableCoroutine()
