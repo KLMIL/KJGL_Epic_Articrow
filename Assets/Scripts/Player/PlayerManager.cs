@@ -9,11 +9,11 @@ namespace BMC
         static PlayerManager s_instance;
         public static PlayerManager Instance => s_instance;
 
-        PlayerMove _playerMove;
-        PlayerDash _playerDash;
-        PlayerInteract _playerInteract;
-        PlayerStatus _playerStatus;
-        PlayerAttack _playerAttack;
+        public PlayerMove PlayerMove { get; private set; }
+        public PlayerDash PlayerDash { get; private set; }
+        public PlayerInteract PplayerInteract { get; private set; }
+        public PlayerStatus PlayerStatus { get; private set; }
+        public PlayerAttack PlayerAttack { get; private set; }
 
         void Awake()
         {
@@ -28,11 +28,11 @@ namespace BMC
                 return;
             }
 
-            _playerMove = this.gameObject.AddComponent<PlayerMove>();
-            _playerDash = this.gameObject.AddComponent<PlayerDash>();
-            _playerInteract = this.gameObject.AddComponent<PlayerInteract>();
-            _playerStatus = this.gameObject.AddComponent<PlayerStatus>();
-            _playerAttack = this.gameObject.AddComponent<PlayerAttack>();
+            PlayerMove = this.gameObject.GetComponent<PlayerMove>();
+            PlayerDash = this.gameObject.GetComponent<PlayerDash>();
+            PplayerInteract = this.gameObject.GetComponent<PlayerInteract>();
+            PlayerStatus = this.gameObject.GetComponent<PlayerStatus>();
+            PlayerAttack = this.gameObject.GetComponent<PlayerAttack>();
         }
 
         void Update()
@@ -46,8 +46,8 @@ namespace BMC
         void FixedUpdate()
         {
             //_playerMove.enabled = !_playerDash.Silhouette.IsActive;
-            if (!_playerDash.Silhouette.IsActive && !_playerAttack.IsAttack)
-                _playerMove.Move();
+            if (!PlayerDash.Silhouette.IsActive && !PlayerAttack.IsAttack)
+                PlayerMove.Move();
             //else
             //    _playerMove.Stop();
 

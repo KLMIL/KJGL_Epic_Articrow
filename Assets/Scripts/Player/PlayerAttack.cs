@@ -8,7 +8,6 @@ namespace BMC
     {
         //Animator _anim;
         Rigidbody2D _rb;
-        Coroutine _attackCoroutine;
         AttackSlash _attackSlash;
 
         [SerializeField] int _currentAttackStep = 0;     // 현재 공격 단계
@@ -58,14 +57,7 @@ namespace BMC
 
         public void StartAttackCoroutine()
         {
-            if (_attackCoroutine == null)
-            {
-                _attackCoroutine = StartCoroutine(AttackCoroutine());
-            }
-            else
-            {
-                StartCoroutine(AttackCoroutine());
-            }
+            StartCoroutine(AttackCoroutine());
         }
 
         IEnumerator AttackCoroutine()
@@ -91,7 +83,7 @@ namespace BMC
             _attackSlash.Play(_currentAttackStep);
 
             // 다음 콤보 입력 대기 시간
-            _canNextCombo = _currentAttackStep < 3;
+            _canNextCombo = _currentAttackStep < _maxAttackStep;
             _comboTimer = 0;
             while (_canNextCombo && _comboTimer < _comboInputWindow)
             {
@@ -109,7 +101,7 @@ namespace BMC
             // 시간 내 입력 못했으면 초기화
             _canNextCombo = false;
 
-            if (_currentAttackStep >= 3) // 3단 콤보 되었을 경우
+            if (_currentAttackStep >= _maxAttackStep) // 3단 콤보 되었을 경우
             {
                 yield return new WaitForSeconds(_attackCoolDown);
                 _currentAttackStep = 0; // 콤보 초기화
@@ -120,13 +112,6 @@ namespace BMC
             }
 
             IsAttack = false;
-            _attackCoroutine = null;
-
-            //// 애니메이션 길이만큼 대기 (예: 0.5초)
-            //yield return new WaitForSeconds(_attackDelay);
-
-            //IsAttack = false;
-            //_attackCoroutine = null;
         }
 
         void OnDestroy()
