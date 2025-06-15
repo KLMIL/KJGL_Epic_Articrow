@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -7,14 +8,20 @@ using UnityEngine;
  */
 namespace Game.Enemy
 {
-    public enum ProjectileAttackMode { Normal }
+    public enum ProjectileAttackMode 
+    { 
+        LinearAttack,
+        LinearSpawn,
+        ParabolaAttack,
+        ParabolaSpawn
+    }
     [CreateAssetMenu(
         fileName = "ProjectileAtackAction",
         menuName = "Enemy/Action/Attack/Projectile Attack"
     )]
     public class ProjectileAttackActionSO : EnemyActionSO
     {
-        public ProjectileAttackMode projectileAttackMode = ProjectileAttackMode.Normal;
+        public ProjectileAttackMode projectileAttackMode = ProjectileAttackMode.LinearAttack;
 
         public Vector3 firePointOffset = Vector3.zero;
 
@@ -30,6 +37,8 @@ namespace Game.Enemy
         public override void Act(EnemyController controller)
         {
             // 현재 공격 상태의 쿨타임 체크
+            // Behaviour로 체크하고 있기 때문에 없어도 되는 부분이지만,
+            // 추후 버그 발생 가능성을 줄이기 위해 유지
             string key = controller.CurrentStateName;
             if (!controller.lastAttackTimes.ContainsKey(key))
             {
@@ -41,18 +50,22 @@ namespace Game.Enemy
 
             switch (projectileAttackMode)
             {
-                case ProjectileAttackMode.Normal:
-                    NormalAttack(controller);
+                case ProjectileAttackMode.LinearAttack:
+                    controller.FSM.fireRoutine = controller.StartCoroutine(FireLinear(controller, false));
+                    break;
+                case ProjectileAttackMode.LinearSpawn:
+                    controller.FSM.fireRoutine = controller.StartCoroutine(FireLinear(controller, true));
+                    break;
+                case ProjectileAttackMode.ParabolaAttack:
+                    controller.FSM.fireRoutine = controller.StartCoroutine(FireParabola(controller, false));
+                    break;
+                case ProjectileAttackMode.ParabolaSpawn:
+                    controller.FSM.fireRoutine = controller.StartCoroutine(FireParabola(controller, false));
                     break;
             }
 
             //// 쿨타임 부여
             controller.lastAttackTimes[key] = Time.time;
-        }
-
-        public override void OnEnter(EnemyController controller)
-        {
-            //controller.lastAttackTimes[controller.CurrentStateName] = -Mathf.Infinity;
         }
 
         public override void OnExit(EnemyController controller)
@@ -65,7 +78,44 @@ namespace Game.Enemy
             controller.FSM.projectileIntervalTimer = 0;
         }
 
-        private void NormalAttack(EnemyController controller)
+
+        private IEnumerator FireLinear(EnemyController controller, bool isSpawn)
+        {
+            int count = 0;
+
+            // 같은 방향으로 발사하기 위해 방향 함수를 while문 밖으로 뺌
+            Vector3 firePos = controller.transform.position + firePointOffset;
+            Vector3 dir = (controller.Player.position - firePos).normalized;
+            Vector2 velocity = dir * projectileSpeed;
+
+            while (count < projectileAmount)
+            {
+                GameObject currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity);
+                EnemyProjectile proj = currProj.GetComponent<EnemyProjectile>();
+
+                if (proj != null)
+                {
+                    proj.InitProjecitle(
+                            controller,
+                            controller.Status.attack * damageMultiply,
+                            velocity,
+                            isSpawn ? projectilePrefab : null,
+                            isSpawn
+                        );
+                }
+                count++;
+                yield return new WaitForSeconds(projectileTurm);
+            }
+        }
+
+        private IEnumerator FireParabola(EnemyController controller, bool isSpawn)
+        {
+            yield return null;
+        }
+
+
+        [Obsolete("제거 예정 함수")]
+        private void DEP_NormalAttack(EnemyController controller)
         {
             // null 할당 오류 return
             if (controller.Player == null || projectilePrefab == null) return;
@@ -77,10 +127,11 @@ namespace Game.Enemy
                 controller.SpriteRenderer.flipX = playerDelta.x > 0;
             }
 
-            controller.FSM.fireRoutine = controller.StartCoroutine(FireProjectiles(controller));
+            controller.FSM.fireRoutine = controller.StartCoroutine(DEP_FireProjectiles(controller));
         }
 
-        private IEnumerator FireProjectiles(EnemyController controller)
+        [Obsolete("제거 예정 함수")]
+        private IEnumerator DEP_FireProjectiles(EnemyController controller)
         {
             int count = 0;
             while (count < projectileAmount)
