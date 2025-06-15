@@ -54,6 +54,7 @@ namespace BMC
         void Start()
         {
             Door.OnTransferToNextRoom = SetCameraTargetRoom;
+            //Door.OnTransferToNextRoom += SetCameraTargetPlayer;
         }
 
         void Update()
@@ -98,7 +99,7 @@ namespace BMC
             }
         }
 
-        void SetCameraTargetPlayer()
+        void SetCameraTargetPlayer(Transform player = null)
         {
             _confiner.BoundingShape2D = MapManager.Instance.CurrentRoom.GetComponent<PolygonCollider2D>();
             _roomCinemachineCamera.gameObject.SetActive(false);
