@@ -1,3 +1,5 @@
+using BMC;
+using Mono.Cecil.Cil;
 using UnityEngine;
 
 namespace YSJ
@@ -35,6 +37,40 @@ namespace YSJ
             {
                 Debug.LogError("CheckDirection 컴포넌트 없음!");
                 enabled = false;
+                return;
+            }
+
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsName("Attack_Down2") ||
+               stateInfo.IsName("Attack_Up2") ||
+               stateInfo.IsName("Attack_Side2"))
+            {
+                return; // 공격 애니메이션이 재생 중이면 다른 애니메이션을 재생하지 않음
+            }
+
+            // Attack상태일때
+            if ((CurrentState & State.Attack) == State.Attack)
+            {
+                int step = PlayerManager.Instance.PlayerAttack.CurrentAttackStep;
+                switch (checkDirection.CurrentDirection)
+                {
+                    case CheckPlayerDirection.Direction.down:
+                        animator.Play($"Attack_Down{step}");
+                        spriteRenderer.flipX = false;
+                        break;
+                    case CheckPlayerDirection.Direction.up:
+                        animator.Play($"Attack_Up{step}");
+                        spriteRenderer.flipX = false;
+                        break;
+                    case CheckPlayerDirection.Direction.right:
+                        animator.Play($"Attack_Side{step}");
+                        spriteRenderer.flipX = false;
+                        break;
+                    case CheckPlayerDirection.Direction.left:
+                        animator.Play($"Attack_Side{step}");
+                        spriteRenderer.flipX = true;
+                        break;
+                }
                 return;
             }
 
