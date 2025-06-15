@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CKT
@@ -12,33 +11,26 @@ namespace CKT
         protected override float ExistTime => 0.15f;
 
         LineRenderer _line;
-        LayerMask _ignoreLayerMask;
-        LayerMask _playerLayerMask;
-        LayerMask _brokenLayerMask;
         float _distance;
 
         protected new void OnEnable()
         {
-            base.OnEnable();
-
             _line = _line ?? GetComponent<LineRenderer>();
             _line.startWidth = 0.2f;
+
             _distance = 4;
 
-            _ignoreLayerMask = LayerMask.GetMask("Ignore Raycast");
-            _playerLayerMask = LayerMask.GetMask("Player");
-            _brokenLayerMask = LayerMask.GetMask("BreakParts");
-
-            StartCoroutine(TakeDamage());
+            base.OnEnable();
+            StartCoroutine(ScanTarget());
         }
 
         protected new void OnDisable()
         {
-            base.OnDisable();
             _line.enabled = false;
+            base.OnDisable();
         }
 
-        IEnumerator TakeDamage()
+        IEnumerator ScanTarget()
         {
             yield return null;
 
@@ -48,7 +40,7 @@ namespace CKT
 
             //Debug.DrawLine(lineStart, lineEnd, Color.green, 0.4f);
             float distance = _distance - (_line.startWidth * 0.5f);
-            RaycastHit2D[] hits = Physics2D.CircleCastAll(lineStart, _line.startWidth, this.transform.up, distance, ~(_ignoreLayerMask | _playerLayerMask | _brokenLayerMask));
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(lineStart, _line.startWidth, this.transform.up, distance, ~base._ignoreLayerMask);
             if (hits.Length > 0)
             {
                 for (int i = 0; i < base._curPenetration + 1; i++)
