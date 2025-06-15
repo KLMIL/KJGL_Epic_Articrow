@@ -132,6 +132,7 @@ public class InputManager
         {
             OnDashAction?.Invoke(MoveInput);
             Debug.Log("대시");
+            IsPressDash = false;
         }
         //Debug.Log("IsPressDash: " + IsPressDash);
     }
