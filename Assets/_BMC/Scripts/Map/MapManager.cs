@@ -43,7 +43,7 @@ namespace BMC
 
         void Start()
         {
-            _cameraController.SetCameraTarget(CurrentRoom.transform); // 현재 방 카메라 타겟 설정
+            _cameraController.SetCameraTargetRoom(CurrentRoom.transform); // 현재 방 카메라 타겟 설정
         }
 
         public void Init()

@@ -30,10 +30,9 @@ namespace BMC
         {
             // (임시 코드) -> 나중에 Action으로 변경 필요
             if(_roomData.RoomType != RoomType.StartRoom && 
-                _roomData.RoomType != RoomType.BossRoom && 
-                _enemySpawner.IsClear())
+                _roomData.RoomType != RoomType.BossRoom)
             {
-                Complete();
+                _enemySpawner.IsClear();
             }
         }
 
@@ -120,6 +119,7 @@ namespace BMC
         {
             if (!_roomData.IsCleared)
             {
+                Debug.LogError(" 방 클리어");
                 _roomData.IsCleared = true;
                 SpawnReward();
                 OpenAllValidDoor();
