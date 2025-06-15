@@ -21,7 +21,7 @@ namespace CKT
             if (_imageParts != null)
             {
                 GameObject imageParts = Instantiate(_imageParts);
-                YSJ.Managers.UI.InvokeAddInventorySlot(imageParts);
+                YSJ.Managers.UI.OnAddInventorySlotActionT1.Trigger(imageParts);
                 Destroy(this.gameObject);
             }
             else

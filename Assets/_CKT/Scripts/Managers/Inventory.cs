@@ -12,32 +12,23 @@ namespace CKT
         #endregion
 
         #region [OnUpdateInventoryListActionT1]
-        public ActionT1Handler<List<GameObject>> OnUpdateInventoryListActionT1 = new();
+        public ActionT1<List<GameObject>> OnUpdateInventoryListActionT1 = new();
         #endregion
 
         #region [Slot Count]
-        Func<int> _getSlotCountInt;
-        public void SingleSubSlotCount(Func<int> newSub)
-        {
-            _getSlotCountInt = null;
-            _getSlotCountInt += newSub;
-        }
-        int InvokeSlotCount()
-        {
-            return _getSlotCountInt.Invoke();
-        }
+        public FuncT0<int> GetSlotCountInt = new();
         #endregion
 
         public void Init()
         {
             _inventoryList = new List<GameObject>();
             OnUpdateInventoryListActionT1.Init();
-            _getSlotCountInt = null;
+            GetSlotCountInt.Init();
         }
 
         public bool CheckInventorySlotFull()
         {
-            return _inventoryList.Count >= InvokeSlotCount();
+            return _inventoryList.Count >= GetSlotCountInt.Trigger();
         }
 
         /// <summary>

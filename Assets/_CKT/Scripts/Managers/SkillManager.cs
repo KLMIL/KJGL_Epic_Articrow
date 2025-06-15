@@ -8,24 +8,24 @@ namespace CKT
     [System.Serializable]
     public class SkillManager
     {
-        #region [OnHandPerformActionT1]
-        public ActionT1Handler<List<GameObject>> OnHandPerformActionT1 = new();
+        #region [아티팩트 공격 실행]
+        public ActionT1<List<GameObject>> OnHandPerformActionT1 = new();
         public void TriggerHand()
         {
             OnHandPerformActionT1.Trigger(_slotList);
         }
         #endregion
 
-        #region [OnHandCancelActionT0]
-        public ActionT0Handler OnHandCancelActionT0 = new();
+        #region [아티팩트 공격 취소]
+        public ActionT0 OnHandCancelActionT0 = new();
         #endregion
 
-        #region [OnThrowAwayActionT0]
-        public ActionT0Handler OnThrowAwayActionT0 = new();
+        #region [아티팩트 버리기 실행]
+        public ActionT0 OnThrowAwayActionT0 = new();
         #endregion
 
-        #region [UpdateSlotListActionT1]
-        public ActionT1Handler<List<GameObject>> OnUpdateSlotListActionT1 = new();
+        #region [슬롯 내용물 갱신]
+        public ActionT1<List<GameObject>> OnUpdateSlotListActionT1 = new();
         #endregion
         
         #region [SlotList]
