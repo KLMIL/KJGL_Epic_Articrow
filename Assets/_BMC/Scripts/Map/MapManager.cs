@@ -12,14 +12,13 @@ namespace BMC
         public static MapManager Instance => s_instance;
 
         [Header("전체 맵")]
-        [SerializeField] Room[] _fullMap;
-        public Room[] FullMap => _fullMap;
+        [field: SerializeField] public Room[] FullMap { get; private set; }
         public int MaxRow { get; private set; } = 6;
         public int MaxCol { get; private set; } = 5;
 
         [Header("방 생성 관련")]
         public Dictionary<RoomType, List<Room>> RoomTypeRoomListDict { get; private set; } = new Dictionary<RoomType, List<Room>>(); // 방 타입별 종류 (추후에 스테이지별로 관리할 수 있도록 수정 예정)
-        [SerializeField] Vector2 _roomOffset = new Vector2(14f, 25f); // row, col 간격
+        Vector2 _roomOffset = new Vector2(14f, 26f); // row, col 간격
 
         [Header("방 이동 관련")]
         [field: SerializeField] public Room CurrentRoom { get; set; }
@@ -60,7 +59,7 @@ namespace BMC
                 RoomTypeRewardListDict.Add(roomType, rewards.ToList());
             }
 
-            _fullMap = new Room[MaxRow * MaxCol];
+            FullMap = new Room[MaxRow * MaxCol];
 
             CreateRoomRandomInTypeAtPoint(RoomType.BossRoom);          // 보스 방 생성
             CreateRoomRandomInTypeAtPoint(RoomType.StartRoom);         // 시작 방 생성
@@ -76,7 +75,7 @@ namespace BMC
                 return null;
             }
             int idx = row * MaxCol + col;
-            Room room = _fullMap[idx];
+            Room room = FullMap[idx];
             return room;
         }
 
@@ -92,14 +91,14 @@ namespace BMC
 
             // 유효한 인덱스인지 확인
             int idx = row * MaxCol + col;
-            if (row < 0 || row >= MaxRow || col < 0 || col >= MaxCol || idx < 0 || idx >= _fullMap.Length)
+            if (row < 0 || row >= MaxRow || col < 0 || col >= MaxCol || idx < 0 || idx >= FullMap.Length)
             {
                 Debug.LogError($"유효하지 않은 행/열: row({row}) col({col}). MaxRow: {MaxRow}, MaxCol: {MaxCol}");
                 return null; // 유효하지 않은 경우 null 반환
             }
 
             // 해당 위치에 방이 없는 경우
-            if (_fullMap[idx] == null)
+            if (FullMap[idx] == null)
             {
                 Room newRoom = CreateRoomRandomInType(roomType);
                 if (newRoom != null)
@@ -108,11 +107,12 @@ namespace BMC
                     newRoom.Init(row, col);
                     Vector2 spawnPos = new Vector2(col * _roomOffset.y, -row * _roomOffset.x);
                     newRoom.transform.position = spawnPos;
-                    _fullMap[idx] = newRoom;
+                    FullMap[idx] = newRoom;
                     CurrentRoom = newRoom;
                 }
             }
-            return _fullMap[idx];
+
+            return FullMap[idx];
         }
 
         // 특정 지점에 특정 방 리스트 중 랜덤하게 생성
