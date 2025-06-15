@@ -3,14 +3,17 @@ using UnityEngine;
 /*
  * 몬스터의 Idle(정지/대기) 상태. 아무것도 하지 않음.
  */
-[CreateAssetMenu(
-    fileName = "IdleAction", 
+namespace Game.Enemy
+{
+    [CreateAssetMenu(
+    fileName = "IdleAction",
     menuName = "Enemy/Action/State/Idle"
 )]
-public class IdleActionSO : EnemyActionSO
-{
-    public override void Act(EnemyController controller)
+    public class IdleActionSO : EnemyActionSO
     {
-        // 아무것도 하지 않음.
+        public override void Act(EnemyController controller)
+        {
+            // 아무것도 하지 않음.
+        }
     }
 }

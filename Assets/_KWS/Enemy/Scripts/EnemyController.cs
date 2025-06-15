@@ -1,99 +1,101 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[RequireComponent(typeof(EnemyMovement))]
-[RequireComponent(typeof(EnemyDealDamage))]
-[RequireComponent(typeof(EnemyTakeDamage))]
-[RequireComponent(typeof(EnemyAnimation))]
-[RequireComponent(typeof(PolygonCollider2D))]
-[RequireComponent(typeof(CircleCollider2D))]
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Animator))]
-public class EnemyController : MonoBehaviour
+namespace Game.Enemy
 {
-    [Header("Enemy Status")]
-    [SerializeField] EnemyStatusSO _statusOrigin;
-    [HideInInspector] public EnemyStatusSO Status;
-
-    [Header("Components")]
-    public SpriteRenderer SpriteRenderer;
-    [HideInInspector] public EnemyFSMCore FSM;
-    EnemyAnimation _animation;
-    EnemyMovement _movement;
-    EnemyDealDamage _dealDamage;
-
-    [Header("FSM")]
-    public List<EnemyBehaviourUnit> Behaviours = new();       // 직접 할당할 FSM 상태 리스트
-    public Dictionary<string, float> lastAttackTimes = new(); // 공격 쿨타임 저장 딕셔너리
-
-    [HideInInspector] public Transform Player;
-
-
-    public string CurrentStateName => FSM.CurrentStateName;
-    public string CurrentAnimation => _animation.CurrentAnimation;
-    
-
-
-
-    #region Initialization
-    private void Awake()
+    [RequireComponent(typeof(EnemyMovement))]
+    [RequireComponent(typeof(EnemyDealDamage))]
+    [RequireComponent(typeof(EnemyTakeDamage))]
+    [RequireComponent(typeof(EnemyAnimation))]
+    [RequireComponent(typeof(PolygonCollider2D))]
+    [RequireComponent(typeof(CircleCollider2D))]
+    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Animator))]
+    public class EnemyController : MonoBehaviour
     {
-        // 스텟 SO를 복사
-        Status = Instantiate(_statusOrigin);
+        [Header("Enemy Status")]
+        [SerializeField] EnemyStatusSO _statusOrigin;
+        [HideInInspector] public EnemyStatusSO Status;
 
-        // 할당된 Behaviour 중 Attack 분류에 속하면 쿨타임 딕셔너리에 추가
-        foreach (var behaviour in Behaviours)
+        [Header("Components")]
+        public SpriteRenderer SpriteRenderer;
+        [HideInInspector] public EnemyFSMCore FSM;
+        EnemyAnimation _animation;
+        EnemyMovement _movement;
+        EnemyDealDamage _dealDamage;
+
+        [Header("FSM")]
+        public List<EnemyBehaviourUnit> Behaviours = new();       // 직접 할당할 FSM 상태 리스트
+        public Dictionary<string, float> lastAttackTimes = new(); // 공격 쿨타임 저장 딕셔너리
+
+        [HideInInspector] public Transform Player;
+
+
+        public string CurrentStateName => FSM.CurrentStateName;
+        public string CurrentAnimation => _animation.CurrentAnimation;
+
+
+
+
+        #region Initialization
+        private void Awake()
         {
-            if (behaviour.action is MeleeAttackActionSO ||
-                behaviour.action is ProjectileAttackActionSO ||
-                behaviour.action is SpecialAttackActionSO)
+            // 스텟 SO를 복사
+            Status = Instantiate(_statusOrigin);
+
+            // 할당된 Behaviour 중 Attack 분류에 속하면 쿨타임 딕셔너리에 추가
+            foreach (var behaviour in Behaviours)
             {
-                string key = behaviour.stateName;
-                if (!lastAttackTimes.ContainsKey(key))
+                if (behaviour.action is MeleeAttackActionSO ||
+                    behaviour.action is ProjectileAttackActionSO ||
+                    behaviour.action is SpecialAttackActionSO)
                 {
-                    lastAttackTimes[key] = -Mathf.Infinity;
+                    string key = behaviour.stateName;
+                    if (!lastAttackTimes.ContainsKey(key))
+                    {
+                        lastAttackTimes[key] = -Mathf.Infinity;
+                    }
                 }
             }
+
+            // FSM 생성
+            FSM = new EnemyFSMCore(this, Behaviours);
         }
 
-        // FSM 생성
-        FSM = new EnemyFSMCore(this, Behaviours);
-    }
-
-    private void OnEnable()
-    {
-        //SpawnTime = Time.time;
-        //FSM.ChangeState("Spawned");
-    }
-
-    private void Start()
-    {
-        SpriteRenderer = GetComponent<SpriteRenderer>();
-        _animation = GetComponent<EnemyAnimation>();
-        _movement = GetComponent<EnemyMovement>();
-        _dealDamage = GetComponent<EnemyDealDamage>();
-        Player = GameObject.FindWithTag("Player")?.transform;
-    }
-    #endregion
-
-
-    private void Update()
-    {
-        if (Player == null)
+        private void OnEnable()
         {
-            Player = GameObject.FindWithTag("Player")?.transform;
-            if (Player == null) return;
+            //SpawnTime = Time.time;
+            //FSM.ChangeState("Spawned");
         }
 
-        FSM.Update();
-    }
+        private void Start()
+        {
+            SpriteRenderer = GetComponent<SpriteRenderer>();
+            _animation = GetComponent<EnemyAnimation>();
+            _movement = GetComponent<EnemyMovement>();
+            _dealDamage = GetComponent<EnemyDealDamage>();
+            Player = GameObject.FindWithTag("Player")?.transform;
+        }
+        #endregion
 
-    #region Public API
-    public void PlayAnimationOnce(string animName) => _animation.PlayAnimationOnce(animName);
-    public void ForceToNextState() => FSM.ForceToNextState();
-    public void DealDamageToPlayer(float damage, bool forceToNextState = false) => _dealDamage.DealDamageToPlayer(damage, forceToNextState);
-    public void MoveTo(Vector3 dir, float duration, string moveType) => _movement.MoveTo(dir, duration, moveType);
-    public void StopMove() => _movement.Stop();
-    #endregion
+
+        private void Update()
+        {
+            if (Player == null)
+            {
+                Player = GameObject.FindWithTag("Player")?.transform;
+                if (Player == null) return;
+            }
+
+            FSM.Update();
+        }
+
+        #region Public API
+        public void PlayAnimationOnce(string animName) => _animation.PlayAnimationOnce(animName);
+        public void ForceToNextState() => FSM.ForceToNextState();
+        public void DealDamageToPlayer(float damage, bool forceToNextState = false) => _dealDamage.DealDamageToPlayer(damage, forceToNextState);
+        public void MoveTo(Vector3 dir, float duration, string moveType) => _movement.MoveTo(dir, duration, moveType);
+        public void StopMove() => _movement.Stop();
+        #endregion
+    }
 }

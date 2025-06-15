@@ -2,22 +2,25 @@ using TMPro;
 using UnityEngine;
 using YSJ;
 
-public class EnemyTakeDamage : MonoBehaviour, IDamagable
+namespace Game.Enemy
 {
-    EnemyController ownerController;
-
-    private void Start()
+    public class EnemyTakeDamage : MonoBehaviour, IDamagable
     {
-        ownerController = GetComponentInParent<EnemyController>();
-    }
+        EnemyController ownerController;
 
-    public void TakeDamage(float damage)
-    {
-        TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-        damageText.text = damage.ToString();
-        damageText.transform.position = transform.position;
+        private void Start()
+        {
+            ownerController = GetComponentInParent<EnemyController>();
+        }
 
-        ownerController.FSM.isDamaged = true;
-        ownerController.FSM.pendingDamage += damage;
+        public void TakeDamage(float damage)
+        {
+            TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            damageText.text = damage.ToString();
+            damageText.transform.position = transform.position;
+
+            ownerController.FSM.isDamaged = true;
+            ownerController.FSM.pendingDamage += damage;
+        }
     }
 }

@@ -1,7 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TrueCondition", menuName = "Enemy/Condition/True")]
-public class TrueConditionSO : EnemyConditionSO
+namespace Game.Enemy
 {
-    public override bool IsMet(EnemyController controller) => true;
+    [CreateAssetMenu(fileName = "TrueCondition", menuName = "Enemy/Condition/True")]
+    public class TrueConditionSO : EnemyConditionSO
+    {
+        public override bool IsMet(EnemyController controller) => true;
+    }
 }

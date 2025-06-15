@@ -3,14 +3,17 @@ using UnityEngine;
 /*
  * 적이 저음 소환됐을 때 상태
  */
-[CreateAssetMenu(
+namespace Game.Enemy
+{
+    [CreateAssetMenu(
     fileName = "SpawnedConditionSo",
     menuName = "Enemy/Condition/Spawned"
 )]
-public class SpawnedConditionSO : EnemyConditionSO
-{
-    public override bool IsMet(EnemyController controller)
+    public class SpawnedConditionSO : EnemyConditionSO
     {
-        return false;
+        public override bool IsMet(EnemyController controller)
+        {
+            return false;
+        }
     }
 }

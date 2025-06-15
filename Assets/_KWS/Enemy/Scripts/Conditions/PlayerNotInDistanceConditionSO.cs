@@ -1,14 +1,17 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerNotInDistanceCondition", menuName = "Enemy/Condition/Player Not In Distance")]
-public class PlayerNotInDistanceConditionSO : EnemyConditionSO
+namespace Game.Enemy
 {
-    public float distance = 5f;
-
-    public override bool IsMet(EnemyController controller)
+    [CreateAssetMenu(fileName = "PlayerNotInDistanceCondition", menuName = "Enemy/Condition/Player Not In Distance")]
+    public class PlayerNotInDistanceConditionSO : EnemyConditionSO
     {
-        if (controller.Player == null) return true;
+        public float distance = 5f;
 
-        return !(Vector3.Distance(controller.transform.position, controller.Player.position) <= distance);
+        public override bool IsMet(EnemyController controller)
+        {
+            if (controller.Player == null) return true;
+
+            return !(Vector3.Distance(controller.transform.position, controller.Player.position) <= distance);
+        }
     }
 }
