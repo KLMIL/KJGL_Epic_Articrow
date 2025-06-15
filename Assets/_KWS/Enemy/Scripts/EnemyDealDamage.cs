@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Enemy
@@ -19,12 +18,12 @@ namespace Game.Enemy
         {
             if (!isPlayerContact) return;
 
-            // 접촉 공격 수행
-            if (Time.time - ownerController.FSM.lastContactAttackTime >= ownerController.FSM.contactAttackCooldown && ownerController.CurrentStateName != "Die")
-            {
-                ownerController.DealDamageToPlayer(ownerController.Status.attack);
-                ownerController.FSM.lastContactAttackTime = Time.time;
-            }
+            // 접촉 공격 수행 -> 제거 예정
+            //if (Time.time - ownerController.FSM.lastContactAttackTime >= ownerController.FSM.contactAttackCooldown && ownerController.CurrentStateName != "Die")
+            //{
+            //    ownerController.DealDamageToPlayer(ownerController.Status.attack);
+            //    ownerController.FSM.lastContactAttackTime = Time.time;
+            //}
 
 
         }
