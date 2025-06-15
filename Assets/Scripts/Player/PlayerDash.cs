@@ -14,17 +14,18 @@ namespace BMC
         float _dashSpeed = 14f;
         float _dashTime = 0.15f;
         float _dashCoolTime = 0.4f;
+        [field: SerializeField] public bool IsDash { get; private set; } = false;
 
         void Start()
         {
             Collider2D[] _colliderArray = GetComponents<Collider2D>();
-            for (int i = 0; i < _colliderArray.Length; i++)
-            {
-                if (_colliderArray[i].isTrigger)
-                {
-                    _hitBox = _colliderArray[i];
-                }
-            }
+            //for (int i = 0; i < _colliderArray.Length; i++)
+            //{
+            //    if (_colliderArray[i].isTrigger)
+            //    {
+            //        _hitBox = _colliderArray[i];
+            //    }
+            //}
             _rb = GetComponent<Rigidbody2D>();
             _silhouette = GetComponent<Silhouette>();
             YSJ.Managers.Input.OnDashAction += Dash;
@@ -38,12 +39,14 @@ namespace BMC
         IEnumerator DashCoroutine(Vector2 dashDir, float dashSpeed, float dashTime, float dashCoolTime)
         {
             _silhouette.IsActive = true;
-            _hitBox.enabled = false;
+            //_hitBox.enabled = false;
+            IsDash = true;
             _rb.linearVelocity += dashDir * dashSpeed;
 
             yield return new WaitForSeconds(dashTime);
             _silhouette.IsActive = false;
-            _hitBox.enabled = true;
+            //_hitBox.enabled = true;
+            IsDash = false;
             _rb.linearVelocity -= _rb.linearVelocity;
 
             float remainCoolTime = dashCoolTime - dashTime;

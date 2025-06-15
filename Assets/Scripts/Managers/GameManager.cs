@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] int _pauseLevel = 0; // 일시 정지 레벨 (0: 게임 진행 중, 1 이상 일시 정지)
 
+    [Header("몬스터 소환")]
+    [SerializeField] public BMC.EnemySpawner EnemySpawner { get; private set; }
+
     void Awake()
     {
         if (_instance == null)
@@ -34,6 +37,7 @@ public class GameManager : MonoBehaviour
         Inventory.Init();
         LeftSkillManager.Init();
         RightSkillManager.Init();
+        EnemySpawner = GetComponent<BMC.EnemySpawner>();
     }
 
     public List<GameObject> MagicItems = new();

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using TMPro;
+using BMC;
 
 namespace YSJ
 {
@@ -8,7 +9,7 @@ namespace YSJ
     {
         public Action OnDeadAction;
 
-        public bool IsDead { get; private set; }
+        public bool IsDead { get; private set; } = false;
 
         [Header("업그레이드 가능한 스테이터스")]
         public float MaxHealth { get; set; } = 100;
@@ -37,7 +38,7 @@ namespace YSJ
         #region 체력 관련
         public void TakeDamage(float damage)
         {
-            if (IsDead)
+            if (IsDead || PlayerManager.Instance.PlayerDash.IsDash)
                 return;
 
             ShowDamageText(damage);

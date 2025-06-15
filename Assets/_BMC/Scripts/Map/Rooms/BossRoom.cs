@@ -24,21 +24,22 @@ namespace BMC
             //GetComponentInChildren<EnemySpawner>().SpawnBoss();
         }
 
-        public void SpawnBoss()
-        {
-            GetComponentInChildren<EnemySpawner>().SpawnBoss();
-        }
+        //public void SpawnBoss()
+        //{
+        //    GetComponentInChildren<EnemySpawner>().SpawnBoss();
+        //}
 
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Player"))
-            {
-                if (!_roomData.IsCleared)
-                {
-                    // 보스 소환
-                    SpawnBoss();
-                }
-            }
-        }
+        //private void OnTriggerEnter2D(Collider2D collision)
+        //{
+        //    if (collision.CompareTag("Player"))
+        //    {
+        //        if (!_roomData.IsCleared)
+        //        {
+        //            Debug.Log("보스 소환 가자고~");
+        //            // 보스 소환
+        //            SpawnBoss();
+        //        }
+        //    }
+        //}
     }
 }

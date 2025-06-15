@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using YSJ;
 using static Define;
 
 namespace BMC
@@ -19,26 +18,12 @@ namespace BMC
         int[] _doorDirectionY = { -1, 0, 0, 1 };    // 상, 좌, 우, 하
         int[] _doorDirectionX = { 0, -1, 1, 0 };    // 상, 좌, 우, 하
 
-        [Header("테스트 관련")]
-        [SerializeField] EnemySpawner _enemySpawner; // 몬스터 소환기 (테스트용)
+        [Header("클리어 관련")]
+        EnemySpawner _enemySpawner;
 
         void Awake()
         {
-            _enemySpawner = transform.GetComponentInChildren<EnemySpawner>();
             FindDoor();
-            //RearrangeDoor();
-        }
-
-        void Start()
-        {
-            if (_roomData.RoomType != RoomType.StartRoom && _roomData.RoomType != RoomType.BossRoom)
-            {
-                _enemySpawner.Init();
-                SpawnEnemy();
-            }
-
-            //UI_InGameEventBus.OnDeactivateMinimapRoom?.Invoke(RoomData.Row * MapManager.Instance.MaxCol + RoomData.Col);
-            //UI_InGameEventBus.OnActiveMinimapRoom?.Invoke(RoomData.Row * MapManager.Instance.MaxCol + RoomData.Col); 
         }
 
         void Update()
@@ -72,17 +57,6 @@ namespace BMC
         {
             Door targetDoor = _doorDict.TryGetValue(doorPosition, out targetDoor) ? targetDoor : null;
             return targetDoor;
-        }
-
-        // 문 리스트 정렬
-        void RearrangeDoor()
-        {
-            int idx = -1;
-            for (int i = 0; i < _doors.Length; i++)
-            {
-                idx = (int)_doors[i].DoorPosition - 1;
-                (_doors[i], _doors[idx]) = (_doors[idx], _doors[i]);
-            }
         }
 
         // 유효한 모든 문 열기
@@ -153,9 +127,36 @@ namespace BMC
         }
         #endregion
 
+        #region 방 On/Off 관련
+
+        public void DeactivateRoom()
+        {
+            _roomData.RoomState = RoomState.Deactivate;
+            UI_InGameEventBus.OnDeactivateMinimapRoom?.Invoke(RoomData.Row * MapManager.Instance.MaxCol + RoomData.Col);
+        }
+
+        public void ActivateRoom()
+        {
+            _roomData.RoomState = RoomState.Active;
+            UI_InGameEventBus.OnActiveMinimapRoom?.Invoke(RoomData.Row * MapManager.Instance.MaxCol + RoomData.Col);
+        }
+
+        // 적 소환
         public void SpawnEnemy()
         {
-            _enemySpawner.SpawnEnemy();
+            if (!_roomData.IsCleared)
+            {
+                if (_roomData.RoomType != RoomType.StartRoom)
+                {
+                    _enemySpawner = GameManager.Instance.EnemySpawner;
+                    _enemySpawner.Init();
+                    if (_roomData.RoomType == RoomType.BossRoom)
+                        _enemySpawner.SpawnBoss();
+                    else
+                        _enemySpawner.SpawnEnemy();
+                }
+            }
         }
+        #endregion
     }
 }

@@ -66,14 +66,17 @@ namespace BMC
         // 다음 방으로 이동 시도
         public void TryTransferToNextRoom(Transform playerTransform)
         {
-            // 1. 현재 방의 선택된 문으로 설정
+            // 1. 현재 방 비활성화
+            MapManager.Instance.CurrentRoom.DeactivateRoom();
+
+            // 2. 현재 방의 선택된 문으로 설정
             _currentRoom.SelectedDoor = this;
 
-            // 2. 다음 방의 정보 가져오기
+            // 3. 다음 방의 정보 가져오기
             Tuple<int, int> nextRoomIndex = GetNextRoomIndex();
             NextRoom = MapManager.Instance.GetRoom(nextRoomIndex.Item1, nextRoomIndex.Item2);
 
-            // 3. 클리어 했는데 다음 방이 없다면, 방 생성 UI 띄우기
+            // 4. 클리어 했는데 다음 방이 없다면, 방 생성 UI 띄우기
             if (_currentRoom.RoomData.IsCleared && NextRoom == null)
             {
                 // 방 선택 UI 띄우고, 문 정보 넘기기
@@ -88,20 +91,18 @@ namespace BMC
         // 다음 방으로 이동
         public void TransferToNextRoom(Transform playerTransform)
         {
-            if(NextRoom != null)
+            if (NextRoom != null)
             {
-                // 미니맵에서 현재 방 비활성화 시키고, 다음 방 활성화
-                UI_InGameEventBus.OnDeactivateMinimapRoom?.Invoke(_currentRoom.RoomData.Row * MapManager.Instance.MaxCol + _currentRoom.RoomData.Col);
-                UI_InGameEventBus.OnActiveMinimapRoom?.Invoke(NextRoom.RoomData.Row * MapManager.Instance.MaxCol + NextRoom.RoomData.Col);
-
                 // TODO: 아이작처럼 하려면 벽 테두리에 간격이 있어야 일정한 소환 위치가 나올 것 같음, 이를 아트에 반영하고 코드 수정해야함
                 // 다음 방으로 입장할 때의 입장하는 문 위치에서 일정 거리만큼 떨어져서 이동
                 MapManager.Instance.CurrentRoom = NextRoom;
+                MapManager.Instance.CurrentRoom.ActivateRoom();
                 DoorPosition nextRoomDoorPosition = GetDoorPositionOfNextRoom();
                 Door spawnDoor = NextRoom.GetDoor(nextRoomDoorPosition);
                 _doorSpawnPlayerPositionOffset = (nextRoomDoorPosition == DoorPosition.Up || nextRoomDoorPosition == DoorPosition.Down) ? 1.5f : 1f;
                 playerTransform.position = spawnDoor.transform.position + spawnDoor.transform.up * _doorSpawnPlayerPositionOffset;
                 OnTransferToNextRoom.Invoke(NextRoom.transform);
+                MapManager.Instance.CurrentRoom.SpawnEnemy(); // 적 소환
 
                 if (!NextRoom.RoomData.IsCleared)
                     NextRoom.CloseAllValidDoor();
@@ -164,16 +165,9 @@ namespace BMC
         {
             if (collision.CompareTag("Player") && _isOpen)
             {
-                //Debug.Log("문 진입");
+                if (collision.isTrigger) // 플레이어 Hit box 무시
+                    return;
                 TryTransferToNextRoom(collision.transform);
-            }
-        }
-
-        void OnTriggerExit2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Player") && _isOpen)
-            {
-                //Debug.Log("문 나감");
             }
         }
         #endregion
