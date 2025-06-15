@@ -49,6 +49,7 @@ namespace BMC
                     //}
                     //Debug.Log("몬스터가 맞음");
                     damagable.TakeDamage(10);
+                    PlayerManager.Instance.PlayerStatus.RegenerateMana(10);
                 }
             }
         }
