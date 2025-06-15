@@ -24,7 +24,6 @@ namespace CKT
             _ignoreLayerMask = LayerMask.GetMask("Ignore Raycast", "Player", "BreakParts");
             _target = null;
 
-            StartCoroutine(ScanTarget());
             _disableCoroutine = StartCoroutine(DisableCoroutine(ExistTime));
         }
 
@@ -38,40 +37,30 @@ namespace CKT
             transform.position += transform.up * MoveSpeed * Time.fixedDeltaTime;
         }
 
-        protected virtual IEnumerator ScanTarget()
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            yield return null;
-            
-            while (_target == null)
+            if (collision.isTrigger || _target != null) return;
+
+            _target = collision.transform;
+            IDamagable iDamageable = _target.GetComponent<IDamagable>();
+            if (iDamageable != null)
             {
-                RaycastHit2D hit = Physics2D.CircleCast(this.transform.position, this.transform.localScale.x, Vector2.up, 0, ~_ignoreLayerMask);
-                _target = hit.transform;
+                iDamageable.TakeDamage(Damage);
 
-                if (_target != null)
+                _curPenetration--;
+                if (_curPenetration < 0)
                 {
-                    IDamagable iDamageable = _target.GetComponent<IDamagable>();
-                    if (iDamageable != null)
+                    if (SkillManager != null)
                     {
-                        iDamageable.TakeDamage(Damage);
-
-                        _curPenetration--;
-                        if (_curPenetration < 0)
-                        {
-                            if (SkillManager != null)
-                            {
-                                CreateHitSkillObject(this.transform.position, this.transform.up, this.transform.localScale);
-                            }
-
-                            if (_disableCoroutine != null)
-                            {
-                                StopCoroutine(_disableCoroutine);
-                            }
-                            _disableCoroutine = StartCoroutine(DisableCoroutine(0));
-                        }
+                        CreateHitSkillObject(this.transform.position, this.transform.up, this.transform.localScale);
                     }
-                }
 
-                yield return null;
+                    if (_disableCoroutine != null)
+                    {
+                        StopCoroutine(_disableCoroutine);
+                    }
+                    _disableCoroutine = StartCoroutine(DisableCoroutine(0));
+                }
             }
         }
 

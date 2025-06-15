@@ -21,6 +21,7 @@ namespace CKT
             _distance = 4;
 
             base.OnEnable();
+            StartCoroutine(ScanTarget());
         }
 
         protected new void OnDisable()
@@ -29,7 +30,7 @@ namespace CKT
             base.OnDisable();
         }
 
-        protected override IEnumerator ScanTarget()
+        IEnumerator ScanTarget()
         {
             yield return null;
 
