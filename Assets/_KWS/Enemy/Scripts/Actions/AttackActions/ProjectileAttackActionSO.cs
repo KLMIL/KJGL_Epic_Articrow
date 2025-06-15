@@ -78,25 +78,6 @@ namespace Game.Enemy
             }
 
             controller.FSM.fireRoutine = controller.StartCoroutine(FireProjectiles(controller));
-
-            //controller.projectileIntervalTimer += Time.deltaTime;
-            //while (controller.projectileIntervalTimer >= projectileTurm)
-            //{
-            //    controller.projectileIntervalTimer = 0f;
-            //    controller.projectileFiredCount++;
-
-            //    Vector3 firePos = controller.transform.position + firePointOffset;
-            //    Vector3 dir = (controller.Player.position - firePos).normalized;
-
-            //    GameObject currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity, controller.transform);
-            //    Destroy(currProj, 1f);
-
-            //    var rb = currProj.GetComponent<Rigidbody2D>();
-            //    if (rb != null) rb.linearVelocity = dir * projectileSpeed;
-
-            //    if (controller.projectileFiredCount >= projectileAmount)
-            //        break; // 모든 발사 끝내면 중단
-            //}
         }
 
         private IEnumerator FireProjectiles(EnemyController controller)
@@ -107,10 +88,22 @@ namespace Game.Enemy
                 // 발사
                 Vector3 firePos = controller.transform.position + firePointOffset;
                 Vector3 dir = (controller.Player.position - firePos).normalized;
+                Vector2 velocity = dir * projectileSpeed;
                 GameObject currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity, controller.transform);
-                var rb = currProj.GetComponent<Rigidbody2D>();
-                if (rb != null) rb.linearVelocity = dir * projectileSpeed;
-                Destroy(currProj, 1f);
+                EnemyProjectile proj = currProj.GetComponent<EnemyProjectile>();
+
+                if (proj != null)
+                {
+                    proj.InitProjecitle(
+                            controller,
+                            controller.Status.attack * damageMultiply,
+                            velocity
+                        );
+                }
+
+                //var rb = currProj.GetComponent<Rigidbody2D>();
+                //if (rb != null) rb.linearVelocity = dir * projectileSpeed;
+                //Destroy(currProj, 1f);
 
                 count++;
                 yield return new WaitForSeconds(projectileTurm);

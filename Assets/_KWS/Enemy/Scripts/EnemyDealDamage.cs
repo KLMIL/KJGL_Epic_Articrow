@@ -34,12 +34,14 @@ namespace Game.Enemy
 
             if (collision.CompareTag(targetTag) && collision.isTrigger)
             {
-                if (gameObject.name.Contains("SporeSlimeProjectile"))
-                {
-                    ownerController.DealDamageToPlayer(ownerController.Status.attack);
-                    Destroy(gameObject); // 투사체 파괴
-                }
-                else if (!ownerController.FSM.isRushAttacked) // 돌진 공격 수행
+                // DEP -> EnemyProjectile.cs로 이관
+                //if (gameObject.name.Contains("SporeSlimeProjectile"))
+                //{
+                //    ownerController.DealDamageToPlayer(ownerController.Status.attack);
+                //    Destroy(gameObject); // 투사체 파괴
+                //}
+                //else 
+                if (!ownerController.FSM.isRushAttacked) // 돌진 공격 수행
                 {
                     ownerController.DealDamageToPlayer(ownerController.Status.attack * ownerController.FSM.rushDamageMultuply);
                     ownerController.FSM.isRushAttacked = true;
