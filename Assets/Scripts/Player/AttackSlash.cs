@@ -27,10 +27,6 @@ namespace BMC
                     _anim.Play("AttackSlash2");
                     Debug.LogWarning("2단계 공격");
                     break;
-                case 3:
-                    _anim.Play("AttackSlash3");
-                    Debug.LogWarning("3단계 공격");
-                    break;
                 default:
                     break;
             }
