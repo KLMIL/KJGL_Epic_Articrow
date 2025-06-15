@@ -1,7 +1,9 @@
+using BMC;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using YSJ;
 
 namespace CKT
 {
@@ -10,6 +12,7 @@ namespace CKT
         protected abstract GameObject _fieldArtifact { get; }
         protected abstract string _prefabName { get; }
         protected abstract float _attackSpeed { get; }
+        protected abstract float _manaCost { get; }
 
         #region [컴포넌트]
         protected SpriteRenderer _renderer;
@@ -40,7 +43,21 @@ namespace CKT
             _skillManager.OnThrowAwayActionT0.SingleRegister(() => ThrowAway());
         }
 
-        protected abstract void Attack(List<GameObject> list);
+        protected void Attack(List<GameObject> list)
+        {
+            if (_attackCoroutine != null) return;
+            
+            if (PlayerManager.Instance.PlayerStatus.Mana < _manaCost)
+            {
+                Debug.LogWarning("마나가 부족합니다");
+                return;
+            }
+            else
+            {
+                PlayerManager.Instance.PlayerStatus.SpendMana(_manaCost);
+                _attackCoroutine = StartCoroutine(AttackCoroutine(list));
+            }
+        }
 
         protected abstract IEnumerator AttackCoroutine(List<GameObject> list);
 

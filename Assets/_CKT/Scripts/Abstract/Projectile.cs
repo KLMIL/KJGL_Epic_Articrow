@@ -21,7 +21,7 @@ namespace CKT
         {
             _curPenetration = BasePenetration;
 
-            _ignoreLayerMask = LayerMask.GetMask("Ignore Raycast", "Player", "BreakParts");
+            _ignoreLayerMask = LayerMask.GetMask("Default", "Ignore Raycast", "Player", "BreakParts");
             _target = null;
 
             _disableCoroutine = StartCoroutine(DisableCoroutine(ExistTime));
