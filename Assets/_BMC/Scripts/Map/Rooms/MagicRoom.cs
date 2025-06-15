@@ -11,7 +11,7 @@ namespace BMC
             _roomData = new RoomData
             {
                 RoomType = RoomType.MagicRoom,
-                RoomState = RoomState.Undiscover,
+                RoomState = RoomState.Deactivate,
                 Row = row,
                 Col = col,
                 IsVisited = true,

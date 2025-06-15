@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour
     static GameManager _instance;
     public static GameManager Instance => _instance;
 
-    public BMC.PlayerController PlayerController { get; private set; }
-
     public Camera MainCamera { get; private set; }
 
     public CKT.Inventory Inventory { get; private set; } = new CKT.Inventory();
@@ -20,6 +18,9 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public bool IsPaused { get; private set; } = false;
 
     [SerializeField] int _pauseLevel = 0; // 일시 정지 레벨 (0: 게임 진행 중, 1 이상 일시 정지)
+
+    [Header("몬스터 소환")]
+    [SerializeField] public BMC.EnemySpawner EnemySpawner { get; private set; }
 
     void Awake()
     {
@@ -36,14 +37,10 @@ public class GameManager : MonoBehaviour
         Inventory.Init();
         LeftSkillManager.Init();
         RightSkillManager.Init();
+        EnemySpawner = GetComponent<BMC.EnemySpawner>();
     }
 
     public List<GameObject> MagicItems = new();
-
-    void Start()
-    {
-        PlayerController = FindAnyObjectByType<BMC.PlayerController>();
-    }
 
     // 일시 정지 및 재개 기능
     public void TogglePauseGame(bool isActive)

@@ -131,7 +131,7 @@ public class InputManager
         if (context.performed)
         {
             OnDashAction?.Invoke(MoveInput);
-            //Debug.Log("대시");
+            Debug.Log("대시");
         }
         //Debug.Log("IsPressDash: " + IsPressDash);
     }
@@ -208,10 +208,10 @@ public class InputManager
 
     public void ClearAction()
     {
-        OnDashAction = null;
+        //OnDashAction = null;
         OnInteractAction = null;
         OnInventoryAction = null;
-        OnLeftHandAction = null;
+        //OnLeftHandAction = null;
         OnRightHandAction = null;
         OnPauseAction = null;
     }

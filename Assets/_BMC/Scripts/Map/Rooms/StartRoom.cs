@@ -25,7 +25,13 @@ namespace BMC
 
         void Start()
         {
+            PlacePlayer();
             UI_InGameEventBus.OnActiveMinimapRoom?.Invoke(RoomData.Row * MapManager.Instance.MaxCol + RoomData.Col);
+        }
+
+        public void PlacePlayer()
+        {
+            PlayerManager.Instance.transform.position = transform.position; // 플레이어 위치 초기화
         }
     }
 }

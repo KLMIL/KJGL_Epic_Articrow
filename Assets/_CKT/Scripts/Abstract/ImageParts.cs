@@ -33,7 +33,7 @@ namespace CKT
             item.transform.SetParent(null);
 
             //Vector3 playerPos = FindAnyObjectByType<PlayerController>().transform.position;
-            Vector3 playerPos = FindAnyObjectByType<BMC.PlayerController>().transform.position;
+            Vector3 playerPos = FindAnyObjectByType<BMC.PlayerManager>().transform.position;
             item.transform.position = playerPos + Vector3.down;
 
             Destroy(this.gameObject);

@@ -9,8 +9,12 @@ public class UI_InGameEventBus : MonoBehaviour
     // 방 선택
     public static Action OnToggleChoiceRoomCanvas;
 
+    // 피해
+    public static Action OnShowBloodCanvas;
+
     // 플레이어, 보스 HP 슬라이더 업데이트
     public static Action<float> OnPlayerHpSliderValueUpdate;
+    public static Action<float> OnPlayerMpSliderValueUpdate;
     public static Action<float> OnBossHpSliderValueUpdate;
 
     // 미니맵
@@ -20,7 +24,9 @@ public class UI_InGameEventBus : MonoBehaviour
     public static void Clear()
     {
         OnToggleChoiceRoomCanvas = null;
+        OnShowBloodCanvas = null;
         OnPlayerHpSliderValueUpdate = null;
+        OnPlayerMpSliderValueUpdate = null;
         OnBossHpSliderValueUpdate = null;
         OnActiveMinimapRoom = null;
         OnDeactivateMinimapRoom = null;

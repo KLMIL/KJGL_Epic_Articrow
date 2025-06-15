@@ -15,9 +15,25 @@ namespace BMC
             _anim = GetComponent<Animator>();
         }
 
-        public void Play()
+        public void Play(int step)
         {
-            _anim.SetTrigger("AttackSlashTrigger");
+            switch(step)
+            {
+                case 1:
+                    _anim.Play("AttackSlash1");
+                    Debug.LogWarning("1단계 공격");
+                    break;
+                case 2:
+                    _anim.Play("AttackSlash2");
+                    Debug.LogWarning("2단계 공격");
+                    break;
+                case 3:
+                    _anim.Play("AttackSlash3");
+                    Debug.LogWarning("3단계 공격");
+                    break;
+                default:
+                    break;
+            }
             transform.right = ((Vector3)Managers.Input.MouseWorldPos - transform.position);
         }
 

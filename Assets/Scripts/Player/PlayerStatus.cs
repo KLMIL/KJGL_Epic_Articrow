@@ -1,12 +1,15 @@
 using System;
 using UnityEngine;
 using TMPro;
+using BMC;
 
 namespace YSJ
 {
     public class PlayerStatus : MonoBehaviour, IDamagable
     {
-        public Action A_Dead;
+        public Action OnDeadAction;
+
+        public bool IsDead { get; private set; } = false;
 
         [Header("업그레이드 가능한 스테이터스")]
         public float MaxHealth { get; set; } = 100;
@@ -23,44 +26,83 @@ namespace YSJ
         void Awake()
         {
             Init();
-            A_Dead += Death;
+            OnDeadAction += Death;
         }
 
         public void Init()
         {
             Health = MaxHealth;
+            Mana = MaxMana;
         }
 
+        #region 체력 관련
         public void TakeDamage(float damage)
         {
-            Debug.Log("플레이어 맞음");
+            if (IsDead || PlayerManager.Instance.PlayerDash.IsDash)
+                return;
 
-            Debug.Log("Player Hit");
-            Health -= damage;
-
-            TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-            damageText.transform.position = transform.position;
-            //TextMeshPro damageText = Instantiate(_damageTextPrefab, transform.position, Quaternion.identity);
-            //spawnedObj.transform.SetParent(transform,false);
-            damageText.text = damage.ToString();
-            UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(Health);
+            UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
+            ShowDamageText(damage);
+            UpdateHealth(-damage);
 
             if (Health <= 0)
             {
-                A_Dead.Invoke();
+                OnDeadAction.Invoke();
             }
         }
 
-        void Death()
-        {
-            Destroy(gameObject);
-        }
+        // 체력 회복
+        public void RecoverHealth(float amount) => UpdateHealth(amount);
 
-        public void IncreaseHealth(float amount) 
+        // 체력 갱신
+        void UpdateHealth(float delta)
         {
-            Health += amount;
+            Health += delta;
             Health = Mathf.Clamp(Health, 0, MaxHealth);
             UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(Health);
+        }
+        #endregion
+
+        #region 마나 관련
+        // 마나 재생
+        public void RegenerateMana(float amount) => UpdateMana(amount);
+
+        // 마나 회복
+        public void RecoveryMana(float amount) => UpdateMana(amount);
+
+        // 마나 소비
+        public bool SpendMana(float amount)
+        {
+            if (Mana < amount)
+                return false;
+
+            UpdateMana(-amount);
+            return true;
+        }
+
+
+        // 마나 갱신
+        void UpdateMana(float delta)
+        {
+            Mana += delta;
+            Mana = Mathf.Clamp(Mana, 0, MaxMana);
+            UI_InGameEventBus.OnPlayerMpSliderValueUpdate?.Invoke(Mana);
+        }
+        #endregion
+
+        // 데미지 텍스트 띄우기
+        void ShowDamageText(float damage)
+        {
+            TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            damageText.transform.position = transform.position;
+            damageText.text = damage.ToString();
+        }
+
+        // 사망
+        void Death()
+        {
+            IsDead = true;
+            Destroy(gameObject);
         }
     }
 }

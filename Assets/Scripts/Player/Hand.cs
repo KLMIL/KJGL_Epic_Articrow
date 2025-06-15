@@ -45,9 +45,7 @@ namespace YSJ
 
         protected void SpriteRotation()
         {
-            _camera = _camera ?? Camera.main;
-
-            Vector2 mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos = Managers.Input.MouseWorldPos;
             Vector2 mouseDir = (mousePos - (Vector2)this.transform.position).normalized;
             float angleZ = Mathf.Atan2(mouseDir.y, mouseDir.x) * Mathf.Rad2Deg;
 

@@ -35,7 +35,7 @@ namespace BMC
                 currentSeletedDoor.NextRoom = nextRoom; // 선택된 문에 다음 방 설정
             }
 
-            Transform playerTransform = GameManager.Instance.PlayerController.transform;
+            Transform playerTransform = PlayerManager.Instance.transform;
             currentSeletedDoor.TransferToNextRoom(playerTransform);
             MapManager.Instance.CurrentDoor = null;
             UI_InGameEventBus.OnToggleChoiceRoomCanvas?.Invoke(); // 창 닫기
