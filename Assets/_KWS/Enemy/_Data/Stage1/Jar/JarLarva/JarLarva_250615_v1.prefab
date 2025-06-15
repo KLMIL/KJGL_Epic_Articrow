@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 1519795909339377274}
   - component: {fileID: 7737338413248189098}
   m_Layer: 9
-  m_Name: JarLarva_250612_v2
+  m_Name: JarLarva_250615_v1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 541412685
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 21
   m_Sprite: {fileID: 3606272964361094888, guid: a217ec2bc22aa0c49b557ae70015394b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -135,6 +135,14 @@ MonoBehaviour:
     action: {fileID: 11400000, guid: e767651b77cd3054bb431712b59468f9, type: 2}
     animationName: Idle
     duration: 0.2
+    nextStateName: Idle
+    elapsedTime: 0
+  - stateName: MeleeAttack
+    interruptType: 1
+    condition: {fileID: 11400000, guid: ec0a5344b5782d24182b6223cc02778f, type: 2}
+    action: {fileID: 11400000, guid: dea55beff43babb4ca7ea32ff2bc544c, type: 2}
+    animationName: Idle
+    duration: 0.5
     nextStateName: Idle
     elapsedTime: 0
   - stateName: Chase
