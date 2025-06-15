@@ -41,6 +41,7 @@ namespace YSJ
             if (IsDead || PlayerManager.Instance.PlayerDash.IsDash)
                 return;
 
+            UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
             ShowDamageText(damage);
             UpdateHealth(-damage);
 
