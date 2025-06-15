@@ -90,7 +90,7 @@ namespace BMC
 
         // TODO: 현재는 Room 클래스에서 Update로 확인하고 있는데, vertical slice 이후에 몬스터가 죽었을 때, action 호출하는 식으로 변경해야 함
         // 소환된 적 전부 죽였는지 여부 반환
-        public bool IsClear()
+        public void IsClear()
         {
             int dieEnemyCount = 0; // 죽은 적 수
             foreach (var enemy in _spawnedEnemyList)
@@ -106,10 +106,8 @@ namespace BMC
                 _spawnedEnemyList.Clear(); // 소환된 적 리스트 초기화
                 _possibleSpawnPositionList.Clear();
                 _currentSpawnCount = 0; // 현재 소환된 적 수 초기화
-                return true;
+                MapManager.Instance.CurrentRoom.Complete(); // 방 클리어
             }
-
-            return false;
         }
     }
 }
