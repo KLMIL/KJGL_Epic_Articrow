@@ -24,7 +24,7 @@ public partial class BossRushAction : Action
             _fsm = Self.Value.GetComponent<BossFSM>();
         }
 
-        if (RushDirection.Value == Vector2.zero && Target != null && Self != null)
+        if (RushDirection.Value == Vector2.zero && Target.Value != null && Self.Value != null)
         {
             Debug.Log("돌진 방향 계산");
             _fsm.Anim.Play("Rush");
