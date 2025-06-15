@@ -12,7 +12,7 @@ namespace BMC
         AttackSlash _attackSlash;
 
         [field: SerializeField] public int CurrentAttackStep { get; private set; }  // 현재 공격 단계
-        [SerializeField] int _maxAttackStep = 2;         // 최대 공격 단계
+        int _maxAttackStep = 2;         // 최대 공격 단계
 
         float _comboTimer = 0f;
         float _comboInputWindow = 0.3f; // 공격 입력 타이밍 윈도우 (짧을 수록 1단계 공격 후, 대기 시간이 짧아짐)
