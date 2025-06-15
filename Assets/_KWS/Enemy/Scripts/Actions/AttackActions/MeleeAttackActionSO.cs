@@ -26,7 +26,7 @@ namespace Game.Enemy
 
         [Header("Basic Attack Only")]
         public float attackRange = 1.0f;
-        public Vector2 attackOffset = Vector2.right;
+        public Vector2 attackOffset = Vector2.zero;
 
         [Header("Rush Attack Only")]
         public float rushSpeedMultiply = 6f;
@@ -120,6 +120,22 @@ namespace Game.Enemy
             //    // (넉백이 필요하다면 이 부분에 추가)
             //}
             // (이팩트가 필요하다면 이 부분에 추가)
+
+            Vector2 attackOrigin = (Vector2)controller.transform.position + attackOffset;
+            float radius = attackRange;
+            LayerMask playerMask = LayerMask.GetMask("Player");
+
+            Collider2D[] hits = Physics2D.OverlapCircleAll(attackOrigin, radius, playerMask);
+
+            foreach (var hit in hits)
+            {
+                // 태그까지 검사 -> 안전망 역할
+                if (hit.CompareTag("Player"))
+                {
+                    float damage = controller.Status.attack * damageMultiply;
+                    controller.DealDamageToPlayer(damage, false);
+                }
+            }
         }
 
         private void RushAttack(EnemyController controller)

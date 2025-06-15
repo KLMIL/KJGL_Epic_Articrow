@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 6248683875554354744}
   - component: {fileID: 6889939306903329399}
   m_Layer: 9
-  m_Name: CarapaceSlime_250612_v1
+  m_Name: CarapaceSlime_250615_v1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,6 +135,14 @@ MonoBehaviour:
     action: {fileID: 11400000, guid: 3ef5e246510d17540bea137514f6107b, type: 2}
     animationName: Hurt
     duration: 0.3
+    nextStateName: Idle
+    elapsedTime: 0
+  - stateName: MeleeAttack
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 6c4f9ad8120ce1e44a26560b7b76f09a, type: 2}
+    action: {fileID: 11400000, guid: 0943aac0688f7f0468b65d9f67a6ce88, type: 2}
+    animationName: Idle
+    duration: 0.7
     nextStateName: Idle
     elapsedTime: 0
   - stateName: ChasePlayer
