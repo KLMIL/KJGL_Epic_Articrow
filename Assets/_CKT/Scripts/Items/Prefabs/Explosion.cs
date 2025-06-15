@@ -22,6 +22,11 @@ namespace CKT
             StartCoroutine(DisableCoroutine(_disableTime));
         }
 
+        public void Init(float level)
+        {
+            _damage = 8f * level;
+        }
+
         IEnumerator CreateTrace()
         {
             yield return null;

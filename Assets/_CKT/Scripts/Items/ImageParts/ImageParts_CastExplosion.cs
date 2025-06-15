@@ -21,14 +21,19 @@ namespace CKT
 
             Vector3 startPos = origin.transform.position;
 
-            for (int i = 0; i < level; i++)
+            GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("CastExplosion");
+            castExplosion.transform.position = startPos;
+            castExplosion.GetComponent<Explosion>().Init(level);
+            yield return null;
+
+            /*for (int i = 0; i < level; i++)
             {
                 YSJ.Managers.Sound.PlaySFX(Define.SFX.CastExplosion);
 
                 GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("CastExplosion");
                 castExplosion.transform.position = startPos;
                 yield return new WaitForSeconds(0.05f);
-            }
+            }*/
         }
     }
 }
