@@ -18,7 +18,7 @@ namespace BMC
         float _comboInputWindow = 0.3f; // 공격 입력 타이밍 윈도우 (짧을 수록 1단계 공격 후, 대기 시간이 짧아짐)
         bool _canNextCombo = false;     // 다음 콤보 입력 가능 여부
         bool _inputBuffered = false;    // 입력 버퍼 여부
-        float _attackCoolDown = 0.25f;   // 모든 콤보 후, 대기 타임
+        float _attackCoolDown = 0.35f;   // 모든 콤보 후, 대기 타임
 
         float _attackMoveDistance = 0.5f; // 공격 시, 플레이어가 전진하는 정도
 
