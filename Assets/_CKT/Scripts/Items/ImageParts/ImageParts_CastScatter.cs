@@ -6,12 +6,11 @@ namespace CKT
 {
     public class ImageParts_CastScatter : ImageParts, ISkillable
     {
-        float _manaCost = 5f;
         float _scatterAngle = 15f;
 
         private void Awake()
         {
-            base.Init("FieldParts/FieldParts_CastScatter");
+            base.Init("FieldParts/FieldParts_CastScatter", 10f);
         }
 
         public SkillType SkillType => SkillType.Cast;
@@ -48,7 +47,7 @@ namespace CKT
             }
 
             origin.SetActive(false);
-            PlayerManager.Instance.PlayerStatus.SpendMana(_manaCost);
+            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
             yield return null;
         }
     }

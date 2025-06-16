@@ -1,32 +1,37 @@
-using CKT;
+using BMC;
 using System.Collections;
 using UnityEngine;
 
-public class ImageParts_HitDamageArea : ImageParts, ISkillable
+namespace CKT
 {
-    private void Awake()
+    public class ImageParts_HitDamageArea : ImageParts, ISkillable
     {
-        base.Init("FieldParts/FieldParts_HitDamageArea");
-    }
-
-    public SkillType SkillType => SkillType.Hit;
-
-    public string SkillName => "HitDamageArea";
-
-    public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
-    {
-        Debug.Log($"{SkillName}, Level+{level}");
-
-        Vector3 startPos = origin.transform.position;
-
-        for (int i = 0; i < level; i++)
+        private void Awake()
         {
-            YSJ.Managers.Sound.PlaySFX(Define.SFX.HitDamageArea);
-
-            GameObject hitDamageArea = YSJ.Managers.Pool.InstPrefab("HitDamageArea");
-            hitDamageArea.transform.position = startPos;
-            yield return new WaitForSeconds(0.05f);
+            base.Init("FieldParts/FieldParts_HitDamageArea", 5f);
         }
-        yield return null;
+
+        public SkillType SkillType => SkillType.Hit;
+
+        public string SkillName => "HitDamageArea";
+
+        public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
+        {
+            Debug.Log($"{SkillName}, Level+{level}");
+
+            Vector3 startPos = origin.transform.position;
+
+            for (int i = 0; i < level; i++)
+            {
+                YSJ.Managers.Sound.PlaySFX(Define.SFX.HitDamageArea);
+
+                GameObject hitDamageArea = YSJ.Managers.Pool.InstPrefab("HitDamageArea");
+                hitDamageArea.transform.position = startPos;
+                yield return new WaitForSeconds(0.05f);
+            }
+
+            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
+            yield return null;
+        }
     }
 }

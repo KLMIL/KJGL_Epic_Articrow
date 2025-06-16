@@ -7,6 +7,7 @@ namespace CKT
     public abstract class  ImageParts : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         GameObject _fieldParts;
+        protected float _manaCost;
 
         #region [컴포넌트]
         RectTransform _rect;
@@ -17,12 +18,14 @@ namespace CKT
         Transform _previousParent;
         #endregion
 
-        protected virtual void Init(string name)
+        protected virtual void Init(string name, float manaCost)
         {
             _fieldParts = Resources.Load<GameObject>(name);
 
             _rect = GetComponent<RectTransform>();
             _img = GetComponent<Image>();
+
+            _manaCost = manaCost;
         }
 
         //슬롯에서 필드로 버리기

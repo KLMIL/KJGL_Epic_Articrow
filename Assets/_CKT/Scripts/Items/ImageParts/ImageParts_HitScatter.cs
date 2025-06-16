@@ -1,4 +1,4 @@
-using CKT;
+using BMC;
 using System.Collections;
 using UnityEngine;
 
@@ -8,7 +8,7 @@ namespace CKT
     {
         private void Awake()
         {
-            base.Init("FieldParts/FieldParts_HitScatter");
+            base.Init("FieldParts/FieldParts_HitScatter", 5f);
         }
 
         float _scatterAngle = 15f;
@@ -45,6 +45,7 @@ namespace CKT
                 //hitScatterCopy.GetComponent<Projectile>().SkillManager = skillManager;
             }
 
+            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
             yield return null;
         }
     }

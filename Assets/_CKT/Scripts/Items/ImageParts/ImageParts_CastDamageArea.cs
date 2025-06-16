@@ -1,3 +1,4 @@
+using BMC;
 using System.Collections;
 using UnityEngine;
 using YSJ;
@@ -8,7 +9,7 @@ namespace CKT
     {
         private void Awake()
         {
-            base.Init("FieldParts/FieldParts_CastDamageArea");
+            base.Init("FieldParts/FieldParts_CastDamageArea", 5f);
         }
 
         public SkillType SkillType => SkillType.Cast;
@@ -29,6 +30,8 @@ namespace CKT
                 castDamageArea.transform.position = startPos;
                 yield return new WaitForSeconds(0.05f);
             }
+
+            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
         }
     }
 }

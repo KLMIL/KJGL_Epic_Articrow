@@ -7,14 +7,16 @@ namespace YSJ
 {
     public class ShowDescriptionWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
+        [TextArea(5, 10)]
         public string Description;
 
-        Image _img_Panel;
-        TextMeshProUGUI _tmp_Description;
+        GameObject _descriptionPanel;
+        //Image _img_Panel;
+        //TextMeshProUGUI _tmp_Description;
 
         private void Start()
         {
-            GameObject description = Instantiate(Resources.Load<GameObject>("Prefabs/Description"));
+            /*GameObject description = Instantiate(Resources.Load<GameObject>("Prefabs/Description"));
             description.transform.SetParent(this.transform);
 
             RectTransform rect = description.GetComponent<RectTransform>();
@@ -23,20 +25,31 @@ namespace YSJ
             _img_Panel = description.GetComponentInChildren<Image>();
             _tmp_Description = description.GetComponentInChildren<TextMeshProUGUI>();
 
-            SetDescription(false, "");
+            SetDescription(false, "");*/
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            SetDescription(true, Description);
+            _descriptionPanel = Managers.Pool.InstPrefab("Description");
+            _descriptionPanel.transform.SetParent(this.transform);
+
+            RectTransform rect = _descriptionPanel.GetComponent<RectTransform>();
+            rect.position = this.transform.GetComponent<RectTransform>().position;
+
+            TextMeshProUGUI tmp_Description = _descriptionPanel.GetComponentInChildren<TextMeshProUGUI>();
+            tmp_Description.text = Description;
+
+            //SetDescription(true, Description);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            SetDescription(false, "");
+            _descriptionPanel.SetActive(false);
+
+            //SetDescription(false, "");
         }
 
-        void SetDescription(bool value, string description)
+        /*void SetDescription(bool value, string description)
         {
             if (_img_Panel == null)
             {
@@ -52,6 +65,6 @@ namespace YSJ
             
             _img_Panel.enabled = value;
             _tmp_Description.text = description;
-        }
+        }*/
     }
 }

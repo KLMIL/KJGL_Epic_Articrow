@@ -1,3 +1,4 @@
+using BMC;
 using System.Collections;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace CKT
     {
         private void Awake()
         {
-            base.Init("FieldParts/FieldParts_HitExplosion");
+            base.Init("FieldParts/FieldParts_HitExplosion", 5f);
         }
 
         public SkillType SkillType => SkillType.Hit;
@@ -24,6 +25,8 @@ namespace CKT
             GameObject hitExplosion = YSJ.Managers.Pool.InstPrefab("HitExplosion");
             hitExplosion.transform.position = startPos;
             hitExplosion.GetComponent<Explosion>().Init(level);
+
+            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
             yield return null;
             /*for (int i = 0; i < level; i++)
             {

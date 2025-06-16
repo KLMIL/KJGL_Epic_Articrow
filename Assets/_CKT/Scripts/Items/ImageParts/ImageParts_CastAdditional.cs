@@ -1,5 +1,4 @@
 using BMC;
-using CKT;
 using System.Collections;
 using UnityEngine;
 
@@ -7,11 +6,9 @@ namespace CKT
 {
     public class ImageParts_CastAdditional : ImageParts, ISkillable
     {
-        float _manaCost = 5f;
-
         private void Awake()
         {
-            base.Init("FieldParts/FieldParts_CastAdditional");
+            base.Init("FieldParts/FieldParts_CastAdditional", 10f);
         }
 
         public SkillType SkillType => SkillType.Cast;
@@ -40,7 +37,7 @@ namespace CKT
                 }
             }
 
-            PlayerManager.Instance.PlayerStatus.SpendMana(_manaCost);
+            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
         }
     }
 }

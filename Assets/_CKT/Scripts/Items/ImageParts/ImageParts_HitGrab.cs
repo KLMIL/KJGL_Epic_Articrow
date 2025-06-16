@@ -1,3 +1,4 @@
+using BMC;
 using System.Collections;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace CKT
     {
         private void Awake()
         {
-            base.Init("FieldParts/FieldParts_HitGrab");
+            base.Init("FieldParts/FieldParts_HitGrab", 5f);
         }
 
         public SkillType SkillType => SkillType.Hit;
@@ -26,6 +27,7 @@ namespace CKT
                 grabObject.GetComponent<GrabObject>().Level = level;
             }
 
+            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
             yield return null;
         }
     }
