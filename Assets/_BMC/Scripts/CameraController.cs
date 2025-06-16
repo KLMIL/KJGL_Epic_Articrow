@@ -99,7 +99,7 @@ namespace BMC
             }
         }
 
-        void SetCameraTargetPlayer(Transform player = null)
+        public void SetCameraTargetPlayer(Transform player = null)
         {
             _confiner.BoundingShape2D = MapManager.Instance.CurrentRoom.GetComponent<PolygonCollider2D>();
             _roomCinemachineCamera.gameObject.SetActive(false);

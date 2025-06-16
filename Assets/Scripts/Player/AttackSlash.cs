@@ -6,18 +6,46 @@ namespace BMC
 {
     public class AttackSlash : MonoBehaviour
     {
+        Animator _playerAnim;
         Animator _anim;
         Coroutine _hitStopCoroutine;
         WaitForSeconds _hitStopTime = new WaitForSeconds(0.5f);
+        CheckPlayerDirection _checkPlayerDirection;
+        SpriteRenderer spriteRenderer;
 
         void Start()
         {
+            _playerAnim = transform.parent.GetComponent<Animator>();
+            spriteRenderer = transform.parent.GetComponent<SpriteRenderer>();
             _anim = GetComponent<Animator>();
+            _checkPlayerDirection = transform.parent.GetComponent<CheckPlayerDirection>();
         }
 
         public void Play(int step)
         {
-            switch(step)
+            //int step = PlayerManager.Instance.PlayerAttack.CurrentAttackStep;
+            switch (_checkPlayerDirection.CurrentDirection)
+            {
+                case CheckPlayerDirection.Direction.down:
+                    Debug.LogWarning(step);
+                    _playerAnim.Play($"Attack_Down{step}");
+                    spriteRenderer.flipX = false;
+                    break;
+                case CheckPlayerDirection.Direction.up:
+                    _playerAnim.Play($"Attack_Up{step}");
+                    spriteRenderer.flipX = false;
+                    break;
+                case CheckPlayerDirection.Direction.right:
+                    _playerAnim.Play($"Attack_Side{step}");
+                    spriteRenderer.flipX = false;
+                    break;
+                case CheckPlayerDirection.Direction.left:
+                    _playerAnim.Play($"Attack_Side{step}");
+                    spriteRenderer.flipX = true;
+                    break;
+            }
+
+            switch (step)
             {
                 case 1:
                     _anim.Play("AttackSlash1");
