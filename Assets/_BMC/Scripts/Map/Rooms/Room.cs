@@ -111,6 +111,7 @@ namespace BMC
                 List<GameObject> rewardList = MapManager.Instance.RoomTypeRewardListDict[RoomData.RoomType];
                 GameObject rewardObject = rewardList[Random.Range(0, rewardList.Count)];
                 Instantiate(rewardObject, transform.position, Quaternion.identity);
+                CameraController.Instance.SetCameraTargetRoom(transform);
             }
         }
         

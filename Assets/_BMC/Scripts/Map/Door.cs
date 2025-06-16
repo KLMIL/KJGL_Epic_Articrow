@@ -102,6 +102,7 @@ namespace BMC
                 _doorSpawnPlayerPositionOffset = (nextRoomDoorPosition == DoorPosition.Up || nextRoomDoorPosition == DoorPosition.Down) ? 1.5f : 1f;
                 playerTransform.position = spawnDoor.transform.position + spawnDoor.transform.up * _doorSpawnPlayerPositionOffset;
                 OnTransferToNextRoom.Invoke(NextRoom.transform);
+                CameraController.Instance.SetCameraTargetPlayer(PlayerManager.Instance.transform); // 카메라 전투 모드
                 MapManager.Instance.CurrentRoom.SpawnEnemy(); // 적 소환
 
                 if (!NextRoom.RoomData.IsCleared)
