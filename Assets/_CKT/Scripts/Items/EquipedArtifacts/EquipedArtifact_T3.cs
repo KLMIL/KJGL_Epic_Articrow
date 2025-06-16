@@ -37,7 +37,7 @@ namespace CKT
         Vector3 _lineEnd;
         LayerMask _ignoreLayerMask;
         float _distance = 4f;
-        float _maxWidth = 0.2f;
+        float _maxWidth = 0.1f;
 
         private void Awake()
         {

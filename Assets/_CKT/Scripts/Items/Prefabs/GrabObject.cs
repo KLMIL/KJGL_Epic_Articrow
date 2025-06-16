@@ -5,19 +5,23 @@ namespace CKT
 {
     public class GrabObject : MonoBehaviour
     {
-        float _minSqrDistance = 2f;
-        float _moveSpeed = 10f;
-        LayerMask _playerLayerMask;
+        public int Level { get => _level; set => _level = value; }
+        int _level = 0;
+        float _grabScale = 8f;
+        float _grabTime = 0.15f;
+        float _minDistance = 2f;
+        LayerMask _ignoreLayerMask;
 
         Transform _target;
 
         private void OnEnable()
         {
-            _playerLayerMask = LayerMask.GetMask("Player");
+            _ignoreLayerMask = LayerMask.GetMask("Default", "Ignore Raycast", "Player", "BreakParts");
         }
 
         private void OnDisable()
         {
+            _level = 0;
             _target = null;
         }
 
@@ -31,7 +35,7 @@ namespace CKT
 
         void Grab()
         {
-            RaycastHit2D[] hits = Physics2D.CircleCastAll(this.transform.position, this.transform.localScale.x, Vector2.up, 0, ~_playerLayerMask);
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(this.transform.position, this.transform.localScale.x, Vector2.up, 0, ~_ignoreLayerMask);
             for (int i = 0; i < hits.Length; i++)
             {
                 IDamagable iDamagable = hits[i].transform.GetComponent<IDamagable>();
@@ -58,12 +62,18 @@ namespace CKT
 
             if ((player != null) && (target != null))
             {
-                float sqrDistance = float.MaxValue;
-                while (sqrDistance > _minSqrDistance)
+                float distance = 0;
+                while (distance < (_grabTime * _level))
                 {
-                    Vector3 moveDir = (playerPos - startPos).normalized;
-                    transform.position += moveDir * _moveSpeed * Time.deltaTime;
-                    sqrDistance = (playerPos - this.transform.position).sqrMagnitude;
+                    distance += Time.deltaTime;
+
+                    float sqrDistance = (playerPos - this.transform.position).sqrMagnitude;
+                    if (sqrDistance > (_minDistance * _minDistance))
+                    {
+                        Vector3 moveDir = (playerPos - startPos).normalized;
+                        transform.position += moveDir * _grabScale * Time.deltaTime;
+                    }
+
                     yield return null;
                 }
 

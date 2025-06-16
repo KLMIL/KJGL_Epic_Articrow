@@ -16,7 +16,7 @@ namespace CKT
         protected new void OnEnable()
         {
             _line = _line ?? GetComponent<LineRenderer>();
-            _line.startWidth = 0.2f;
+            _line.startWidth = 0.3f;
 
             _distance = 4;
 
