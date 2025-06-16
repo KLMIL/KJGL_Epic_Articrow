@@ -14,34 +14,15 @@ namespace Game.Enemy
             ownerController = GetComponentInParent<EnemyController>();
         }
 
-        private void Update()
-        {
-            if (!isPlayerContact) return;
-
-            // 접촉 공격 수행 -> 제거 예정
-            //if (Time.time - ownerController.FSM.lastContactAttackTime >= ownerController.FSM.contactAttackCooldown && ownerController.CurrentStateName != "Die")
-            //{
-            //    ownerController.DealDamageToPlayer(ownerController.Status.attack);
-            //    ownerController.FSM.lastContactAttackTime = Time.time;
-            //}
-
-
-        }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-
+            Debug.LogWarning("Player contact with enemy");
             if (collision.CompareTag(targetTag) && collision.isTrigger)
             {
-                // DEP -> EnemyProjectile.cs로 이관
-                //if (gameObject.name.Contains("SporeSlimeProjectile"))
-                //{
-                //    ownerController.DealDamageToPlayer(ownerController.Status.attack);
-                //    Destroy(gameObject); // 투사체 파괴
-                //}
-                //else 
                 if (!ownerController.FSM.isRushAttacked) // 돌진 공격 수행
                 {
+                    Debug.LogWarning("Rush Attack go");
                     ownerController.DealDamageToPlayer(ownerController.Status.attack * ownerController.FSM.rushDamageMultuply);
                     ownerController.FSM.isRushAttacked = true;
 
