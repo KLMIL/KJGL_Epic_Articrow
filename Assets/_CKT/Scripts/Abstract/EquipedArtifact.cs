@@ -1,6 +1,7 @@
 using BMC;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using YSJ;
 
@@ -45,15 +46,32 @@ namespace CKT
         protected void Attack(List<GameObject> list)
         {
             if (_attackCoroutine != null) return;
-            
-            if (PlayerManager.Instance.PlayerStatus.Mana < _manaCost)
+
+            float totalManaCost = 0;
+            Dictionary<string, int> skillDupDict = GameManager.Instance.RightSkillManager.SkillDupDict;
+            foreach (string key in skillDupDict.Keys)
+            {
+                int manaCost = 5;
+                if ((key == "CastAdditional") || (key == "CastScatter"))
+                {
+                    manaCost = 10;
+                }
+                totalManaCost += (manaCost * skillDupDict[key]);
+            }
+            totalManaCost += _manaCost;
+            Debug.LogWarning(totalManaCost);
+
+            if (PlayerManager.Instance.PlayerStatus.Mana < totalManaCost)
             {
                 Debug.LogWarning("마나가 부족합니다");
+                TextMeshPro manaText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+                manaText.text = "마나 부족";
+                manaText.transform.position = transform.position;
                 return;
             }
             else
             {
-                PlayerManager.Instance.PlayerStatus.SpendMana(_manaCost);
+                PlayerManager.Instance.PlayerStatus.SpendMana(totalManaCost);
                 _attackCoroutine = StartCoroutine(AttackCoroutine(list));
             }
         }

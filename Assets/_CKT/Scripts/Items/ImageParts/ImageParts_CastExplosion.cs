@@ -8,7 +8,7 @@ namespace CKT
     {
         private void Awake()
         {
-            base.Init("FieldParts/FieldParts_CastExplosion", 5f);
+            base.Init("FieldParts/FieldParts_CastExplosion", 0f);
         }
 
         public SkillType SkillType => SkillType.Cast;

@@ -6,11 +6,11 @@ namespace CKT
 {
     public class ImageParts_CastScatter : ImageParts, ISkillable
     {
-        float _scatterAngle = 15f;
+        float _scatterAngle = 9f;
 
         private void Awake()
         {
-            base.Init("FieldParts/FieldParts_CastScatter", 10f);
+            base.Init("FieldParts/FieldParts_CastScatter", 0f);
         }
 
         public SkillType SkillType => SkillType.Cast;

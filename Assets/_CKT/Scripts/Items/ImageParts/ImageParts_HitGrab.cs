@@ -8,7 +8,7 @@ namespace CKT
     {
         private void Awake()
         {
-            base.Init("FieldParts/FieldParts_HitGrab", 5f);
+            base.Init("FieldParts/FieldParts_HitGrab", 0f);
         }
 
         public SkillType SkillType => SkillType.Hit;
