@@ -129,8 +129,8 @@ namespace CKT
         #region [Attack Cancel]
         protected override void AttackCancel()
         {
-            ChargeAmount = 0;
-            _line.enabled = false;
+            //ChargeAmount = 0;
+            //_line.enabled = false;
             Debug.Log("Attack Cancel");
         }
         #endregion

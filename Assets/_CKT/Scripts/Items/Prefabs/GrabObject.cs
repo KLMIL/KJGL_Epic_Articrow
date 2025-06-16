@@ -9,14 +9,17 @@ namespace CKT
         int _level = 0;
         float _grabScale = 8f;
         float _grabTime = 0.15f;
-        float _minDistance = 2f;
+        float _minDistance = 1f;
         LayerMask _ignoreLayerMask;
 
         Transform _target;
+        Coroutine _disableCoroutine;
 
         private void OnEnable()
         {
             _ignoreLayerMask = LayerMask.GetMask("Default", "Ignore Raycast", "Player", "BreakParts");
+            StartCoroutine(Grab());
+            _disableCoroutine = StartCoroutine(DisableCoroutine(0.2f));
         }
 
         private void OnDisable()
@@ -25,16 +28,10 @@ namespace CKT
             _target = null;
         }
 
-        private void FixedUpdate()
+        IEnumerator Grab()
         {
-            if (_target == null)
-            {
-                Grab();
-            }
-        }
-
-        void Grab()
-        {
+            yield return null;
+            
             RaycastHit2D[] hits = Physics2D.CircleCastAll(this.transform.position, this.transform.localScale.x, Vector2.up, 0, ~_ignoreLayerMask);
             for (int i = 0; i < hits.Length; i++)
             {
@@ -44,18 +41,19 @@ namespace CKT
                 {
                     _target = hits[i].transform;
                     StartCoroutine(MoveCoroutine(_target));
+                    StopCoroutine(_disableCoroutine);
 
                     //TODO : 사운드_HitGrab
-                    break;
+                    yield break;
                 }
             }
         }
 
         IEnumerator MoveCoroutine(Transform target)
         {
+            this.transform.position = target.position;
             target.SetParent(this.transform);
-            target.position = this.transform.position;
-            Vector3 startPos = this.transform.position;
+            Vector3 startPos = target.position;
 
             Transform player = FindAnyObjectByType<BMC.PlayerManager>().transform;
             Vector3 playerPos = player.position;
@@ -80,6 +78,12 @@ namespace CKT
                 target.SetParent(null);
             }
 
+            this.gameObject.SetActive(false);
+        }
+
+        IEnumerator DisableCoroutine(float waitTime)
+        {
+            yield return new WaitForSeconds(waitTime);
             this.gameObject.SetActive(false);
         }
     }

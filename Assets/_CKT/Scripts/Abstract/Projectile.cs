@@ -50,7 +50,7 @@ namespace CKT
 
                 if (SkillManager != null)
                 {
-                    CreateHitSkillObject(this.transform.position, this.transform.up, this.transform.localScale);
+                    CreateHitSkillObject(_target.position, this.transform.up, this.transform.localScale);
                 }
 
                 /*_curPenetration--;

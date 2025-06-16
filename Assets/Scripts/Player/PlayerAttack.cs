@@ -20,8 +20,8 @@ namespace BMC
         bool _inputBuffered = false;    // 입력 버퍼 여부
         float _attackCoolDown = 0.35f;   // 모든 콤보 후, 대기 타임
 
-        float _attackMoveDistance = 10f; // 공격 시, 플레이어가 전진하는 정도
-        float _attackMoveTime = 0.04f;
+        float _attackMoveDistance = 5f; // 공격 시, 플레이어가 전진하는 정도
+        float _attackMoveTime = 0.02f;
 
         [field: SerializeField] public bool IsAttack { get; private set; }
 
