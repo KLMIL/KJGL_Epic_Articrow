@@ -5,9 +5,6 @@ namespace BMC
 {
     public class CameraController : MonoBehaviour
     {
-        static CameraController s_instance;
-        public static CameraController Instance => s_instance;
-
         CameraTarget _cameraTarget;
 
         [Header("방 모드")]
@@ -30,15 +27,6 @@ namespace BMC
 
         public void Init()
         {
-            if (s_instance == null)
-            {
-                s_instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-
             CinemachineCamera[] cinemachineCameras = GetComponentsInChildren<CinemachineCamera>();
             
             // 방 카메라

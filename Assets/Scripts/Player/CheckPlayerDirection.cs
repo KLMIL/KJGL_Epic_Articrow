@@ -6,11 +6,11 @@ namespace YSJ
     {
         public enum Direction
         {
-            none = 0,
-            right = 1 << 1,
-            left = 1 << 2,
-            up = 1 << 3,
-            down = 1 << 4,
+            None = 0,
+            Right = 1 << 1,
+            Left = 1 << 2,
+            Up = 1 << 3,
+            Down = 1 << 4,
         }
 
         [field: SerializeField] public Direction CurrentDirection { get; private set; }
@@ -30,19 +30,19 @@ namespace YSJ
 
             if (angle >= -45 && angle < 45)
             {
-                result |= Direction.right;
+                result |= Direction.Right;
             }
             if (angle >= 45 && angle < 135)
             {
-                result |= Direction.up;
+                result |= Direction.Up;
             }
             if ((angle >= 135 && angle < 180) || (angle >= -180 && angle < -135))
             {
-                result |= Direction.left;
+                result |= Direction.Left;
             }
             if (angle >= -135 && angle < -45)
             {
-                result |= Direction.down;
+                result |= Direction.Down;
             }
             return result;
         }

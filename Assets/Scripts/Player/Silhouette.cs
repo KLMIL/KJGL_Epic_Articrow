@@ -38,7 +38,6 @@ public class Silhouette : MonoBehaviour
         {
             // 하이어라키 정리를 위해 따로 정리용 오브젝트를 두고, 밑에 위치시키기
             _silhouetteParent = new GameObject(gameObject.name + " SilhouetteList");
-            DontDestroyOnLoad(_silhouetteParent); // 씬 전환 시에도 유지되도록 설정
             for (int i = 0; i < _silhouetteCount; i++)
             {
                 // 빈 게임오브젝트 생성

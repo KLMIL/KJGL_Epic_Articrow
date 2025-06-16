@@ -111,12 +111,11 @@ namespace BMC
                 List<GameObject> rewardList = MapManager.Instance.RoomTypeRewardListDict[RoomData.RoomType];
                 GameObject rewardObject = rewardList[Random.Range(0, rewardList.Count)];
                 Instantiate(rewardObject, transform.position, Quaternion.identity);
-                CameraController.Instance.SetCameraTargetRoom(transform);
             }
         }
         
         // 방 클리어 완료
-        public void Complete()
+        public void RoomClearComplete()
         {
             if (!_roomData.IsCleared)
             {
@@ -124,6 +123,8 @@ namespace BMC
                 _roomData.IsCleared = true;
                 SpawnReward();
                 OpenAllValidDoor();
+                GameManager.Instance.CameraController.SetCameraTargetRoom(transform);
+                //CameraController.Instance.SetCameraTargetRoom(transform);
             }
         }
         #endregion

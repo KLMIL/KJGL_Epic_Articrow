@@ -29,7 +29,7 @@ namespace YSJ
             if (Managers.Input.MoveInput == Vector2.zero)
             {
                 _rigid.linearVelocity *= _dampScale;
-                _playerAnimator.CurrentState &= ~PlayerAnimator.State.Walk;
+                _playerAnimator.CurrentState &= ~PlayerAnimator.State.Move;
             }
             else
             {
@@ -39,7 +39,7 @@ namespace YSJ
                 {
                     Vector2 moveDir = Managers.Input.MoveInput * _moveSpeed;
                     _rigid.linearVelocity += (moveDir - curDir);
-                    _playerAnimator.CurrentState |= PlayerAnimator.State.Walk;
+                    _playerAnimator.CurrentState |= PlayerAnimator.State.Move;
                 }
             }
         }

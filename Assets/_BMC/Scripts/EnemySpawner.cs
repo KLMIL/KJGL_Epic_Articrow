@@ -106,7 +106,7 @@ namespace BMC
                 _spawnedEnemyList.Clear(); // 소환된 적 리스트 초기화
                 _possibleSpawnPositionList.Clear();
                 _currentSpawnCount = 0; // 현재 소환된 적 수 초기화
-                MapManager.Instance.CurrentRoom.Complete(); // 방 클리어
+                MapManager.Instance.CurrentRoom.RoomClearComplete(); // 방 클리어
             }
         }
     }

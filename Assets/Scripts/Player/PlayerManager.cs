@@ -20,12 +20,10 @@ namespace BMC
             if (s_instance == null)
             {
                 s_instance = this;
-                DontDestroyOnLoad(gameObject);
             }
             else
             {
                 Destroy(gameObject);
-                return;
             }
 
             PlayerMove = this.gameObject.GetComponent<PlayerMove>();
@@ -39,7 +37,7 @@ namespace BMC
         {
             if (Input.GetMouseButtonDown(2)) // 마우스 휠 클릭
             {
-                MapManager.Instance.CurrentRoom.Complete();
+                MapManager.Instance.CurrentRoom.RoomClearComplete();
             }
         }
 
