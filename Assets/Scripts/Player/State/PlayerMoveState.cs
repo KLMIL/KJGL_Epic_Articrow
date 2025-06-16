@@ -61,16 +61,16 @@ namespace BMC
             _playerFSM.Flip();
             switch (_checkPlayerDirection.CurrentDirection)
             {
-                case CheckPlayerDirection.Direction.down:
+                case CheckPlayerDirection.Direction.Down:
                     _anim.Play("Walk_Down");
                     break;
-                case CheckPlayerDirection.Direction.up:
+                case CheckPlayerDirection.Direction.Up:
                     _anim.Play("Walk_Up");
                     break;
-                case CheckPlayerDirection.Direction.right:
+                case CheckPlayerDirection.Direction.Right:
                     _anim.Play("Walk_Right");
                     break;
-                case CheckPlayerDirection.Direction.left:
+                case CheckPlayerDirection.Direction.Left:
                     _anim.Play("Walk_Right");
                     break;
             }
