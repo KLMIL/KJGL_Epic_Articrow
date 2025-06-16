@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -11,17 +12,22 @@ namespace CKT
         protected override float ExistTime => 0.15f;
 
         LineRenderer _line;
+        BoxCollider2D _collider;
+        float _width;
         float _distance;
+        float _disappearSpeed;
 
         protected new void OnEnable()
         {
             _line = _line ?? GetComponent<LineRenderer>();
-            _line.startWidth = 0.3f;
-
-            _distance = 6;
+            _collider = _collider ?? GetComponent<BoxCollider2D>();
+            _width = _collider.size.x;
+            _distance = _collider.size.y;
+            _disappearSpeed = _width / ExistTime;
 
             base.OnEnable();
-            StartCoroutine(ScanTarget());
+            StartCoroutine(LineEnable());
+            //StartCoroutine(ScanTarget());
         }
 
         protected new void OnDisable()
@@ -30,7 +36,22 @@ namespace CKT
             base.OnDisable();
         }
 
-        IEnumerator ScanTarget()
+        IEnumerator LineEnable()
+        {
+            yield return null;
+            _line.startWidth = _width;
+            _line.SetPosition(0, this.transform.position);
+            _line.SetPosition(1, this.transform.position + (this.transform.up * _distance));
+            _line.enabled = true;
+
+            while (_line.startWidth > 0)
+            {
+                _line.startWidth -= _disappearSpeed * Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        /*IEnumerator ScanTarget()
         {
             yield return null;
 
@@ -67,6 +88,6 @@ namespace CKT
                 _line.startWidth -= Time.deltaTime;
                 yield return null;
             }
-        }
+        }*/
     }
 }

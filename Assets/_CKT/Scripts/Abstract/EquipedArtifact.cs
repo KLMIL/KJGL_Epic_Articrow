@@ -17,6 +17,7 @@ namespace CKT
         #region [컴포넌트]
         protected SpriteRenderer _renderer;
         protected Animator _animator;
+        protected Transform _firePoint;
         #endregion
 
         #region [외부]
@@ -36,6 +37,7 @@ namespace CKT
         {
             _renderer = GetComponentInChildren<SpriteRenderer>();
             _animator = GetComponentInChildren<Animator>();
+            _firePoint = GetComponentInChildren<FirePoint>().transform;
 
             _skillManager = GameManager.Instance.RightSkillManager;
             _skillManager.OnHandPerformActionT1.SingleRegister((list) => Attack(list));

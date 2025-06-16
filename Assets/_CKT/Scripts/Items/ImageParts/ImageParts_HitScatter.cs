@@ -1,11 +1,13 @@
 using BMC;
 using System.Collections;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace CKT
 {
     public class ImageParts_HitScatter : ImageParts, ISkillable
     {
+        Transform _player;
         float _scatterAngle = 9f;
 
         private void Awake()
@@ -22,7 +24,8 @@ namespace CKT
             Debug.Log($"{SkillName}, Level+{level}");
 
             int scatterCount = level + 1;
-            Vector3 originUp = origin.transform.up;
+            _player = _player ?? FindAnyObjectByType<BMC.PlayerManager>().transform;
+            Vector3 originUp = (origin.transform.position - _player.position).normalized;
 
             for (int k = 0; k < scatterCount; k++)
             {

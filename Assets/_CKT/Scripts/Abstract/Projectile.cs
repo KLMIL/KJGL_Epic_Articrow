@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace CKT
 {
@@ -50,7 +52,16 @@ namespace CKT
 
                 if (SkillManager != null)
                 {
-                    CreateHitSkillObject(_target.position, this.transform.up, this.transform.localScale);
+                    //CreateHitSkillObject(_target.position, this.transform.up, this.transform.localScale);
+                    //GameObject hitSkillObject = YSJ.Managers.Pool.InstPrefab("HitSkillObject");
+                    //hitSkillObject.transform.position = _target.position;
+                    //hitSkillObject.transform.up = this.transform.up;
+                    //hitSkillObject.transform.localScale = this.transform.localScale;
+
+                    foreach (Func<GameObject, IEnumerator> hitSkill in SkillManager.HitSkillDict.Values)
+                    {
+                        StartCoroutine(hitSkill(_target.gameObject));
+                    }
                 }
 
                 /*_curPenetration--;

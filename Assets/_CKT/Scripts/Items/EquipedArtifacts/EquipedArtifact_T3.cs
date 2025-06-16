@@ -32,7 +32,6 @@ namespace CKT
         LineRenderer _line;
 
         Coroutine _chargeCoroutine;
-        Vector3 _firePoint;
         Vector3 _lineStart;
         Vector3 _lineEnd;
         LayerMask _ignoreLayerMask;
@@ -50,9 +49,8 @@ namespace CKT
         {
             ChargeAmount += Time.deltaTime;
 
-            _firePoint = this.transform.position + this.transform.up;
-            _lineStart = _firePoint;
-            _lineEnd = _firePoint + (this.transform.up * _distance);
+            _lineStart = base._firePoint.position;
+            _lineEnd = base._firePoint.position + (this.transform.up * _distance);
 
             float distance = _distance - (_line.startWidth * 0.5f);
             RaycastHit2D hit = Physics2D.CircleCast(_lineStart, _line.startWidth, this.transform.up, distance, ~_ignoreLayerMask);
@@ -104,7 +102,7 @@ namespace CKT
 
             //총알 생성
             GameObject bullet = YSJ.Managers.Pool.InstPrefab(_prefabName);
-            bullet.transform.position = this.transform.position;
+            bullet.transform.position = base._firePoint.position;
             //이동 방향
             /*Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mouseDir = (mousePos - this.transform.position).normalized;
