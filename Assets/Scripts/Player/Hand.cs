@@ -26,7 +26,7 @@ namespace YSJ
             if (TryGetComponent<SortingGroup>(out SortingGroup sortingGroup) && _body.TryGetComponent<SpriteRenderer>(out SpriteRenderer bodySprite))
             {
                 bool isRight = (this.transform.position.x >_body.position.x);
-                float handY = this.transform.position.y + (isRight ? 0.4f : -0.1f);
+                float handY = this.transform.position.y + (isRight ? -0.08f : -0.62f);
 
                 if (handY > _body.position.y)
                 {
