@@ -65,6 +65,9 @@ namespace BMC
 
         void OnTriggerEnter2D(Collider2D collision)
         {
+            //TODO : 콜리전 정리하면서 같이 정리하기
+            if (!collision.isTrigger) return;
+            
             if ((1 << collision.gameObject.layer) == LayerMask.GetMask("Monster"))
             {
                 if (collision.TryGetComponent<IDamagable>(out IDamagable damagable))

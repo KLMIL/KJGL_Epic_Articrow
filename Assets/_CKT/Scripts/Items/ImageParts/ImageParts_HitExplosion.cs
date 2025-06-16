@@ -21,13 +21,6 @@ namespace CKT
 
             Vector3 startPos = origin.transform.position;
 
-            YSJ.Managers.Sound.PlaySFX(Define.SFX.HitExplosion);
-            GameObject hitExplosion = YSJ.Managers.Pool.InstPrefab("HitExplosion");
-            hitExplosion.transform.position = startPos;
-            hitExplosion.GetComponent<Explosion>().Init(level);
-
-            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
-            yield return null;
             /*for (int i = 0; i < level; i++)
             {
                 YSJ.Managers.Sound.PlaySFX(Define.SFX.HitExplosion);
@@ -35,6 +28,14 @@ namespace CKT
                 hitExplosion.transform.position = startPos;
                 yield return new WaitForSeconds(0.05f);
             }*/
+
+            YSJ.Managers.Sound.PlaySFX(Define.SFX.HitExplosion);
+            GameObject hitExplosion = YSJ.Managers.Pool.InstPrefab("HitExplosion");
+            hitExplosion.transform.position = startPos;
+            hitExplosion.GetComponent<Explosion>().Init(level);
+
+            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
+            yield return null;
         }
     }
 }

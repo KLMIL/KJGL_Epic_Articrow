@@ -39,7 +39,8 @@ namespace CKT
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.isTrigger || _target != null) return;
+            if (collision.isTrigger) return;
+            //if (collision.isTrigger || _target != null) return;
 
             _target = collision.transform;
             IDamagable iDamageable = _target.GetComponent<IDamagable>();
@@ -47,20 +48,20 @@ namespace CKT
             {
                 iDamageable.TakeDamage(Damage);
 
-                _curPenetration--;
+                if (SkillManager != null)
+                {
+                    CreateHitSkillObject(this.transform.position, this.transform.up, this.transform.localScale);
+                }
+
+                /*_curPenetration--;
                 if (_curPenetration < 0)
                 {
-                    if (SkillManager != null)
-                    {
-                        CreateHitSkillObject(this.transform.position, this.transform.up, this.transform.localScale);
-                    }
-
                     if (_disableCoroutine != null)
                     {
                         StopCoroutine(_disableCoroutine);
                     }
                     _disableCoroutine = StartCoroutine(DisableCoroutine(0));
-                }
+                }*/
             }
         }
 
