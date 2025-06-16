@@ -9,7 +9,7 @@ namespace CKT
     {
         protected override GameObject _fieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T3");
         protected override string _prefabName => "Bullet_T3";
-        protected override float _attackSpeed => 0.5f;
+        protected override float _attackSpeed => 0.2f;
         protected override float _manaCost => 20f;
 
         float ChargeAmount
@@ -36,7 +36,7 @@ namespace CKT
         Vector3 _lineStart;
         Vector3 _lineEnd;
         LayerMask _ignoreLayerMask;
-        float _distance = 4f;
+        float _distance = 6f;
         float _maxWidth = 0.1f;
 
         private void Awake()

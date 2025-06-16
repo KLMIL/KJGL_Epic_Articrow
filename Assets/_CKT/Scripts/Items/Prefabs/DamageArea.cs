@@ -9,7 +9,7 @@ namespace CKT
         LayerMask _playerLayerMask;
 
         float _existTime = 2f;
-        float _damage = 2f;
+        float _damage = 3f;
         float _damageGap = 0.5f;
 
         private void OnEnable()
@@ -17,6 +17,11 @@ namespace CKT
             _playerLayerMask = LayerMask.GetMask("Player");
             StartCoroutine(TakeDamageCoroutine());
             StartCoroutine(DisableCoroutine());
+        }
+
+        public void Init(float level)
+        {
+            _damage = 4f * level;
         }
 
         IEnumerator DisableCoroutine()

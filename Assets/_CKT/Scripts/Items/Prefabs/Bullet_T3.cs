@@ -18,7 +18,7 @@ namespace CKT
             _line = _line ?? GetComponent<LineRenderer>();
             _line.startWidth = 0.3f;
 
-            _distance = 4;
+            _distance = 6;
 
             base.OnEnable();
             StartCoroutine(ScanTarget());
@@ -43,7 +43,8 @@ namespace CKT
             RaycastHit2D[] hits = Physics2D.CircleCastAll(lineStart, _line.startWidth, this.transform.up, distance, ~base._ignoreLayerMask);
             if (hits.Length > 0)
             {
-                for (int i = 0; i < base._curPenetration + 1; i++)
+                //for (int i = 0; i < (base._curPenetration + 1); i++)
+                for (int i = 0; i < hits.Length; i++)
                 {
                     IDamagable iDamagable = hits[i].transform.GetComponent<IDamagable>();
                     if (iDamagable != null)
@@ -54,7 +55,7 @@ namespace CKT
                     }
                 }
 
-                lineEnd = hits[base._curPenetration].point;
+                //lineEnd = hits[base._curPenetration].point;
             }
 
             _line.SetPosition(0, lineStart);

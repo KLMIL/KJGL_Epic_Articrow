@@ -22,16 +22,20 @@ namespace CKT
 
             Vector3 startPos = origin.transform.position;
 
-            for (int i = 0; i < level; i++)
+            /*for (int i = 0; i < level; i++)
             {
-                Managers.Sound.PlaySFX(Define.SFX.CastDamageArea);
-
                 GameObject castDamageArea = YSJ.Managers.Pool.InstPrefab("CastDamageArea");
                 castDamageArea.transform.position = startPos;
                 yield return new WaitForSeconds(0.05f);
-            }
+            }*/
+
+            Managers.Sound.PlaySFX(Define.SFX.CastDamageArea);
+            GameObject castDamageArea = YSJ.Managers.Pool.InstPrefab("CastDamageArea");
+            castDamageArea.transform.position = startPos;
+            castDamageArea.GetComponent<DamageArea>().Init(level);
 
             PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
+            yield return null;
         }
     }
 }

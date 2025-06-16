@@ -9,7 +9,7 @@ namespace CKT
         
         float range = 1.5f;
         LayerMask _playerLayerMask;
-        float _damage = 8f;
+        float _damage = 12f;
         float _disableTime = 1f;
 
         private void OnEnable()
