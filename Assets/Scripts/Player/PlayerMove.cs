@@ -1,3 +1,4 @@
+using BMC;
 using UnityEngine;
 
 namespace YSJ
@@ -28,7 +29,7 @@ namespace YSJ
             if (Managers.Input.MoveInput == Vector2.zero)
             {
                 _rigid.linearVelocity *= _dampScale;
-                _playerAnimator.CurrentState = PlayerAnimator.State.Idle;
+                _playerAnimator.CurrentState &= ~PlayerAnimator.State.Walk;
             }
             else
             {

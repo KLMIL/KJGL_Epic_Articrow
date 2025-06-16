@@ -10,6 +10,7 @@ namespace CKT
         protected override GameObject _fieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T3");
         protected override string _prefabName => "Bullet_T3";
         protected override float _attackSpeed => 0.5f;
+        protected override float _manaCost => 50f;
 
         float ChargeAmount
         {
@@ -35,45 +36,26 @@ namespace CKT
         Vector3 _lineStart;
         Vector3 _lineEnd;
         LayerMask _ignoreLayerMask;
-        LayerMask _playerLayerMask;
-        LayerMask _brokenLayerMask;
         float _distance = 4f;
         float _maxWidth = 0.2f;
 
         private void Awake()
         {
             _line = _line ?? GetComponent<LineRenderer>();
-            _ignoreLayerMask = LayerMask.GetMask("Ignore Raycast");
-            _playerLayerMask = LayerMask.GetMask("Player");
-            _brokenLayerMask = LayerMask.GetMask("BreakParts");
+            _ignoreLayerMask = LayerMask.GetMask("Default", "Ignore Raycast", "Player", "BreakParts");
         }
 
         #region [Attack]
-        protected override void Attack(List<GameObject> list)
-        {
-            if (ChargeAmount <= _maxChargeAmount)
-            {
-                if (_attackCoroutine == null)
-                {
-                    Charge();
-                }
-            }
-            else
-            {
-                _attackCoroutine = _attackCoroutine ?? StartCoroutine(AttackCoroutine(list));
-            }
-        }
-
         void Charge()
         {
-            ChargeAmount += Time.fixedDeltaTime;
+            ChargeAmount += Time.deltaTime;
 
             _firePoint = this.transform.position + this.transform.up;
             _lineStart = _firePoint;
             _lineEnd = _firePoint + (this.transform.up * _distance);
 
             float distance = _distance - (_line.startWidth * 0.5f);
-            RaycastHit2D hit = Physics2D.CircleCast(_lineStart, _line.startWidth, this.transform.up, distance, ~(_ignoreLayerMask | _playerLayerMask | _brokenLayerMask));
+            RaycastHit2D hit = Physics2D.CircleCast(_lineStart, _line.startWidth, this.transform.up, distance, ~_ignoreLayerMask);
             if (hit)
             {
                 _lineEnd = hit.point;
@@ -83,14 +65,12 @@ namespace CKT
             _line.SetPosition(1, _lineEnd);
             _line.enabled = true;
 
-            _chargeCoroutine = _chargeCoroutine ?? StartCoroutine(ChargeCoroutine());
+            _chargeCoroutine = _chargeCoroutine ?? StartCoroutine(ChargeCoroutine(hit));
         }
 
-        IEnumerator ChargeCoroutine()
+        IEnumerator ChargeCoroutine(RaycastHit2D hit)
         {
             Debug.DrawLine(_lineStart, _lineEnd, Color.green, 0.4f);
-            float distance = _distance - (_line.startWidth * 0.5f);
-            RaycastHit2D hit = Physics2D.CircleCast(_lineStart, _line.startWidth, this.transform.up, distance, ~(_playerLayerMask | _brokenLayerMask));
             if (hit)
             {
                 IDamagable iDamagable = hit.transform.GetComponent<IDamagable>();
@@ -108,6 +88,12 @@ namespace CKT
 
         protected override IEnumerator AttackCoroutine(List<GameObject> list)
         {
+            while (ChargeAmount <= _maxChargeAmount)
+            {
+                Charge();
+                yield return null;
+            }
+            
             ChargeAmount = 0;
             _line.enabled = false;
 

@@ -19,14 +19,18 @@ namespace CKT
             
             _playerLayerMask = LayerMask.GetMask("Player");
             StartCoroutine(TakeDamageCoroutine());
-
             StartCoroutine(DisableCoroutine(_disableTime));
+        }
+
+        public void Init(float level)
+        {
+            _damage = 8f * level;
         }
 
         IEnumerator CreateTrace()
         {
             yield return null;
-            _traceArray = Resources.LoadAll<GameObject>("ExplosionTraces");
+            _traceArray = _traceArray ?? Resources.LoadAll<GameObject>("ExplosionTraces");
             int random = Random.Range(0, _traceArray.Length);
             Instantiate(_traceArray[random], this.transform.position, Quaternion.identity);
         }

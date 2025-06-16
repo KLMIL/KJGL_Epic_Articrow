@@ -8,13 +8,14 @@ namespace BMC
     {
         //Animator _anim;
         Rigidbody2D _rb;
+        PlayerAnimator _playerAnimator; // 플레이어 애니메이터
         AttackSlash _attackSlash;
 
-        [SerializeField] int _currentAttackStep = 0;     // 현재 공격 단계
-        [SerializeField] int _maxAttackStep = 3;         // 최대 공격 단계
+        [field: SerializeField] public int CurrentAttackStep { get; private set; }  // 현재 공격 단계
+        int _maxAttackStep = 2;         // 최대 공격 단계
 
         float _comboTimer = 0f;
-        float _comboInputWindow = 0.6f; // 공격 입력 타이밍 윈도우
+        float _comboInputWindow = 0.3f; // 공격 입력 타이밍 윈도우 (짧을 수록 1단계 공격 후, 대기 시간이 짧아짐)
         bool _canNextCombo = false;     // 다음 콤보 입력 가능 여부
         bool _inputBuffered = false;    // 입력 버퍼 여부
         float _attackCoolDown = 0.5f;   // 모든 콤보 후, 대기 타임
@@ -32,6 +33,7 @@ namespace BMC
         void Start()
         {
             //_anim = GetComponent<Animator>();
+            _playerAnimator = GetComponent<PlayerAnimator>();
             _attackSlash = GetComponentInChildren<AttackSlash>();
             Managers.Input.OnLeftHandAction += Attack;
         }
@@ -62,11 +64,13 @@ namespace BMC
 
         IEnumerator AttackCoroutine()
         {
-            if (_currentAttackStep >= _maxAttackStep)
-                yield break; // 이미 3단 콤보를 했으면 중단
+            if (CurrentAttackStep >= _maxAttackStep)
+                yield break; // 이미 2단 콤보를 했으면 중단
 
             IsAttack = true;
-            _currentAttackStep++;
+            CurrentAttackStep++;
+            _playerAnimator.CurrentState |= PlayerAnimator.State.Attack;
+
             _inputBuffered = false;
 
             // 공격 방향으로 플레이어 약간 이동
@@ -80,10 +84,10 @@ namespace BMC
             //    _playerFSM.Flip(dir.x);
 
             // 단계에 맞는 공격 실행
-            _attackSlash.Play(_currentAttackStep);
+            _attackSlash.Play(CurrentAttackStep);
 
             // 다음 콤보 입력 대기 시간
-            _canNextCombo = _currentAttackStep < _maxAttackStep;
+            _canNextCombo = CurrentAttackStep < _maxAttackStep;
             _comboTimer = 0;
             while (_canNextCombo && _comboTimer < _comboInputWindow)
             {
@@ -101,16 +105,18 @@ namespace BMC
             // 시간 내 입력 못했으면 초기화
             _canNextCombo = false;
 
-            if (_currentAttackStep >= _maxAttackStep) // 3단 콤보 되었을 경우
+            if (CurrentAttackStep >= _maxAttackStep) // 2단 콤보 되었을 경우
             {
                 yield return new WaitForSeconds(_attackCoolDown);
-                _currentAttackStep = 0; // 콤보 초기화
+                CurrentAttackStep = 0; // 콤보 초기화
             }
             else // 입력 타이밍 놓친 경우
             {
-                _currentAttackStep = 0;
+                CurrentAttackStep = 0;
             }
 
+            // 공격 끝
+            _playerAnimator.CurrentState &= ~PlayerAnimator.State.Attack;
             IsAttack = false;
         }
 
