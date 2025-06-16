@@ -5,114 +5,109 @@ using UnityEngine;
  * 투사체 공격
  * Normal: 일반 투사체 발사 공격
  */
-
-public enum ProjectileAttackMode { Normal }
-[CreateAssetMenu(
-    fileName = "ProjectileAtackAction", 
-    menuName = "Enemy/Action/Attack/Projectile Attack"
-)]
-public class ProjectileAttackActionSO : EnemyActionSO
+namespace Game.Enemy
 {
-    public ProjectileAttackMode projectileAttackMode = ProjectileAttackMode.Normal;
-
-    public Vector3 firePointOffset = Vector3.zero;
-    
-    public GameObject projectilePrefab;
-    public float projectileSpeed = 8f;
-    public int projectileAmount = 3;
-    public float projectileTurm = 0.05f;
-
-    public float damageMultiply = 1.0f;
-    public float cooldown = 1.0f;
-
-
-    public override void Act(EnemyController controller)
+    public enum ProjectileAttackMode { Normal }
+    [CreateAssetMenu(
+        fileName = "ProjectileAtackAction",
+        menuName = "Enemy/Action/Attack/Projectile Attack"
+    )]
+    public class ProjectileAttackActionSO : EnemyActionSO
     {
-        // 현재 공격 상태의 쿨타임 체크
-        string key = controller.CurrentStateName;
-        if (!controller.lastAttackTimes.ContainsKey(key))
+        public ProjectileAttackMode projectileAttackMode = ProjectileAttackMode.Normal;
+
+        public Vector3 firePointOffset = Vector3.zero;
+
+        public GameObject projectilePrefab;
+        public float projectileSpeed = 8f;
+        public int projectileAmount = 3;
+        public float projectileTurm = 0.05f;
+
+        public float damageMultiply = 1.0f;
+        public float cooldown = 1.0f;
+
+
+        public override void Act(EnemyController controller)
         {
-            controller.lastAttackTimes[key] = -Mathf.Infinity;
+            // 현재 공격 상태의 쿨타임 체크
+            string key = controller.CurrentStateName;
+            if (!controller.lastAttackTimes.ContainsKey(key))
+            {
+                controller.lastAttackTimes[key] = -Mathf.Infinity;
+            }
+
+            if (Time.time - controller.lastAttackTimes[key] < cooldown) return;
+
+
+            switch (projectileAttackMode)
+            {
+                case ProjectileAttackMode.Normal:
+                    NormalAttack(controller);
+                    break;
+            }
+
+            //// 쿨타임 부여
+            controller.lastAttackTimes[key] = Time.time;
         }
 
-        if (Time.time - controller.lastAttackTimes[key] < cooldown) return;
-
-
-        switch (projectileAttackMode)
+        public override void OnEnter(EnemyController controller)
         {
-            case ProjectileAttackMode.Normal:
-                NormalAttack(controller);
-                break;
+            //controller.lastAttackTimes[controller.CurrentStateName] = -Mathf.Infinity;
         }
 
-        //// 쿨타임 부여
-        controller.lastAttackTimes[key] = Time.time;
-    }
-
-    public override void OnEnter(EnemyController controller)
-    {
-        //controller.lastAttackTimes[controller.CurrentStateName] = -Mathf.Infinity;
-    }
-
-    public override void OnExit(EnemyController controller)
-    {
-        if (controller.FSM.fireRoutine != null)
+        public override void OnExit(EnemyController controller)
         {
-            controller.StopCoroutine(controller.FSM.fireRoutine);
-        }
-        controller.FSM.projectileFiredCount = 0;
-        controller.FSM.projectileIntervalTimer = 0;
-    }
-
-    private void NormalAttack(EnemyController controller)
-    {
-        // null 할당 오류 return
-        if (controller.Player == null || projectilePrefab == null) return;
-        if (controller.FSM.projectileFiredCount >= projectileAmount) return;
-
-        Vector3 playerDelta = controller.Player.position - controller.transform.position;
-        if (playerDelta.x != 0)
-        {
-            controller.SpriteRenderer.flipX = playerDelta.x > 0;
+            if (controller.FSM.fireRoutine != null)
+            {
+                controller.StopCoroutine(controller.FSM.fireRoutine);
+            }
+            controller.FSM.projectileFiredCount = 0;
+            controller.FSM.projectileIntervalTimer = 0;
         }
 
-        controller.FSM.fireRoutine = controller.StartCoroutine(FireProjectiles(controller));
-
-        //controller.projectileIntervalTimer += Time.deltaTime;
-        //while (controller.projectileIntervalTimer >= projectileTurm)
-        //{
-        //    controller.projectileIntervalTimer = 0f;
-        //    controller.projectileFiredCount++;
-
-        //    Vector3 firePos = controller.transform.position + firePointOffset;
-        //    Vector3 dir = (controller.Player.position - firePos).normalized;
-
-        //    GameObject currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity, controller.transform);
-        //    Destroy(currProj, 1f);
-
-        //    var rb = currProj.GetComponent<Rigidbody2D>();
-        //    if (rb != null) rb.linearVelocity = dir * projectileSpeed;
-
-        //    if (controller.projectileFiredCount >= projectileAmount)
-        //        break; // 모든 발사 끝내면 중단
-        //}
-    }
-
-    private IEnumerator FireProjectiles(EnemyController controller)
-    {
-        int count = 0;
-        while (count < projectileAmount)
+        private void NormalAttack(EnemyController controller)
         {
-            // 발사
-            Vector3 firePos = controller.transform.position + firePointOffset;
-            Vector3 dir = (controller.Player.position - firePos).normalized;
-            GameObject currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity, controller.transform);
-            var rb = currProj.GetComponent<Rigidbody2D>();
-            if (rb != null) rb.linearVelocity = dir * projectileSpeed;
-            Destroy(currProj, 1f);
+            // null 할당 오류 return
+            if (controller.Player == null || projectilePrefab == null) return;
+            if (controller.FSM.projectileFiredCount >= projectileAmount) return;
 
-            count++;
-            yield return new WaitForSeconds(projectileTurm);
+            Vector3 playerDelta = controller.Player.position - controller.transform.position;
+            if (playerDelta.x != 0)
+            {
+                controller.SpriteRenderer.flipX = playerDelta.x > 0;
+            }
+
+            controller.FSM.fireRoutine = controller.StartCoroutine(FireProjectiles(controller));
+        }
+
+        private IEnumerator FireProjectiles(EnemyController controller)
+        {
+            int count = 0;
+            while (count < projectileAmount)
+            {
+                // 발사
+                Vector3 firePos = controller.transform.position + firePointOffset;
+                Vector3 dir = (controller.Player.position - firePos).normalized;
+                Vector2 velocity = dir * projectileSpeed;
+                GameObject currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity, controller.transform);
+                EnemyProjectile proj = currProj.GetComponent<EnemyProjectile>();
+
+                if (proj != null)
+                {
+                    proj.InitProjecitle(
+                            controller,
+                            controller.Status.attack * damageMultiply,
+                            velocity
+                        );
+                }
+
+                //var rb = currProj.GetComponent<Rigidbody2D>();
+                //if (rb != null) rb.linearVelocity = dir * projectileSpeed;
+                //Destroy(currProj, 1f);
+
+                count++;
+                yield return new WaitForSeconds(projectileTurm);
+            }
         }
     }
 }

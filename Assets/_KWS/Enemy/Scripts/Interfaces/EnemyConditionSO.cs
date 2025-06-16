@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public abstract class EnemyConditionSO : ScriptableObject
+namespace Game.Enemy
 {
-    public abstract bool IsMet(EnemyController controller);
+    public abstract class EnemyConditionSO : ScriptableObject
+    {
+        public abstract bool IsMet(EnemyController controller);
+    }
 }
