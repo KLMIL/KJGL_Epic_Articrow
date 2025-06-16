@@ -15,6 +15,7 @@ namespace Game.Enemy
         float elapsedTime = 0f;
         public float wallCheckDistance = 0.5f;
         string moveType;
+        bool inverse = false;
 
         public LayerMask wallLayerMask;      // 벽 감지용 (필수)
 
@@ -109,16 +110,17 @@ namespace Game.Enemy
         {
             if (_currentDirection.x != 0)
             {
-                _spriteRenderer.flipX = _currentDirection.x > 0;
+                _spriteRenderer.flipX = inverse ? _currentDirection.x < 0 : _currentDirection.x > 0;
             }
         }
 
-        public void MoveTo(Vector3 direction, float duration, string moveType)
+        public void MoveTo(Vector3 direction, float duration, string moveType, bool inverse)
         {
             _currentDirection = direction.normalized;
             this.duration = duration;
             elapsedTime = 0;
             this.moveType = moveType;
+            this.inverse = inverse;
         }
 
         public void Stop()
