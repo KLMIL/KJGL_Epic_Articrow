@@ -1,10 +1,13 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DeadCondition", menuName = "Enemy/Condition/Dead")]
-public class DeadConditionSO : EnemyConditionSO
+namespace Game.Enemy
 {
-    public override bool IsMet(EnemyController controller)
+    [CreateAssetMenu(fileName = "DeadCondition", menuName = "Enemy/Condition/Dead")]
+    public class DeadConditionSO : EnemyConditionSO
     {
-        return controller.Status.healthPoint <= 0f;
+        public override bool IsMet(EnemyController controller)
+        {
+            return controller.Status.healthPoint <= 0f;
+        }
     }
 }

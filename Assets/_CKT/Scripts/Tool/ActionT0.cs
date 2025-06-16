@@ -1,6 +1,6 @@
 using System;
 
-public class ActionT0Handler
+public class ActionT0
 {
     Action _action = null;
 
@@ -27,6 +27,22 @@ public class ActionT0Handler
 
     public void Trigger()
     {
+        CleanUp();
         _action?.Invoke();
+    }
+
+    void CleanUp()
+    {
+        if (_action == null) return;
+
+        Delegate[] delegates = _action.GetInvocationList();
+        _action = null;
+        foreach (Delegate del in delegates)
+        {
+            if (del.Target != null || del.Method.IsStatic)
+            {
+                _action += (Action)del;
+            }
+        }
     }
 }

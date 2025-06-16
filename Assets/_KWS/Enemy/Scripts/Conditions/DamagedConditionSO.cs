@@ -1,10 +1,13 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DamagedCondition", menuName = "Enemy/Condition/Damaged")]
-public class DamagedConditionSO : EnemyConditionSO
+namespace Game.Enemy
 {
-    public override bool IsMet(EnemyController controller)
+    [CreateAssetMenu(fileName = "DamagedCondition", menuName = "Enemy/Condition/Damaged")]
+    public class DamagedConditionSO : EnemyConditionSO
     {
-        return controller.FSM.isDamaged;
+        public override bool IsMet(EnemyController controller)
+        {
+            return controller.FSM.isDamaged;
+        }
     }
 }

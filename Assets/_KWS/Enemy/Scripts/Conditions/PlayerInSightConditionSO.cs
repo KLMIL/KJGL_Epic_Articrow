@@ -1,14 +1,17 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerInSightCondition", menuName = "Enemy/Condition/Player In Sight")]
-public class PlayerInSightConditionSO : EnemyConditionSO
+namespace Game.Enemy
 {
-    public float detectionRange = 5f;
-
-    public override bool IsMet(EnemyController controller)
+    [CreateAssetMenu(fileName = "PlayerInSightCondition", menuName = "Enemy/Condition/Player In Sight")]
+    public class PlayerInSightConditionSO : EnemyConditionSO
     {
-        if (controller.Player == null) return false;
+        public float detectionRange = 5f;
 
-        return Vector3.Distance(controller.transform.position, controller.Player.position) <= detectionRange;
+        public override bool IsMet(EnemyController controller)
+        {
+            if (controller.Player == null) return false;
+
+            return Vector3.Distance(controller.transform.position, controller.Player.position) <= detectionRange;
+        }
     }
 }

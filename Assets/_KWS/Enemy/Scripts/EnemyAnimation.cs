@@ -1,35 +1,38 @@
 using UnityEngine;
 
-public class EnemyAnimation : MonoBehaviour
+namespace Game.Enemy
 {
-    Animator animator;
-    [HideInInspector] public string CurrentAnimation = "";
-
-    private void Awake()
+    public class EnemyAnimation : MonoBehaviour
     {
-        animator = GetComponent<Animator>();
-    }
+        Animator animator;
+        [HideInInspector] public string CurrentAnimation = "";
 
-    public void Play(string animationName)
-    {
-        // 모든 트리거 리셋
-        foreach (var param in animator.parameters)
+        private void Awake()
         {
-            if (param.type == AnimatorControllerParameterType.Trigger)
-            {
-                animator.ResetTrigger(param.name);
-            }
+            animator = GetComponent<Animator>();
         }
 
-        animator.SetTrigger(animationName);
-    }
+        public void Play(string animationName)
+        {
+            // 모든 트리거 리셋
+            foreach (var param in animator.parameters)
+            {
+                if (param.type == AnimatorControllerParameterType.Trigger)
+                {
+                    animator.ResetTrigger(param.name);
+                }
+            }
 
-    public void PlayAnimationOnce(string animName)
-    {
-        Debug.Log($"[{Time.time}]: Animation Chagne: {animName}");
-        if (CurrentAnimation == animName) return;
-        
-        Play(animName);
-        CurrentAnimation = animName;
+            animator.SetTrigger(animationName);
+        }
+
+        public void PlayAnimationOnce(string animName)
+        {
+            Debug.Log($"[{Time.time}]: Animation Chagne: {animName}");
+            if (CurrentAnimation == animName) return;
+
+            Play(animName);
+            CurrentAnimation = animName;
+        }
     }
 }

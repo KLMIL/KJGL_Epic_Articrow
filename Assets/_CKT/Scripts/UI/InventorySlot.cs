@@ -9,8 +9,8 @@ namespace CKT
             base.Init();
 
             GameManager.Instance.Inventory.OnUpdateInventoryListActionT1.SingleRegister((list) => base.UpdateItemSlotList(list));
-            GameManager.Instance.Inventory.SingleSubSlotCount(() => base._dropAreas.Length);
-            YSJ.Managers.UI.SubAddInventorySlot((obj) => AddInventorySlot(base._dropAreas, obj));
+            GameManager.Instance.Inventory.GetSlotCountInt.SingleRegister(() => base._dropAreas.Length);
+            YSJ.Managers.UI.OnAddInventorySlotActionT1.Register((obj) => AddInventorySlot(base._dropAreas, obj));
         }
 
         /// <summary>
