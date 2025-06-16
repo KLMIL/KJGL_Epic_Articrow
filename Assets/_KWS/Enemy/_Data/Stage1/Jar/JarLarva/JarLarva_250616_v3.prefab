@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4533473617613132829}
   - component: {fileID: 1111317123990646688}
   - component: {fileID: 6053797854719358732}
-  - component: {fileID: 3122520596267664748}
+  - component: {fileID: 4140299257088796224}
   - component: {fileID: 8999987020883876950}
   - component: {fileID: 1519795909339377274}
   - component: {fileID: 7737338413248189098}
@@ -86,15 +86,15 @@ SpriteRenderer:
   m_SortingLayerID: 541412685
   m_SortingLayer: 8
   m_SortingOrder: 21
-  m_Sprite: {fileID: 3606272964361094888, guid: a217ec2bc22aa0c49b557ae70015394b, type: 3}
+  m_Sprite: {fileID: 3606272964361094888, guid: 6bed19961888aa143bb212a0a8010281, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.6666667, y: 0.6666667}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &5539510163370756909
@@ -225,8 +225,8 @@ MonoBehaviour:
   wallLayerMask:
     serializedVersion: 2
     m_Bits: 0
---- !u!60 &3122520596267664748
-PolygonCollider2D:
+--- !u!61 &4140299257088796224
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -259,26 +259,18 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.004499197, y: 0.1822189}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 0.6666667, y: 0.6666667}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 0.6666667, y: 0.6666667}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.066690445, y: 0.22311461}
-      - {x: -0.22293997, y: 0.051065207}
-      - {x: -0.22293997, y: -0.18278658}
-      - {x: 0.15271473, y: -0.19958985}
-      - {x: 0.21621895, y: -0.09475386}
-      - {x: 0.2195797, y: 0.12836063}
-      - {x: 0.14935446, y: 0.21639323}
-  m_UseDelaunayMesh: 0
+  m_Size: {x: 0.5939987, y: 0.3645378}
+  m_EdgeRadius: 0
 --- !u!58 &8999987020883876950
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -313,8 +305,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.0033606887}
-  m_Radius: 0.13556272
+  m_Offset: {x: 0, y: 0.1743315}
+  m_Radius: 0.13106348
 --- !u!50 &1519795909339377274
 Rigidbody2D:
   serializedVersion: 5
