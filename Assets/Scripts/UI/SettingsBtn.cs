@@ -22,7 +22,7 @@ public class SettingsBtn : MonoBehaviour
         //UI_TitleEventBus.OnToggleSettingsCanvas?.Invoke();
         //UI_TitleEventBus.OnActivePanelCanvas?.Invoke(0);
         //UI_TitleEventBus.OnActivePanelBtnHighlightLine?.Invoke(0);
-        UI_CommonEventBus.OnToggleSettingsCanvas?.Invoke();
+        UI_CommonEventBus.OnToggleSettingsCanvas?.Invoke(true);
         UI_CommonEventBus.OnActivePanelCanvas?.Invoke(0);
         UI_CommonEventBus.OnActivePanelBtnHighlightLine?.Invoke(0);
     }

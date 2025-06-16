@@ -16,7 +16,7 @@ namespace BMC
 
         void OnClick()
         {
-            UI_CommonEventBus.OnToggleSettingsCanvas?.Invoke();
+            UI_CommonEventBus.OnToggleSettingsCanvas?.Invoke(false);
             UI_CommonEventBus.OnDeactivatePanelCanvas?.Invoke();
         }
     }
