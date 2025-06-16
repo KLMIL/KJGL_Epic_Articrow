@@ -45,7 +45,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 06ea5b3ad341a6d4c9ab63d647ac7799, type: 2}
+  m_Motion: {fileID: 7400000, guid: b696e4a0841bcec4c8711662ccbd3a55, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -121,7 +121,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 25f43069028bd74428c79f042222e5f6, type: 2}
+  m_Motion: {fileID: 7400000, guid: 676c1263a6de493458078167382be190, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -147,7 +147,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 97698f717f0fc4e4685e727cf8ea170d, type: 2}
+  m_Motion: {fileID: 7400000, guid: c8a4ca15601a1c94097f1aeaf7a760bf, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -162,7 +162,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: RushReady
+    m_ConditionEvent: AttackReady
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7270089640606513373}
@@ -211,13 +211,13 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: RushReady
+  - m_Name: AttackReady
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Rush
+  - m_Name: Attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -249,7 +249,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WormSlime_Stun
+  m_Name: WormSlime_PostAttack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -262,7 +262,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d070f9f3f8cad8745adbc940220fe24a, type: 2}
+  m_Motion: {fileID: 7400000, guid: e2188f2a5af96a2469bbc26c7af21d95, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -288,7 +288,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 87e9822787a2b1e468b48824acad7368, type: 2}
+  m_Motion: {fileID: 7400000, guid: 30dfefb243c917c45806635da5676aea, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -328,7 +328,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e225fb21ae3322c49a940fe7a580c241, type: 2}
+  m_Motion: {fileID: 7400000, guid: 0a277add130f1b54387340d7ea5f8722, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -343,7 +343,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Rush
+    m_ConditionEvent: Attack
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -5589026631193760061}
@@ -395,7 +395,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -5589026631193760061}
-    m_Position: {x: 320, y: 340, z: 0}
+    m_Position: {x: 310, y: 350, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7513239598387283961}
     m_Position: {x: 310, y: -110, z: 0}
@@ -413,7 +413,7 @@ AnimatorStateMachine:
     m_Position: {x: 310, y: 280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1462457771584467960}
-    m_Position: {x: 320, y: 430, z: 0}
+    m_Position: {x: 310, y: 440, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -409708217883068921}
@@ -464,7 +464,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WormSlime_Ready
+  m_Name: WormSlime_AttackReady
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -477,7 +477,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 47b2a448d90c72c49b35d33f5e656d7d, type: 2}
+  m_Motion: {fileID: 7400000, guid: ad404692e8324954da44979631c62f15, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
