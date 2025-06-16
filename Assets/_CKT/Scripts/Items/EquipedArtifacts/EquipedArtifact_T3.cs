@@ -10,7 +10,7 @@ namespace CKT
         protected override GameObject _fieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T3");
         protected override string _prefabName => "Bullet_T3";
         protected override float _attackSpeed => 0.5f;
-        protected override float _manaCost => 50f;
+        protected override float _manaCost => 20f;
 
         float ChargeAmount
         {

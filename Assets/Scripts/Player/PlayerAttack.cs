@@ -18,9 +18,9 @@ namespace BMC
         float _comboInputWindow = 0.3f; // 공격 입력 타이밍 윈도우 (짧을 수록 1단계 공격 후, 대기 시간이 짧아짐)
         bool _canNextCombo = false;     // 다음 콤보 입력 가능 여부
         bool _inputBuffered = false;    // 입력 버퍼 여부
-        float _attackCoolDown = 0.5f;   // 모든 콤보 후, 대기 타임
+        float _attackCoolDown = 0.25f;   // 모든 콤보 후, 대기 타임
 
-        float _attackMoveDistance = 0.75f; // 공격 시, 플레이어가 전진하는 정도
+        float _attackMoveDistance = 0.5f; // 공격 시, 플레이어가 전진하는 정도
 
         [field: SerializeField] public bool IsAttack { get; private set; }
 
@@ -77,7 +77,8 @@ namespace BMC
             Vector3 mousePos = Managers.Input.MouseWorldPos;
             Vector2 dir = (mousePos - transform.position).normalized;
             //Debug.Log(dir);
-            _rb.linearVelocity = dir * _attackMoveDistance;
+            _rb.linearVelocity = Vector2.zero;
+            _rb.linearVelocity += dir * _attackMoveDistance;
 
             // TODO: 플레이어가 공격 방향 보게 강제로 바꾸기
             //if (dir.x != 0)

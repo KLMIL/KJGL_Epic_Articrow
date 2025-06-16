@@ -1,3 +1,4 @@
+using BMC;
 using CKT;
 using System.Collections;
 using UnityEngine;
@@ -6,6 +7,8 @@ namespace CKT
 {
     public class ImageParts_CastAdditional : ImageParts, ISkillable
     {
+        float _manaCost = 5f;
+
         private void Awake()
         {
             base.Init("FieldParts/FieldParts_CastAdditional");
@@ -36,6 +39,8 @@ namespace CKT
                     StartCoroutine(skillManager.CastSkillDict["CastScatter"](castAdditionalCopy));
                 }
             }
+
+            PlayerManager.Instance.PlayerStatus.SpendMana(_manaCost);
         }
     }
 }
