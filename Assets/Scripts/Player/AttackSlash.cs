@@ -49,11 +49,13 @@ namespace BMC
             {
                 case 1:
                     _anim.Play("AttackSlash1");
+                    Managers.Sound.PlaySFX(Define.SFX.Attack1);
                     Debug.LogWarning("1단계 공격");
                     break;
                 case 2:
                     _anim.Play("AttackSlash2");
                     Debug.LogWarning("2단계 공격");
+                    Managers.Sound.PlaySFX(Define.SFX.Attack2);
                     break;
                 default:
                     break;
@@ -73,6 +75,7 @@ namespace BMC
                     //}
                     //Debug.Log("몬스터가 맞음");
                     damagable.TakeDamage(10);
+                    Managers.Sound.PlaySFX(Define.SFX.Slash);
                     PlayerManager.Instance.PlayerStatus.RegenerateMana(10);
                 }
             }
