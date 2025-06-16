@@ -23,12 +23,13 @@ namespace Game.Enemy
                 }
             }
 
+            animator.speed = Random.Range(0.95f, 1.05f);
             animator.SetTrigger(animationName);
         }
 
         public void PlayAnimationOnce(string animName)
         {
-            Debug.Log($"[{Time.time}]: Animation Chagne: {animName}");
+            //Debug.Log($"[{Time.time}]: Animation Change: {animName}");
             if (CurrentAnimation == animName) return;
 
             Play(animName);

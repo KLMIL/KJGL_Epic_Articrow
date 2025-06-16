@@ -44,7 +44,7 @@ namespace Game.Enemy
 
             if (Time.time - controller.lastAttackTimes[key] < cooldown)
             {
-                Debug.Log($"Rest Cooltime: {Time.time - controller.lastAttackTimes[key]}");
+                //Debug.Log($"Rest Cooltime: {Time.time - controller.lastAttackTimes[key]}");
                 return;
             }
 
