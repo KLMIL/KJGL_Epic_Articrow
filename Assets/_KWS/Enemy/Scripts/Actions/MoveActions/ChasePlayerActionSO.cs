@@ -13,6 +13,7 @@ namespace Game.Enemy
     public class ChasePlayerActionSO : EnemyActionSO
     {
         public ChaseMode chaseMode = ChaseMode.Simple;
+        public bool inverse = false;
 
         [Header("Chase Distance")]
         public float minDistance = 0.0f;    // 0이면 계속해서 추적
@@ -55,7 +56,7 @@ namespace Game.Enemy
         {
 
             Vector3 dir = (controller.Player.position - controller.transform.position).normalized;
-            controller.MoveTo(dir, Time.deltaTime, "SimpleChase");
+            controller.MoveTo(dir, Time.deltaTime, "SimpleChase", inverse);
         }
 
         private void SmartChase(EnemyController controller)

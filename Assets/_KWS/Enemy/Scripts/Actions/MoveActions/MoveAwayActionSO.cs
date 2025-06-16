@@ -19,6 +19,7 @@ namespace Game.Enemy
         public float moveDuration = 0.8f;
         public MoveAwayMode mode = MoveAwayMode.Simple;
         public float wallCheckDistance = 0.5f;
+        public bool inverse = false;
 
         public override void Act(EnemyController controller)
         {
@@ -31,7 +32,7 @@ namespace Game.Enemy
             switch (mode)
             {
                 case MoveAwayMode.Simple:
-                    controller.MoveTo(awayDir, moveDuration, "SimpleMoveAway");
+                    controller.MoveTo(awayDir, moveDuration, "SimpleMoveAway", inverse);
 
                     //if (!Physics.Raycast(controller.transform.position, awayDir, wallCheckDistance))
                     //{
@@ -44,7 +45,7 @@ namespace Game.Enemy
                     Vector3 chosenDir = awayDir;
                     if (Physics.Raycast(controller.transform.position, awayDir, wallCheckDistance))
                     {
-                        // 벽에 막혀있으면, 벽을 따라 '오른쪽' or '왼쪽' 방향으로 이동
+                        // 벽에 막혀있으면, 벽을 따라 '오른쪽' or '왼쪽' 방향으로 이동d
                         Vector3 right = Vector3.Cross(Vector3.forward, awayDir).normalized;
                         Vector3 left = -right;
 
@@ -73,7 +74,7 @@ namespace Game.Enemy
 
                     if (chosenDir != Vector3.zero)
                     {
-                        controller.MoveTo(chosenDir, moveDuration, "SmartMoveAway");
+                        controller.MoveTo(chosenDir, moveDuration, "SmartMoveAway", inverse);
                     }
                     else
                     {

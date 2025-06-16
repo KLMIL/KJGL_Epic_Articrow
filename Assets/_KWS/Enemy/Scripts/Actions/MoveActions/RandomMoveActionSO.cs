@@ -13,6 +13,7 @@ namespace Game.Enemy
     {
         public float minMoveCooldown = 1f;
         public float maxMoveCooldown = 3f;
+        public bool inverse = false;
         //public float wallCheckDistance = 0.5f;
 
         public override void Act(EnemyController controller)
@@ -25,7 +26,7 @@ namespace Game.Enemy
                     ).normalized;
                 controller.FSM.randomMoveChangeCooldown = Random.Range(minMoveCooldown, maxMoveCooldown);
 
-                controller.MoveTo(controller.FSM.randomMoveDirection, controller.FSM.randomMoveChangeCooldown, "Normal");
+                controller.MoveTo(controller.FSM.randomMoveDirection, controller.FSM.randomMoveChangeCooldown, "Normal", inverse);
             }
 
             //// 이동

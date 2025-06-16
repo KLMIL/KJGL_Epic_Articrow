@@ -32,6 +32,7 @@ namespace Game.Enemy
         public float rushSpeedMultiply = 6f;
         public bool trackingRush = false;
         public float rushDuration = 0;
+        public bool inverse = false;
 
         public override void Act(EnemyController controller)
         {
