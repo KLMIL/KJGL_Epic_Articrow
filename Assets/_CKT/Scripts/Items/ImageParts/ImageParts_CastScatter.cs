@@ -1,11 +1,12 @@
+using BMC;
 using System.Collections;
-using System.Net.NetworkInformation;
 using UnityEngine;
 
 namespace CKT
 {
     public class ImageParts_CastScatter : ImageParts, ISkillable
     {
+        float _manaCost = 5f;
         float _scatterAngle = 15f;
 
         private void Awake()
@@ -47,6 +48,7 @@ namespace CKT
             }
 
             origin.SetActive(false);
+            PlayerManager.Instance.PlayerStatus.SpendMana(_manaCost);
             yield return null;
         }
     }

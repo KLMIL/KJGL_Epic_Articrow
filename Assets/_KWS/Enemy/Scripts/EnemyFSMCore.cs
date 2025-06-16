@@ -127,7 +127,7 @@ namespace Game.Enemy
 
         public void ChangeState(string nextStateName)
         {
-            Debug.Log($"[{Time.time}] State Change: {nextStateName}");
+            //Debug.Log($"[{Time.time}] State Change: {nextStateName}");
 
             if (CurrentStateName == nextStateName) return; // 같은 상태라면 애니메이션 갱신 X
 

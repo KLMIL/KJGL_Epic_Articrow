@@ -139,16 +139,16 @@ MonoBehaviour:
     elapsedTime: 0
   - stateName: PlayerApproach
     interruptType: 1
-    condition: {fileID: 11400000, guid: 0c879e497d579c84f8e4a8b94dc635d2, type: 2}
+    condition: {fileID: 11400000, guid: 2afde92985dc86e4895859dc61ba4d5b, type: 2}
     action: {fileID: 11400000, guid: cb35fde7b04dd8842aae056cde047c3c, type: 2}
     animationName: SummonReady
-    duration: 0.4
+    duration: 0.7
     nextStateName: Summon
     elapsedTime: 0
   - stateName: Summon
     interruptType: 1
     condition: {fileID: 11400000, guid: 4c2dd887f33c5614caeaf5bfe6c8a165, type: 2}
-    action: {fileID: 11400000, guid: f6bfc6c8f96e078489fb843fda55e031, type: 2}
+    action: {fileID: 11400000, guid: e7db041677e09b047b4ba4971737609c, type: 2}
     animationName: Summon
     duration: 0.6
     nextStateName: Idle
@@ -319,7 +319,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10000
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
