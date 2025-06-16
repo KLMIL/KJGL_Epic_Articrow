@@ -74,7 +74,8 @@ namespace BMC
                     //    _hitStopCoroutine = StartCoroutine(HitStop());
                     //}
                     //Debug.Log("몬스터가 맞음");
-                    damagable.TakeDamage(10);
+                    float damage = PlayerManager.Instance.PlayerAttack.CurrentAttackStep == 1 ? 10f : 15f;
+                    damagable.TakeDamage(damage);
                     Managers.Sound.PlaySFX(Define.SFX.Slash);
                     PlayerManager.Instance.PlayerStatus.RegenerateMana(10);
                 }

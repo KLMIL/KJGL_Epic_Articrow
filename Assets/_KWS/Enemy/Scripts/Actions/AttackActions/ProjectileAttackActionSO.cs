@@ -89,6 +89,11 @@ namespace Game.Enemy
             Vector3 dir = (controller.Player.position - firePos).normalized;
             Vector2 velocity = dir * projectileSpeed;
 
+            if (dir.x != 0)
+            {
+                controller.SpriteRenderer.flipX = dir.x > 0;
+            }
+
             while (count < projectileAmount)
             {
                 GameObject currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity);

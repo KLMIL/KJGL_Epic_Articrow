@@ -6,7 +6,7 @@ namespace BMC
     public class UI_BloodCanvas : MonoBehaviour
     {
         Canvas _canvas;
-        float _showTime = 2f;
+        float _showTime = 0.5f;
 
         void Awake()
         {
