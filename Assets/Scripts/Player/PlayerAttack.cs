@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 using YSJ;
 
 namespace BMC
@@ -20,7 +20,8 @@ namespace BMC
         bool _inputBuffered = false;    // 입력 버퍼 여부
         float _attackCoolDown = 0.35f;   // 모든 콤보 후, 대기 타임
 
-        float _attackMoveDistance = 0.5f; // 공격 시, 플레이어가 전진하는 정도
+        float _attackMoveDistance = 10f; // 공격 시, 플레이어가 전진하는 정도
+        float _attackMoveTime = 0.04f;
 
         [field: SerializeField] public bool IsAttack { get; private set; }
 
@@ -77,8 +78,7 @@ namespace BMC
             Vector3 mousePos = Managers.Input.MouseWorldPos;
             Vector2 dir = (mousePos - transform.position).normalized;
             //Debug.Log(dir);
-            _rb.linearVelocity = Vector2.zero;
-            _rb.linearVelocity += dir * _attackMoveDistance;
+            StartCoroutine(attackMoveCoroutine(dir, _attackMoveTime));
 
             // TODO: 플레이어가 공격 방향 보게 강제로 바꾸기
             //if (dir.x != 0)
@@ -119,6 +119,15 @@ namespace BMC
             // 공격 끝
             _playerAnimator.CurrentState &= ~PlayerAnimator.State.Attack;
             IsAttack = false;
+        }
+
+        IEnumerator attackMoveCoroutine(Vector2 dir, float waitTime)
+        {
+            _rb.linearVelocity = Vector2.zero;
+            _rb.linearVelocity += dir * _attackMoveDistance;
+
+            yield return new WaitForSeconds(waitTime);
+            _rb.linearVelocity = Vector2.zero;
         }
 
         void OnDestroy()
