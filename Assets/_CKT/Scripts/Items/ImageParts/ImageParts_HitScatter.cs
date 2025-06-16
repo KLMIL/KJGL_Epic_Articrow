@@ -6,12 +6,12 @@ namespace CKT
 {
     public class ImageParts_HitScatter : ImageParts, ISkillable
     {
+        float _scatterAngle = 9f;
+
         private void Awake()
         {
-            base.Init("FieldParts/FieldParts_HitScatter", 5f);
+            base.Init("FieldParts/FieldParts_HitScatter", 0f);
         }
-
-        float _scatterAngle = 15f;
 
         public SkillType SkillType => SkillType.Hit;
 
