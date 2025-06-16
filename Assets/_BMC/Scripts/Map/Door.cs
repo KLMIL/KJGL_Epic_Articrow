@@ -102,10 +102,13 @@ namespace BMC
                 _doorSpawnPlayerPositionOffset = (nextRoomDoorPosition == DoorPosition.Up || nextRoomDoorPosition == DoorPosition.Down) ? 1.5f : 1f;
                 playerTransform.position = spawnDoor.transform.position + spawnDoor.transform.up * _doorSpawnPlayerPositionOffset;
                 OnTransferToNextRoom.Invoke(NextRoom.transform);
-                
+
                 // 카메라 전환 (임시 코드)
-                if(NextRoom.RoomData.RoomType != RoomType.StartRoom && NextRoom.RoomData.RoomType != RoomType.BossRoom && !NextRoom.RoomData.IsCleared)
-                    CameraController.Instance.SetCameraTargetPlayer(PlayerManager.Instance.transform); // 카메라 전투 모드
+                if (NextRoom.RoomData.RoomType != RoomType.StartRoom && NextRoom.RoomData.RoomType != RoomType.BossRoom && !NextRoom.RoomData.IsCleared)
+                {
+                    GameManager.Instance.CameraController.SetCameraTargetPlayer(PlayerManager.Instance.transform);
+                    //CameraController.Instance.SetCameraTargetPlayer(PlayerManager.Instance.transform); // 카메라 전투 모드
+                }
 
                 MapManager.Instance.CurrentRoom.SpawnEnemy(); // 적 소환
 
@@ -142,6 +145,7 @@ namespace BMC
             return nextRoomIndex;
         }
 
+        // 문 열릴 때 문 파괴되는 애니메이션 이벤트
         public void OnOpenAnimationEvent()
         {
             StartCoroutine(DestroyAfterOpenCoroutine());
