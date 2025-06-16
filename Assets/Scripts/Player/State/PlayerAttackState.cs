@@ -84,7 +84,6 @@ namespace BMC
         IEnumerator AttackCoroutine()
         {
             IsAttack = true;
-
             while (CurrentAttackStep < _maxAttackStep)
             {
                 CurrentAttackStep++;
@@ -98,7 +97,7 @@ namespace BMC
 
                 // 공격 모션 재생
                 _attackSlash.Play(CurrentAttackStep);
-                PlayAttackAnimation();
+                PlayAttackAnimation(CurrentAttackStep);
 
                 // 콤보 입력 대기
                 _canNextCombo = CurrentAttackStep < _maxAttackStep;
@@ -124,8 +123,12 @@ namespace BMC
             _playerFSM.SetState(PlayerState.Idle);
         }
 
-        void PlayAttackAnimation()
+        void PlayAttackAnimation(int step)
         {
+            if (step > _maxAttackStep && 0<step)
+                return;
+
+            _anim.StopPlayback();
             _playerFSM.Flip();
             string direction = _checkPlayerDirection.CurrentDirection switch
             {
@@ -133,7 +136,8 @@ namespace BMC
                 CheckPlayerDirection.Direction.up => "Up",
                 _ => "Side"
             };
-            _anim.Play($"Attack_{direction}{CurrentAttackStep}");
+            _anim.Play($"Attack_{direction}{step}");
+            Debug.LogWarning($"Attack_{direction}{step} 재생");
         }
 
         void OnDestroy()
