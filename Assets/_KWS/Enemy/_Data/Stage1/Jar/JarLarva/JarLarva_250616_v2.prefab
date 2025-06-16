@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 1519795909339377274}
   - component: {fileID: 7737338413248189098}
   m_Layer: 9
-  m_Name: JarLarva_250616_v1
+  m_Name: JarLarva_250616_v2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -137,9 +137,17 @@ MonoBehaviour:
     duration: 0.2
     nextStateName: Idle
     elapsedTime: 0
+  - stateName: AttackReady
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 144dd65c3c6bc4e44a42d1cad1e0087c, type: 2}
+    action: {fileID: 11400000, guid: 50e86b9aa204e3342836cc5b929dfea7, type: 2}
+    animationName: Idle
+    duration: 0.7
+    nextStateName: MeleeAttack
+    elapsedTime: 0
   - stateName: MeleeAttack
     interruptType: 1
-    condition: {fileID: 11400000, guid: ec0a5344b5782d24182b6223cc02778f, type: 2}
+    condition: {fileID: 11400000, guid: 62752bc0a4934c74fa70f0575a8c32db, type: 2}
     action: {fileID: 11400000, guid: dea55beff43babb4ca7ea32ff2bc544c, type: 2}
     animationName: Idle
     duration: 0.5
