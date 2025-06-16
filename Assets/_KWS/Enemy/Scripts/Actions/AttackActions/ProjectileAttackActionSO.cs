@@ -29,6 +29,7 @@ namespace Game.Enemy
         public float projectileSpeed = 8f;
         public int projectileAmount = 3;
         public float projectileTurm = 0.05f;
+        public float lifetime = 1.0f;
 
         public float damageMultiply = 1.0f;
         public float cooldown = 1.0f;
@@ -60,7 +61,7 @@ namespace Game.Enemy
                     controller.FSM.fireRoutine = controller.StartCoroutine(FireParabola(controller, false));
                     break;
                 case ProjectileAttackMode.ParabolaSpawn:
-                    controller.FSM.fireRoutine = controller.StartCoroutine(FireParabola(controller, false));
+                    controller.FSM.fireRoutine = controller.StartCoroutine(FireParabola(controller, true));
                     break;
             }
 
@@ -99,8 +100,10 @@ namespace Game.Enemy
                             controller,
                             controller.Status.attack * damageMultiply,
                             velocity,
+                            0.0f,
                             isSpawn ? projectilePrefab : null,
-                            isSpawn
+                            isSpawn,
+                            lifetime
                         );
                 }
                 count++;
@@ -110,7 +113,36 @@ namespace Game.Enemy
 
         private IEnumerator FireParabola(EnemyController controller, bool isSpawn)
         {
-            yield return null;
+            int count = 0;
+
+            while (count < projectileAmount)
+            {
+                Vector2 firePos = controller.transform.position + firePointOffset;
+                float angle = UnityEngine.Random.Range(30f, 150f);
+                float rad = angle * Mathf.Deg2Rad;
+                Vector2 dir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)).normalized;
+                float speed = UnityEngine.Random.Range(projectileSpeed * 0.7f, projectileSpeed * 1.2f);
+
+                Vector2 velocity = dir * speed;
+
+                GameObject currProj = Instantiate(projectilePrefab, firePos, Quaternion .identity);
+                EnemyProjectile proj = currProj.GetComponent<EnemyProjectile>();
+
+                if (proj != null)
+                {
+                    proj.InitProjecitle(
+                            controller,
+                            controller.Status.attack * damageMultiply,
+                            velocity,
+                            1.0f,
+                            isSpawn ? projectilePrefab : null,
+                            isSpawn,
+                            lifetime
+                        );
+                }
+                count++;
+                yield return new WaitForSeconds(projectileTurm);
+            }
         }
 
 
@@ -145,11 +177,11 @@ namespace Game.Enemy
 
                 if (proj != null)
                 {
-                    proj.InitProjecitle(
-                            controller,
-                            controller.Status.attack * damageMultiply,
-                            velocity
-                        );
+                    //proj.InitProjecitle(
+                    //        controller,
+                    //        controller.Status.attack * damageMultiply,
+                    //        velocity
+                    //    );
                 }
 
                 //var rb = currProj.GetComponent<Rigidbody2D>();
