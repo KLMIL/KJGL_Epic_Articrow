@@ -11,10 +11,11 @@ public class Pool : MonoBehaviour
 {
     public GameObject Prefab { get; private set; }                    // 풀링할 오브젝트
     [SerializeField] List<GameObject> _pool = new List<GameObject>(); // 풀링된 오브젝트 리스트
-    [SerializeField] int _addCount = 1000;                              // 부족할 때 추가할 오브젝트 개수
+    [SerializeField] int _addCount;                            // 부족할 때 추가할 오브젝트 개수
 
-    public void Init<T>(T prefab) where T : Object
+    public void Init<T>(T prefab, int count = 15) where T : Object
     {
+        _addCount = count;
         Prefab = prefab as GameObject;
         Prepare();
     }

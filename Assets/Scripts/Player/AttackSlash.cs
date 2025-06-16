@@ -54,6 +54,12 @@ namespace BMC
                     //    _hitStopCoroutine = StartCoroutine(HitStop());
                     //}
                     //Debug.Log("몬스터가 맞음");
+                    
+                    // 마나 흡수
+                    Spirit spirit = Managers.TestPool.Get<Spirit>(Define.PoolID.Mana);
+                    spirit.transform.position = collision.transform.position;
+                    spirit.SetSealed(transform);
+
                     float damage = PlayerManager.Instance.PlayerAttack.CurrentAttackStep == 1 ? 10f : 15f;
                     damagable.TakeDamage(damage);
                     Managers.Sound.PlaySFX(Define.SFX.Slash);
