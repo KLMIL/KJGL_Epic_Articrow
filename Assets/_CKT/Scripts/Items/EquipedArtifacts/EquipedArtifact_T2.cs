@@ -22,7 +22,7 @@ namespace CKT
 
             //총알 생성
             GameObject bullet = YSJ.Managers.Pool.InstPrefab(_prefabName);
-            bullet.transform.position = this.transform.position;
+            bullet.transform.position = _firePoint.position;
             //이동 방향
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mouseDir = (mousePos - this.transform.position).normalized;

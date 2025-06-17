@@ -23,7 +23,7 @@ namespace CKT
             {
                 GameObject grabObject = YSJ.Managers.Pool.InstPrefab("GrabObject");
                 grabObject.transform.position = origin.transform.position;
-                grabObject.transform.localScale = origin.transform.localScale;
+                //grabObject.transform.localScale = origin.transform.localScale;
                 grabObject.GetComponent<GrabObject>().Level = level;
             }
 
