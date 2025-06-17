@@ -41,7 +41,7 @@ namespace CKT
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.isTrigger) return;
+            if (!collision.isTrigger) return;
             //if (collision.isTrigger || _target != null) return;
 
             _target = collision.transform;

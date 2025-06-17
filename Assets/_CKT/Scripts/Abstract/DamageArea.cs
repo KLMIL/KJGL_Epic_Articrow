@@ -44,7 +44,7 @@ namespace CKT
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.isTrigger) return;
+            if (!collision.isTrigger) return;
 
             Transform target = collision.transform;
             IDamagable iDamageable = target.GetComponent<IDamagable>();
