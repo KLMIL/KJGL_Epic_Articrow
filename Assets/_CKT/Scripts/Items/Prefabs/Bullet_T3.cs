@@ -13,17 +13,15 @@ namespace CKT
 
         LineRenderer _line;
         BoxCollider2D _collider;
-        float _width;
-        float _distance;
-        float _disappearSpeed;
+        float _width = 0.4f;
+        float _distance = 6;
 
         protected new void OnEnable()
         {
             _line = _line ?? GetComponent<LineRenderer>();
             _collider = _collider ?? GetComponent<BoxCollider2D>();
-            _width = _collider.size.x;
-            _distance = _collider.size.y;
-            _disappearSpeed = _width / ExistTime;
+            _collider.size = new Vector2(_width, _distance);
+            _collider.offset = new Vector2(0, _distance * 0.5f);
 
             base.OnEnable();
             StartCoroutine(LineEnable());
@@ -46,7 +44,7 @@ namespace CKT
 
             while (_line.startWidth > 0)
             {
-                _line.startWidth -= _disappearSpeed * Time.deltaTime;
+                _line.startWidth -= (_width / ExistTime) * Time.deltaTime;
                 yield return null;
             }
         }
