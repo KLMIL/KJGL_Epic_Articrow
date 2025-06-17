@@ -57,7 +57,7 @@ namespace BMC
 
         public void Flip()
         {
-            _spriteRenderer.flipX = (_checkPlayerDirection.CurrentDirection == CheckPlayerDirection.Direction.left) ? true : false;
+            _spriteRenderer.flipX = (_checkPlayerDirection.CurrentDirection == CheckPlayerDirection.Direction.Left) ? true : false;
         }
 
         #region 각 상태로의 전환 검사 및 전환

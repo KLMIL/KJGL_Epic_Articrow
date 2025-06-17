@@ -1,50 +1,27 @@
 using UnityEngine;
-using System.Collections;
 using YSJ;
 
 namespace BMC
 {
     public class AttackSlash : MonoBehaviour
     {
-        Animator _playerAnim;
         Animator _anim;
+        PlayerAnimator _playerAnimator;
+
+        [Header("히트 스탑")]
         Coroutine _hitStopCoroutine;
         WaitForSeconds _hitStopTime = new WaitForSeconds(0.5f);
-        CheckPlayerDirection _checkPlayerDirection;
-        SpriteRenderer spriteRenderer;
 
         void Start()
         {
-            _playerAnim = transform.parent.GetComponent<Animator>();
-            spriteRenderer = transform.parent.GetComponent<SpriteRenderer>();
+            _playerAnimator = GetComponentInParent<PlayerAnimator>();
             _anim = GetComponent<Animator>();
-            _checkPlayerDirection = transform.parent.GetComponent<CheckPlayerDirection>();
         }
 
         public void Play(int step)
         {
             //int step = PlayerManager.Instance.PlayerAttack.CurrentAttackStep;
-            switch (_checkPlayerDirection.CurrentDirection)
-            {
-                case CheckPlayerDirection.Direction.down:
-                    Debug.LogWarning(step);
-                    _playerAnim.Play($"Attack_Down{step}");
-                    spriteRenderer.flipX = false;
-                    break;
-                case CheckPlayerDirection.Direction.up:
-                    _playerAnim.Play($"Attack_Up{step}");
-                    spriteRenderer.flipX = false;
-                    break;
-                case CheckPlayerDirection.Direction.right:
-                    _playerAnim.Play($"Attack_Side{step}");
-                    spriteRenderer.flipX = false;
-                    break;
-                case CheckPlayerDirection.Direction.left:
-                    _playerAnim.Play($"Attack_Side{step}");
-                    spriteRenderer.flipX = true;
-                    break;
-            }
-
+            _playerAnimator.AttackAnimation(step);
             switch (step)
             {
                 case 1:
@@ -77,6 +54,12 @@ namespace BMC
                     //    _hitStopCoroutine = StartCoroutine(HitStop());
                     //}
                     //Debug.Log("몬스터가 맞음");
+                    
+                    // 마나 흡수
+                    Spirit spirit = Managers.TestPool.Get<Spirit>(Define.PoolID.Mana);
+                    spirit.transform.position = collision.transform.position;
+                    spirit.SetSealed(transform);
+
                     float damage = PlayerManager.Instance.PlayerAttack.CurrentAttackStep == 1 ? 10f : 15f;
                     damagable.TakeDamage(damage);
                     Managers.Sound.PlaySFX(Define.SFX.Slash);

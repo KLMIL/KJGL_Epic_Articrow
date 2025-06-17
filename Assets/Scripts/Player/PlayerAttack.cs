@@ -6,7 +6,6 @@ namespace BMC
 {
     public class PlayerAttack : MonoBehaviour
     {
-        //Animator _anim;
         Rigidbody2D _rb;
         PlayerAnimator _playerAnimator; // 플레이어 애니메이터
         AttackSlash _attackSlash;
@@ -15,10 +14,10 @@ namespace BMC
         int _maxAttackStep = 2;         // 최대 공격 단계
 
         float _comboTimer = 0f;
-        float _comboInputWindow = 0.3f; // 공격 입력 타이밍 윈도우 (짧을 수록 1단계 공격 후, 대기 시간이 짧아짐)
+        float _comboInputWindow = 0.3f; // 공격 입력 타이밍 윈도우 (짧을 수록 공격 단계 후, 대기 시간이 짧아짐)
         bool _canNextCombo = false;     // 다음 콤보 입력 가능 여부
         bool _inputBuffered = false;    // 입력 버퍼 여부
-        float _attackCoolDown = 0.35f;   // 모든 콤보 후, 대기 타임
+        float _attackCoolDown = 0.35f;  // 모든 콤보 후, 대기 타임
 
         float _attackMoveDistance = 5f; // 공격 시, 플레이어가 전진하는 정도
         float _attackMoveTime = 0.02f;
@@ -33,7 +32,6 @@ namespace BMC
 
         void Start()
         {
-            //_anim = GetComponent<Animator>();
             _playerAnimator = GetComponent<PlayerAnimator>();
             _attackSlash = GetComponentInChildren<AttackSlash>();
             Managers.Input.OnLeftHandAction += Attack;
@@ -77,12 +75,7 @@ namespace BMC
             // 공격 방향으로 플레이어 약간 이동
             Vector3 mousePos = Managers.Input.MouseWorldPos;
             Vector2 dir = (mousePos - transform.position).normalized;
-            //Debug.Log(dir);
-            StartCoroutine(attackMoveCoroutine(dir, _attackMoveTime));
-
-            // TODO: 플레이어가 공격 방향 보게 강제로 바꾸기
-            //if (dir.x != 0)
-            //    _playerFSM.Flip(dir.x);
+            StartCoroutine(AttackMoveCoroutine(dir, _attackMoveTime));
 
             // 단계에 맞는 공격 실행
             _attackSlash.Play(CurrentAttackStep);
@@ -121,7 +114,8 @@ namespace BMC
             IsAttack = false;
         }
 
-        IEnumerator attackMoveCoroutine(Vector2 dir, float waitTime)
+        // 공격 시 이동 코루틴
+        IEnumerator AttackMoveCoroutine(Vector2 dir, float waitTime)
         {
             _rb.linearVelocity = Vector2.zero;
             _rb.linearVelocity += dir * _attackMoveDistance;

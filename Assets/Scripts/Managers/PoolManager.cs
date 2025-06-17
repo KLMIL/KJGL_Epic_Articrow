@@ -24,11 +24,12 @@ namespace BMC
             }
 
             // 풀링 목록 구성
-            Register(PoolType.TextPool, PoolID.DamageText);
+            Register(PoolType.TextPool, PoolID.DamageText, 1000);
+            Register(PoolType.EffectPool, PoolID.Mana);
         }
 
         // 풀링할 오브젝트 등록
-        public void Register(PoolType type, PoolID id)
+        public void Register(PoolType type, PoolID id, int count = 15)
         {
             if (!_poolCategoryDict.ContainsKey(type)) // 새로운 카테고리
             {

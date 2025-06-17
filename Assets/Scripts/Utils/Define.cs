@@ -97,6 +97,7 @@ public class Define
     // 풀링할 오브젝트에 부여할 ID
     public enum PoolID
     {
+        Mana,
         DamageText, // UI
     }
     #endregion

@@ -132,8 +132,8 @@ namespace BMC
             _playerFSM.Flip();
             string direction = _checkPlayerDirection.CurrentDirection switch
             {
-                CheckPlayerDirection.Direction.down => "Down",
-                CheckPlayerDirection.Direction.up => "Up",
+                CheckPlayerDirection.Direction.Down => "Down",
+                CheckPlayerDirection.Direction.Up => "Up",
                 _ => "Side"
             };
             _anim.Play($"Attack_{direction}{step}");
