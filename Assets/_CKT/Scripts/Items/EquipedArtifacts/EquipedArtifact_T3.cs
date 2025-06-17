@@ -101,7 +101,7 @@ namespace CKT
             base._animator.Play("Attack", -1, 0);
 
             //총알 생성
-            GameObject bullet = YSJ.Managers.Pool.InstPrefab(_prefabName);
+            GameObject bullet = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.Bullet_T3);
             bullet.transform.position = base._firePoint.position;
             //이동 방향
             /*Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
