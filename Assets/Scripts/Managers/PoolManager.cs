@@ -23,9 +23,25 @@ namespace BMC
                 Object.DontDestroyOnLoad(_root);
             }
 
+            InitRegister();
+        }
+
+        // 초기 풀링 오브젝트 등록
+        public void InitRegister()
+        {
             // 풀링 목록 구성
             Register(PoolType.TextPool, PoolID.DamageText, 1000);
             Register(PoolType.EffectPool, PoolID.Mana);
+            Register(PoolType.SkillPool, PoolID.Bullet_T1);
+            Register(PoolType.SkillPool, PoolID.Bullet_T2);
+            Register(PoolType.SkillPool, PoolID.Bullet_T3);
+            Register(PoolType.SkillPool, PoolID.CastExplosion);
+            Register(PoolType.SkillPool, PoolID.CastDamageArea);
+            Register(PoolType.SkillPool, PoolID.HitScatter);
+            Register(PoolType.SkillPool, PoolID.HitExplosion);
+            Register(PoolType.SkillPool, PoolID.HitDamageArea);
+            Register(PoolType.SkillPool, PoolID.GrabObject);
+            Register(PoolType.SkillPool, PoolID.Description);
         }
 
         // 풀링할 오브젝트 등록
