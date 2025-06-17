@@ -29,7 +29,7 @@ namespace CKT
             }*/
 
             YSJ.Managers.Sound.PlaySFX(Define.SFX.CastExplosion);
-            GameObject castExplosion = YSJ.Managers.Pool.InstPrefab("CastExplosion");
+            GameObject castExplosion = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.CastExplosion);
             castExplosion.transform.position = startPos;
             castExplosion.GetComponent<Explosion>().Init(level);
 

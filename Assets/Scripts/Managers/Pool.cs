@@ -55,6 +55,10 @@ public class Pool : MonoBehaviour
         go.SetActive(true);
         go.transform.SetParent(null);
 
+        if (typeof(T) == typeof(GameObject))
+        {
+            return (T)(object)go; // GameObject로 캐스팅
+        }
         return (go.TryGetComponent<T>(out T component)) ? component : default(T);
     }
 

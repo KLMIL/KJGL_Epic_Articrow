@@ -24,7 +24,10 @@ namespace CKT
             for (int i = 0; i < level; i++)
             {
                 yield return new WaitForSeconds(0.05f);
-                GameObject castAdditionalCopy = YSJ.Managers.Pool.InstPrefab(origin.name);
+
+                Define.PoolID poolID = Util.StringToEnum<Define.PoolID>(origin.name);
+                GameObject castAdditionalCopy = YSJ.Managers.TestPool.Get<GameObject>(poolID);
+
                 castAdditionalCopy.transform.SetParent(origin.transform.parent);
                 castAdditionalCopy.transform.position = startPos;
                 castAdditionalCopy.transform.up = origin.transform.up;

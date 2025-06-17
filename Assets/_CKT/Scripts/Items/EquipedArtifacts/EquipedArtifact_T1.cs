@@ -22,7 +22,13 @@ namespace CKT
 
             //총알 생성
             //총알 생성
-            GameObject bullet = YSJ.Managers.Pool.InstPrefab(_prefabName);
+
+            //GameObject bullet = YSJ.Managers.Pool.InstPrefab(_prefabName);
+            GameObject bullet = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.Bullet_T1);
+
+            if (bullet == null)
+                Debug.Log("불렛 널");
+
             bullet.transform.position = _firePoint.position;
             //이동 방향
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

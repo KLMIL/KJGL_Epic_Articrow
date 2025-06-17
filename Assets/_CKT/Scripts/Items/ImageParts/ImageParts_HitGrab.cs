@@ -21,7 +21,7 @@ namespace CKT
 
             if (level > 0)
             {
-                GameObject grabObject = YSJ.Managers.Pool.InstPrefab("GrabObject");
+                GameObject grabObject = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.GrabObject);
                 grabObject.transform.position = origin.transform.position;
                 //grabObject.transform.localScale = origin.transform.localScale;
                 grabObject.GetComponent<GrabObject>().Level = level;
