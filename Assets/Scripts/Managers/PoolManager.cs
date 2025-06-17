@@ -75,8 +75,16 @@ namespace BMC
         {
             if (_poolDict.TryGetValue(id, out Pool pool))
             {
-                T component = pool.Get<T>();
-                return component;
+                if(typeof(T) == typeof(GameObject))
+                {
+                    GameObject go = pool.Get<GameObject>();
+                    return (T)(object)go; // GameObject로 캐스팅
+                }
+                else
+                {
+                    T component = pool.Get<T>();
+                    return component;
+                }
             }
             else
             {
