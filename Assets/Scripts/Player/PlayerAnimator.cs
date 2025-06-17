@@ -9,7 +9,8 @@ namespace YSJ
             Idle = 0,
             Move = 1 << 1,
             Attack = 1 << 2,
-            Stun = 1 << 3
+            Stun = 1 << 3,
+            Hurt = 1 << 4,
         }
 
         public State CurrentState { get; set; }
@@ -46,7 +47,14 @@ namespace YSJ
 
             CheckPlayerDirection.Direction direction = CheckPlayerDirection.Direction.None;
             direction = (_checkPlayerDirection.CurrentDirection == CheckPlayerDirection.Direction.Left) ? CheckPlayerDirection.Direction.Right : _checkPlayerDirection.CurrentDirection;
-            
+
+            //Hurt 상태
+            if ((CurrentState & State.Hurt) == State.Hurt)
+            {
+                _anim.Play("Hurt");
+                return;
+            }
+
             // Move 상태
             if ((CurrentState & State.Move) == State.Move)
             {
@@ -73,6 +81,11 @@ namespace YSJ
         void FlipX()
         {
             _spriteRenderer.flipX = (_checkPlayerDirection.CurrentDirection == CheckPlayerDirection.Direction.Left) ? true : false;
+        }
+
+        void HurtAnimationEnd() 
+        {
+            CurrentState &= ~State.Hurt; // Hurt 상태 해제
         }
     }
 }
