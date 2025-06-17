@@ -20,7 +20,6 @@ namespace BMC
         [field: SerializeField] public DoorPosition DoorPosition { get; private set; }    // 문 위치
         [SerializeField] RoomType _willCreateRoomType;
         [field: SerializeField] public Room NextRoom { get; set; }
-        public static Action<Transform> OnTransferToNextRoom;
         float _doorSpawnPlayerPositionOffset = 0.7f;
 
         void Awake()
@@ -101,7 +100,7 @@ namespace BMC
                 Door spawnDoor = NextRoom.GetDoor(nextRoomDoorPosition);
                 _doorSpawnPlayerPositionOffset = (nextRoomDoorPosition == DoorPosition.Up || nextRoomDoorPosition == DoorPosition.Down) ? 1.5f : 1f;
                 playerTransform.position = spawnDoor.transform.position + spawnDoor.transform.up * _doorSpawnPlayerPositionOffset;
-                OnTransferToNextRoom.Invoke(NextRoom.transform);
+                GameManager.Instance.CameraController.SetCameraTargetRoom(NextRoom.transform);  // 카메라 전환
 
                 // 카메라 전환 (임시 코드)
                 if (NextRoom.RoomData.RoomType != RoomType.StartRoom && NextRoom.RoomData.RoomType != RoomType.BossRoom && !NextRoom.RoomData.IsCleared)

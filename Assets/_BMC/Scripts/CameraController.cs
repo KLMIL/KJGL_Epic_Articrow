@@ -39,12 +39,6 @@ namespace BMC
             _cinemachineBasicMultiChannelPerlin = _playerCinemachineCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
         }
 
-        void Start()
-        {
-            Door.OnTransferToNextRoom = SetCameraTargetRoom;
-            //Door.OnTransferToNextRoom += SetCameraTargetPlayer;
-        }
-
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Q))
@@ -94,10 +88,5 @@ namespace BMC
             _playerCinemachineCamera.gameObject.SetActive(true);
         }
         #endregion
-
-        void OnDestroy()
-        {
-            Door.OnTransferToNextRoom = null;
-        }
     }
 }

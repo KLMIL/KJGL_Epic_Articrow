@@ -17,6 +17,7 @@ namespace BMC
         [field: SerializeField] public Door SelectedDoor { get; set; } // 선택된 문
         int[] _doorDirectionY = { -1, 0, 0, 1 };    // 상, 좌, 우, 하
         int[] _doorDirectionX = { 0, -1, 1, 0 };    // 상, 좌, 우, 하
+        float _openTime = 2.5f; // 문 열리는 시간
 
         [Header("클리어 관련")]
         EnemySpawner _enemySpawner;
@@ -122,8 +123,9 @@ namespace BMC
                 Debug.LogError(" 방 클리어");
                 _roomData.IsCleared = true;
                 SpawnReward();
-                OpenAllValidDoor();
+                //OpenAllValidDoor();
                 GameManager.Instance.CameraController.SetCameraTargetRoom(transform);
+                Invoke(nameof(OpenAllValidDoor), _openTime);
                 //CameraController.Instance.SetCameraTargetRoom(transform);
             }
         }
