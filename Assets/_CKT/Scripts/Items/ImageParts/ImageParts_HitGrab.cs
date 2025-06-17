@@ -24,7 +24,7 @@ namespace CKT
                 GameObject grabObject = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.GrabObject);
                 grabObject.transform.position = origin.transform.position;
                 //grabObject.transform.localScale = origin.transform.localScale;
-                grabObject.GetComponent<GrabObject>().Level = level;
+                grabObject.GetComponent<GrabObject>().Init(level);
             }
 
             PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);

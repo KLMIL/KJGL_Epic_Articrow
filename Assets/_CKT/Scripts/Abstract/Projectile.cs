@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace CKT
 {
@@ -13,6 +12,7 @@ namespace CKT
         protected abstract float MoveSpeed { get; }
         protected abstract float Damage { get; }
         protected abstract float ExistTime { get; }
+        protected abstract Define.PoolID PoolID { get; }
 
         public SkillManager SkillManager;
         protected LayerMask _ignoreLayerMask;
@@ -52,12 +52,6 @@ namespace CKT
 
                 if (SkillManager != null)
                 {
-                    //CreateHitSkillObject(_target.position, this.transform.up, this.transform.localScale);
-                    //GameObject hitSkillObject = YSJ.Managers.Pool.InstPrefab("HitSkillObject");
-                    //hitSkillObject.transform.position = _target.position;
-                    //hitSkillObject.transform.up = this.transform.up;
-                    //hitSkillObject.transform.localScale = this.transform.localScale;
-
                     foreach (Func<GameObject, IEnumerator> hitSkill in SkillManager.HitSkillDict.Values)
                     {
                         StartCoroutine(hitSkill(_target.gameObject));
@@ -80,17 +74,8 @@ namespace CKT
         {
             yield return null;
             yield return new WaitForSeconds(existTime);
-            this.gameObject.SetActive(false);
+            YSJ.Managers.TestPool.Return(PoolID, this.gameObject);
             _disableCoroutine = null;
-        }
-
-        protected void CreateHitSkillObject(Vector3 postion, Vector3 up, Vector3 scale)
-        {
-            GameObject hitSkillObject = YSJ.Managers.Pool.InstPrefab("HitSkillObject");
-            hitSkillObject.transform.position = postion;
-            hitSkillObject.transform.up = up;
-            hitSkillObject.transform.localScale = scale;
-            hitSkillObject.GetComponent<HitSkillObject>().HitSkill(SkillManager);
         }
     }
 }
