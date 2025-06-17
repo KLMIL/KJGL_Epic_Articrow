@@ -30,7 +30,7 @@ namespace CKT
             }*/
 
             YSJ.Managers.Sound.PlaySFX(Define.SFX.HitExplosion);
-            GameObject hitExplosion = YSJ.Managers.Pool.InstPrefab("HitExplosion");
+            GameObject hitExplosion = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.HitExplosion);
             hitExplosion.transform.position = startPos;
             hitExplosion.GetComponent<Explosion>().Init(level);
 

@@ -38,7 +38,8 @@ namespace CKT
                 }
                 Vector2 scatterDir = Util.RotateVector(originUp, (sign * _scatterAngle)).normalized;
 
-                GameObject castScatterCopy = YSJ.Managers.Pool.InstPrefab(origin.name);
+                Define.PoolID poolID = Util.StringToEnum<Define.PoolID>(origin.name);
+                GameObject castScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(poolID);
                 castScatterCopy.transform.SetParent(origin.transform.parent);
                 castScatterCopy.transform.position = origin.transform.position;
                 castScatterCopy.transform.up = scatterDir;

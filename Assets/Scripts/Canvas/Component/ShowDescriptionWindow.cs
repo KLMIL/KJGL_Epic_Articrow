@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace YSJ
 {
@@ -10,7 +9,7 @@ namespace YSJ
         [TextArea(5, 10)]
         public string Description;
 
-        GameObject _descriptionPanel;
+        RectTransform _descriptionPanel;
         //Image _img_Panel;
         //TextMeshProUGUI _tmp_Description;
 
@@ -30,11 +29,9 @@ namespace YSJ
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _descriptionPanel = Managers.Pool.InstPrefab("Description");
+            _descriptionPanel = Managers.TestPool.Get<RectTransform>(Define.PoolID.Description);
             _descriptionPanel.transform.SetParent(this.transform);
-
-            RectTransform rect = _descriptionPanel.GetComponent<RectTransform>();
-            rect.position = this.transform.GetComponent<RectTransform>().position;
+            _descriptionPanel.position = this.transform.GetComponent<RectTransform>().position;
 
             TextMeshProUGUI tmp_Description = _descriptionPanel.GetComponentInChildren<TextMeshProUGUI>();
             tmp_Description.text = Description;
@@ -44,8 +41,7 @@ namespace YSJ
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            _descriptionPanel.SetActive(false);
-
+            Managers.TestPool.Return(Define.PoolID.Description, _descriptionPanel.gameObject);
             //SetDescription(false, "");
         }
 

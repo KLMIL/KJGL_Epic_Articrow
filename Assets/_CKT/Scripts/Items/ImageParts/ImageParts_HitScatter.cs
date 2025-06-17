@@ -41,7 +41,7 @@ namespace CKT
                 }
                 Vector2 scatterDir = Util.RotateVector(originUp, (sign * _scatterAngle)).normalized;
 
-                GameObject hitScatterCopy = YSJ.Managers.Pool.InstPrefab("HitScatter");
+                GameObject hitScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.HitScatter);
                 hitScatterCopy.transform.position = origin.transform.position;
                 hitScatterCopy.transform.up = scatterDir;
                 hitScatterCopy.name = "HitScatter";
