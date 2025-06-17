@@ -38,12 +38,10 @@ namespace CKT
                 }
                 Vector2 scatterDir = Util.RotateVector(originUp, (sign * _scatterAngle)).normalized;
 
-                Define.PoolID poolID = Util.StringToEnum<Define.PoolID>(origin.name);
+                Define.PoolID poolID = skillManager.GetProjectilePoolID.Trigger();
                 GameObject castScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(poolID);
-                castScatterCopy.transform.SetParent(origin.transform.parent);
                 castScatterCopy.transform.position = origin.transform.position;
                 castScatterCopy.transform.up = scatterDir;
-                castScatterCopy.name = origin.name;
                 castScatterCopy.GetComponent<Projectile>().SkillManager = skillManager;
             }
 

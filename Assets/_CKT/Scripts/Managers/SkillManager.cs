@@ -8,6 +8,10 @@ namespace CKT
     [System.Serializable]
     public class SkillManager
     {
+        #region [아티팩트가 생성할 Projectile]
+        public FuncT0<Define.PoolID> GetProjectilePoolID = new();
+        #endregion
+
         #region [아티팩트 공격 실행]
         public ActionT1<List<GameObject>> OnHandPerformActionT1 = new();
         public void TriggerHand()

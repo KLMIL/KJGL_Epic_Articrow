@@ -25,13 +25,11 @@ namespace CKT
             {
                 yield return new WaitForSeconds(0.05f);
 
-                Define.PoolID poolID = Util.StringToEnum<Define.PoolID>(origin.name);
+                Define.PoolID poolID = skillManager.GetProjectilePoolID.Trigger();
                 GameObject castAdditionalCopy = YSJ.Managers.TestPool.Get<GameObject>(poolID);
 
-                castAdditionalCopy.transform.SetParent(origin.transform.parent);
                 castAdditionalCopy.transform.position = startPos;
                 castAdditionalCopy.transform.up = origin.transform.up;
-                castAdditionalCopy.name = origin.name;
                 castAdditionalCopy.GetComponent<Projectile>().SkillManager = skillManager;
 
                 if (skillManager.CastSkillDict.ContainsKey("CastScatter"))

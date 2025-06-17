@@ -40,10 +40,10 @@ namespace CKT
                 }
                 Vector2 scatterDir = Util.RotateVector(originUp, (sign * _scatterAngle)).normalized;
 
-                GameObject hitScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.HitScatter);
+                Define.PoolID poolID = skillManager.GetProjectilePoolID.Trigger();
+                GameObject hitScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(poolID);
                 hitScatterCopy.transform.position = origin.transform.position;
                 hitScatterCopy.transform.up = scatterDir;
-                hitScatterCopy.name = "HitScatter";
                 //hitScatterCopy.GetComponent<Projectile>().SkillManager = skillManager;
             }
 

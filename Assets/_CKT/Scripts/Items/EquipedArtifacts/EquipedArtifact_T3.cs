@@ -7,10 +7,10 @@ namespace CKT
 {
     public class EquipedArtifact_T3 : EquipedArtifact
     {
-        protected override GameObject _fieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T3");
-        protected override string _prefabName => "Bullet_T3";
-        protected override float _attackSpeed => 0.2f;
-        protected override float _manaCost => 20f;
+        protected override GameObject FieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T3");
+        protected override Define.PoolID PoolID => Define.PoolID.Bullet_T3;
+        protected override float AttackSpeed => 0.2f;
+        protected override float ManaCost => 20f;
 
         float ChargeAmount
         {
@@ -109,7 +109,7 @@ namespace CKT
             bullet.transform.up = mouseDir;*/
             bullet.transform.up = this.transform.up;
             //이름 설정 (복사본 만들 때 이름을 받아서 생성하는 용도)
-            bullet.name = _prefabName;
+            bullet.name = PoolID.ToString();
             //왼손||오른손 SkillManager 설정
             bullet.GetComponent<Projectile>().SkillManager = base._skillManager;
 
@@ -119,7 +119,7 @@ namespace CKT
                 StartCoroutine(castSkill(bullet));
             }
 
-            yield return new WaitForSeconds(_attackSpeed);
+            yield return new WaitForSeconds(AttackSpeed);
             base._attackCoroutine = null;
         }
         #endregion
