@@ -52,6 +52,7 @@ namespace CKT
             {
                 iDamageable.TakeDamage(Damage);
 
+                //null이 아니면 플레이가 호출한 Projectile,  null이면 HitSkill에서 생성된 Projectile
                 if (SkillManager != null)
                 {
                     foreach (Func<Vector3, Vector3, IEnumerator> hitSkill in SkillManager.HitSkillDict.Values)

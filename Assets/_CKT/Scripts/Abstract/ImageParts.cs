@@ -8,7 +8,14 @@ namespace CKT
     {
         GameObject _fieldParts;
 
+        /// <summary>
+        /// Cast, Hit, Passive 설정 (Dictionary 구분 용도)
+        /// </summary>
         public abstract Define.SkillType SkillType { get; }
+
+        /// <summary>
+        /// Dictionary 안에서 구분하는 용도 + FieldParts 가져오는 용도
+        /// </summary>
         public abstract string SkillName { get; }
 
         #region [컴포넌트]

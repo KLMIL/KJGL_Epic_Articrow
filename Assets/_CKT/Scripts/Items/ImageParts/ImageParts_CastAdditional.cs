@@ -6,10 +6,8 @@ namespace CKT
 {
     public class ImageParts_CastAdditional : ImageParts, ISkillable
     {
-        //딕셔너리 구분용
         public override Define.SkillType SkillType => Define.SkillType.Cast;
 
-        //딕셔너리 안에서 구분용
         public override string SkillName => "CastAdditional";
 
         public IEnumerator SkillCoroutine(Vector3 position, Vector3 direction, int level, SkillManager skillManager)
