@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using TMPro;
 using BMC;
+using System.Collections.Generic;
 
 namespace YSJ
 {
@@ -40,6 +41,21 @@ namespace YSJ
         {
             if (IsDead || PlayerManager.Instance.PlayerDash.IsDash)
                 return;
+
+            //YSJ : 베리어가 있는 지 확인
+            List<Collider2D> colliders = new();
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.SetLayerMask(LayerMask.GetMask("Player"));
+            filter.useTriggers = true;
+            Physics2D.OverlapCollider(GetComponent<Collider2D>(), filter, colliders);
+            foreach (Collider2D col in colliders)
+            {
+                if (col.TryGetComponent<Barrier>(out Barrier barrier)) 
+                {
+                    barrier.TakeDamage(damage); // 베리어가 있으면 베리어가 대신받음
+                    return;
+                }
+            }
 
             UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
             ShowDamageText(damage);

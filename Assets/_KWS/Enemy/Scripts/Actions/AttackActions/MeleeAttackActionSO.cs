@@ -136,6 +136,7 @@ namespace Game.Enemy
                     float damage = controller.Status.attack * damageMultiply;
                     Transform target = hit.transform;
                     controller.DealDamageToPlayer(damage, target, false);
+                    break;
                 }
             }
         }
