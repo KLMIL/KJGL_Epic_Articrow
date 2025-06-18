@@ -1,17 +1,10 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace CKT
 {
     public class Bullet_T4 : Projectile
-    {
-        protected override int BasePenetration => 0;
-        protected override float MoveSpeed => 15;
-        protected override float Damage => 1f;
-        protected override float ExistTime => 0.2f;
-        protected override Define.PoolID PoolID => Define.PoolID.Bullet_T4;
-
+    {   
         Pellet[] _pellets;
         float _moveXSpeed = 3f;
 

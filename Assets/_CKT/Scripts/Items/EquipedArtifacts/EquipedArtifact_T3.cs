@@ -11,6 +11,10 @@ namespace CKT
         protected override Define.PoolID PoolID => Define.PoolID.Bullet_T3;
         protected override float AttackSpeed => 0.2f;
         protected override float ManaCost => 20f;
+        protected override float MoveSpeed => 0;
+        protected override float ExistTime => 0.15f;
+        protected override float Damage => 30;
+        protected override int Penetration => 0;
 
         float ChargeAmount
         {
@@ -25,6 +29,7 @@ namespace CKT
                 _line.startWidth = _maxWidth * amount;
             }
         }
+
         float _chargeAmount;
         float _maxChargeAmount = 0.5f;
         float _chargeSpeed = 0.1f;
@@ -115,15 +120,6 @@ namespace CKT
 
             yield return new WaitForSeconds(AttackSpeed);
             base._attackCoroutine = null;
-        }
-        #endregion
-
-        #region [Attack Cancel]
-        protected override void AttackCancel()
-        {
-            //ChargeAmount = 0;
-            //_line.enabled = false;
-            Debug.Log("Attack Cancel");
         }
         #endregion
     }

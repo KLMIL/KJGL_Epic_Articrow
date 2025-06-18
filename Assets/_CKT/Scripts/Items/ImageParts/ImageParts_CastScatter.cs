@@ -6,7 +6,7 @@ namespace CKT
 {
     public class ImageParts_CastScatter : ImageParts, ISkillable
     {
-        float _scatterAngle = 9f;
+        float _scatterAngle = 12f;
 
         public override Define.SkillType SkillType => Define.SkillType.Cast;
 
@@ -16,22 +16,22 @@ namespace CKT
         {
             Debug.Log($"{SkillName}, Level+{level}");
 
-            int scatterCount = level + 1;
-            Vector3 originUp = direction;
+            //int scatterCount = level + 1;
 
-            for (int k = 0; k < scatterCount; k++)
+            //for (int k = 0; k < scatterCount; k++)
+            for (int k = 0; k < (level * 2); k++)
             {
                 //분산 각도
                 float sign = 0;
-                if (scatterCount % 2 == 0)
+                /*if (scatterCount % 2 == 0)
                 {
                     sign = ((k % 2 == 0) ? -1 : 1) * (Mathf.Floor(k / 2.0f) + 0.5f);
                 }
-                else
+                else*/
                 {
-                    sign = ((k % 2 == 0) ? 1 : -1) * Mathf.Ceil(k / 2.0f);
+                    sign = ((k % 2 == 0) ? 1 : -1) * Mathf.Ceil((k+1) / 2.0f);
                 }
-                Vector2 scatterDir = Util.RotateVector(originUp, (sign * _scatterAngle)).normalized;
+                Vector2 scatterDir = Util.RotateVector(direction, (sign * _scatterAngle)).normalized;
 
                 Define.PoolID poolID = skillManager.GetProjectilePoolID.Trigger();
                 GameObject castScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(poolID);

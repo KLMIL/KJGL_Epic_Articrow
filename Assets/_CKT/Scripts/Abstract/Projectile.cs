@@ -7,38 +7,35 @@ namespace CKT
     [System.Serializable]
     public abstract class Projectile : MonoBehaviour
     {
-        public int CurPenetration
-        {
-            get => _curPenetration;
-            set => _curPenetration = value;
-        }
-        int _curPenetration;
-        protected abstract int BasePenetration { get; }
-        protected abstract float MoveSpeed { get; }
-        protected abstract float Damage { get; }
-        protected abstract float ExistTime { get; }
-        protected abstract Define.PoolID PoolID { get; }
-
+        float _penetration;
+        
         public SkillManager SkillManager;
         protected Coroutine _disableCoroutine;
         Transform _target;
 
         protected void OnEnable()
         {
-            _curPenetration = BasePenetration;
+            _penetration = GameManager.Instance.RightSkillManager.GetPenetrationInt.Trigger();
 
-            _disableCoroutine = StartCoroutine(DisableCoroutine(ExistTime));
+            float existTime = GameManager.Instance.RightSkillManager.GetExistTimeFloat.Trigger();
+            _disableCoroutine = StartCoroutine(DisableCoroutine(existTime));
         }
 
         protected void OnDisable()
         {
             SkillManager = null;
+            if (_disableCoroutine != null)
+            {
+                StopCoroutine(_disableCoroutine);
+                _disableCoroutine = null;
+            }
             _target = null;
         }
 
         private void FixedUpdate()
         {
-            transform.position += transform.up * MoveSpeed * Time.fixedDeltaTime;
+            float moveSpeed = GameManager.Instance.RightSkillManager.GetMoveSpeedFloat.Trigger();
+            transform.position += transform.up * moveSpeed * Time.fixedDeltaTime;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -50,19 +47,23 @@ namespace CKT
             IDamagable iDamageable = _target.GetComponent<IDamagable>();
             if (iDamageable != null)
             {
-                iDamageable.TakeDamage(Damage);
+                float damage = GameManager.Instance.RightSkillManager.GetDamageFloat.Trigger();
+                float damageRate = GameManager.Instance.RightSkillManager.GetDamageRateFloat.Trigger();
+                iDamageable.TakeDamage(damage * damageRate);
+                Debug.LogError($"{damage} {damageRate}");
 
                 //null이 아니면 플레이가 호출한 Projectile,  null이면 HitSkill에서 생성된 Projectile
                 if (SkillManager != null)
                 {
+                    Vector3 closestPoint = collision.ClosestPoint(this.transform.position);
                     foreach (Func<Vector3, Vector3, IEnumerator> hitSkill in SkillManager.HitSkillDict.Values)
                     {
-                        StartCoroutine(hitSkill(collision.ClosestPoint(this.transform.position), this.transform.up));
+                        StartCoroutine(hitSkill(closestPoint, this.transform.up));
                     }
                 }
 
-                _curPenetration--;
-                if (_curPenetration < 0)
+                _penetration--;
+                if (_penetration < 0)
                 {
                     if (_disableCoroutine != null)
                     {
@@ -77,7 +78,8 @@ namespace CKT
         {
             yield return null;
             yield return new WaitForSeconds(existTime);
-            YSJ.Managers.TestPool.Return(PoolID, this.gameObject);
+            Define.PoolID poolID = GameManager.Instance.RightSkillManager.GetProjectilePoolID.Trigger();
+            YSJ.Managers.TestPool.Return(poolID, this.gameObject);
             _disableCoroutine = null;
         }
     }

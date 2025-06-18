@@ -5,12 +5,6 @@ namespace CKT
 {
     public class Pellet : Projectile
     {
-        protected override int BasePenetration => 0;
-        protected override float MoveSpeed => 0;
-        protected override float Damage => 10f;
-        protected override float ExistTime => 1f;
-        protected override Define.PoolID PoolID => Define.PoolID.Bullet_T4;
-        
         public float ScatterSpeed;
 
         private void FixedUpdate()
