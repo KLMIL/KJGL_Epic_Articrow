@@ -131,7 +131,7 @@ namespace Game.Enemy
             foreach (var hit in hits)
             {
                 // 태그까지 검사 -> 안전망 역할
-                if (hit.CompareTag("Player"))
+                if (hit.CompareTag("Player") && hit.isTrigger)
                 {
                     float damage = controller.Status.attack * damageMultiply;
                     controller.DealDamageToPlayer(damage, false);
