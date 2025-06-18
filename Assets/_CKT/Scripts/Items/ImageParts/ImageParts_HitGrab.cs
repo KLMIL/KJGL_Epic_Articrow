@@ -6,28 +6,22 @@ namespace CKT
 {
     public class ImageParts_HitGrab : ImageParts, ISkillable
     {
-        private void Awake()
-        {
-            base.Init("FieldParts/FieldParts_HitGrab", 0f);
-        }
+        public override Define.SkillType SkillType => Define.SkillType.Hit;
 
-        public SkillType SkillType => SkillType.Hit;
+        public override string SkillName => "HitGrab";
 
-        public string SkillName => "HitGrab";
-
-        public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
+        public IEnumerator SkillCoroutine(Vector3 position, Vector3 direction, int level, SkillManager skillManager)
         {
             Debug.Log($"{SkillName}, Level+{level}");
 
             if (level > 0)
             {
                 GameObject grabObject = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.GrabObject);
-                grabObject.transform.position = origin.transform.position;
+                grabObject.transform.position = position;
                 //grabObject.transform.localScale = origin.transform.localScale;
                 grabObject.GetComponent<GrabObject>().Init(level);
             }
 
-            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
             yield return null;
         }
     }

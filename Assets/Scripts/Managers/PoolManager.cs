@@ -37,7 +37,6 @@ namespace BMC
             Register(PoolType.SkillPool, PoolID.Bullet_T3);
             Register(PoolType.SkillPool, PoolID.CastExplosion);
             Register(PoolType.SkillPool, PoolID.CastDamageArea);
-            Register(PoolType.SkillPool, PoolID.HitScatter);
             Register(PoolType.SkillPool, PoolID.HitExplosion);
             Register(PoolType.SkillPool, PoolID.HitDamageArea);
             Register(PoolType.SkillPool, PoolID.GrabObject);

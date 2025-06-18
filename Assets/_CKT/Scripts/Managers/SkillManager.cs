@@ -37,8 +37,8 @@ namespace CKT
         #endregion
 
         #region [SkillDict]
-        public Dictionary<string, Func<GameObject, IEnumerator>> CastSkillDict = new Dictionary<string, Func<GameObject, IEnumerator>>();
-        public Dictionary<string, Func<GameObject, IEnumerator>> HitSkillDict = new Dictionary<string, Func<GameObject, IEnumerator>>();
+        public Dictionary<string, Func<Vector3, Vector3, IEnumerator>> CastSkillDict = new Dictionary<string, Func<Vector3, Vector3, IEnumerator>>();
+        public Dictionary<string, Func<Vector3, Vector3, IEnumerator>> HitSkillDict = new Dictionary<string, Func<Vector3, Vector3, IEnumerator>>();
         public Dictionary<string, int> SkillDupDict = new Dictionary<string, int>();
         #endregion
 
@@ -64,16 +64,17 @@ namespace CKT
 
             for (int i = 0; i < _slotList.Count; i++)
             {
+                ImageParts imageParts = _slotList[i].GetComponent<ImageParts>();
                 ISkillable skill = _slotList[i].GetComponent<ISkillable>();
-                if (skill != null)
+                if ((imageParts != null) && (skill != null))
                 {
                     //알맞은 딕셔너리에 찾기
-                    Dictionary<string, Func<GameObject, IEnumerator>> skillDict = null;
-                    if (skill.SkillType == SkillType.Cast)
+                    Dictionary<string, Func<Vector3, Vector3, IEnumerator>> skillDict = null;
+                    if (imageParts.SkillType == Define.SkillType.Cast)
                     {
                         skillDict = CastSkillDict;
                     }
-                    else if (skill.SkillType == SkillType.Hit)
+                    else if (imageParts.SkillType == Define.SkillType.Hit)
                     {
                         skillDict = HitSkillDict;
                     }
@@ -85,14 +86,14 @@ namespace CKT
                     }
                     else
                     {
-                        if (!skillDict.ContainsKey(skill.SkillName))
+                        if (!skillDict.ContainsKey(imageParts.SkillName))
                         {
-                            skillDict.Add(skill.SkillName, (obj) => skill.SkillCoroutine(obj, SkillDupDict[skill.SkillName], this));
-                            SkillDupDict.Add(skill.SkillName, 1);
+                            skillDict.Add(imageParts.SkillName, (position, direction) => skill.SkillCoroutine(position, direction, SkillDupDict[imageParts.SkillName], this));
+                            SkillDupDict.Add(imageParts.SkillName, 1);
                         }
                         else
                         {
-                            SkillDupDict[skill.SkillName]++;
+                            SkillDupDict[imageParts.SkillName]++;
                         }
                     }
                 }

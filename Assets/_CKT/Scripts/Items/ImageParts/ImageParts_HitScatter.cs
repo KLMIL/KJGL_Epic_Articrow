@@ -9,22 +9,17 @@ namespace CKT
         Transform _player;
         float _scatterAngle = 9f;
 
-        private void Awake()
-        {
-            base.Init("FieldParts/FieldParts_HitScatter", 0f);
-        }
+        public override Define.SkillType SkillType => Define.SkillType.Hit;
 
-        public SkillType SkillType => SkillType.Hit;
+        public override string SkillName => "HitScatter";
 
-        public string SkillName => "HitScatter";
-
-        public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
+        public IEnumerator SkillCoroutine(Vector3 position, Vector3 direction, int level, SkillManager skillManager)
         {
             Debug.Log($"{SkillName}, Level+{level}");
 
             int scatterCount = level + 1;
             _player = _player ?? FindAnyObjectByType<BMC.PlayerManager>().transform;
-            Vector3 originUp = (origin.transform.position - _player.position).normalized;
+            Vector3 originUp = (position - _player.position).normalized;
 
             for (int k = 0; k < scatterCount; k++)
             {
@@ -42,12 +37,11 @@ namespace CKT
 
                 Define.PoolID poolID = skillManager.GetProjectilePoolID.Trigger();
                 GameObject hitScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(poolID);
-                hitScatterCopy.transform.position = origin.transform.position;
+                hitScatterCopy.transform.position = position;
                 hitScatterCopy.transform.up = scatterDir;
-                //hitScatterCopy.GetComponent<Projectile>().SkillManager = skillManager;
+                hitScatterCopy.GetComponent<Projectile>().CurPenetration = 1;
             }
 
-            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
             yield return null;
         }
     }

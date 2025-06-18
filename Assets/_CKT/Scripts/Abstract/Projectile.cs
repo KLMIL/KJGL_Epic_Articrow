@@ -7,7 +7,12 @@ namespace CKT
     [System.Serializable]
     public abstract class Projectile : MonoBehaviour
     {
-        protected int _curPenetration;
+        public int CurPenetration
+        {
+            get => _curPenetration;
+            set => _curPenetration = value;
+        }
+        int _curPenetration;
         protected abstract int BasePenetration { get; }
         protected abstract float MoveSpeed { get; }
         protected abstract float Damage { get; }
@@ -15,16 +20,12 @@ namespace CKT
         protected abstract Define.PoolID PoolID { get; }
 
         public SkillManager SkillManager;
-        protected LayerMask _ignoreLayerMask;
+        protected Coroutine _disableCoroutine;
         Transform _target;
-        Coroutine _disableCoroutine;
 
         protected void OnEnable()
         {
             _curPenetration = BasePenetration;
-
-            _ignoreLayerMask = LayerMask.GetMask("Default", "Ignore Raycast", "Player", "BreakParts");
-            _target = null;
 
             _disableCoroutine = StartCoroutine(DisableCoroutine(ExistTime));
         }
@@ -32,6 +33,7 @@ namespace CKT
         protected void OnDisable()
         {
             SkillManager = null;
+            _target = null;
         }
 
         private void FixedUpdate()
@@ -52,13 +54,13 @@ namespace CKT
 
                 if (SkillManager != null)
                 {
-                    foreach (Func<GameObject, IEnumerator> hitSkill in SkillManager.HitSkillDict.Values)
+                    foreach (Func<Vector3, Vector3, IEnumerator> hitSkill in SkillManager.HitSkillDict.Values)
                     {
-                        StartCoroutine(hitSkill(_target.gameObject));
+                        StartCoroutine(hitSkill(this.transform.position, this.transform.up));
                     }
                 }
 
-                /*_curPenetration--;
+                _curPenetration--;
                 if (_curPenetration < 0)
                 {
                     if (_disableCoroutine != null)
@@ -66,11 +68,11 @@ namespace CKT
                         StopCoroutine(_disableCoroutine);
                     }
                     _disableCoroutine = StartCoroutine(DisableCoroutine(0));
-                }*/
+                }
             }
         }
 
-        protected IEnumerator DisableCoroutine(float existTime)
+        protected virtual IEnumerator DisableCoroutine(float existTime)
         {
             yield return null;
             yield return new WaitForSeconds(existTime);

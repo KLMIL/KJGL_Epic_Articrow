@@ -6,21 +6,16 @@ namespace CKT
 {
     public class ImageParts_CastAdditional : ImageParts, ISkillable
     {
-        private void Awake()
-        {
-            base.Init("FieldParts/FieldParts_CastAdditional", 0f);
-        }
+        //딕셔너리 구분용
+        public override Define.SkillType SkillType => Define.SkillType.Cast;
 
-        public SkillType SkillType => SkillType.Cast;
+        //딕셔너리 안에서 구분용
+        public override string SkillName => "CastAdditional";
 
-        public string SkillName => "CastAdditional";
-
-        public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
+        public IEnumerator SkillCoroutine(Vector3 position, Vector3 direction, int level, SkillManager skillManager)
         {
             Debug.Log($"{SkillName}, Level+{level}");
             
-            Vector3 startPos = origin.transform.position;
-
             for (int i = 0; i < level; i++)
             {
                 yield return new WaitForSeconds(0.05f);
@@ -28,17 +23,15 @@ namespace CKT
                 Define.PoolID poolID = skillManager.GetProjectilePoolID.Trigger();
                 GameObject castAdditionalCopy = YSJ.Managers.TestPool.Get<GameObject>(poolID);
 
-                castAdditionalCopy.transform.position = startPos;
-                castAdditionalCopy.transform.up = origin.transform.up;
+                castAdditionalCopy.transform.position = position;
+                castAdditionalCopy.transform.up = direction;
                 castAdditionalCopy.GetComponent<Projectile>().SkillManager = skillManager;
 
                 if (skillManager.CastSkillDict.ContainsKey("CastScatter"))
                 {
-                    StartCoroutine(skillManager.CastSkillDict["CastScatter"](castAdditionalCopy));
+                    StartCoroutine(skillManager.CastSkillDict["CastScatter"](position, direction));
                 }
             }
-
-            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
         }
     }
 }

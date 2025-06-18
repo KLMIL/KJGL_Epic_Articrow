@@ -2,13 +2,9 @@ using CKT;
 using System.Collections;
 using UnityEngine;
 
-public enum SkillType { Cast, Hit, Passive }
+
 
 public interface ISkillable
 {
-    public SkillType SkillType { get; }
-
-    public string SkillName { get; }
-
-    public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager);
+    public IEnumerator SkillCoroutine(Vector3 position, Vector3 directoin, int level, SkillManager skillManager);
 }

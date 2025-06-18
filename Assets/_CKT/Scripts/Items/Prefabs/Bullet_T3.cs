@@ -20,17 +20,18 @@ namespace CKT
         {
             _line = _line ?? GetComponent<LineRenderer>();
             _collider = _collider ?? GetComponent<BoxCollider2D>();
-            _collider.size = new Vector2(_width, _distance);
-            _collider.offset = new Vector2(0, _distance * 0.5f);
 
-            base.OnEnable();
             StartCoroutine(LineEnable());
+            StartCoroutine(ColliderEnable());
+            base.OnEnable();
         }
 
-        protected new void OnDisable()
+        IEnumerator ColliderEnable()
         {
-            _line.enabled = false;
-            base.OnDisable();
+            yield return null;
+            _collider.size = new Vector2(_width, _distance);
+            _collider.offset = new Vector2(0, _distance * 0.5f);
+            _collider.enabled = true;
         }
 
         IEnumerator LineEnable()
@@ -40,12 +41,20 @@ namespace CKT
             _line.SetPosition(0, this.transform.position);
             _line.SetPosition(1, this.transform.position + (this.transform.up * _distance));
             _line.enabled = true;
+        }
 
+        protected override IEnumerator DisableCoroutine(float existTime)
+        {
+            yield return null;
             while (_line.startWidth > 0)
             {
                 _line.startWidth -= (_width / ExistTime) * Time.deltaTime;
                 yield return null;
             }
+            _line.enabled = false;
+            _collider.enabled = false;
+            YSJ.Managers.TestPool.Return(PoolID, this.gameObject);
+            _disableCoroutine = null;
         }
     }
 }

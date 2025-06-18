@@ -114,9 +114,9 @@ namespace CKT
             bullet.GetComponent<Projectile>().SkillManager = base._skillManager;
 
             //CastSkill
-            foreach (Func<GameObject, IEnumerator> castSkill in _skillManager.CastSkillDict.Values)
+            foreach (Func<Vector3, Vector3, IEnumerator> castSkill in _skillManager.CastSkillDict.Values)
             {
-                StartCoroutine(castSkill(bullet));
+                StartCoroutine(castSkill(bullet.transform.position, bullet.transform.up));
             }
 
             yield return new WaitForSeconds(AttackSpeed);
