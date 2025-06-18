@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using BMC;
 
 namespace CKT
 {
@@ -76,6 +77,14 @@ namespace CKT
             if (this.transform.parent.GetComponent<IDropHandler>() == null)
             {
                 Debug.Log("아이템 버리기");
+
+                // 패시브 스킬이면 효과 제거
+                if (TryGetComponent<PassiveSkill>(out PassiveSkill passiveSkill))
+                {
+                    Debug.LogWarning("패시브 필드로 버리기");
+                    passiveSkill.Remove();
+                }
+
                 ThrowAway();
             }
             //슬롯에 들어갔는데 해당 슬롯에 이미 다른 ImageParts가 있다면 (자신 포함 ImageParts가 2개 이상이면)
@@ -93,6 +102,23 @@ namespace CKT
                             imageParts[i].transform.SetParent(_previousParent);
                             imageParts[i].GetComponent<RectTransform>().position = _previousParent.GetComponent<RectTransform>().position;
                         }
+                    }
+                }
+
+                // 패시브 효과 적용 여부 확인
+                if (TryGetComponent<PassiveSkill>(out PassiveSkill passiveSkill))
+                {
+                    if (GetComponentInParent<RightSlot>() != null && _previousParent.parent != transform.parent.parent)
+                    {
+                        // 아티팩트 슬롯에 들어갔을 때는 패시브 스킬 효과 적용
+                        passiveSkill.Apply();
+                        Debug.LogWarning("패시브 아이템 착용");
+                    }
+                    else if(_previousParent.parent != transform.parent.parent)
+                    {
+                        // 아티팩트 슬롯이 아닌 경우 패시브 스킬 효과 제거
+                        passiveSkill.Remove();
+                        Debug.LogWarning("다른 종류의 슬롯으로 버리기");
                     }
                 }
             }
