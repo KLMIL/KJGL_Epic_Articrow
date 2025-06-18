@@ -9,10 +9,10 @@ namespace CKT
 {
     public abstract class EquipedArtifact : MonoBehaviour
     {
-        protected abstract GameObject _fieldArtifact { get; }
-        protected abstract string _prefabName { get; }
-        protected abstract float _attackSpeed { get; }
-        protected abstract float _manaCost { get; }
+        protected abstract GameObject FieldArtifact { get; }
+        protected abstract Define.PoolID PoolID { get; }
+        protected abstract float AttackSpeed { get; }
+        protected abstract float ManaCost { get; }
 
         #region [컴포넌트]
         protected SpriteRenderer _renderer;
@@ -40,6 +40,7 @@ namespace CKT
             _firePoint = GetComponentInChildren<FirePoint>().transform;
 
             _skillManager = GameManager.Instance.RightSkillManager;
+            _skillManager.GetProjectilePoolID.SingleRegister(() => { return PoolID; });
             _skillManager.OnHandPerformActionT1.SingleRegister((list) => Attack(list));
             _skillManager.OnHandCancelActionT0.SingleRegister(() => AttackCancel());
             _skillManager.OnThrowAwayActionT0.SingleRegister(() => ThrowAway());
@@ -60,7 +61,7 @@ namespace CKT
                 }
                 totalManaCost += (manaCost * skillDupDict[key]);
             }
-            totalManaCost += _manaCost;
+            totalManaCost += ManaCost;
             Debug.LogWarning(totalManaCost);
 
             if (PlayerManager.Instance.PlayerStatus.Mana < totalManaCost)
@@ -85,11 +86,12 @@ namespace CKT
         void ThrowAway()
         {
             //필드 아티팩트 생성
-            GameObject field = Instantiate(_fieldArtifact);
+            GameObject field = Instantiate(FieldArtifact);
             field.transform.parent = null;
             field.transform.localPosition = this.transform.position + Vector3.down;
 
             //빈 손으로 초기화
+            _skillManager.GetProjectilePoolID.Init();
             _skillManager.OnHandPerformActionT1.Unregister((list) => Attack(list));
             _skillManager.OnHandCancelActionT0.Unregister(() => AttackCancel());
             _skillManager.OnThrowAwayActionT0.Unregister(() => ThrowAway());

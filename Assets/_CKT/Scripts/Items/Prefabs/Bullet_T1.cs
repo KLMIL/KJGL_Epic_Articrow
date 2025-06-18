@@ -1,6 +1,6 @@
-using System;
 using System.Collections;
 using UnityEngine;
+
 
 namespace CKT
 {
@@ -10,5 +10,6 @@ namespace CKT
         protected override float MoveSpeed => 15f;
         protected override float Damage => 30f;
         protected override float ExistTime => 0.5f;
+        protected override Define.PoolID PoolID => Define.PoolID.Bullet_T1;
     }
 }
