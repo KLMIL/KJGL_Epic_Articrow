@@ -20,10 +20,13 @@ namespace Game.Enemy
             Debug.LogWarning("Player contact with enemy");
             if (collision.CompareTag(targetTag) && collision.isTrigger)
             {
+                ownerController.Player = collision.transform;
+
                 if (!ownerController.FSM.isRushAttacked) // 돌진 공격 수행
                 {
                     Debug.LogWarning("Rush Attack go");
-                    ownerController.DealDamageToPlayer(ownerController.Status.attack * ownerController.FSM.rushDamageMultuply);
+                    Transform target = collision.transform;
+                    ownerController.DealDamageToPlayer(ownerController.Status.attack * ownerController.FSM.rushDamageMultuply, target);
                     ownerController.FSM.isRushAttacked = true;
 
                     // 임시로 접촉 공격 쿨타임도 돌도록 처리
@@ -52,9 +55,11 @@ namespace Game.Enemy
         }
 
 
-        public void DealDamageToPlayer(float damage, bool forceToNextState)
+        public void DealDamageToPlayer(float damage, Transform targetTransform, bool forceToNextState)
         {
-            IDamagable target = ownerController.Player.GetComponent<IDamagable>();
+            //IDamagable target = ownerController.Player.GetComponent<IDamagable>();
+            IDamagable target = targetTransform.GetComponent<IDamagable>();
+
             if (target != null)
             {
                 target.TakeDamage(damage);
