@@ -45,6 +45,13 @@ namespace YSJ
             ShowDamageText(damage);
             UpdateHealth(-damage);
 
+            // YSJ : 데미지 받으면 피격 애니메이션 재생
+            PlayerAnimator playerAnimator = GetComponent<PlayerAnimator>();
+            if (playerAnimator)
+            {
+                playerAnimator.CurrentState |= PlayerAnimator.State.Hurt;
+            }
+
             if (Health <= 0)
             {
                 OnDeadAction.Invoke();
