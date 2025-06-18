@@ -11,6 +11,7 @@ namespace YSJ
             Attack = 1 << 2,
             Stun = 1 << 3,
             Hurt = 1 << 4,
+            Dead = 1 << 5,
         }
 
         public State CurrentState { get; set; }
@@ -23,6 +24,12 @@ namespace YSJ
             _checkPlayerDirection = GetComponent<CheckPlayerDirection>();
             _anim = GetComponent<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        private void Start()
+        {
+            //스테이터스에 액션 연결
+            GetComponent<PlayerStatus>().OnDeadAction += PlayDead;
         }
 
         void Update()
@@ -47,6 +54,13 @@ namespace YSJ
 
             CheckPlayerDirection.Direction direction = CheckPlayerDirection.Direction.None;
             direction = (_checkPlayerDirection.CurrentDirection == CheckPlayerDirection.Direction.Left) ? CheckPlayerDirection.Direction.Right : _checkPlayerDirection.CurrentDirection;
+
+            // Dead 상태
+            if ((CurrentState & State.Dead) == State.Dead) 
+            {
+                _anim.Play("Dead");
+                return;
+            }
 
             //Hurt 상태
             if ((CurrentState & State.Hurt) == State.Hurt)
@@ -86,6 +100,11 @@ namespace YSJ
         void HurtAnimationEnd() 
         {
             CurrentState &= ~State.Hurt; // Hurt 상태 해제
+        }
+
+        void PlayDead()
+        {
+            CurrentState |= State.Dead; // Dead상태 추가
         }
     }
 }

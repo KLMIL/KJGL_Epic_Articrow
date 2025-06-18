@@ -109,7 +109,7 @@ namespace YSJ
         void Death()
         {
             IsDead = true;
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 }
