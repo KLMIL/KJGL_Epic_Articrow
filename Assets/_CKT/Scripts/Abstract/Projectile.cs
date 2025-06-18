@@ -57,7 +57,7 @@ namespace CKT
                 {
                     foreach (Func<Vector3, Vector3, IEnumerator> hitSkill in SkillManager.HitSkillDict.Values)
                     {
-                        StartCoroutine(hitSkill(this.transform.position, this.transform.up));
+                        StartCoroutine(hitSkill(collision.ClosestPoint(this.transform.position), this.transform.up));
                     }
                 }
 
