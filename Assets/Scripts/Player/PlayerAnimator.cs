@@ -28,8 +28,8 @@ namespace YSJ
 
         private void Start()
         {
-            //스테이터스에 액션 연결
-            GetComponent<PlayerStatus>().OnDeadAction += PlayDead;
+            // 스테이터스에 액션 연결
+            PlayerStatus.OnDeadAction += PlayDead;
         }
 
         void Update()
@@ -47,7 +47,10 @@ namespace YSJ
             }
 
             if ((CurrentState & State.Attack) == State.Attack)
+            {
+                OnHurtAnimationEndEvent();
                 return;
+            }
 
             // 플립
             FlipX();
@@ -97,7 +100,8 @@ namespace YSJ
             _spriteRenderer.flipX = (_checkPlayerDirection.CurrentDirection == CheckPlayerDirection.Direction.Left) ? true : false;
         }
 
-        void HurtAnimationEnd() 
+        // Hurt 애니메이션이 끝났을 때 호출되는 애니메이션 이벤트
+        void OnHurtAnimationEndEvent() 
         {
             CurrentState &= ~State.Hurt; // Hurt 상태 해제
         }

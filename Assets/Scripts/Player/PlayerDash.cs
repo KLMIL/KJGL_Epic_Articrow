@@ -33,6 +33,9 @@ namespace BMC
 
         public void Dash(Vector2 dashDir)
         {
+            if(PlayerManager.Instance.PlayerStatus.IsDead)
+                return;
+
             _dashCoroutine = _dashCoroutine ?? StartCoroutine(DashCoroutine(dashDir, _dashSpeed, _dashTime, _dashCoolTime));
         }
 
