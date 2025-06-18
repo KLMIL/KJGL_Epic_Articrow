@@ -43,7 +43,7 @@ namespace CKT
                 Projectile[] projectiles = hitScatterCopy.GetComponentsInChildren<Projectile>();
                 for (int i = 0; i < projectiles.Length; i++)
                 {
-                    //projectiles[i]._penetration += 1;
+                    projectiles[i].Penetration += 1;
                 }
             }
 

@@ -7,7 +7,8 @@ namespace CKT
     [System.Serializable]
     public abstract class Projectile : MonoBehaviour
     {
-        float _penetration;
+        public int Penetration;
+        public float DamageRate;
         
         public SkillManager SkillManager;
         protected Coroutine _disableCoroutine;
@@ -15,7 +16,7 @@ namespace CKT
 
         protected void OnEnable()
         {
-            _penetration = GameManager.Instance.RightSkillManager.GetPenetrationInt.Trigger();
+            Penetration = GameManager.Instance.RightSkillManager.GetPenetrationInt.Trigger();
 
             float existTime = GameManager.Instance.RightSkillManager.GetExistTimeFloat.Trigger();
             _disableCoroutine = StartCoroutine(DisableCoroutine(existTime));
@@ -48,9 +49,7 @@ namespace CKT
             if (iDamageable != null)
             {
                 float damage = GameManager.Instance.RightSkillManager.GetDamageFloat.Trigger();
-                float damageRate = GameManager.Instance.RightSkillManager.GetDamageRateFloat.Trigger();
-                iDamageable.TakeDamage(damage * damageRate);
-                Debug.LogError($"{damage} {damageRate}");
+                iDamageable.TakeDamage(damage * DamageRate);
 
                 //null이 아니면 플레이가 호출한 Projectile,  null이면 HitSkill에서 생성된 Projectile
                 if (SkillManager != null)
@@ -62,8 +61,8 @@ namespace CKT
                     }
                 }
 
-                _penetration--;
-                if (_penetration < 0)
+                Penetration--;
+                if (Penetration < 0)
                 {
                     if (_disableCoroutine != null)
                     {

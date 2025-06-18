@@ -19,6 +19,8 @@ namespace CKT
         protected abstract float Damage { get; }
         protected abstract float AttackSpeed { get; }
 
+        float _damageRate;
+
         #region [컴포넌트]
         protected SpriteRenderer _renderer;
         protected Animator _animator;
@@ -31,6 +33,7 @@ namespace CKT
 
         #region [값]
         protected Coroutine _attackCoroutine = null;
+        Coroutine _manaLackCoroutine = null;
         #endregion
 
         private void Start()
@@ -86,14 +89,11 @@ namespace CKT
                     level += (skillDupDict[key] * 2);
                 }
             }
-            GameManager.Instance.RightSkillManager.GetDamageRateFloat.SingleRegister(() => { return (1f / level); });
+            _damageRate = 1 / level;
 
             if (PlayerManager.Instance.PlayerStatus.Mana < totalManaCost)
             {
-                Debug.LogWarning("마나가 부족합니다");
-                TextMeshPro manaText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-                manaText.text = "마나 부족";
-                manaText.transform.position = transform.position;
+                _manaLackCoroutine = _manaLackCoroutine ?? StartCoroutine(ManaLackCoroutine());
                 return;
             }
             else
@@ -117,6 +117,8 @@ namespace CKT
             bullet.transform.up = this.transform.up;
             Projectile projectile = bullet.GetComponent<Projectile>();
             projectile.SkillManager = _skillManager;
+            projectile.Penetration = 0;
+            projectile.DamageRate = _damageRate;
 
             //CastSkill
             foreach (Func<Vector3, Vector3, IEnumerator> castSkill in _skillManager.CastSkillDict.Values)
@@ -153,6 +155,17 @@ namespace CKT
             _skillManager.OnThrowAwayActionT0.Unregister(() => ThrowAway());
 
             Destroy(this.gameObject);
+        }
+
+        IEnumerator ManaLackCoroutine()
+        {
+            Debug.LogWarning("마나가 부족합니다");
+            TextMeshPro manaText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            manaText.text = "마나 부족";
+            manaText.transform.position = transform.position;
+
+            yield return new WaitForSeconds(AttackSpeed);
+            _manaLackCoroutine = null;
         }
     }
 }

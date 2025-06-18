@@ -15,7 +15,6 @@ namespace CKT
         public FuncT0<float> GetExistTimeFloat = new();
         public FuncT0<int> GetPenetrationInt = new();
         public FuncT0<float> GetDamageFloat = new();
-        public FuncT0<float> GetDamageRateFloat = new();
         #endregion
 
         #region [아티팩트 공격 실행]
