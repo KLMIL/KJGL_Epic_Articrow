@@ -16,7 +16,7 @@ namespace YSJ
         [field: SerializeField] public Direction CurrentDirection { get; private set; }
         [field: SerializeField] public float Angle { get; set; }
 
-        void Update()
+        public void CheckCurrentDirection()
         {
             CurrentDirection = CheckDirection(Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position);
         }

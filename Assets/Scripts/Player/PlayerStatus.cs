@@ -7,7 +7,7 @@ namespace YSJ
 {
     public class PlayerStatus : MonoBehaviour, IDamagable
     {
-        public Action OnDeadAction;
+        public static Action OnDeadAction;
 
         public bool IsDead { get; private set; } = false;
 
@@ -109,7 +109,15 @@ namespace YSJ
         void Death()
         {
             IsDead = true;
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            rb.linearVelocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Kinematic;
             //Destroy(gameObject);
+        }
+
+        void OnDestroy()
+        {
+            OnDeadAction = null;
         }
     }
 }

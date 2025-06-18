@@ -40,7 +40,7 @@ namespace BMC
         void Attack()
         {
             // 게임 일시 정지 시, 공격 불가
-            if (GameManager.Instance.IsPaused)
+            if (GameManager.Instance.IsPaused || PlayerManager.Instance.PlayerStatus.IsDead)
                 return;
 
             if (IsAttack)
