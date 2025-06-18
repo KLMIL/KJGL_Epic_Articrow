@@ -134,7 +134,8 @@ namespace Game.Enemy
                 if (hit.CompareTag("Player") && hit.isTrigger)
                 {
                     float damage = controller.Status.attack * damageMultiply;
-                    controller.DealDamageToPlayer(damage, false);
+                    Transform target = hit.transform;
+                    controller.DealDamageToPlayer(damage, target, false);
                 }
             }
         }
