@@ -105,11 +105,19 @@ public class Define
         Bullet_T3,
         CastExplosion,
         CastDamageArea,
-        HitScatter,
         HitExplosion,
         HitDamageArea,
         GrabObject,
         Description
+    }
+    #endregion
+
+    #region [스킬 종류]
+    public enum SkillType 
+    { 
+        Cast, 
+        Hit, 
+        Passive 
     }
     #endregion
 }

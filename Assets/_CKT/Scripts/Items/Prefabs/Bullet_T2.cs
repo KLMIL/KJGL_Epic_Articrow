@@ -9,5 +9,6 @@ namespace CKT
         protected override float MoveSpeed => 10f;
         protected override float Damage => 40f;
         protected override float ExistTime => 0.15f;
+        protected override Define.PoolID PoolID => Define.PoolID.Bullet_T2;
     }
 }

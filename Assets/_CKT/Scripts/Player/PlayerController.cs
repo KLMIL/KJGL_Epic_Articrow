@@ -14,9 +14,6 @@ namespace CKT
         #region [자식 오브젝트]
         Transform _leftHand;
         Transform _rightHand;
-
-        IAttackable _leftArtifact;
-        IAttackable _rightArtifact;
         #endregion
 
         #region [입력값]

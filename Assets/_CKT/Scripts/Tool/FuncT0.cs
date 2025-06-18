@@ -14,11 +14,6 @@ public class FuncT0<TResult>
         _func = null;
     }
 
-    public void Unregister(Func<TResult> callback)
-    {
-        _func -= callback;
-    }
-
     public void SingleRegister(Func<TResult> callback)
     {
         _func = null;

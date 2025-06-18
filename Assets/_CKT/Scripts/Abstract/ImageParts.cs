@@ -7,7 +7,16 @@ namespace CKT
     public abstract class  ImageParts : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         GameObject _fieldParts;
-        protected float _manaCost;
+
+        /// <summary>
+        /// Cast, Hit, Passive 설정 (Dictionary 구분 용도)
+        /// </summary>
+        public abstract Define.SkillType SkillType { get; }
+
+        /// <summary>
+        /// Dictionary 안에서 구분하는 용도 + FieldParts 가져오는 용도
+        /// </summary>
+        public abstract string SkillName { get; }
 
         #region [컴포넌트]
         RectTransform _rect;
@@ -18,14 +27,17 @@ namespace CKT
         Transform _previousParent;
         #endregion
 
-        protected virtual void Init(string name, float manaCost)
+        void Awake()
         {
-            _fieldParts = Resources.Load<GameObject>(name);
+            Init();
+        }
+
+        void Init()
+        {
+            _fieldParts = Resources.Load<GameObject>($"FieldParts/FieldParts_{SkillName}");
 
             _rect = GetComponent<RectTransform>();
             _img = GetComponent<Image>();
-
-            _manaCost = manaCost;
         }
 
         //슬롯에서 필드로 버리기

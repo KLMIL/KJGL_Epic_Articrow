@@ -6,20 +6,15 @@ namespace CKT
 {
     public class ImageParts_HitExplosion : ImageParts, ISkillable
     {
-        private void Awake()
-        {
-            base.Init("FieldParts/FieldParts_HitExplosion", 0f);
-        }
+        public override Define.SkillType SkillType => Define.SkillType.Hit;
 
-        public SkillType SkillType => SkillType.Hit;
+        public override string SkillName => "HitExplosion";
 
-        public string SkillName => "HitExplosion";
-
-        public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
+        public IEnumerator SkillCoroutine(Vector3 position, Vector3 direction, int level, SkillManager skillManager)
         {
             Debug.Log($"{SkillName}, Level+{level}");
 
-            Vector3 startPos = origin.transform.position;
+            Vector3 startPos = position;
 
             /*for (int i = 0; i < level; i++)
             {
@@ -34,7 +29,6 @@ namespace CKT
             hitExplosion.transform.position = startPos;
             hitExplosion.GetComponent<Explosion>().Init(level);
 
-            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
             yield return null;
         }
     }
