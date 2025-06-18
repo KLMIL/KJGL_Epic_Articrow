@@ -14,6 +14,7 @@ namespace BMC
         public PlayerInteract PplayerInteract { get; private set; }
         public PlayerStatus PlayerStatus { get; private set; }
         public PlayerAttack PlayerAttack { get; private set; }
+        public CheckPlayerDirection CheckPlayerDirection { get; private set; }
 
         void Awake()
         {
@@ -31,10 +32,16 @@ namespace BMC
             PplayerInteract = this.gameObject.GetComponent<PlayerInteract>();
             PlayerStatus = this.gameObject.GetComponent<PlayerStatus>();
             PlayerAttack = this.gameObject.GetComponent<PlayerAttack>();
+            CheckPlayerDirection = this.gameObject.GetComponent<CheckPlayerDirection>();
         }
 
         void Update()
         {
+            if(PlayerStatus.IsDead)
+                return;
+
+            CheckPlayerDirection.CheckCurrentDirection();
+
             if (Input.GetMouseButtonDown(2)) // 마우스 휠 클릭
             {
                 MapManager.Instance.CurrentRoom.RoomClearComplete();
@@ -43,6 +50,9 @@ namespace BMC
 
         void FixedUpdate()
         {
+            if(PlayerStatus.IsDead)
+                return;
+
             //_playerMove.enabled = !_playerDash.Silhouette.IsActive;
             if (!PlayerDash.Silhouette.IsActive && !PlayerAttack.IsAttack)
                 PlayerMove.Move();
@@ -66,6 +76,11 @@ namespace BMC
             {
                 GameManager.Instance.RightSkillManager.OnHandCancelActionT0?.Trigger();
             }*/
+        }
+
+        void OnDestroy()
+        {
+            s_instance = null;
         }
     }
 }
