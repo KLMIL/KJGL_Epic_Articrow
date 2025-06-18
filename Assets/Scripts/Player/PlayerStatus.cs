@@ -24,10 +24,6 @@ namespace YSJ
         public float Health { get; set; }
         public float Mana { get; set; }
 
-        [Header("현재 영향받는 베리어들")]
-        public List<installedBarrier> installedBarriers = new();
-        public List<followBarrier> followBarriers = new();
-
         void Awake()
         {
             Init();
@@ -47,15 +43,18 @@ namespace YSJ
                 return;
 
             //YSJ : 베리어가 있는 지 확인
-            foreach (installedBarrier barrier in installedBarriers)
+            List<Collider2D> colliders = new();
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.SetLayerMask(LayerMask.GetMask("Player"));
+            filter.useTriggers = true;
+            Physics2D.OverlapCollider(GetComponent<Collider2D>(), filter, colliders);
+            foreach (Collider2D col in colliders)
             {
-                barrier.TakeDamage(damage);
-                return; // 베리어가 데미지를 흡수했으므로 더 이상 진행하지 않음
-            }
-            foreach (followBarrier barrier in followBarriers)
-            {
-                barrier.TakeDamage(damage);
-                return; // 베리어가 데미지를 흡수했으므로 더 이상 진행하지 않음
+                if (col.TryGetComponent<Barrier>(out Barrier barrier)) 
+                {
+                    barrier.TakeDamage(damage); // 베리어가 있으면 베리어가 대신받음
+                    return;
+                }
             }
 
             UI_InGameEventBus.OnShowBloodCanvas?.Invoke();

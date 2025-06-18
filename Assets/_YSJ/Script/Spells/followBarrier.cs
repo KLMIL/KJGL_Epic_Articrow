@@ -1,9 +1,5 @@
 using UnityEngine;
 
-public class followBarrier : MonoBehaviour, IDamagable
+public class followBarrier : Barrier
 {
-    public void TakeDamage(float damage)
-    {
-        throw new System.NotImplementedException();
-    }
 }
