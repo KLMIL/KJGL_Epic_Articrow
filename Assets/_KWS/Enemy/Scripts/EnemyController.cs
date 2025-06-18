@@ -7,7 +7,6 @@ namespace Game.Enemy
     [RequireComponent(typeof(EnemyDealDamage))]
     [RequireComponent(typeof(EnemyTakeDamage))]
     [RequireComponent(typeof(EnemyAnimation))]
-    [RequireComponent(typeof(CircleCollider2D))]
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Animator))]
     public class EnemyController : MonoBehaviour
