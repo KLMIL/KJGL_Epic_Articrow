@@ -13,6 +13,7 @@ namespace Game.Enemy
     {
         public override void Act(EnemyController controller)
         {
+            controller.FSM.isSuperArmor = false;
             // 아무것도 하지 않음.
         }
     }

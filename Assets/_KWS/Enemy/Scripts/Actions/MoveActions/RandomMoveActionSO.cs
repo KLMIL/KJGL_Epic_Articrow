@@ -18,6 +18,8 @@ namespace Game.Enemy
 
         public override void Act(EnemyController controller)
         {
+            controller.FSM.isSuperArmor = false;
+
             // 쿨타임이 지났다면 새로운 방향과 지속시간 생성
             if (controller.FSM.randomMoveChangeCooldown <= 0f)
             {

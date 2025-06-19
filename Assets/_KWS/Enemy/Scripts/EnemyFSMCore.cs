@@ -17,6 +17,8 @@ namespace Game.Enemy
         public float pendingDamage = 0;
         public bool isDied = false;
 
+        public float knockbackDistance = 0.1f;
+
         // 공격, 투사체 소환 등
         public int projectileFiredCount = 0;
         public float projectileIntervalTimer = 0;
@@ -40,6 +42,9 @@ namespace Game.Enemy
         // 이동
         public Vector3 randomMoveDirection = Vector3.zero;
         public float randomMoveChangeCooldown = 0f;
+
+        // 몬스터 슈퍼아머
+        public bool isSuperArmor = false;
         #endregion
 
 

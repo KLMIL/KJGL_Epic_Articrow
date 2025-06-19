@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -28,10 +29,10 @@ namespace BMC
             }*/
             _rb = GetComponent<Rigidbody2D>();
             _silhouette = GetComponent<Silhouette>();
-            YSJ.Managers.Input.OnDashAction += Dash;
+            YSJ.Managers.Input.OnDashAction += TryDash;
         }
 
-        public void Dash(Vector2 dashDir)
+        public void TryDash(Vector2 dashDir)
         {
             if(PlayerManager.Instance.PlayerStatus.IsDead)
                 return;
@@ -62,9 +63,30 @@ namespace BMC
             _dashCoroutine = null;
         }
 
+        #region 대시 마법 파츠
+        public void DashSkill(Vector2 dashDir)
+        {
+            StartCoroutine(DashSkillCoroutine(dashDir));
+        }
+
+        IEnumerator DashSkillCoroutine(Vector2 dashDir)
+        {
+            _silhouette.IsActive = true;
+            //_hitBox.enabled = false;
+            IsDash = true;
+            _rb.linearVelocity += dashDir * _dashSpeed;
+
+            yield return new WaitForSeconds(_dashTime);
+            _silhouette.IsActive = false;
+            IsDash = false;
+            //_hitBox.enabled = true;
+            _rb.linearVelocity -= _rb.linearVelocity;
+        }
+        #endregion
+
         private void OnDestroy()
         {
-            YSJ.Managers.Input.OnDashAction -= Dash;
+            YSJ.Managers.Input.OnDashAction -= TryDash;
         }
     }
 }

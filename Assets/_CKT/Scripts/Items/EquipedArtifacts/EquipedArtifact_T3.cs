@@ -11,6 +11,10 @@ namespace CKT
         protected override Define.PoolID PoolID => Define.PoolID.Bullet_T3;
         protected override float AttackSpeed => 0.2f;
         protected override float ManaCost => 20f;
+        protected override float MoveSpeed => 0;
+        protected override float ExistTime => 0.15f;
+        protected override float Damage => 30;
+        protected override int Penetration => 0;
 
         float ChargeAmount
         {
@@ -25,6 +29,7 @@ namespace CKT
                 _line.startWidth = _maxWidth * amount;
             }
         }
+
         float _chargeAmount;
         float _maxChargeAmount = 0.5f;
         float _chargeSpeed = 0.1f;
@@ -101,16 +106,10 @@ namespace CKT
             base._animator.Play("Attack", -1, 0);
 
             //총알 생성
-            GameObject bullet = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.Bullet_T3);
+            GameObject bullet = YSJ.Managers.TestPool.Get<GameObject>(PoolID);
+
             bullet.transform.position = base._firePoint.position;
-            //이동 방향
-            /*Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 mouseDir = (mousePos - this.transform.position).normalized;
-            bullet.transform.up = mouseDir;*/
             bullet.transform.up = this.transform.up;
-            //이름 설정 (복사본 만들 때 이름을 받아서 생성하는 용도)
-            bullet.name = PoolID.ToString();
-            //왼손||오른손 SkillManager 설정
             bullet.GetComponent<Projectile>().SkillManager = base._skillManager;
 
             //CastSkill
@@ -121,15 +120,6 @@ namespace CKT
 
             yield return new WaitForSeconds(AttackSpeed);
             base._attackCoroutine = null;
-        }
-        #endregion
-
-        #region [Attack Cancel]
-        protected override void AttackCancel()
-        {
-            //ChargeAmount = 0;
-            //_line.enabled = false;
-            Debug.Log("Attack Cancel");
         }
         #endregion
     }

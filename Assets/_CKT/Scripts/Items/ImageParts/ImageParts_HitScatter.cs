@@ -39,7 +39,12 @@ namespace CKT
                 GameObject hitScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(poolID);
                 hitScatterCopy.transform.position = position;
                 hitScatterCopy.transform.up = scatterDir;
-                hitScatterCopy.GetComponent<Projectile>().CurPenetration = 1;
+
+                Projectile[] projectiles = hitScatterCopy.GetComponentsInChildren<Projectile>();
+                for (int i = 0; i < projectiles.Length; i++)
+                {
+                    projectiles[i].Penetration += 1;
+                }
             }
 
             yield return null;
