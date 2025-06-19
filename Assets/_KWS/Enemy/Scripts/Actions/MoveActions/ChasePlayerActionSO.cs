@@ -24,6 +24,8 @@ namespace Game.Enemy
 
         public override void Act(EnemyController controller)
         {
+            controller.FSM.isSuperArmor = false;
+
             if (controller.Player == null) return;
 
             float dist = Vector3.Distance(controller.transform.position, controller.Player.position);

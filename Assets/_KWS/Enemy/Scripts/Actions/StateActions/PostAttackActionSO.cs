@@ -15,6 +15,7 @@ namespace Game.Enemy
     {
         public override void Act(EnemyController controller)
         {
+            controller.FSM.isSuperArmor = false;
             // 실제 동작 없음. 필요하다면 이팩트, 방어력 증가 등 추가.
         }
     }

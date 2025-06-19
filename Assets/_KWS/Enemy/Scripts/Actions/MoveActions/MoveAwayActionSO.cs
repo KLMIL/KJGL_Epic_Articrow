@@ -23,6 +23,8 @@ namespace Game.Enemy
 
         public override void Act(EnemyController controller)
         {
+            controller.FSM.isSuperArmor = false;
+
             if (controller.Player == null) return;
 
             Vector3 awayDir = (controller.transform.position - controller.Player.position).normalized;

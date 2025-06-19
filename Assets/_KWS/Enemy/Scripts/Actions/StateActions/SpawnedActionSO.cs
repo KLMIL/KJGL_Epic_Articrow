@@ -13,6 +13,7 @@ namespace Game.Enemy
     {
         public override void Act(EnemyController controller)
         {
+            controller.FSM.isSuperArmor = true;
             // 스폰 애니메이션, 이팩트, 사운드 등 재생
         }
     }
