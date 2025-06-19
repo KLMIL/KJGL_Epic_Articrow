@@ -19,8 +19,6 @@ namespace CKT
         protected abstract float Damage { get; }
         protected abstract float AttackSpeed { get; }
 
-        float _damageRate;
-
         #region [컴포넌트]
         protected SpriteRenderer _renderer;
         protected Animator _animator;
@@ -64,41 +62,14 @@ namespace CKT
         {
             if (_attackCoroutine != null) return;
 
-            float totalManaCost = 0;
-            Dictionary<string, int> skillDupDict = GameManager.Instance.RightSkillManager.SkillDupDict;
-            /*foreach (string key in skillDupDict.Keys)
-            {
-                int manaCost = 5;
-                if ((key == "CastAdditional") || (key == "CastScatter"))
-                {
-                    manaCost = 10;
-                }
-                totalManaCost += (manaCost * skillDupDict[key]);
-            }*/
-            totalManaCost += ManaCost;
-
-            int level = 1;
-            foreach (string key in skillDupDict.Keys)
-            {
-                if (key == "CastAdditional")
-                {
-                    level += skillDupDict[key];
-                }
-                else if (key == "CastScatter")
-                {
-                    level += (skillDupDict[key] * 2);
-                }
-            }
-            _damageRate = 1 / level;
-
-            if (PlayerManager.Instance.PlayerStatus.Mana < totalManaCost)
+            if (PlayerManager.Instance.PlayerStatus.Mana < ManaCost)
             {
                 _manaLackCoroutine = _manaLackCoroutine ?? StartCoroutine(ManaLackCoroutine());
                 return;
             }
             else
             {
-                PlayerManager.Instance.PlayerStatus.SpendMana(totalManaCost);
+                PlayerManager.Instance.PlayerStatus.SpendMana(ManaCost);
                 _attackCoroutine = StartCoroutine(AttackCoroutine(list));
             }
         }
@@ -115,10 +86,12 @@ namespace CKT
 
             bullet.transform.position = _firePoint.position;
             bullet.transform.up = this.transform.up;
-            Projectile projectile = bullet.GetComponent<Projectile>();
-            projectile.SkillManager = _skillManager;
-            projectile.Penetration = 0;
-            projectile.DamageRate = _damageRate;
+            Projectile[] projectiles = bullet.GetComponentsInChildren<Projectile>();
+            for (int i = 0; i < projectiles.Length; i++)
+            {
+                projectiles[i].SkillManager = _skillManager;
+                projectiles[i].Penetration = 0;
+            }
 
             //CastSkill
             foreach (Func<Vector3, Vector3, IEnumerator> castSkill in _skillManager.CastSkillDict.Values)

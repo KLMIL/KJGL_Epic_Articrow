@@ -6,7 +6,7 @@ namespace CKT
     public class Bullet_T4 : Projectile
     {   
         Pellet[] _pellets;
-        float _moveXSpeed = 3f;
+        float _moveXSpeed = 6f;
 
         private new void OnEnable()
         {

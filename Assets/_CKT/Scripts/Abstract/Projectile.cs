@@ -8,7 +8,6 @@ namespace CKT
     public abstract class Projectile : MonoBehaviour
     {
         public int Penetration;
-        public float DamageRate;
         
         public SkillManager SkillManager;
         protected Coroutine _disableCoroutine;
@@ -49,7 +48,7 @@ namespace CKT
             if (iDamageable != null)
             {
                 float damage = GameManager.Instance.RightSkillManager.GetDamageFloat.Trigger();
-                iDamageable.TakeDamage(damage * DamageRate);
+                iDamageable.TakeDamage(damage);
 
                 //null이 아니면 플레이가 호출한 Projectile,  null이면 HitSkill에서 생성된 Projectile
                 if (SkillManager != null)
