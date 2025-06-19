@@ -27,9 +27,9 @@ namespace CKT
             // 몬스터는 모두 IDamagable을 가지고 있음
             if (damagable != null && rb != null)
             {
+                target.GetComponent<IDamagable>().TakeDamage(1);
                 Vector2 pullTargetPos = transform.position;
                 StartCoroutine(PullCoroutine(rb, pullTargetPos));
-
             }
         }
 
