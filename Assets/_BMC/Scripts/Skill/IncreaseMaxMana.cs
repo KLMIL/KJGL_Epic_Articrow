@@ -7,7 +7,7 @@ namespace BMC
         void Awake()
         {
             _passiveSkillType = PassiveSkillType.IncreaseMaxMana;
-            _amount = 10; // 마나 소모 감소량
+            _amount = 10; // 최대 마나 증가량
         }
 
         public override void Apply()

@@ -12,10 +12,12 @@ namespace YSJ
 
         public bool IsDead { get; private set; } = false;
 
-        [Header("업그레이드 가능한 스테이터스")]
-
-        float _maxHealth = 100f;
-        float _maxMana = 100f;
+        #region 기준 스테이터스
+        [Header("기준 스테이터스")]
+        float _maxHealth = 100f;        // 최대 체력
+        float _maxMana = 100f;          // 최대 마나
+        float _minRightCoolTime = 0.1f; // 오른손 최소 쿨타임
+        float _minRightDamage = 10f;    // 최소 데미지
 
         public float MaxHealth
         {
@@ -33,21 +35,21 @@ namespace YSJ
             {
                 _maxMana = value;
                 UI_InGameEventBus.OnPlayerMpSliderMaxValueUpdate?.Invoke(_maxMana);
+                UI_InGameEventBus.OnPlayerMpSliderValueUpdate?.Invoke(Mana);
             }
         }
-        
-        public int MoveSpeed { get; set; } = 10;
-        public int AttackPoint { get; set; } = 10;
-        public float LeftHandCollTime { get; set; } = 1f;
-        public float RightHandCollTime { get; set; } = 1f;
+        #endregion
 
-        [Header("일반 스테이터스: 실시간으로 변하는 수치")]
+        #region 스테이터스
+        [Header("스테이터스")]
+        float _health;                      // 체력
+        float _mana;                        // 마나
+        float _rightCoolTime = 1f;          // 오른손 쿨타임
+        float _rightDamage = 10f;           // 오른손 데미지
+        float _spendManaOffsetAmount = 0f;  // 마나 소비량 줄여주는 값
 
-        float _health;
-        float _mana;
-
-        public float Health 
-        { 
+        public float Health
+        {
             get => _health;
             set
             {
@@ -57,9 +59,12 @@ namespace YSJ
             }
         }
 
-        public float Mana 
-        { 
-            get => _mana;
+        public float Mana
+        {
+            get
+            {
+                return _mana = Mathf.Clamp(_mana, 0, MaxMana);
+            }
             set
             {
                 _mana = value;
@@ -67,6 +72,37 @@ namespace YSJ
                 UI_InGameEventBus.OnPlayerMpSliderValueUpdate?.Invoke(_mana);
             }
         }
+
+        public float RightCoolTime
+        {
+            get => _rightCoolTime;
+            set
+            {
+                _rightCoolTime = value;
+                _rightCoolTime = Mathf.Clamp(_rightCoolTime, _minRightCoolTime, _rightCoolTime);
+            }
+        }
+
+        public float RightDamage
+        {
+            get => _rightDamage;
+            set
+            {
+                _rightDamage = value;
+                _rightDamage = Mathf.Clamp(_rightDamage, _minRightDamage, _rightDamage);
+            }
+        }
+
+        public float SpendManaOffsetAmount
+        {
+            get => _spendManaOffsetAmount;
+            set
+            {
+                _spendManaOffsetAmount = value;
+                _spendManaOffsetAmount = Mathf.Clamp(_spendManaOffsetAmount, 0f, float.MaxValue);
+            }
+        }
+        #endregion
 
         void Awake()
         {
@@ -140,10 +176,13 @@ namespace YSJ
         // 마나 소비
         public bool SpendMana(float amount)
         {
-            if (Mana < amount)
+            // 마나 소비량 줄여주는 오프셋 적용
+            float spendAmount = Mathf.Max(amount - _spendManaOffsetAmount, 0f);
+
+            if (Mana < spendAmount)
                 return false;
 
-            Mana += -amount;
+            Mana += -spendAmount;
             //UpdateMana(-amount);
             return true;
         }

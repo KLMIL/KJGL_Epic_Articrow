@@ -14,7 +14,7 @@ namespace BMC
     public class PassiveSkill : MonoBehaviour
     {
         protected PassiveSkillType _passiveSkillType; // 패시브 스킬의 종류
-        protected int _amount; // 스킬 효과의 양
+        protected float _amount; // 스킬 효과의 양
 
         // 스킬 효과 적용
         public virtual void Apply()

@@ -81,8 +81,12 @@ namespace CKT
                 // 패시브 스킬이면 효과 제거
                 if (TryGetComponent<PassiveSkill>(out PassiveSkill passiveSkill))
                 {
-                    Debug.LogWarning("패시브 필드로 버리기");
-                    passiveSkill.Remove();
+                    // 아티팩트에서 바로 버릴 때만 적용되게 하기
+                    if (_previousParent.GetComponentInParent<RightSlot>() != null)
+                    {
+                        Debug.LogWarning("패시브를 아티팩트에서 필드로 버리기");
+                        passiveSkill.Remove();
+                    }
                 }
 
                 ThrowAway();
