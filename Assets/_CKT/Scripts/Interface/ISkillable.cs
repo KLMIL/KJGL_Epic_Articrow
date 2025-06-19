@@ -6,6 +6,7 @@ using UnityEngine;
 
 public interface ISkillable
 {
+    //TODO : SkillManager 빼기
     /// <summary>
     /// Dictionary에 등록할 실제 스킬 효과
     /// </summary>

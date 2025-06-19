@@ -35,15 +35,15 @@ namespace CKT
                 }
                 Vector2 scatterDir = Util.RotateVector(originUp, (sign * _scatterAngle)).normalized;
 
-                Define.PoolID poolID = skillManager.GetProjectilePoolID.Trigger();
-                GameObject hitScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(poolID);
+                ArtifactSO artifactSO = GameManager.Instance.RightSkillManager.GetArtifactSOFuncT0.Trigger();
+                GameObject hitScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(artifactSO.ProjectilePoolID);
                 hitScatterCopy.transform.position = position;
                 hitScatterCopy.transform.up = scatterDir;
 
                 Projectile[] projectiles = hitScatterCopy.GetComponentsInChildren<Projectile>();
                 for (int i = 0; i < projectiles.Length; i++)
                 {
-                    projectiles[i].Penetration += 1;
+                    projectiles[i].Init(false);
                 }
             }
 

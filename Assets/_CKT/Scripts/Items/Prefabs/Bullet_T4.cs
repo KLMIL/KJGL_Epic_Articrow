@@ -8,12 +8,22 @@ namespace CKT
         Pellet[] _pellets;
         float _moveXSpeed = 6f;
 
-        private new void OnEnable()
+        public override void Init(bool isCreateFromPlayer)
         {
-            base.OnEnable();
+            base.Init(isCreateFromPlayer);
+
+            _pellets = _pellets ?? GetComponentsInChildren<Pellet>();
+            float _deltaSpeed = (_moveXSpeed * 2) / (_pellets.Length - 1);
+
+            for (int i = 0; i < _pellets.Length; i++)
+            {
+                _pellets[i].gameObject.SetActive(true);
+                _pellets[i].ScatterSpeed = _moveXSpeed - (_deltaSpeed * i);
+                _pellets[i].Init(base._isCreateFromPlayer);
+            }
 
             StartCoroutine(PelletEnableCoroutine());
-        }
+        }  
 
         private new void OnDisable()
         {
@@ -23,6 +33,7 @@ namespace CKT
             for (int i = 0; i < _pellets.Length; i++)
             {
                 _pellets[i].transform.localPosition = Vector3.zero;
+                _pellets[i].gameObject.SetActive(false);
             }
         }
 
@@ -30,15 +41,7 @@ namespace CKT
         {
             yield return null;
 
-            _pellets = _pellets ?? GetComponentsInChildren<Pellet>();
-            float _deltaSpeed = (_moveXSpeed * 2) / (_pellets.Length - 1);
 
-            for (int i = 0; i < _pellets.Length; i++)
-            {
-                _pellets[i].gameObject.SetActive(true);
-                _pellets[i].ScatterSpeed = _moveXSpeed - (_deltaSpeed * i);
-                _pellets[i].SkillManager = base.SkillManager;
-            }
         }
     }
 }

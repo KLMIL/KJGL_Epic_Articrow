@@ -5,19 +5,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using YSJ;
+using static Define;
 
 namespace CKT
 {
     public abstract class EquipedArtifact : MonoBehaviour
     {
-        protected abstract GameObject FieldArtifact { get; }
-        protected abstract Define.PoolID PoolID { get; }
-        protected abstract float ManaCost { get; }
-        protected abstract float MoveSpeed { get; }
-        protected abstract float ExistTime { get; }
-        protected abstract int Penetration { get; }
-        protected abstract float Damage { get; }
-        protected abstract float AttackSpeed { get; }
+        [SerializeField] protected ArtifactSO _artifactSO;
 
         #region [컴포넌트]
         protected SpriteRenderer _renderer;
@@ -46,13 +40,7 @@ namespace CKT
             _firePoint = GetComponentInChildren<FirePoint>().transform;
 
             _skillManager = GameManager.Instance.RightSkillManager;
-            _skillManager.GetProjectilePoolID.SingleRegister(() => { return PoolID; });
-            _skillManager.GetManaCostFloat.SingleRegister(() => { return ManaCost; });
-            _skillManager.GetMoveSpeedFloat.SingleRegister(() => { return MoveSpeed; });
-            _skillManager.GetExistTimeFloat.SingleRegister(() => { return ExistTime; });
-            _skillManager.GetPenetrationInt.SingleRegister(() => { return Penetration; });
-            _skillManager.GetDamageFloat.SingleRegister(() => { return Damage; });
-
+            _skillManager.GetArtifactSOFuncT0.SingleRegister(() => { return _artifactSO; });
             _skillManager.OnHandPerformActionT1.SingleRegister((list) => Attack(list));
             _skillManager.OnHandCancelActionT0.SingleRegister(() => AttackCancel());
             _skillManager.OnThrowAwayActionT0.SingleRegister(() => ThrowAway());
@@ -62,14 +50,14 @@ namespace CKT
         {
             if (_attackCoroutine != null) return;
 
-            if (PlayerManager.Instance.PlayerStatus.Mana < ManaCost)
+            if (PlayerManager.Instance.PlayerStatus.Mana < _artifactSO.ManaCost)
             {
                 _manaLackCoroutine = _manaLackCoroutine ?? StartCoroutine(ManaLackCoroutine());
                 return;
             }
             else
             {
-                PlayerManager.Instance.PlayerStatus.SpendMana(ManaCost);
+                PlayerManager.Instance.PlayerStatus.SpendMana(_artifactSO.ManaCost);
                 _attackCoroutine = StartCoroutine(AttackCoroutine(list));
             }
         }
@@ -82,15 +70,14 @@ namespace CKT
             _animator.Play("Attack", -1, 0);
 
             //총알 생성
-            GameObject bullet = YSJ.Managers.TestPool.Get<GameObject>(PoolID);
+            GameObject bullet = YSJ.Managers.TestPool.Get<GameObject>(_artifactSO.ProjectilePoolID);
 
             bullet.transform.position = _firePoint.position;
             bullet.transform.up = this.transform.up;
             Projectile[] projectiles = bullet.GetComponentsInChildren<Projectile>();
             for (int i = 0; i < projectiles.Length; i++)
             {
-                projectiles[i].SkillManager = _skillManager;
-                projectiles[i].Penetration = 0;
+                projectiles[i].Init(true);
             }
 
             //CastSkill
@@ -99,7 +86,7 @@ namespace CKT
                 StartCoroutine(castSkill(bullet.transform.position, bullet.transform.up));
             }
 
-            yield return new WaitForSeconds(AttackSpeed);
+            yield return new WaitForSeconds(_artifactSO.AttackSpeed);
             _attackCoroutine = null;
         }
 
@@ -111,18 +98,13 @@ namespace CKT
         void ThrowAway()
         {
             //필드 아티팩트 생성
-            GameObject field = Instantiate(FieldArtifact);
+            GameObject fieldArtifact = Resources.Load<GameObject>($"FieldArtifacts/Field{_artifactSO.ArtifactName}");
+            GameObject field = Instantiate(fieldArtifact);
             field.transform.parent = null;
             field.transform.localPosition = this.transform.position + Vector3.down;
 
             //빈 손으로 초기화
-            _skillManager.GetProjectilePoolID.Init();
-            _skillManager.GetManaCostFloat.Init();
-            _skillManager.GetMoveSpeedFloat.Init();
-            _skillManager.GetExistTimeFloat.Init();
-            _skillManager.GetDamageFloat.Init();
-            _skillManager.GetPenetrationInt.Init();
-
+            _skillManager.GetArtifactSOFuncT0.Init();
             _skillManager.OnHandPerformActionT1.Unregister((list) => Attack(list));
             _skillManager.OnHandCancelActionT0.Unregister(() => AttackCancel());
             _skillManager.OnThrowAwayActionT0.Unregister(() => ThrowAway());
@@ -137,7 +119,7 @@ namespace CKT
             manaText.text = "마나 부족";
             manaText.transform.position = transform.position;
 
-            yield return new WaitForSeconds(AttackSpeed);
+            yield return new WaitForSeconds(_artifactSO.AttackSpeed);
             _manaLackCoroutine = null;
         }
     }

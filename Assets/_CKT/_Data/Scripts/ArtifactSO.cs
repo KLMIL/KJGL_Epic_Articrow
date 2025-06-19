@@ -14,13 +14,13 @@ namespace CKT
         [SerializeField] float          _damage;
         [SerializeField] int            _penetration;
 
-        public string        ArtifactName { get; }
-        public Define.PoolID ProjectilePoolID { get; }
-        public float         ManaCost { get; }
-        public float         MoveSpeed { get; }
-        public float         ExistTime { get; }
-        public float         AttackSpeed { get; }
-        public float         Damage { get; }
-        public int           Penetration { get; }
+        public string        ArtifactName { get => _artifactName; }
+        public Define.PoolID ProjectilePoolID { get => _projectilePoolID; }
+        public float         ManaCost { get => _manaCost; }
+        public float         MoveSpeed { get => _moveSpeed; }
+        public float         ExistTime { get => _existTime; }
+        public float         AttackSpeed { get => _attackSpeed; }
+        public float         Damage { get => _damage; }
+        public int           Penetration { get => _penetration; }
     }
 }

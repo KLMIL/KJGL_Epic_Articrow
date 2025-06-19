@@ -7,15 +7,6 @@ namespace CKT
 {
     public class EquipedArtifact_T3 : EquipedArtifact
     {
-        protected override GameObject FieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T3");
-        protected override Define.PoolID PoolID => Define.PoolID.Bullet_T3;
-        protected override float AttackSpeed => 0.2f;
-        protected override float ManaCost => 20f;
-        protected override float MoveSpeed => 0;
-        protected override float ExistTime => 0.15f;
-        protected override float Damage => 30;
-        protected override int Penetration => 0;
-
         float ChargeAmount
         {
             get
@@ -106,11 +97,11 @@ namespace CKT
             base._animator.Play("Attack", -1, 0);
 
             //총알 생성
-            GameObject bullet = YSJ.Managers.TestPool.Get<GameObject>(PoolID);
+            GameObject bullet = YSJ.Managers.TestPool.Get<GameObject>(base._artifactSO.ProjectilePoolID);
 
             bullet.transform.position = base._firePoint.position;
             bullet.transform.up = this.transform.up;
-            bullet.GetComponent<Projectile>().SkillManager = base._skillManager;
+            bullet.GetComponent<Projectile>().Init(true);
 
             //CastSkill
             foreach (Func<Vector3, Vector3, IEnumerator> castSkill in _skillManager.CastSkillDict.Values)
@@ -118,7 +109,7 @@ namespace CKT
                 StartCoroutine(castSkill(bullet.transform.position, bullet.transform.up));
             }
 
-            yield return new WaitForSeconds(AttackSpeed);
+            yield return new WaitForSeconds(base._artifactSO.AttackSpeed);
             base._attackCoroutine = null;
         }
         #endregion
