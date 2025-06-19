@@ -47,9 +47,8 @@ namespace BMC
             {
                 if (_canNextCombo)
                     _inputBuffered = true;
-                //return;
+                return;
             }
-
 
             Debug.Log("Attack 시작");
             StartAttackCoroutine();
@@ -94,36 +93,32 @@ namespace BMC
                 yield return null;
             }
 
-            if(Managers.Input.IsPressLeftHandAttack)
+            if (Managers.Input.IsPressLeftHandAttack)
             {
                 StartAttackCoroutine();
             }
-
-
 
             // 시간 내 입력 못했으면 초기화
             _canNextCombo = false;
             if (CurrentAttackStep >= _maxAttackStep) // 2단 콤보 되었을 경우
             {
                 yield return new WaitForSeconds(_attackCoolDown);
-                CurrentAttackStep = 0; // 콤보 초기화
             }
-            else // 입력 타이밍 놓친 경우
-            {
-                CurrentAttackStep = 0;
-            }
+            CurrentAttackStep = 0; // 콤보 초기화
 
             if (Managers.Input.IsPressLeftHandAttack)
             {
                 //yield return new WaitForSeconds(_attackCoolDown);
                 StartAttackCoroutine();
+                yield break;
             }
-            else
-            {
-                //// 공격 끝
-                //_playerAnimator.CurrentState &= ~PlayerAnimator.State.Attack;
-                //IsAttack = false;
-            }
+            //else
+            //{
+            //    //// 공격 끝
+            //    //_playerAnimator.CurrentState &= ~PlayerAnimator.State.Attack;
+            //    //IsAttack = false;
+            //}
+
             // 공격 끝
             _playerAnimator.CurrentState &= ~PlayerAnimator.State.Attack;
             IsAttack = false;
