@@ -7,7 +7,7 @@ namespace BMC
     public class PlayerAttack : MonoBehaviour
     {
         Rigidbody2D _rb;
-        PlayerAnimator _playerAnimator; // 플레이어 애니메이터
+        PlayerAnimator _playerAnimator;
         AttackSlash _attackSlash;
 
         [field: SerializeField] public int CurrentAttackStep { get; private set; }  // 현재 공격 단계
@@ -45,6 +45,7 @@ namespace BMC
 
             if (IsAttack)
             {
+                // 콤보 입력 허용 구간일 때만 버퍼 허용
                 if (_canNextCombo)
                     _inputBuffered = true;
                 return;
@@ -62,29 +63,25 @@ namespace BMC
 
         IEnumerator AttackCoroutine()
         {
-            if (CurrentAttackStep >= _maxAttackStep)
-                yield break; // 이미 2단 콤보를 했으면 중단
-
+            // 콤보 단계 증가 및 애니메이션 준비
             IsAttack = true;
             CurrentAttackStep++;
             _playerAnimator.CurrentState |= PlayerAnimator.State.Attack;
-
             _inputBuffered = false;
 
-            // 공격 방향으로 플레이어 약간 이동
+            // 공격 이동 & 이펙트(애니메이션) 실행
             AttackMove();
-
-            // 단계에 맞는 공격 실행
             _attackSlash.Play(CurrentAttackStep);
 
-            // 다음 콤보 입력 대기 시간
+            // 다음 콤보 입력 대기
             _canNextCombo = CurrentAttackStep < _maxAttackStep;
-            _comboTimer = 0;
-            while (_canNextCombo && _comboTimer < _comboInputWindow)
+            float timer = 0f;
+            while (_canNextCombo && timer < _comboInputWindow)
             {
-                _comboTimer += Time.deltaTime;
+                timer += Time.deltaTime;
                 if (_inputBuffered)
                 {
+                    // 클릭으로 버퍼링됐으면 바로 다음 단계
                     _canNextCombo = false;
                     yield return null;
                     StartAttackCoroutine();
@@ -93,35 +90,30 @@ namespace BMC
                 yield return null;
             }
 
-            if (Managers.Input.IsPressLeftHandAttack)
+            // 클릭 없이 입력 윈도우가 끝났고 계속 공격 누르고 있으면 Hold로 간주하고 자동 공격
+            if (_canNextCombo && Managers.Input.IsPressLeftHandAttack)
             {
-                StartAttackCoroutine();
-            }
-
-            // 시간 내 입력 못했으면 초기화
-            _canNextCombo = false;
-            if (CurrentAttackStep >= _maxAttackStep) // 2단 콤보 되었을 경우
-            {
-                yield return new WaitForSeconds(_attackCoolDown);
-            }
-            CurrentAttackStep = 0; // 콤보 초기화
-
-            if (Managers.Input.IsPressLeftHandAttack)
-            {
-                //yield return new WaitForSeconds(_attackCoolDown);
+                _canNextCombo = false;
+                yield return null;
                 StartAttackCoroutine();
                 yield break;
             }
-            //else
-            //{
-            //    //// 공격 끝
-            //    //_playerAnimator.CurrentState &= ~PlayerAnimator.State.Attack;
-            //    //IsAttack = false;
-            //}
 
-            // 공격 끝
+            // 최종 단계까지 진행 후 대기
+            if (CurrentAttackStep >= _maxAttackStep)
+                yield return new WaitForSeconds(_attackCoolDown);
+
+            // 콤보 리셋
+            CurrentAttackStep = 0;
+            _canNextCombo = false;
+
+            // 상태 해제
             _playerAnimator.CurrentState &= ~PlayerAnimator.State.Attack;
             IsAttack = false;
+
+            // (임시) 리셋 후, 계속 누르고 있으면 다시 시작
+            if (Managers.Input.IsPressLeftHandAttack)
+                StartAttackCoroutine();
         }
 
         public void AttackMove()
