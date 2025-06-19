@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Game.Enemy
@@ -127,6 +128,34 @@ namespace Game.Enemy
         {
             _currentDirection = Vector2.zero;
             // 만약 velocity 기반이면: rb.velocity = Vector2.zero;
+        }
+
+        // 넉백 코루틴
+        public IEnumerator StepKnockback(Vector2 direction, float distance, float duration, int steps = 4)
+        {
+            direction = direction.normalized;
+            float stepDist = distance / steps;
+            float stepTime = duration / steps;
+
+            // 넉백 상태 지정
+            //ownerController.FSM.isKnockback = true;
+
+            for (int i = 0; i < steps; i++)
+            {
+                Vector2 nextPos = rb.position + direction * stepDist;
+                RaycastHit2D hit = Physics2D.Raycast(rb.position, direction, stepDist, wallLayerMask);
+                if (hit.collider != null)
+                {
+                    break;
+                }
+
+                rb.MovePosition(nextPos);
+                yield return new WaitForSeconds(stepTime * 0.5f);
+                yield return new WaitForSeconds(stepTime * 0.5f);
+            }
+
+            // 넉백 상태 복구
+            //ownerController.FSM.isKnockback = false;
         }
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace Game.Enemy
 {
@@ -18,7 +19,13 @@ namespace Game.Enemy
             //controller.FSM.pendingDamage = 0;
             controller.FSM.isDamaged = false;
 
-            // (상태이상, 넉백, 이펙트 등 추가)
+            // (상태이상, 이펙트 등 추가)
+
+            // 넉백
+            Vector2 knockbackDir = (controller.transform.position - controller.Attacker.position).normalized;
+            float knockbackDist = controller.FSM.knockbackDistance * (1 - controller.Status.knockbackResist);
+
+            controller.StartKnockbackCoroutine(knockbackDir, knockbackDist, hurtDuration / 2, 4);
         }
     }
 }
