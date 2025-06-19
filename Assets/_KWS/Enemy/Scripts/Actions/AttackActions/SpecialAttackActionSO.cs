@@ -24,6 +24,8 @@ namespace Game.Enemy
 
         public override void Act(EnemyController controller)
         {
+            controller.FSM.isSuperArmor = true;
+
             // 현재 공격 상태의 쿨타임 체크
             string key = controller.CurrentStateName;
             if (!controller.lastAttackTimes.ContainsKey(key))

@@ -7,7 +7,7 @@ namespace Game.Enemy
     {
         public override bool IsMet(EnemyController controller)
         {
-            return controller.FSM.isDamaged;
+            return controller.FSM.isDamaged && !controller.FSM.isSuperArmor;
         }
     }
 }

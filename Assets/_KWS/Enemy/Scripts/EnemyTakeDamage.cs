@@ -20,7 +20,8 @@ namespace Game.Enemy
             damageText.transform.position = transform.position;
 
             ownerController.FSM.isDamaged = true;
-            ownerController.FSM.pendingDamage += damage;
+            ownerController.Status.healthPoint -= damage;
+            //ownerController.FSM.pendingDamage += damage;
         }
     }
 }

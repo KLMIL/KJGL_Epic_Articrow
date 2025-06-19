@@ -37,6 +37,8 @@ namespace Game.Enemy
 
         public override void Act(EnemyController controller)
         {
+            controller.FSM.isSuperArmor = true;
+
             // 현재 공격 상태의 쿨타임 체크
             // Behaviour로 체크하고 있기 때문에 없어도 되는 부분이지만,
             // 추후 버그 발생 가능성을 줄이기 위해 유지

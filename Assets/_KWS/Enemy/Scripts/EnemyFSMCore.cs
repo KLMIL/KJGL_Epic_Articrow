@@ -40,6 +40,9 @@ namespace Game.Enemy
         // 이동
         public Vector3 randomMoveDirection = Vector3.zero;
         public float randomMoveChangeCooldown = 0f;
+
+        // 몬스터 슈퍼아머
+        public bool isSuperArmor = false;
         #endregion
 
 
