@@ -12,16 +12,60 @@ namespace YSJ
         public bool IsDead { get; private set; } = false;
 
         [Header("업그레이드 가능한 스테이터스")]
-        public float MaxHealth { get; set; } = 100;
-        public float MaxMana { get; set; } = 100;
+
+        float _maxHealth = 100f;
+        float _maxMana = 100f;
+
+        public float MaxHealth
+        {
+            get => _maxHealth;
+            set
+            {
+                _maxHealth = value;
+            }
+        }
+
+        public float MaxMana
+        {
+            get => _maxMana;
+            set
+            {
+                _maxMana = value;
+                UI_InGameEventBus.OnPlayerMpSliderMaxValueUpdate?.Invoke(_maxMana);
+            }
+        }
+        
         public int MoveSpeed { get; set; } = 10;
         public int AttackPoint { get; set; } = 10;
         public float LeftHandCollTime { get; set; } = 1f;
         public float RightHandCollTime { get; set; } = 1f;
 
         [Header("일반 스테이터스: 실시간으로 변하는 수치")]
-        public float Health { get; set; }
-        public float Mana { get; set; }
+
+        float _health;
+        float _mana;
+
+        public float Health 
+        { 
+            get => _health;
+            set
+            {
+                _health = value;
+                //_health = Mathf.Clamp(_health, 0, MaxHealth);
+                //UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(_health);
+            }
+        }
+
+        public float Mana 
+        { 
+            get => _mana;
+            set
+            {
+                _mana = value;
+                _mana = Mathf.Clamp(_mana, 0, MaxMana);
+                UI_InGameEventBus.OnPlayerMpSliderValueUpdate?.Invoke(_mana);
+            }
+        }
 
         void Awake()
         {
@@ -72,10 +116,10 @@ namespace YSJ
 
         #region 마나 관련
         // 마나 재생
-        public void RegenerateMana(float amount) => UpdateMana(amount);
+        public void RegenerateMana(float amount) => Mana += amount;
 
         // 마나 회복
-        public void RecoveryMana(float amount) => UpdateMana(amount);
+        public void RecoveryMana(float amount) => Mana += amount;
 
         // 마나 소비
         public bool SpendMana(float amount)
@@ -83,7 +127,8 @@ namespace YSJ
             if (Mana < amount)
                 return false;
 
-            UpdateMana(-amount);
+            Mana += -amount;
+            //UpdateMana(-amount);
             return true;
         }
 
@@ -92,8 +137,8 @@ namespace YSJ
         void UpdateMana(float delta)
         {
             Mana += delta;
-            Mana = Mathf.Clamp(Mana, 0, MaxMana);
-            UI_InGameEventBus.OnPlayerMpSliderValueUpdate?.Invoke(Mana);
+            //Mana = Mathf.Clamp(Mana, 0, MaxMana);
+            //UI_InGameEventBus.OnPlayerMpSliderValueUpdate?.Invoke(Mana);
         }
         #endregion
 
