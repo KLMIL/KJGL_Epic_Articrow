@@ -5,13 +5,6 @@ namespace CKT
 {
     public class Pellet : Projectile
     {
-        public float ScatterSpeed;
-
-        private void FixedUpdate()
-        {
-            this.transform.localPosition += Vector3.right * ScatterSpeed * Time.fixedDeltaTime;
-        }
-
         protected override IEnumerator DisableCoroutine(float existTime)
         {
             yield return null;
