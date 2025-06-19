@@ -51,6 +51,8 @@ namespace BMC
 
         public void Do()
         {
+            _checkPlayerDirection.CheckCurrentDirection();
+
             if (CurrentState != null)
                 CurrentState.OnStateUpdate();
         }

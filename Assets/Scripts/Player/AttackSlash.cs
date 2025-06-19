@@ -56,7 +56,7 @@ namespace BMC
                     //Debug.Log("몬스터가 맞음");
                     
                     // 마나 흡수
-                    Spirit spirit = Managers.TestPool.Get<Spirit>(Define.PoolID.Mana);
+                    ManaEnergy spirit = Managers.TestPool.Get<ManaEnergy>(Define.PoolID.ManaEnergy);
                     spirit.transform.position = collision.transform.position;
                     spirit.SetSealed(transform);
 

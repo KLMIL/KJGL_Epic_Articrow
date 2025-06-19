@@ -62,16 +62,16 @@ namespace BMC
             switch (_checkPlayerDirection.CurrentDirection)
             {
                 case CheckPlayerDirection.Direction.Down:
-                    _anim.Play("Walk_Down");
+                    _anim.Play("Move_Down");
                     break;
                 case CheckPlayerDirection.Direction.Up:
-                    _anim.Play("Walk_Up");
+                    _anim.Play("Move_Up");
                     break;
                 case CheckPlayerDirection.Direction.Right:
-                    _anim.Play("Walk_Right");
+                    _anim.Play("Move_Right");
                     break;
                 case CheckPlayerDirection.Direction.Left:
-                    _anim.Play("Walk_Right");
+                    _anim.Play("Move_Right");
                     break;
             }
         }
