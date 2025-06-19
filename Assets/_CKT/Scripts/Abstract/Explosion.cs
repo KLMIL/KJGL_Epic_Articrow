@@ -31,6 +31,7 @@ namespace CKT
         {
             yield return null;
             _collider.enabled = true;
+            Debug.LogError("Explosion");
 
             yield return new WaitForSeconds(DisableTime);
             _collider.enabled = false;

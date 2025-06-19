@@ -23,7 +23,8 @@ namespace CKT
 
                 castAdditionalCopy.transform.position = position;
                 castAdditionalCopy.transform.up = direction;
-                castAdditionalCopy.GetComponent<Projectile>().SkillManager = skillManager;
+                Projectile projectile = castAdditionalCopy.GetComponent<Projectile>();
+                projectile.SkillManager = skillManager;
 
                 if (skillManager.CastSkillDict.ContainsKey("CastScatter"))
                 {

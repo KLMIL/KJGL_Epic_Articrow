@@ -5,12 +5,6 @@ namespace CKT
 {
     public class Bullet_T3 : Projectile
     {
-        protected override int BasePenetration => 0;
-        protected override float MoveSpeed => 0f;
-        protected override float Damage => 30f;
-        protected override float ExistTime => 0.15f;
-        protected override Define.PoolID PoolID => Define.PoolID.Bullet_T3;
-
         LineRenderer _line;
         BoxCollider2D _collider;
         float _width = 0.4f;
@@ -48,12 +42,13 @@ namespace CKT
             yield return null;
             while (_line.startWidth > 0)
             {
-                _line.startWidth -= (_width / ExistTime) * Time.deltaTime;
+                _line.startWidth -= (_width / existTime) * Time.deltaTime;
                 yield return null;
             }
             _line.enabled = false;
             _collider.enabled = false;
-            YSJ.Managers.TestPool.Return(PoolID, this.gameObject);
+            Define.PoolID poolID = SkillManager.GetProjectilePoolID.Trigger();
+            YSJ.Managers.TestPool.Return(poolID, this.gameObject);
             _disableCoroutine = null;
         }
     }

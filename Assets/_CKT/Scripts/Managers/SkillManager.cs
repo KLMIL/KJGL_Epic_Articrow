@@ -8,8 +8,13 @@ namespace CKT
     [System.Serializable]
     public class SkillManager
     {
-        #region [아티팩트가 생성할 Projectile]
+        #region [아티팩트가 생성할 Projectile 스탯]
         public FuncT0<Define.PoolID> GetProjectilePoolID = new();
+        public FuncT0<float> GetManaCostFloat = new();
+        public FuncT0<float> GetMoveSpeedFloat = new();
+        public FuncT0<float> GetExistTimeFloat = new();
+        public FuncT0<int> GetPenetrationInt = new();
+        public FuncT0<float> GetDamageFloat = new();
         #endregion
 
         #region [아티팩트 공격 실행]
