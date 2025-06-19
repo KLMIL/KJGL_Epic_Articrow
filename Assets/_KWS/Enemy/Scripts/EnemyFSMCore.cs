@@ -17,6 +17,8 @@ namespace Game.Enemy
         public float pendingDamage = 0;
         public bool isDied = false;
 
+        public float knockbackDistance = 0.1f;
+
         // 공격, 투사체 소환 등
         public int projectileFiredCount = 0;
         public float projectileIntervalTimer = 0;

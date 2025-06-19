@@ -18,12 +18,16 @@ namespace CKT
             {
                 yield return new WaitForSeconds(0.05f);
 
-                Define.PoolID poolID = skillManager.GetProjectilePoolID.Trigger();
-                GameObject castAdditionalCopy = YSJ.Managers.TestPool.Get<GameObject>(poolID);
+                ArtifactSO artifactSO = GameManager.Instance.RightSkillManager.GetArtifactSOFuncT0.Trigger();
+                GameObject castAdditionalCopy = YSJ.Managers.TestPool.Get<GameObject>(artifactSO.ProjectilePoolID);
 
                 castAdditionalCopy.transform.position = position;
                 castAdditionalCopy.transform.up = direction;
-                castAdditionalCopy.GetComponent<Projectile>().SkillManager = skillManager;
+                Projectile[] projectile = castAdditionalCopy.GetComponentsInChildren<Projectile>();
+                for (int k = 0; k < projectile.Length; k++)
+                {
+                    projectile[k].Init(false);
+                }
 
                 if (skillManager.CastSkillDict.ContainsKey("CastScatter"))
                 {

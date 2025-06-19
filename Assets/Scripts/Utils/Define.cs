@@ -103,6 +103,7 @@ public class Define
         Bullet_T1,
         Bullet_T2,
         Bullet_T3,
+        Bullet_T4,
         CastExplosion,
         CastDamageArea,
         HitExplosion,

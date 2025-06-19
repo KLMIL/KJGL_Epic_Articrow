@@ -7,11 +7,6 @@ namespace CKT
 {
     public class EquipedArtifact_T3 : EquipedArtifact
     {
-        protected override GameObject FieldArtifact => Resources.Load<GameObject>("FieldArtifacts/FieldArtifact_T3");
-        protected override Define.PoolID PoolID => Define.PoolID.Bullet_T3;
-        protected override float AttackSpeed => 0.2f;
-        protected override float ManaCost => 20f;
-
         float ChargeAmount
         {
             get
@@ -25,6 +20,7 @@ namespace CKT
                 _line.startWidth = _maxWidth * amount;
             }
         }
+
         float _chargeAmount;
         float _maxChargeAmount = 0.5f;
         float _chargeSpeed = 0.1f;
@@ -101,17 +97,11 @@ namespace CKT
             base._animator.Play("Attack", -1, 0);
 
             //총알 생성
-            GameObject bullet = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.Bullet_T3);
+            GameObject bullet = YSJ.Managers.TestPool.Get<GameObject>(base._artifactSO.ProjectilePoolID);
+
             bullet.transform.position = base._firePoint.position;
-            //이동 방향
-            /*Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 mouseDir = (mousePos - this.transform.position).normalized;
-            bullet.transform.up = mouseDir;*/
             bullet.transform.up = this.transform.up;
-            //이름 설정 (복사본 만들 때 이름을 받아서 생성하는 용도)
-            bullet.name = PoolID.ToString();
-            //왼손||오른손 SkillManager 설정
-            bullet.GetComponent<Projectile>().SkillManager = base._skillManager;
+            bullet.GetComponent<Projectile>().Init(true);
 
             //CastSkill
             foreach (Func<Vector3, Vector3, IEnumerator> castSkill in _skillManager.CastSkillDict.Values)
@@ -119,17 +109,8 @@ namespace CKT
                 StartCoroutine(castSkill(bullet.transform.position, bullet.transform.up));
             }
 
-            yield return new WaitForSeconds(AttackSpeed);
+            yield return new WaitForSeconds(base._artifactSO.AttackSpeed);
             base._attackCoroutine = null;
-        }
-        #endregion
-
-        #region [Attack Cancel]
-        protected override void AttackCancel()
-        {
-            //ChargeAmount = 0;
-            //_line.enabled = false;
-            Debug.Log("Attack Cancel");
         }
         #endregion
     }
