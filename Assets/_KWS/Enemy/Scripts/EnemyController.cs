@@ -91,7 +91,7 @@ namespace Game.Enemy
         #region Public API
         public void PlayAnimationOnce(string animName) => _animation.PlayAnimationOnce(animName);
         public void ForceToNextState() => FSM.ForceToNextState();
-        public void DealDamageToPlayer(float damage, bool forceToNextState = false) => _dealDamage.DealDamageToPlayer(damage, forceToNextState);
+        public void DealDamageToPlayer(float damage, Transform targetTransform, bool forceToNextState = false) => _dealDamage.DealDamageToPlayer(damage, targetTransform, forceToNextState);
         public void MoveTo(Vector3 dir, float duration, string moveType, bool inverse = false) => _movement.MoveTo(dir, duration, moveType, inverse);
         public void StopMove() => _movement.Stop();
         #endregion

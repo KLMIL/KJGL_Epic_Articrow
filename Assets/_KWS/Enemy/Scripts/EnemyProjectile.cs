@@ -57,7 +57,8 @@ namespace Game.Enemy
             {
                 if (!_isSpawnMode)
                 {
-                    _ownerController.DealDamageToPlayer(_ownerController.Status.attack);
+                    Transform target = collision.transform;
+                    _ownerController.DealDamageToPlayer(_ownerController.Status.attack, target);
                     Destroy(gameObject);
                 }
 
