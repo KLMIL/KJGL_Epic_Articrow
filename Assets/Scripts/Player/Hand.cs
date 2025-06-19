@@ -7,6 +7,12 @@ namespace YSJ
     {
         Camera _camera;
         Transform _body;
+        SpriteRenderer _playerSprite;
+
+        private void Awake()
+        {
+            _playerSprite = transform.root.GetComponentInChildren<SpriteRenderer>();
+        }
 
         private void FixedUpdate()
         {
@@ -23,18 +29,18 @@ namespace YSJ
                 Debug.LogError("손의 부모 없음!");
             }
 
-            if (TryGetComponent<SortingGroup>(out SortingGroup sortingGroup) && _body.TryGetComponent<SpriteRenderer>(out SpriteRenderer bodySprite))
+            if (TryGetComponent<SortingGroup>(out SortingGroup sortingGroup) && _playerSprite != null)
             {
                 bool isRight = (this.transform.position.x >_body.position.x);
                 float handY = this.transform.position.y + (isRight ? -0.08f : -0.62f);
 
                 if (handY > _body.position.y)
                 {
-                    sortingGroup.sortingOrder = bodySprite.sortingOrder - 1;
+                    sortingGroup.sortingOrder = _playerSprite.sortingOrder - 1;
                 }
                 else if (handY < _body.position.y)
                 {
-                    sortingGroup.sortingOrder = bodySprite.sortingOrder + 1;
+                    sortingGroup.sortingOrder = _playerSprite.sortingOrder + 1;
                 }
             }
             else
