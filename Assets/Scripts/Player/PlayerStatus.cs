@@ -1,13 +1,17 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using BMC;
-using System.Collections.Generic;
 
 namespace YSJ
 {
     public class PlayerStatus : MonoBehaviour, IDamagable
     {
+        SpriteRenderer _spriteRenderer;
+        WaitForSeconds _colorChangeTime = new WaitForSeconds(0.25f);
+
         public static Action OnDeadAction;
 
         public bool IsDead { get; private set; } = false;
@@ -106,6 +110,7 @@ namespace YSJ
 
         void Awake()
         {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
             Init();
             OnDeadAction += Death;
         }
@@ -140,6 +145,7 @@ namespace YSJ
             UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
             ShowDamageText(damage);
             UpdateHealth(-damage);
+            StartCoroutine(TakeDamageColor());
 
             // YSJ : 데미지 받으면 피격 애니메이션 재생
             PlayerAnimator playerAnimator = GetComponent<PlayerAnimator>();
@@ -205,14 +211,27 @@ namespace YSJ
             damageText.text = damage.ToString();
         }
 
+        // 피격 색상 변경
+        IEnumerator TakeDamageColor()
+        {
+            _spriteRenderer.color = Color.gray;
+            yield return _colorChangeTime;
+            _spriteRenderer.color = Color.white;
+        }
+
         // 사망
         void Death()
         {
             IsDead = true;
+
+            // 피격 색상 변경 중지
+            StopAllCoroutines();
+            _spriteRenderer.color = Color.gray;
+
+            // 물리 효과 적용 x
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Kinematic;
-            //Destroy(gameObject);
         }
 
         void OnDestroy()
