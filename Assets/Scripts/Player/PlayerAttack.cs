@@ -73,9 +73,7 @@ namespace BMC
             _inputBuffered = false;
 
             // 공격 방향으로 플레이어 약간 이동
-            Vector3 mousePos = Managers.Input.MouseWorldPos;
-            Vector2 dir = (mousePos - transform.position).normalized;
-            StartCoroutine(AttackMoveCoroutine(dir, _attackMoveTime));
+            AttackMove();
 
             // 단계에 맞는 공격 실행
             _attackSlash.Play(CurrentAttackStep);
@@ -96,9 +94,15 @@ namespace BMC
                 yield return null;
             }
 
+            if(Managers.Input.IsPressLeftHandAttack)
+            {
+                StartAttackCoroutine();
+            }
+
+
+
             // 시간 내 입력 못했으면 초기화
             _canNextCombo = false;
-
             if (CurrentAttackStep >= _maxAttackStep) // 2단 콤보 되었을 경우
             {
                 yield return new WaitForSeconds(_attackCoolDown);
@@ -109,9 +113,27 @@ namespace BMC
                 CurrentAttackStep = 0;
             }
 
+            if (Managers.Input.IsPressLeftHandAttack)
+            {
+                //yield return new WaitForSeconds(_attackCoolDown);
+                StartAttackCoroutine();
+            }
+            else
+            {
+                //// 공격 끝
+                //_playerAnimator.CurrentState &= ~PlayerAnimator.State.Attack;
+                //IsAttack = false;
+            }
             // 공격 끝
             _playerAnimator.CurrentState &= ~PlayerAnimator.State.Attack;
             IsAttack = false;
+        }
+
+        public void AttackMove()
+        {
+            Vector3 mousePos = Managers.Input.MouseWorldPos;
+            Vector2 dir = (mousePos - transform.position).normalized;
+            StartCoroutine(AttackMoveCoroutine(dir, _attackMoveTime));
         }
 
         // 공격 시 이동 코루틴
