@@ -139,6 +139,8 @@ namespace Game.Enemy
 
             // 넉백 상태 지정
             //ownerController.FSM.isKnockback = true;
+            inverse = true;
+            FlipSpirte();
 
             for (int i = 0; i < steps; i++)
             {
