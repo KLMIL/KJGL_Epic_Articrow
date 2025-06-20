@@ -10,6 +10,8 @@ namespace BMC
     {
         Animator _anim;
         CapsuleCollider2D _collider;
+        SpriteRenderer _spriteRenderer;
+        WaitForSeconds _colorChangeTime = new WaitForSeconds(0.25f);
         BehaviorGraphAgent _behaviorGraphAgent;
 
         [Header("상태")]
@@ -26,6 +28,7 @@ namespace BMC
         {
             _anim = GetComponent<Animator>();
             _collider = GetComponent<CapsuleCollider2D>();
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             _visual = GetComponentInChildren<SpriteRenderer>();
             Init();
@@ -37,22 +40,29 @@ namespace BMC
             Health = 5000;
         }
 
+        void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.G))
+            {
+                TakeDamage(1000f);
+            }
+        }
+
+
         public void TakeDamage(float damage)
         {
-            Debug.Log("보스 처맞음");
-
             if (IsDead)
                 return;
 
-            // 애니메이션 재생
-            AnimatorStateInfo currentStateInfo = _anim.GetCurrentAnimatorStateInfo(0);
-            if(!currentStateInfo.IsName("Shoot") && !currentStateInfo.IsName("Rush"))
-            {
-                if(!currentStateInfo.IsName("Hit") || currentStateInfo.IsName("Idle"))
-                {
-                    _anim.Play("Hit");
-                }
-            }
+            //// 애니메이션 재생
+            //AnimatorStateInfo currentStateInfo = _anim.GetCurrentAnimatorStateInfo(0);
+            //if(!currentStateInfo.IsName("Shoot") && !currentStateInfo.IsName("Rush"))
+            //{
+            //    if(!currentStateInfo.IsName("Hit") || currentStateInfo.IsName("Idle"))
+            //    {
+            //        _anim.Play("Hit");
+            //    }
+            //}
 
             Health -= damage;
 
@@ -62,10 +72,15 @@ namespace BMC
             damageText.text = damage.ToString();
             damageText.transform.position = transform.position;
 
+            StartCoroutine(TakeDamageColor());
             // 보스 체력 UI
             UI_InGameEventBus.OnBossHpSliderValueUpdate?.Invoke(Health);
             if (Health <= 0)
             {
+                // 피격 색상 변경 중지
+                StopAllCoroutines();
+                _spriteRenderer.color = Color.gray;
+
                 IsDead = true;
                 _collider.enabled = false;
                 _behaviorGraphAgent.SetVariableValue("IsDead", IsDead);
@@ -73,10 +88,12 @@ namespace BMC
             }
         }
 
-        // 피격 이펙트 코루틴
-        IEnumerator HitEffectCoroutine()
+        // 피격 색상 변경
+        IEnumerator TakeDamageColor()
         {
-            yield return new WaitForSeconds(0.1f);
+            _spriteRenderer.color = Color.gray;
+            yield return _colorChangeTime;
+            _spriteRenderer.color = Color.white;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
