@@ -16,13 +16,12 @@ namespace CKT
             set
             {
                 _chargeAmount = value;
-                float amount = Mathf.Clamp01(_chargeAmount / _maxChargeAmount);
+                float amount = Mathf.Clamp01(_chargeAmount / _artifactSO.AttackDelay);
                 _line.startWidth = _maxWidth * amount;
             }
         }
 
         float _chargeAmount;
-        float _maxChargeAmount = 0.5f;
         float _chargeSpeed = 0.1f;
 
         LineRenderer _line;
@@ -82,7 +81,7 @@ namespace CKT
 
         protected override IEnumerator AttackCoroutine(List<GameObject> list)
         {
-            while (ChargeAmount <= _maxChargeAmount)
+            while (ChargeAmount <= _artifactSO.AttackDelay)
             {
                 Charge();
                 yield return null;

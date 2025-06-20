@@ -48,9 +48,9 @@ namespace YSJ
         [Header("스테이터스")]
         float _health;                      // 체력
         float _mana;                        // 마나
-        float _rightCoolTime = 1f;          // 오른손 쿨타임
-        float _rightDamage = 10f;           // 오른손 데미지
-        float _spendManaOffsetAmount = 0f;  // 마나 소비량 줄여주는 값
+        float _rightCoolTime = 0f;          // 오른손 추가 쿨타임
+        float _rightDamage = 0f;           // 오른손 추가 데미지
+        float _spendManaOffsetAmount = 0f;  // 마나 소모량 감소
 
         public float Health
         {

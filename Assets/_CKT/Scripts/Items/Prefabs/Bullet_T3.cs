@@ -29,7 +29,7 @@ namespace CKT
         protected override IEnumerator DisableCoroutine(float existTime)
         {
             yield return null;
-            float deltaWidth = _width / existTime;
+            float deltaWidth = _width / ((existTime <= 0) ? 0.01f : existTime);
             while (_line.startWidth > 0)
             {
                 _line.startWidth -= deltaWidth * Time.deltaTime;

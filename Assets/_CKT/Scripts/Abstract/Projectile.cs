@@ -1,3 +1,4 @@
+using BMC;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -19,11 +20,15 @@ namespace CKT
 
             _penetration = (isCreateFromPlayer) ? _artifactSO.Penetration : _artifactSO.Penetration + 1;
 
-            _disableCoroutine = StartCoroutine(DisableCoroutine(_artifactSO.ExistTime));
-            StartCoroutine(MoveCoroutine(_artifactSO.MoveSpeed));
+            float existTime = _artifactSO.ExistTime - PlayerManager.Instance.PlayerStatus.RightCoolTime;
+            existTime = Mathf.Clamp(existTime, 0, float.MaxValue);
+            _disableCoroutine = StartCoroutine(DisableCoroutine(existTime));
+
+            _moveCoroutine = StartCoroutine(MoveCoroutine(_artifactSO.MoveSpeed));
         }
 
         protected Coroutine _disableCoroutine;
+        protected Coroutine _moveCoroutine;
         Transform _target;
 
         protected void OnDisable()
@@ -33,6 +38,12 @@ namespace CKT
                 StopCoroutine(_disableCoroutine);
                 _disableCoroutine = null;
             }
+            if (_moveCoroutine != null)
+            {
+                StopCoroutine(_moveCoroutine);
+                _moveCoroutine = null;
+            }
+
             _target = null;
             _artifactSO = null;
         }
@@ -46,7 +57,8 @@ namespace CKT
             IDamagable iDamageable = _target.GetComponent<IDamagable>();
             if (iDamageable != null)
             {
-                iDamageable.TakeDamage(_artifactSO.Damage);
+                float totalDamage = _artifactSO.Damage + PlayerManager.Instance.PlayerStatus.RightDamage;
+                iDamageable.TakeDamage(totalDamage);
 
                 //true면 플레이가 호출한 Projectile,  false면 HitSkill에서 생성된 Projectile
                 if (_isCreateFromPlayer)
@@ -62,11 +74,19 @@ namespace CKT
                 _penetration--;
                 if (_penetration < 0)
                 {
+                    //다음 프레임에 비활성화
                     if (_disableCoroutine != null)
                     {
                         StopCoroutine(_disableCoroutine);
                     }
                     _disableCoroutine = StartCoroutine(DisableCoroutine(0));
+
+                    //이동 정지
+                    if (_moveCoroutine != null)
+                    {
+                        StopCoroutine(_moveCoroutine);
+                        _moveCoroutine = null;
+                    }
                 }
             }
         }
@@ -85,6 +105,8 @@ namespace CKT
                 transform.position += transform.up * moveSpeed * Time.deltaTime;
                 yield return null;
             }
+
+            _moveCoroutine = null;
         }
     }
 }
