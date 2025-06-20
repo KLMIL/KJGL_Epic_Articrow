@@ -1,5 +1,6 @@
 using Game.Enemy;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 /*
@@ -27,13 +28,20 @@ namespace CKT
 
             Collider2D[] hits = Physics2D.OverlapCircleAll(position, hitRadius, LayerMask.GetMask("Monster"));
 
-            foreach (Collider2D hit in hits)
+
+            var filterHits = hits
+                .Where(h => h != null && h.isTrigger)
+                .ToList();
+
+            foreach (Collider2D hit in filterHits)
             {
                 if (hit == null) continue;
 
                 Debug.LogError("Here good");
                 EnemyController enemyController = hit.GetComponent<EnemyController>();
                 enemyController.StartMarkingCoroutine(damageMultiply, damageDuration * level);
+
+                hit.GetComponent<EnemyController>().StartTintCoroutine(new Color(1, 0.5f, 0), damageDuration * level);
             }
 
             yield return null;

@@ -5,7 +5,7 @@ namespace CKT
 {
     public class HitGravitySurge : MonoBehaviour
     {
-        float _baseGravity = 20f;
+        float _baseGravity = 5f;
         float _totalGravity;
         float _minDistance = 0.2f;
         float _duration = 0.5f;

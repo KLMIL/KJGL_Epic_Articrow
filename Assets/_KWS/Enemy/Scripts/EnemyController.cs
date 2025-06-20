@@ -118,6 +118,17 @@ namespace Game.Enemy
 
             markingCoroutine = StartCoroutine(MarkingRestoreCoroutine(duration));
         }
+
+        // 임시로 피격 모션을 보여주기 위한 함수들
+        public void StartTintCoroutine(Color color, float duration)
+        {
+            StartCoroutine(SpriteTintRepeatCoroutine(color, duration));
+        }
+
+        public void StartTintCoroutineOnce(Color color)
+        {
+            StartCoroutine(SpriteTintOnceCoroutine(color));
+        }
         #endregion
 
 
@@ -126,6 +137,40 @@ namespace Game.Enemy
             yield return new WaitForSeconds(duration);
             markingCoroutine = null;
             FSM.enemyDamagedMultiply = 1f;
+        }
+
+        private IEnumerator SpriteTintRepeatCoroutine(Color color, float duration)
+        {
+            Debug.LogError("Called Tint Coroutine");
+
+            float elapsed = 0f;
+            bool currColor = true;
+            SpriteRenderer.color = color;
+
+            while (elapsed < duration)
+            {
+                yield return new WaitForSeconds(0.2f);
+                elapsed += 0.2f;
+                if (currColor)
+                {
+                    SpriteRenderer.color = Color.white;
+                    currColor = !currColor;
+                }
+                else
+                {
+                    SpriteRenderer.color = color;
+                    currColor = !currColor;
+                }
+            }
+
+            SpriteRenderer.color = Color.white;
+        }
+
+        private IEnumerator SpriteTintOnceCoroutine(Color color)
+        {
+            SpriteRenderer.color = color;
+            yield return new WaitForSeconds(0.5f);
+            SpriteRenderer.color = Color.white;
         }
     }
 }
