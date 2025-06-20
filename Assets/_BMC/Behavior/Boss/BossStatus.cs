@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using Unity.Behavior;
 using UnityEngine;
@@ -8,10 +9,7 @@ namespace BMC
     public class BossStatus : MonoBehaviour, IDamagable
     {
         Animator _anim;
-        Animator Anim => _anim;
-
         CapsuleCollider2D _collider;
-
         BehaviorGraphAgent _behaviorGraphAgent;
 
         [Header("상태")]
@@ -21,11 +19,15 @@ namespace BMC
         [field: SerializeField] public float Health { get; set; }
         [field: SerializeField] public float Damage { get; set; } = 10f;
 
+        Coroutine _hitEffectCoroutine;
+        SpriteRenderer _visual;
+
         void Awake()
         {
             _anim = GetComponent<Animator>();
             _collider = GetComponent<CapsuleCollider2D>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
+            _visual = GetComponentInChildren<SpriteRenderer>();
             Init();
 
         }
@@ -33,12 +35,6 @@ namespace BMC
         public void Init()
         {
             Health = 5000;
-        }
-
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.H))
-                TakeDamage(5);
         }
 
         public void TakeDamage(float damage)
@@ -75,6 +71,12 @@ namespace BMC
                 _behaviorGraphAgent.SetVariableValue("IsDead", IsDead);
                 _behaviorGraphAgent.SetVariableValue("CurrentState", BossState.Die);
             }
+        }
+
+        // 피격 이펙트 코루틴
+        IEnumerator HitEffectCoroutine()
+        {
+            yield return new WaitForSeconds(0.1f);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
