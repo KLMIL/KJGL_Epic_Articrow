@@ -81,7 +81,7 @@ namespace CKT
 
         IEnumerator DisableCoroutine(float waitTime)
         {
-            yield return new WaitForSeconds(waitTime);
+            yield return (waitTime <= 0) ? null : new WaitForSeconds(waitTime);
             YSJ.Managers.TestPool.Return(Define.PoolID.GrabObject, this.gameObject);
         }
     }

@@ -76,7 +76,7 @@ namespace CKT
                 _lineEnd = hit.point;
             }
 
-            yield return new WaitForSeconds(_chargeSpeed);
+            yield return (_chargeSpeed <= 0) ? null : new WaitForSeconds(_chargeSpeed);
             _chargeCoroutine = null;
         }
 
@@ -109,7 +109,7 @@ namespace CKT
                 StartCoroutine(castSkill(bullet.transform.position, bullet.transform.up));
             }
 
-            yield return new WaitForSeconds(base._artifactSO.AttackSpeed);
+            yield return new WaitForSeconds(base._artifactSO.AttackCoolTime);
             base._attackCoroutine = null;
         }
         #endregion

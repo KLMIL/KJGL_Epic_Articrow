@@ -37,7 +37,7 @@ namespace CKT
                 GameObject castScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(artifactSO.ProjectilePoolID);
                 castScatterCopy.transform.position = position;
                 castScatterCopy.transform.up = scatterDir;
-                castScatterCopy.GetComponent<Projectile>().Init(false);
+                castScatterCopy.GetComponent<Projectile>().Init(true);
             }
 
             //origin.SetActive(false);

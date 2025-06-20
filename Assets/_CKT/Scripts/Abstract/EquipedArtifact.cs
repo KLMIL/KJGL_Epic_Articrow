@@ -1,11 +1,8 @@
-using BMC;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using YSJ;
-using static Define;
 
 namespace CKT
 {
@@ -50,23 +47,24 @@ namespace CKT
         {
             if (_attackCoroutine != null) return;
 
-            if (PlayerManager.Instance.PlayerStatus.Mana < _artifactSO.ManaCost)
+            if (BMC.PlayerManager.Instance.PlayerStatus.Mana < _artifactSO.ManaCost)
             {
                 _manaLackCoroutine = _manaLackCoroutine ?? StartCoroutine(ManaLackCoroutine());
                 return;
             }
             else
             {
-                PlayerManager.Instance.PlayerStatus.SpendMana(_artifactSO.ManaCost);
+                BMC.PlayerManager.Instance.PlayerStatus.SpendMana(_artifactSO.ManaCost);
                 _attackCoroutine = StartCoroutine(AttackCoroutine(list));
             }
         }
 
         protected virtual IEnumerator AttackCoroutine(List<GameObject> list)
         {
+            yield return (_artifactSO.AttackDelay <= 0) ? null : new WaitForSeconds(_artifactSO.AttackDelay);
+            
+            //사운드, 애니메이션 재생
             YSJ.Managers.Sound.PlaySFX(Define.SFX.DefaultAttack);
-
-            //애니메이션 재생
             _animator.Play("Attack", -1, 0);
 
             //총알 생성
@@ -86,7 +84,7 @@ namespace CKT
                 StartCoroutine(castSkill(bullet.transform.position, bullet.transform.up));
             }
 
-            yield return new WaitForSeconds(_artifactSO.AttackSpeed);
+            yield return (_artifactSO.AttackCoolTime <= 0) ? null : new WaitForSeconds(_artifactSO.AttackCoolTime);
             _attackCoroutine = null;
         }
 
@@ -115,11 +113,11 @@ namespace CKT
         IEnumerator ManaLackCoroutine()
         {
             Debug.LogWarning("마나가 부족합니다");
-            TextMeshPro manaText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            TextMeshPro manaText = YSJ.Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
             manaText.text = "마나 부족";
             manaText.transform.position = transform.position;
 
-            yield return new WaitForSeconds(_artifactSO.AttackSpeed);
+            yield return (_artifactSO.AttackCoolTime <= 0) ? null : new WaitForSeconds(_artifactSO.AttackCoolTime);
             _manaLackCoroutine = null;
         }
     }
