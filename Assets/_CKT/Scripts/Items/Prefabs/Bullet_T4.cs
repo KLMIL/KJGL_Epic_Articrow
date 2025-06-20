@@ -7,7 +7,7 @@ namespace CKT
     {
         Pellet[] _pellets;
         float[] _scatterSpeeds;
-        float _moveXSpeed = 6f;
+        float _moveXSpeed = 4.5f;
 
         public override void Init(bool isCreateFromPlayer)
         {
