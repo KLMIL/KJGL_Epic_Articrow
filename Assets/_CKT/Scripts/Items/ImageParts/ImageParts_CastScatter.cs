@@ -6,49 +6,41 @@ namespace CKT
 {
     public class ImageParts_CastScatter : ImageParts, ISkillable
     {
-        float _scatterAngle = 9f;
+        float _scatterAngle = 12f;
 
-        private void Awake()
-        {
-            base.Init("FieldParts/FieldParts_CastScatter", 0f);
-        }
+        public override Define.SkillType SkillType => Define.SkillType.Cast;
 
-        public SkillType SkillType => SkillType.Cast;
+        public override string SkillName => "CastScatter";
 
-        public string SkillName => "CastScatter";
-
-        public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
+        public IEnumerator SkillCoroutine(Vector3 position, Vector3 direction, int level, SkillManager skillManager)
         {
             Debug.Log($"{SkillName}, Level+{level}");
 
-            int scatterCount = level + 1;
-            Vector3 originUp = origin.transform.up;
+            //int scatterCount = level + 1;
 
-            for (int k = 0; k < scatterCount; k++)
+            //for (int k = 0; k < scatterCount; k++)
+            for (int k = 0; k < (level * 2); k++)
             {
                 //분산 각도
                 float sign = 0;
-                if (scatterCount % 2 == 0)
+                /*if (scatterCount % 2 == 0)
                 {
                     sign = ((k % 2 == 0) ? -1 : 1) * (Mathf.Floor(k / 2.0f) + 0.5f);
                 }
-                else
+                else*/
                 {
-                    sign = ((k % 2 == 0) ? 1 : -1) * Mathf.Ceil(k / 2.0f);
+                    sign = ((k % 2 == 0) ? 1 : -1) * Mathf.Ceil((k+1) / 2.0f);
                 }
-                Vector2 scatterDir = Util.RotateVector(originUp, (sign * _scatterAngle)).normalized;
+                Vector2 scatterDir = Util.RotateVector(direction, (sign * _scatterAngle)).normalized;
 
-                Define.PoolID poolID = Util.StringToEnum<Define.PoolID>(origin.name);
-                GameObject castScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(poolID);
-                castScatterCopy.transform.SetParent(origin.transform.parent);
-                castScatterCopy.transform.position = origin.transform.position;
+                ArtifactSO artifactSO = GameManager.Instance.RightSkillManager.GetArtifactSOFuncT0.Trigger();
+                GameObject castScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(artifactSO.ProjectilePoolID);
+                castScatterCopy.transform.position = position;
                 castScatterCopy.transform.up = scatterDir;
-                castScatterCopy.name = origin.name;
-                castScatterCopy.GetComponent<Projectile>().SkillManager = skillManager;
+                castScatterCopy.GetComponent<Projectile>().Init(false);
             }
 
-            origin.SetActive(false);
-            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
+            //origin.SetActive(false);
             yield return null;
         }
     }

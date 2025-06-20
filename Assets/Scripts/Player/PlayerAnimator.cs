@@ -23,10 +23,10 @@ namespace YSJ
         {
             _checkPlayerDirection = GetComponent<CheckPlayerDirection>();
             _anim = GetComponent<Animator>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         }
 
-        private void Start()
+        void Start()
         {
             // 스테이터스에 액션 연결
             PlayerStatus.OnDeadAction += PlayDead;
@@ -46,28 +46,26 @@ namespace YSJ
                 return;
             }
 
+            // Dead 상태
+            if ((CurrentState & State.Dead) == State.Dead)
+            {
+                // 플립
+                FlipX();
+                _anim.Play("Dead");
+                return;
+            }
+
             if ((CurrentState & State.Attack) == State.Attack)
             {
                 OnHurtAnimationEndEvent();
                 return;
             }
 
-            // 플립
-            FlipX();
-
-            CheckPlayerDirection.Direction direction = CheckPlayerDirection.Direction.None;
-            direction = (_checkPlayerDirection.CurrentDirection == CheckPlayerDirection.Direction.Left) ? CheckPlayerDirection.Direction.Right : _checkPlayerDirection.CurrentDirection;
-
-            // Dead 상태
-            if ((CurrentState & State.Dead) == State.Dead) 
-            {
-                _anim.Play("Dead");
-                return;
-            }
-
             //Hurt 상태
             if ((CurrentState & State.Hurt) == State.Hurt)
             {
+                // 플립
+                FlipX();
                 _anim.Play("Hurt");
                 return;
             }
@@ -75,24 +73,21 @@ namespace YSJ
             // Move 상태
             if ((CurrentState & State.Move) == State.Move)
             {
-                _anim.Play($"Move_{direction}");
+                _anim.Play($"Move_{_checkPlayerDirection.CurrentDirection}");
                 return;
             }
 
             // Idle 상태
             if ((CurrentState & State.Idle) == State.Idle)
             {
-                _anim.Play($"Idle_{direction}");
+                _anim.Play($"Idle_{_checkPlayerDirection.CurrentDirection}");
                 return;
             }
         }
 
         public void AttackAnimation(int step)
         {
-            FlipX();
-            CheckPlayerDirection.Direction direction = CheckPlayerDirection.Direction.None;
-            direction = (_checkPlayerDirection.CurrentDirection == CheckPlayerDirection.Direction.Left) ? CheckPlayerDirection.Direction.Right : _checkPlayerDirection.CurrentDirection;
-            _anim.Play($"Attack_{direction}{step}");
+            _anim.Play($"Attack_{_checkPlayerDirection.CurrentDirection}{step}");
         }
 
         void FlipX()

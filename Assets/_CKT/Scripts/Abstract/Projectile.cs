@@ -1,96 +1,91 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace CKT
 {
     [System.Serializable]
     public abstract class Projectile : MonoBehaviour
     {
-        protected int _curPenetration;
-        protected abstract int BasePenetration { get; }
-        protected abstract float MoveSpeed { get; }
-        protected abstract float Damage { get; }
-        protected abstract float ExistTime { get; }
+        protected bool _isCreateFromPlayer;
+        protected ArtifactSO _artifactSO;
 
-        public SkillManager SkillManager;
-        protected LayerMask _ignoreLayerMask;
-        Transform _target;
-        Coroutine _disableCoroutine;
+        protected int _penetration;
 
-        protected void OnEnable()
+        public virtual void Init(bool isCreateFromPlayer)
         {
-            _curPenetration = BasePenetration;
+            _isCreateFromPlayer = isCreateFromPlayer;
+            _artifactSO = GameManager.Instance.RightSkillManager.GetArtifactSOFuncT0.Trigger();
 
-            _ignoreLayerMask = LayerMask.GetMask("Default", "Ignore Raycast", "Player", "BreakParts");
-            _target = null;
+            _penetration = (isCreateFromPlayer) ? _artifactSO.Penetration : _artifactSO.Penetration + 1;
 
-            _disableCoroutine = StartCoroutine(DisableCoroutine(ExistTime));
+            _disableCoroutine = StartCoroutine(DisableCoroutine(_artifactSO.ExistTime));
+            StartCoroutine(MoveCoroutine(_artifactSO.MoveSpeed));
         }
+
+        protected Coroutine _disableCoroutine;
+        Transform _target;
 
         protected void OnDisable()
         {
-            SkillManager = null;
-        }
-
-        private void FixedUpdate()
-        {
-            transform.position += transform.up * MoveSpeed * Time.fixedDeltaTime;
+            if (_disableCoroutine != null)
+            {
+                StopCoroutine(_disableCoroutine);
+                _disableCoroutine = null;
+            }
+            _target = null;
+            _artifactSO = null;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.isTrigger) return;
+            if (!collision.isTrigger) return;
             //if (collision.isTrigger || _target != null) return;
 
             _target = collision.transform;
             IDamagable iDamageable = _target.GetComponent<IDamagable>();
             if (iDamageable != null)
             {
-                iDamageable.TakeDamage(Damage);
+                iDamageable.TakeDamage(_artifactSO.Damage);
 
-                if (SkillManager != null)
+                //true면 플레이가 호출한 Projectile,  false면 HitSkill에서 생성된 Projectile
+                if (_isCreateFromPlayer)
                 {
-                    //CreateHitSkillObject(_target.position, this.transform.up, this.transform.localScale);
-                    //GameObject hitSkillObject = YSJ.Managers.Pool.InstPrefab("HitSkillObject");
-                    //hitSkillObject.transform.position = _target.position;
-                    //hitSkillObject.transform.up = this.transform.up;
-                    //hitSkillObject.transform.localScale = this.transform.localScale;
-
-                    foreach (Func<GameObject, IEnumerator> hitSkill in SkillManager.HitSkillDict.Values)
+                    Vector3 closestPoint = collision.ClosestPoint(this.transform.position);
+                    SkillManager skillManager = GameManager.Instance.RightSkillManager;
+                    foreach (Func<Vector3, Vector3, IEnumerator> hitSkill in skillManager.HitSkillDict.Values)
                     {
-                        StartCoroutine(hitSkill(_target.gameObject));
+                        StartCoroutine(hitSkill(closestPoint, this.transform.up));
                     }
                 }
 
-                /*_curPenetration--;
-                if (_curPenetration < 0)
+                _penetration--;
+                if (_penetration < 0)
                 {
                     if (_disableCoroutine != null)
                     {
                         StopCoroutine(_disableCoroutine);
                     }
                     _disableCoroutine = StartCoroutine(DisableCoroutine(0));
-                }*/
+                }
             }
         }
 
-        protected IEnumerator DisableCoroutine(float existTime)
+        protected virtual IEnumerator DisableCoroutine(float existTime)
         {
             yield return null;
             yield return new WaitForSeconds(existTime);
-            this.gameObject.SetActive(false);
+            YSJ.Managers.TestPool.Return(_artifactSO.ProjectilePoolID, this.gameObject);
             _disableCoroutine = null;
         }
 
-        protected void CreateHitSkillObject(Vector3 postion, Vector3 up, Vector3 scale)
+        IEnumerator MoveCoroutine(float moveSpeed)
         {
-            GameObject hitSkillObject = YSJ.Managers.Pool.InstPrefab("HitSkillObject");
-            hitSkillObject.transform.position = postion;
-            hitSkillObject.transform.up = up;
-            hitSkillObject.transform.localScale = scale;
-            hitSkillObject.GetComponent<HitSkillObject>().HitSkill(SkillManager);
+            while (this.gameObject.activeSelf)
+            {
+                transform.position += transform.up * moveSpeed * Time.deltaTime;
+                yield return null;
+            }
         }
     }
 }

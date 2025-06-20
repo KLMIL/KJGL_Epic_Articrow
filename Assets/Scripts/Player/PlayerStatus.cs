@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using BMC;
@@ -7,24 +9,108 @@ namespace YSJ
 {
     public class PlayerStatus : MonoBehaviour, IDamagable
     {
+        SpriteRenderer _spriteRenderer;
+        WaitForSeconds _colorChangeTime = new WaitForSeconds(0.25f);
+
         public static Action OnDeadAction;
 
         public bool IsDead { get; private set; } = false;
 
-        [Header("업그레이드 가능한 스테이터스")]
-        public float MaxHealth { get; set; } = 100;
-        public float MaxMana { get; set; } = 100;
-        public int MoveSpeed { get; set; } = 10;
-        public int AttackPoint { get; set; } = 10;
-        public float LeftHandCollTime { get; set; } = 1f;
-        public float RightHandCollTime { get; set; } = 1f;
+        #region 기준 스테이터스
+        [Header("기준 스테이터스")]
+        float _maxHealth = 100f;        // 최대 체력
+        float _maxMana = 100f;          // 최대 마나
+        float _minRightCoolTime = 0.1f; // 오른손 최소 쿨타임
+        float _minRightDamage = 10f;    // 최소 데미지
 
-        [Header("일반 스테이터스: 실시간으로 변하는 수치")]
-        public float Health { get; set; }
-        public float Mana { get; set; }
+        public float MaxHealth
+        {
+            get => _maxHealth;
+            set
+            {
+                _maxHealth = value;
+            }
+        }
+
+        public float MaxMana
+        {
+            get => _maxMana;
+            set
+            {
+                _maxMana = value;
+                UI_InGameEventBus.OnPlayerMpSliderMaxValueUpdate?.Invoke(_maxMana);
+                UI_InGameEventBus.OnPlayerMpSliderValueUpdate?.Invoke(Mana);
+            }
+        }
+        #endregion
+
+        #region 스테이터스
+        [Header("스테이터스")]
+        float _health;                      // 체력
+        float _mana;                        // 마나
+        float _rightCoolTime = 1f;          // 오른손 쿨타임
+        float _rightDamage = 10f;           // 오른손 데미지
+        float _spendManaOffsetAmount = 0f;  // 마나 소비량 줄여주는 값
+
+        public float Health
+        {
+            get => _health;
+            set
+            {
+                _health = value;
+                //_health = Mathf.Clamp(_health, 0, MaxHealth);
+                //UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(_health);
+            }
+        }
+
+        public float Mana
+        {
+            get
+            {
+                return _mana = Mathf.Clamp(_mana, 0, MaxMana);
+            }
+            set
+            {
+                _mana = value;
+                _mana = Mathf.Clamp(_mana, 0, MaxMana);
+                UI_InGameEventBus.OnPlayerMpSliderValueUpdate?.Invoke(_mana);
+            }
+        }
+
+        public float RightCoolTime
+        {
+            get => _rightCoolTime;
+            set
+            {
+                _rightCoolTime = value;
+                _rightCoolTime = Mathf.Clamp(_rightCoolTime, _minRightCoolTime, _rightCoolTime);
+            }
+        }
+
+        public float RightDamage
+        {
+            get => _rightDamage;
+            set
+            {
+                _rightDamage = value;
+                _rightDamage = Mathf.Clamp(_rightDamage, _minRightDamage, _rightDamage);
+            }
+        }
+
+        public float SpendManaOffsetAmount
+        {
+            get => _spendManaOffsetAmount;
+            set
+            {
+                _spendManaOffsetAmount = value;
+                _spendManaOffsetAmount = Mathf.Clamp(_spendManaOffsetAmount, 0f, float.MaxValue);
+            }
+        }
+        #endregion
 
         void Awake()
         {
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             Init();
             OnDeadAction += Death;
         }
@@ -41,9 +127,25 @@ namespace YSJ
             if (IsDead || PlayerManager.Instance.PlayerDash.IsDash)
                 return;
 
+            //YSJ : 베리어가 있는 지 확인
+            List<Collider2D> colliders = new();
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.SetLayerMask(LayerMask.GetMask("Player"));
+            filter.useTriggers = true;
+            Physics2D.OverlapCollider(GetComponent<Collider2D>(), filter, colliders);
+            foreach (Collider2D col in colliders)
+            {
+                if (col.TryGetComponent<Barrier>(out Barrier barrier)) 
+                {
+                    barrier.TakeDamage(damage); // 베리어가 있으면 베리어가 대신받음
+                    return;
+                }
+            }
+
             UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
             ShowDamageText(damage);
             UpdateHealth(-damage);
+            StartCoroutine(TakeDamageColor());
 
             // YSJ : 데미지 받으면 피격 애니메이션 재생
             PlayerAnimator playerAnimator = GetComponent<PlayerAnimator>();
@@ -72,18 +174,22 @@ namespace YSJ
 
         #region 마나 관련
         // 마나 재생
-        public void RegenerateMana(float amount) => UpdateMana(amount);
+        public void RegenerateMana(float amount) => Mana += amount;
 
         // 마나 회복
-        public void RecoveryMana(float amount) => UpdateMana(amount);
+        public void RecoveryMana(float amount) => Mana += amount;
 
         // 마나 소비
         public bool SpendMana(float amount)
         {
-            if (Mana < amount)
+            // 마나 소비량 줄여주는 오프셋 적용
+            float spendAmount = Mathf.Max(amount - _spendManaOffsetAmount, 0f);
+
+            if (Mana < spendAmount)
                 return false;
 
-            UpdateMana(-amount);
+            Mana += -spendAmount;
+            //UpdateMana(-amount);
             return true;
         }
 
@@ -92,8 +198,8 @@ namespace YSJ
         void UpdateMana(float delta)
         {
             Mana += delta;
-            Mana = Mathf.Clamp(Mana, 0, MaxMana);
-            UI_InGameEventBus.OnPlayerMpSliderValueUpdate?.Invoke(Mana);
+            //Mana = Mathf.Clamp(Mana, 0, MaxMana);
+            //UI_InGameEventBus.OnPlayerMpSliderValueUpdate?.Invoke(Mana);
         }
         #endregion
 
@@ -105,14 +211,27 @@ namespace YSJ
             damageText.text = damage.ToString();
         }
 
+        // 피격 색상 변경
+        IEnumerator TakeDamageColor()
+        {
+            _spriteRenderer.color = Color.gray;
+            yield return _colorChangeTime;
+            _spriteRenderer.color = Color.white;
+        }
+
         // 사망
         void Death()
         {
             IsDead = true;
+
+            // 피격 색상 변경 중지
+            StopAllCoroutines();
+            _spriteRenderer.color = Color.gray;
+
+            // 물리 효과 적용 x
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Kinematic;
-            //Destroy(gameObject);
         }
 
         void OnDestroy()

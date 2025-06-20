@@ -22,7 +22,7 @@ namespace YSJ
         public static SceneManagerEx Scene => Instance._scene;
         public static InputManager Input => Instance._input;
         public static UIManager UI => Instance._ui;
-        public static PoolManager Pool => Instance._pool;
+        //public static PoolManager Pool => Instance._pool;
         public static DataManager Data => Instance._data;
 
         public static BMC.PoolManager TestPool => Instance._testPool;
@@ -53,7 +53,7 @@ namespace YSJ
                 TestPool.Init();
                 Sound.Init();
                 Input.Init();
-                Pool.Init();
+                //Pool.Init();
                 UI.InstantiateSettingsUI();
             }
         }

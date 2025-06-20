@@ -7,7 +7,6 @@ namespace Game.Enemy
     [RequireComponent(typeof(EnemyDealDamage))]
     [RequireComponent(typeof(EnemyTakeDamage))]
     [RequireComponent(typeof(EnemyAnimation))]
-    [RequireComponent(typeof(CircleCollider2D))]
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Animator))]
     public class EnemyController : MonoBehaviour
@@ -28,6 +27,7 @@ namespace Game.Enemy
         public Dictionary<string, float> lastAttackTimes = new(); // 공격 쿨타임 저장 딕셔너리
 
         [HideInInspector] public Transform Player;
+        [HideInInspector] public Transform Attacker = null;
 
 
         public string CurrentStateName => FSM.CurrentStateName;
@@ -92,9 +92,13 @@ namespace Game.Enemy
         #region Public API
         public void PlayAnimationOnce(string animName) => _animation.PlayAnimationOnce(animName);
         public void ForceToNextState() => FSM.ForceToNextState();
-        public void DealDamageToPlayer(float damage, bool forceToNextState = false) => _dealDamage.DealDamageToPlayer(damage, forceToNextState);
+        public void DealDamageToPlayer(float damage, Transform targetTransform, bool forceToNextState = false) => _dealDamage.DealDamageToPlayer(damage, targetTransform, forceToNextState);
         public void MoveTo(Vector3 dir, float duration, string moveType, bool inverse = false) => _movement.MoveTo(dir, duration, moveType, inverse);
         public void StopMove() => _movement.Stop();
+        public void StartKnockbackCoroutine(Vector2 direction, float distance, float duration, int steps)
+        {
+            StartCoroutine(_movement.StepKnockback(direction, distance, duration, steps));
+        }
         #endregion
     }
 }

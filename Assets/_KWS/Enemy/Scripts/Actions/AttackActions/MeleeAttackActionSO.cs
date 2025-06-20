@@ -36,6 +36,8 @@ namespace Game.Enemy
 
         public override void Act(EnemyController controller)
         {
+            controller.FSM.isSuperArmor = true;
+
             // 현재 공격 상태의 쿨타임 체크
             string key = controller.CurrentStateName;
             if (!controller.lastAttackTimes.ContainsKey(key))
@@ -131,10 +133,12 @@ namespace Game.Enemy
             foreach (var hit in hits)
             {
                 // 태그까지 검사 -> 안전망 역할
-                if (hit.CompareTag("Player"))
+                if (hit.CompareTag("Player") && hit.isTrigger)
                 {
                     float damage = controller.Status.attack * damageMultiply;
-                    controller.DealDamageToPlayer(damage, false);
+                    Transform target = hit.transform;
+                    controller.DealDamageToPlayer(damage, target, false);
+                    break;
                 }
             }
         }

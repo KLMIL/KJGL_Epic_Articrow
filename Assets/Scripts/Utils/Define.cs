@@ -98,18 +98,27 @@ public class Define
     // 풀링할 오브젝트에 부여할 ID
     public enum PoolID
     {
-        Mana,
+        ManaEnergy,
         DamageText, // UI
         Bullet_T1,
         Bullet_T2,
         Bullet_T3,
+        Bullet_T4,
         CastExplosion,
         CastDamageArea,
-        HitScatter,
         HitExplosion,
         HitDamageArea,
         GrabObject,
         Description
+    }
+    #endregion
+
+    #region [스킬 종류]
+    public enum SkillType 
+    { 
+        Cast, 
+        Hit, 
+        Passive 
     }
     #endregion
 }

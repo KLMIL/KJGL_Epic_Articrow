@@ -1,7 +1,6 @@
 using BMC;
 using System.Collections;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace CKT
 {
@@ -10,22 +9,17 @@ namespace CKT
         Transform _player;
         float _scatterAngle = 9f;
 
-        private void Awake()
-        {
-            base.Init("FieldParts/FieldParts_HitScatter", 0f);
-        }
+        public override Define.SkillType SkillType => Define.SkillType.Hit;
 
-        public SkillType SkillType => SkillType.Hit;
+        public override string SkillName => "HitScatter";
 
-        public string SkillName => "HitScatter";
-
-        public IEnumerator SkillCoroutine(GameObject origin, int level, SkillManager skillManager)
+        public IEnumerator SkillCoroutine(Vector3 position, Vector3 direction, int level, SkillManager skillManager)
         {
             Debug.Log($"{SkillName}, Level+{level}");
 
             int scatterCount = level + 1;
             _player = _player ?? FindAnyObjectByType<BMC.PlayerManager>().transform;
-            Vector3 originUp = (origin.transform.position - _player.position).normalized;
+            Vector3 originUp = (position - _player.position).normalized;
 
             for (int k = 0; k < scatterCount; k++)
             {
@@ -41,14 +35,18 @@ namespace CKT
                 }
                 Vector2 scatterDir = Util.RotateVector(originUp, (sign * _scatterAngle)).normalized;
 
-                GameObject hitScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.HitScatter);
-                hitScatterCopy.transform.position = origin.transform.position;
+                ArtifactSO artifactSO = GameManager.Instance.RightSkillManager.GetArtifactSOFuncT0.Trigger();
+                GameObject hitScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(artifactSO.ProjectilePoolID);
+                hitScatterCopy.transform.position = position;
                 hitScatterCopy.transform.up = scatterDir;
-                hitScatterCopy.name = "HitScatter";
-                //hitScatterCopy.GetComponent<Projectile>().SkillManager = skillManager;
+
+                Projectile[] projectiles = hitScatterCopy.GetComponentsInChildren<Projectile>();
+                for (int i = 0; i < projectiles.Length; i++)
+                {
+                    projectiles[i].Init(false);
+                }
             }
 
-            PlayerManager.Instance.PlayerStatus.SpendMana(base._manaCost * level);
             yield return null;
         }
     }

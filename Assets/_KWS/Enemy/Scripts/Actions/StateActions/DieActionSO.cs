@@ -13,6 +13,8 @@ namespace Game.Enemy
     {
         public override void Act(EnemyController controller)
         {
+            controller.FSM.isSuperArmor = false;
+
             if (!controller.FSM.isDied)
             {
                 // (이팩트가 필요하다면 여기서 추가)

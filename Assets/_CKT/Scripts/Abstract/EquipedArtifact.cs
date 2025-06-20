@@ -1,18 +1,17 @@
 using BMC;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using YSJ;
+using static Define;
 
 namespace CKT
 {
     public abstract class EquipedArtifact : MonoBehaviour
     {
-        protected abstract GameObject _fieldArtifact { get; }
-        protected abstract string _prefabName { get; }
-        protected abstract float _attackSpeed { get; }
-        protected abstract float _manaCost { get; }
+        [SerializeField] protected ArtifactSO _artifactSO;
 
         #region [컴포넌트]
         protected SpriteRenderer _renderer;
@@ -26,6 +25,7 @@ namespace CKT
 
         #region [값]
         protected Coroutine _attackCoroutine = null;
+        Coroutine _manaLackCoroutine = null;
         #endregion
 
         private void Start()
@@ -40,6 +40,7 @@ namespace CKT
             _firePoint = GetComponentInChildren<FirePoint>().transform;
 
             _skillManager = GameManager.Instance.RightSkillManager;
+            _skillManager.GetArtifactSOFuncT0.SingleRegister(() => { return _artifactSO; });
             _skillManager.OnHandPerformActionT1.SingleRegister((list) => Attack(list));
             _skillManager.OnHandCancelActionT0.SingleRegister(() => AttackCancel());
             _skillManager.OnThrowAwayActionT0.SingleRegister(() => ThrowAway());
@@ -49,52 +50,77 @@ namespace CKT
         {
             if (_attackCoroutine != null) return;
 
-            float totalManaCost = 0;
-            Dictionary<string, int> skillDupDict = GameManager.Instance.RightSkillManager.SkillDupDict;
-            foreach (string key in skillDupDict.Keys)
+            if (PlayerManager.Instance.PlayerStatus.Mana < _artifactSO.ManaCost)
             {
-                int manaCost = 5;
-                if ((key == "CastAdditional") || (key == "CastScatter"))
-                {
-                    manaCost = 10;
-                }
-                totalManaCost += (manaCost * skillDupDict[key]);
-            }
-            totalManaCost += _manaCost;
-            Debug.LogWarning(totalManaCost);
-
-            if (PlayerManager.Instance.PlayerStatus.Mana < totalManaCost)
-            {
-                Debug.LogWarning("마나가 부족합니다");
-                TextMeshPro manaText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-                manaText.text = "마나 부족";
-                manaText.transform.position = transform.position;
+                _manaLackCoroutine = _manaLackCoroutine ?? StartCoroutine(ManaLackCoroutine());
                 return;
             }
             else
             {
-                PlayerManager.Instance.PlayerStatus.SpendMana(totalManaCost);
+                PlayerManager.Instance.PlayerStatus.SpendMana(_artifactSO.ManaCost);
                 _attackCoroutine = StartCoroutine(AttackCoroutine(list));
             }
         }
 
-        protected abstract IEnumerator AttackCoroutine(List<GameObject> list);
+        protected virtual IEnumerator AttackCoroutine(List<GameObject> list)
+        {
+            YSJ.Managers.Sound.PlaySFX(Define.SFX.DefaultAttack);
 
-        protected abstract void AttackCancel();
+            //애니메이션 재생
+            _animator.Play("Attack", -1, 0);
+
+            //총알 생성
+            GameObject bullet = YSJ.Managers.TestPool.Get<GameObject>(_artifactSO.ProjectilePoolID);
+
+            bullet.transform.position = _firePoint.position;
+            bullet.transform.up = this.transform.up;
+            Projectile[] projectiles = bullet.GetComponentsInChildren<Projectile>();
+            for (int i = 0; i < projectiles.Length; i++)
+            {
+                projectiles[i].Init(true);
+            }
+
+            //CastSkill
+            foreach (Func<Vector3, Vector3, IEnumerator> castSkill in _skillManager.CastSkillDict.Values)
+            {
+                StartCoroutine(castSkill(bullet.transform.position, bullet.transform.up));
+            }
+
+            yield return new WaitForSeconds(_artifactSO.AttackSpeed);
+            _attackCoroutine = null;
+        }
+
+        protected virtual void AttackCancel()
+        {
+
+        }
 
         void ThrowAway()
         {
             //필드 아티팩트 생성
-            GameObject field = Instantiate(_fieldArtifact);
+            GameObject fieldArtifact = Resources.Load<GameObject>($"FieldArtifacts/Field{_artifactSO.ArtifactName}");
+            GameObject field = Instantiate(fieldArtifact);
             field.transform.parent = null;
             field.transform.localPosition = this.transform.position + Vector3.down;
 
             //빈 손으로 초기화
+            _skillManager.GetArtifactSOFuncT0.Init();
             _skillManager.OnHandPerformActionT1.Unregister((list) => Attack(list));
             _skillManager.OnHandCancelActionT0.Unregister(() => AttackCancel());
             _skillManager.OnThrowAwayActionT0.Unregister(() => ThrowAway());
 
             Destroy(this.gameObject);
+        }
+
+        IEnumerator ManaLackCoroutine()
+        {
+            Debug.LogWarning("마나가 부족합니다");
+            TextMeshPro manaText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            manaText.text = "마나 부족";
+            manaText.transform.position = transform.position;
+
+            yield return new WaitForSeconds(_artifactSO.AttackSpeed);
+            _manaLackCoroutine = null;
         }
     }
 }

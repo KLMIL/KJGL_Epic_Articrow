@@ -36,7 +36,17 @@ namespace BMC
             // 플레이어 카메라
             _playerCinemachineCamera = cinemachineCameras[1];
             _confiner = _playerCinemachineCamera.GetComponent<CinemachineConfiner2D>();
+            
+            // 카메라 쉐이킹
             _cinemachineBasicMultiChannelPerlin = _playerCinemachineCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
+
+        }
+
+        void Start()
+        {
+
+            _cameraTarget.TrackingTarget = PlayerManager.Instance.transform;
+            _playerCinemachineCamera.Target = _cameraTarget;
         }
 
         void Update()
