@@ -45,6 +45,11 @@ namespace Game.Enemy
 
         // 몬스터 슈퍼아머
         public bool isSuperArmor = false;
+
+
+        // TODO: 임시 변수 필드 -> EnemyStatusEffect 클래스로 분리하기
+        public float enemyDamagedMultiply = 1f;
+        public float enemyDamagedMultiplyRemainTime = 0f;
         #endregion
 
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,6 +29,8 @@ namespace Game.Enemy
 
         [HideInInspector] public Transform Player;
         [HideInInspector] public Transform Attacker = null;
+
+        Coroutine markingCoroutine;
 
 
         public string CurrentStateName => FSM.CurrentStateName;
@@ -99,6 +102,30 @@ namespace Game.Enemy
         {
             StartCoroutine(_movement.StepKnockback(direction, distance, duration, steps));
         }
+
+        public void StartMarkingCoroutine(float multiply, float duration)
+        {
+            if (markingCoroutine != null)
+            {
+                StopCoroutine(markingCoroutine);
+            }
+            
+            // TODO: 덮어쓰는 방식을 어떻게 할지 결정할 것
+            FSM.enemyDamagedMultiply = multiply;
+            FSM.enemyDamagedMultiplyRemainTime = Time.time + duration;
+
+            Debug.LogError($"Time do? : {FSM.enemyDamagedMultiply < Time.time}");
+
+            markingCoroutine = StartCoroutine(MarkingRestoreCoroutine(duration));
+        }
         #endregion
+
+
+        private IEnumerator MarkingRestoreCoroutine(float duration)
+        {
+            yield return new WaitForSeconds(duration);
+            markingCoroutine = null;
+            FSM.enemyDamagedMultiply = 1f;
+        }
     }
 }
