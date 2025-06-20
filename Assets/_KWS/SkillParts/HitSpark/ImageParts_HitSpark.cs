@@ -1,3 +1,4 @@
+using Game.Enemy;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace CKT
     public class ImageParts_HitSpark : ImageParts, ISkillable
     {
         public float baseDamage = 20f;
-        public float radius = 4f;
+        public float radius = 3f;
         public int baseTarget = 3;
 
         public override Define.SkillType SkillType => Define.SkillType.Hit;
@@ -30,9 +31,13 @@ namespace CKT
 
             // CircleCast로 Enemy 감지
             Collider2D[] hits = Physics2D.OverlapCircleAll(position, radius, LayerMask.GetMask("Monster"));
+            Debug.LogError($"hit size: {hits.Count()}");
 
             // 거리 순으로 정렬
-            var sorted = hits.OrderBy(h => Vector2.Distance(h.transform.position, position)).ToList();
+            var sorted = hits
+                .Where(h => h != null && h.isTrigger)
+                .OrderBy(h => Vector2.Distance(h.transform.position, position))
+                .ToList();
 
             // 타격할 최대 수 
             int maxCount = baseTarget * level;
@@ -45,7 +50,7 @@ namespace CKT
                 // TODO: 자기자신, 이미 피격된 적 거르기
 
                 enemy.GetComponent<IDamagable>().TakeDamage(baseDamage);
-                Debug.LogError($"Hit Enemy{enemy.GetInstanceID()}");
+                enemy.GetComponent<EnemyController>().StartTintCoroutineOnce(Color.yellow);
 
                 count++;
                 if (count >= maxCount) break;
