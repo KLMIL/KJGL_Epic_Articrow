@@ -8,6 +8,7 @@ namespace BMC
         Rigidbody2D _rb;
         Animator _anim;
         Transform _visual;
+        BossStatus _status;
 
         [SerializeField] BehaviorGraphAgent _behaviorGraphAgent;
         [SerializeField] Transform _target;
@@ -25,6 +26,7 @@ namespace BMC
             _anim = GetComponent<Animator>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             _visual = transform.Find("Visual");
+            _status = GetComponent<BossStatus>();
             _stopLayerMask = LayerMask.GetMask("Player") | LayerMask.GetMask("Obstacle");
         }
 
@@ -43,9 +45,17 @@ namespace BMC
 
         void OnCollisionEnter2D(Collision2D collision)
         {
+            
             if ((_stopLayerMask.value & (1 << collision.gameObject.layer)) != 0 && _isReflect == false)
             {
                 _isReflect = true;
+
+                _behaviorGraphAgent.GetVariable<BossState>("CurrentState", out BlackboardVariable<BossState> bossState);
+                if (collision.gameObject.CompareTag("Player") && bossState == BossState.Rush)
+                {
+                    collision.gameObject.GetComponent<Rigidbody2D>()?.AddForce((collision.transform.position - transform.position).normalized * 10f, ForceMode2D.Impulse);
+                    collision.gameObject.GetComponent<IDamagable>()?.TakeDamage(_status.Damage);
+                }
 
                 Debug.Log("벽 닿음");
                 _behaviorGraphAgent.SetVariableValue("IsCollisionWithObstacle", true);
