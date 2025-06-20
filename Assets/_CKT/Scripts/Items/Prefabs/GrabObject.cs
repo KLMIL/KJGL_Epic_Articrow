@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace CKT
@@ -72,8 +73,13 @@ namespace CKT
 
                     yield return null;
                 }
+            }
 
-                target.SetParent(null);
+            //자식 오브젝트 털기
+            Transform[] children = GetComponentsInChildren<Transform>().Where(c => c.gameObject != this.gameObject).ToArray();
+            for (int i = 0; i < children.Length; i++)
+            {
+                children[i].SetParent(null);
             }
 
             YSJ.Managers.TestPool.Return(Define.PoolID.GrabObject, this.gameObject);
@@ -81,7 +87,7 @@ namespace CKT
 
         IEnumerator DisableCoroutine(float waitTime)
         {
-            yield return new WaitForSeconds(waitTime);
+            yield return (waitTime <= 0) ? null : new WaitForSeconds(waitTime);
             YSJ.Managers.TestPool.Return(Define.PoolID.GrabObject, this.gameObject);
         }
     }

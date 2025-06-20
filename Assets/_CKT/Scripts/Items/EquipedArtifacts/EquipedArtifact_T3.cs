@@ -16,13 +16,12 @@ namespace CKT
             set
             {
                 _chargeAmount = value;
-                float amount = Mathf.Clamp01(_chargeAmount / _maxChargeAmount);
+                float amount = Mathf.Clamp01(_chargeAmount / _artifactSO.AttackDelay);
                 _line.startWidth = _maxWidth * amount;
             }
         }
 
         float _chargeAmount;
-        float _maxChargeAmount = 0.5f;
         float _chargeSpeed = 0.1f;
 
         LineRenderer _line;
@@ -76,13 +75,13 @@ namespace CKT
                 _lineEnd = hit.point;
             }
 
-            yield return new WaitForSeconds(_chargeSpeed);
+            yield return (_chargeSpeed <= 0) ? null : new WaitForSeconds(_chargeSpeed);
             _chargeCoroutine = null;
         }
 
         protected override IEnumerator AttackCoroutine(List<GameObject> list)
         {
-            while (ChargeAmount <= _maxChargeAmount)
+            while (ChargeAmount <= _artifactSO.AttackDelay)
             {
                 Charge();
                 yield return null;
@@ -109,7 +108,7 @@ namespace CKT
                 StartCoroutine(castSkill(bullet.transform.position, bullet.transform.up));
             }
 
-            yield return new WaitForSeconds(base._artifactSO.AttackSpeed);
+            yield return new WaitForSeconds(base._artifactSO.AttackCoolTime);
             base._attackCoroutine = null;
         }
         #endregion

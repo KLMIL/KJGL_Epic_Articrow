@@ -10,7 +10,8 @@ namespace CKT
         [SerializeField] float          _manaCost;
         [SerializeField] float          _moveSpeed;
         [SerializeField] float          _existTime;
-        [SerializeField] float          _attackSpeed;
+        [SerializeField] float          _attackDelay;
+        [SerializeField] float          _attackCoolTime;
         [SerializeField] float          _damage;
         [SerializeField] int            _penetration;
 
@@ -19,7 +20,8 @@ namespace CKT
         public float         ManaCost { get => _manaCost; }
         public float         MoveSpeed { get => _moveSpeed; }
         public float         ExistTime { get => _existTime; }
-        public float         AttackSpeed { get => _attackSpeed; }
+        public float         AttackDelay { get => _attackDelay; }
+        public float         AttackCoolTime { get => _attackCoolTime; }
         public float         Damage { get => _damage; }
         public int           Penetration { get => _penetration; }
     }

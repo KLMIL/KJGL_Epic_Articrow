@@ -9,6 +9,8 @@ namespace YSJ
 {
     public class PlayerStatus : MonoBehaviour, IDamagable
     {
+        TextMeshPro _damageText;
+        
         SpriteRenderer _spriteRenderer;
         WaitForSeconds _colorChangeTime = new WaitForSeconds(0.25f);
 
@@ -48,9 +50,9 @@ namespace YSJ
         [Header("스테이터스")]
         float _health;                      // 체력
         float _mana;                        // 마나
-        float _rightCoolTime = 1f;          // 오른손 쿨타임
-        float _rightDamage = 10f;           // 오른손 데미지
-        float _spendManaOffsetAmount = 0f;  // 마나 소비량 줄여주는 값
+        float _rightCoolTime = 0f;          // 오른손 추가 쿨타임
+        float _rightDamage = 0f;           // 오른손 추가 데미지
+        float _spendManaOffsetAmount = 0f;  // 마나 소모량 감소
 
         public float Health
         {
@@ -206,9 +208,25 @@ namespace YSJ
         // 데미지 텍스트 띄우기
         void ShowDamageText(float damage)
         {
-            TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            /*TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
             damageText.transform.position = transform.position;
-            damageText.text = damage.ToString();
+            damageText.text = damage.ToString();*/
+
+            // 대미지 부여 텍스트
+            if (_damageText != null && _damageText.gameObject.activeInHierarchy)
+            {
+                _damageText.text = (float.Parse(_damageText.text) + damage).ToString();
+
+                Color color = _damageText.color;
+                color.a = 1;
+                _damageText.color = color;
+            }
+            else
+            {
+                _damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+                _damageText.text = damage.ToString();
+            }
+            _damageText.transform.position = this.transform.position + this.transform.up;
         }
 
         // 피격 색상 변경

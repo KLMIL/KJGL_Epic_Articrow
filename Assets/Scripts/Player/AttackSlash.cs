@@ -60,7 +60,7 @@ namespace BMC
                     spirit.transform.position = collision.transform.position;
                     spirit.SetSealed(transform);
 
-                    float damage = PlayerManager.Instance.PlayerAttack.CurrentAttackStep == 1 ? 10f : 15f;
+                    float damage = PlayerManager.Instance.PlayerAttack.CurrentAttackStep == 1 ? 8f : 12f;
                     damagable.TakeDamage(damage);
                     Managers.Sound.PlaySFX(Define.SFX.Slash);
                     PlayerManager.Instance.PlayerStatus.RegenerateMana(10);

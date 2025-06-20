@@ -1,4 +1,3 @@
-using BMC;
 using System.Collections;
 using UnityEngine;
 
@@ -18,9 +17,6 @@ namespace CKT
             Debug.Log($"{SkillName}, Level+{level}");
 
             int scatterCount = level + 1;
-            _player = _player ?? FindAnyObjectByType<BMC.PlayerManager>().transform;
-            Vector3 originUp = (position - _player.position).normalized;
-
             for (int k = 0; k < scatterCount; k++)
             {
                 //분산 각도
@@ -33,7 +29,7 @@ namespace CKT
                 {
                     sign = ((k % 2 == 0) ? 1 : -1) * Mathf.Ceil(k / 2.0f);
                 }
-                Vector2 scatterDir = Util.RotateVector(originUp, (sign * _scatterAngle)).normalized;
+                Vector2 scatterDir = Util.RotateVector(direction, (sign * _scatterAngle)).normalized;
 
                 ArtifactSO artifactSO = GameManager.Instance.RightSkillManager.GetArtifactSOFuncT0.Trigger();
                 GameObject hitScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(artifactSO.ProjectilePoolID);

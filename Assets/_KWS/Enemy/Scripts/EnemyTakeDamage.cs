@@ -7,10 +7,16 @@ namespace Game.Enemy
     public class EnemyTakeDamage : MonoBehaviour, IDamagable
     {
         EnemyController ownerController;
+        TextMeshPro damageText;
 
         private void Start()
         {
             ownerController = GetComponentInParent<EnemyController>();
+        }
+
+        private void OnDisable()
+        {
+            damageText = null;
         }
 
         public void TakeDamage(float damage)
@@ -25,11 +31,21 @@ namespace Game.Enemy
                 currDamage *= ownerController.FSM.enemyDamagedMultiply;
             }
 
-
             // 대미지 부여 텍스트
-            TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-            damageText.text = currDamage.ToString();
-            damageText.transform.position = transform.position;
+            if (damageText != null && damageText.gameObject.activeInHierarchy)
+            {
+                damageText.text = (float.Parse(damageText.text) + currDamage).ToString();
+
+                Color color = damageText.color;
+                color.a = 1;
+                damageText.color = color;
+            }
+            else
+            {
+                damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+                damageText.text = currDamage.ToString();
+            }
+            damageText.transform.position = this.transform.position + this.transform.up;
 
 
             ownerController.Status.healthPoint -= currDamage;

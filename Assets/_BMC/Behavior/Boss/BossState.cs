@@ -13,6 +13,5 @@ public enum BossState
 	Rush,   // 돌진
     Stun,   // 기절
     Shoot,  // 발사
-    Hit,    // 피격
     Die,    // 사망
 }
