@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.Cinemachine;
 using UnityEngine;
 using YSJ;
 
@@ -9,12 +8,11 @@ namespace BMC
     {
         Rigidbody2D _rb;
         PlayerAnimator _playerAnimator;
-        AttackSlash _attackSlash;
+        PlayerHitBox _hitBox;
 
         [field: SerializeField] public int CurrentAttackStep { get; private set; }  // 현재 공격 단계
         int _maxAttackStep = 2;         // 최대 공격 단계
 
-        float _comboTimer = 0f;
         float _comboInputWindow = 0.3f; // 공격 입력 타이밍 윈도우 (짧을 수록 공격 단계 후, 대기 시간이 짧아짐)
         bool _canNextCombo = false;     // 다음 콤보 입력 가능 여부
         bool _inputBuffered = false;    // 입력 버퍼 여부
@@ -34,7 +32,7 @@ namespace BMC
         void Start()
         {
             _playerAnimator = GetComponent<PlayerAnimator>();
-            _attackSlash = GetComponentInChildren<AttackSlash>();
+            _hitBox = GetComponentInChildren<PlayerHitBox>();
             Managers.Input.OnLeftHandAction += Attack;
         }
 
@@ -76,7 +74,7 @@ namespace BMC
 
             // 공격 이동 & 이펙트(애니메이션) 실행
             AttackMove();
-            _attackSlash.Play(CurrentAttackStep);
+            _hitBox.Play(CurrentAttackStep);
 
             // 다음 콤보 입력 대기
             _canNextCombo = CurrentAttackStep < _maxAttackStep;
@@ -88,7 +86,13 @@ namespace BMC
                 {
                     // 클릭으로 버퍼링됐으면 바로 다음 단계
                     _canNextCombo = false;
-                    yield return null;
+                    
+                    // 현재 스텝 애니메이션을 끝낼 때까지 대기
+                    yield return new WaitUntil(() =>
+                        _hitBox.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f
+                    );
+
+                    // 그 다음 단계 코루틴 재시작
                     StartAttackCoroutine();
                     yield break;
                 }
