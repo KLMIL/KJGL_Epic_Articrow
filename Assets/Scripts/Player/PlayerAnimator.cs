@@ -46,18 +46,18 @@ namespace YSJ
                 return;
             }
 
-            if ((CurrentState & State.Attack) == State.Attack)
-            {
-                OnHurtAnimationEndEvent();
-                return;
-            }
-
             // Dead 상태
             if ((CurrentState & State.Dead) == State.Dead)
             {
                 // 플립
                 FlipX();
                 _anim.Play("Dead");
+                return;
+            }
+
+            if ((CurrentState & State.Attack) == State.Attack)
+            {
+                OnHurtAnimationEndEvent();
                 return;
             }
 
