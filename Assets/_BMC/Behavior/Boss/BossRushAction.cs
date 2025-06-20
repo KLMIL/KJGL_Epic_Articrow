@@ -15,7 +15,7 @@ public partial class BossRushAction : Action
     [SerializeReference] public BlackboardVariable<bool> IsCollisionWithObstacle;
 
     BossFSM _fsm;
-    float _rushForce = 12000f;
+    float _rushForce = 10000f;
 
     protected override Status OnStart()
     {

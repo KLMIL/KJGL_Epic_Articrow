@@ -13,6 +13,7 @@ namespace BMC
         SpriteRenderer _spriteRenderer;
         WaitForSeconds _colorChangeTime = new WaitForSeconds(0.25f);
         BehaviorGraphAgent _behaviorGraphAgent;
+        TextMeshPro _damageText;
 
         [Header("상태")]
         [field: SerializeField] public bool IsDead { get; set; }
@@ -68,9 +69,21 @@ namespace BMC
 
             Debug.Log($"보스 체력: {Health}");
 
-            TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-            damageText.text = damage.ToString();
-            damageText.transform.position = transform.position;
+            // 대미지 부여 텍스트
+            if (_damageText != null && _damageText.gameObject.activeInHierarchy)
+            {
+                _damageText.text = (float.Parse(_damageText.text) + damage).ToString();
+
+                Color color = _damageText.color;
+                color.a = 1;
+                _damageText.color = color;
+            }
+            else
+            {
+                _damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+                _damageText.text = damage.ToString();
+            }
+            _damageText.transform.position = this.transform.position + this.transform.up * 1.5f;
 
             StartCoroutine(TakeDamageColor());
             // 보스 체력 UI
@@ -96,13 +109,14 @@ namespace BMC
             _spriteRenderer.color = Color.white;
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if(collision.gameObject.CompareTag("Player"))
-            {
-                collision.gameObject.GetComponent<Rigidbody2D>()?.AddForce((collision.transform.position - transform.position).normalized * 10f, ForceMode2D.Impulse);
-                collision.gameObject.GetComponent<IDamagable>()?.TakeDamage(Damage);
-            }
-        }
+        //private void OnCollisionEnter2D(Collision2D collision)
+        //{
+        //    _behaviorGraphAgent.GetVariable<BossState>("CurrentState", out BlackboardVariable<BossState> bossState);
+        //    if (collision.gameObject.CompareTag("Player") && bossState == BossState.Rush)
+        //    {
+        //        collision.gameObject.GetComponent<Rigidbody2D>()?.AddForce((collision.transform.position - transform.position).normalized * 10f, ForceMode2D.Impulse);
+        //        collision.gameObject.GetComponent<IDamagable>()?.TakeDamage(Damage);
+        //    }
+        //}
     }
 }
