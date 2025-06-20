@@ -110,7 +110,7 @@ namespace YSJ
 
         void Awake()
         {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             Init();
             OnDeadAction += Death;
         }
