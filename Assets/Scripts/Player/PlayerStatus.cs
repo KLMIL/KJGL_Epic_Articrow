@@ -9,6 +9,8 @@ namespace YSJ
 {
     public class PlayerStatus : MonoBehaviour, IDamagable
     {
+        TextMeshPro _damageText;
+        
         SpriteRenderer _spriteRenderer;
         WaitForSeconds _colorChangeTime = new WaitForSeconds(0.25f);
 
@@ -206,9 +208,25 @@ namespace YSJ
         // 데미지 텍스트 띄우기
         void ShowDamageText(float damage)
         {
-            TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            /*TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
             damageText.transform.position = transform.position;
-            damageText.text = damage.ToString();
+            damageText.text = damage.ToString();*/
+
+            // 대미지 부여 텍스트
+            if (_damageText != null && _damageText.gameObject.activeInHierarchy)
+            {
+                _damageText.text = (float.Parse(_damageText.text) + damage).ToString();
+
+                Color color = _damageText.color;
+                color.a = 1;
+                _damageText.color = color;
+            }
+            else
+            {
+                _damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+                _damageText.text = damage.ToString();
+            }
+            _damageText.transform.position = this.transform.position + this.transform.up;
         }
 
         // 피격 색상 변경
