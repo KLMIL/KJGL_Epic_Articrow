@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,6 +29,8 @@ namespace Game.Enemy
 
         [HideInInspector] public Transform Player;
         [HideInInspector] public Transform Attacker = null;
+
+        Coroutine markingCoroutine;
 
 
         public string CurrentStateName => FSM.CurrentStateName;
@@ -99,6 +102,75 @@ namespace Game.Enemy
         {
             StartCoroutine(_movement.StepKnockback(direction, distance, duration, steps));
         }
+
+        public void StartMarkingCoroutine(float multiply, float duration)
+        {
+            if (markingCoroutine != null)
+            {
+                StopCoroutine(markingCoroutine);
+            }
+            
+            // TODO: 덮어쓰는 방식을 어떻게 할지 결정할 것
+            FSM.enemyDamagedMultiply = multiply;
+            FSM.enemyDamagedMultiplyRemainTime = Time.time + duration;
+
+            Debug.LogError($"Time do? : {FSM.enemyDamagedMultiply < Time.time}");
+
+            markingCoroutine = StartCoroutine(MarkingRestoreCoroutine(duration));
+        }
+
+        // 임시로 피격 모션을 보여주기 위한 함수들
+        public void StartTintCoroutine(Color color, float duration)
+        {
+            StartCoroutine(SpriteTintRepeatCoroutine(color, duration));
+        }
+
+        public void StartTintCoroutineOnce(Color color)
+        {
+            StartCoroutine(SpriteTintOnceCoroutine(color));
+        }
         #endregion
+
+
+        private IEnumerator MarkingRestoreCoroutine(float duration)
+        {
+            yield return new WaitForSeconds(duration);
+            markingCoroutine = null;
+            FSM.enemyDamagedMultiply = 1f;
+        }
+
+        private IEnumerator SpriteTintRepeatCoroutine(Color color, float duration)
+        {
+            Debug.LogError("Called Tint Coroutine");
+
+            float elapsed = 0f;
+            bool currColor = true;
+            SpriteRenderer.color = color;
+
+            while (elapsed < duration)
+            {
+                yield return new WaitForSeconds(0.2f);
+                elapsed += 0.2f;
+                if (currColor)
+                {
+                    SpriteRenderer.color = Color.white;
+                    currColor = !currColor;
+                }
+                else
+                {
+                    SpriteRenderer.color = color;
+                    currColor = !currColor;
+                }
+            }
+
+            SpriteRenderer.color = Color.white;
+        }
+
+        private IEnumerator SpriteTintOnceCoroutine(Color color)
+        {
+            SpriteRenderer.color = color;
+            yield return new WaitForSeconds(0.5f);
+            SpriteRenderer.color = Color.white;
+        }
     }
 }
