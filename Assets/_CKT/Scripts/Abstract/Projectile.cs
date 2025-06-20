@@ -73,8 +73,7 @@ namespace CKT
 
         protected virtual IEnumerator DisableCoroutine(float existTime)
         {
-            yield return null;
-            yield return new WaitForSeconds(existTime);
+            yield return (existTime <= 0) ? null : new WaitForSeconds(existTime);
             YSJ.Managers.TestPool.Return(_artifactSO.ProjectilePoolID, this.gameObject);
             _disableCoroutine = null;
         }

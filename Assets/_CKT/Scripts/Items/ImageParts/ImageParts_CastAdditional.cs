@@ -26,7 +26,7 @@ namespace CKT
                 Projectile[] projectile = castAdditionalCopy.GetComponentsInChildren<Projectile>();
                 for (int k = 0; k < projectile.Length; k++)
                 {
-                    projectile[k].Init(false);
+                    projectile[k].Init(true);
                 }
 
                 if (skillManager.CastSkillDict.ContainsKey("CastScatter"))

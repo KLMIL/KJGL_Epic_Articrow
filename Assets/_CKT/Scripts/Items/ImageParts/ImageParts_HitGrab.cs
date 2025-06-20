@@ -14,13 +14,10 @@ namespace CKT
         {
             Debug.Log($"{SkillName}, Level+{level}");
 
-            if (level > 0)
-            {
-                GameObject grabObject = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.GrabObject);
-                grabObject.transform.position = position;
-                //grabObject.transform.localScale = origin.transform.localScale;
-                grabObject.GetComponent<GrabObject>().Init(level);
-            }
+            GameObject grabObject = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.GrabObject);
+            grabObject.transform.position = position;
+            //grabObject.transform.localScale = origin.transform.localScale;
+            grabObject.GetComponent<GrabObject>().Init(level);
 
             yield return null;
         }

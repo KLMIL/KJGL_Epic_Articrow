@@ -33,7 +33,7 @@ namespace CKT
             _collider.enabled = true;
             Debug.LogError("Explosion");
 
-            yield return new WaitForSeconds(DisableTime);
+            yield return (DisableTime <= 0) ? null : new WaitForSeconds(DisableTime);
             _collider.enabled = false;
             YSJ.Managers.TestPool.Return(PoolID, this.gameObject);
         }

@@ -15,12 +15,24 @@ namespace Game.Enemy
 
         public void TakeDamage(float damage)
         {
+            ownerController.FSM.isDamaged = true;
+            float currDamage = damage;
+
+            // 표식이 있는지 검사해서, 있다면 대미지 배율 적용
+            bool isMarked = Time.time < ownerController.FSM.enemyDamagedMultiplyRemainTime;
+            if (isMarked)
+            {
+                currDamage *= ownerController.FSM.enemyDamagedMultiply;
+            }
+
+
+            // 대미지 부여 텍스트
             TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-            damageText.text = damage.ToString();
+            damageText.text = currDamage.ToString();
             damageText.transform.position = transform.position;
 
-            ownerController.FSM.isDamaged = true;
-            ownerController.Status.healthPoint -= damage;
+
+            ownerController.Status.healthPoint -= currDamage;
             //ownerController.FSM.pendingDamage += damage;
 
             // TODO: TakeDamage에서 공격자 Transfrom 전달하기

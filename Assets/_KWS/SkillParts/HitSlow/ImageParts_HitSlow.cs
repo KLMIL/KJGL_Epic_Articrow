@@ -1,5 +1,7 @@
 using Game.Enemy;
 using System.Collections;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /*
@@ -27,7 +29,11 @@ namespace CKT
 
             Collider2D[] hits = Physics2D.OverlapCircleAll(position, slowRadius, LayerMask.GetMask("Monster"));
 
-            foreach (Collider2D hit in hits)
+            var filterHits = hits
+                .Where(h => h != null && h.isTrigger)
+                .ToList();
+
+            foreach (Collider2D hit in filterHits)
             {
                 if (hit == null) continue;
 
@@ -35,6 +41,8 @@ namespace CKT
 
                 GameObject hitSlow = Instantiate(hitSlowPrefab);
                 hitSlow.GetComponent<HitSlow>().StartSlowCoroutine(slowDuration * level, slowMultiply, hit);
+
+                hit.GetComponent<EnemyController>().StartTintCoroutine(Color.blue, slowDuration * level);
             }
 
             yield return null;
