@@ -30,6 +30,8 @@ namespace YSJ
         void Start()
         {
             Init();
+
+            Cursor.lockState = CursorLockMode.Confined;
         }
 
         // 매니저 인스턴스 없어도 생성
