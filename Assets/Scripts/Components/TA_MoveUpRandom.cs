@@ -34,7 +34,7 @@ public class TA_MoveUpRandom : MonoBehaviour
         _color.a -= fixedDeltaAlpha;
         tmp.color = _color;
 
-        if (tmp.color.a <= 0)
+        if (tmp.color.a <= 0.25f)
         {
             tmp.text = "0";
             Managers.TestPool.Return(Define.PoolID.DamageText, gameObject);

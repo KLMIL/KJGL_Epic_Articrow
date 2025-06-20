@@ -224,7 +224,7 @@ namespace YSJ
             else
             {
                 _damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-                _damageText.text = damage.ToString();
+                _damageText.text = damage.ToString("F0");
             }
             _damageText.transform.position = this.transform.position + this.transform.up;
         }

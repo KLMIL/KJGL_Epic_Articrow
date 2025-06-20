@@ -12,7 +12,7 @@ namespace YSJ
         SceneManagerEx _scene = new SceneManagerEx();
         InputManager _input = new InputManager();
         UIManager _ui = new UIManager();
-        PoolManager _pool = new PoolManager();
+        //PoolManager _pool = new PoolManager();
         DataManager _data = new DataManager();
 
         BMC.PoolManager _testPool = new BMC.PoolManager();

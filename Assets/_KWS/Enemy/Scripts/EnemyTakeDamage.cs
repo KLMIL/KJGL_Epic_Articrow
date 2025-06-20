@@ -34,7 +34,7 @@ namespace Game.Enemy
             // 대미지 부여 텍스트
             if (damageText != null && damageText.gameObject.activeInHierarchy)
             {
-                damageText.text = (float.Parse(damageText.text) + currDamage).ToString();
+                damageText.text = (float.Parse(damageText.text) + currDamage).ToString("F0");
 
                 Color color = damageText.color;
                 color.a = 1;
@@ -43,7 +43,7 @@ namespace Game.Enemy
             else
             {
                 damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-                damageText.text = currDamage.ToString();
+                damageText.text = currDamage.ToString("F0");
             }
             damageText.transform.position = this.transform.position + this.transform.up;
 
