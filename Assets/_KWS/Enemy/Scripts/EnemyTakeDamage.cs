@@ -7,6 +7,7 @@ namespace Game.Enemy
     public class EnemyTakeDamage : MonoBehaviour, IDamagable
     {
         EnemyController ownerController;
+        TextMeshPro damageText;
 
         private void Start()
         {
@@ -27,12 +28,21 @@ namespace Game.Enemy
 
 
             // 대미지 부여 텍스트
-            TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-            damageText.text = currDamage.ToString();
-            damageText.transform.position = transform.position;
+            if (damageText != null && damageText.gameObject.activeInHierarchy)
+            {
+                damageText.text = (float.Parse(damageText.text) + currDamage).ToString();
+                damageText.transform.position = transform.position;
+            }
+            else
+            {
+                damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+                damageText.text = currDamage.ToString();
+                damageText.transform.position = transform.position;
+            }
 
 
-            ownerController.Status.healthPoint -= currDamage;
+
+                ownerController.Status.healthPoint -= currDamage;
             //ownerController.FSM.pendingDamage += damage;
 
             // TODO: TakeDamage에서 공격자 Transfrom 전달하기
