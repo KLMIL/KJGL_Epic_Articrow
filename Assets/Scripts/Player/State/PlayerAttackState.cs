@@ -11,7 +11,7 @@ namespace BMC
         Rigidbody2D _rb;
         PlayerFSM _playerFSM;
         CheckPlayerDirection _checkPlayerDirection;
-        AttackSlash _attackSlash;
+        PlayerHitBox _attackSlash;
 
         Coroutine _attackCoroutine;
 
@@ -34,7 +34,7 @@ namespace BMC
             _rb = GetComponent<Rigidbody2D>();
             _playerFSM = GetComponent<PlayerFSM>();
             _checkPlayerDirection = GetComponent<CheckPlayerDirection>();
-            _attackSlash = GetComponentInChildren<AttackSlash>();
+            _attackSlash = GetComponentInChildren<PlayerHitBox>();
 
             Managers.Input.OnLeftHandAction += Attack;
         }
