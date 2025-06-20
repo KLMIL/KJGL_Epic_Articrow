@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine;
 using YSJ;
 
@@ -58,6 +59,10 @@ namespace BMC
 
         public void StartAttackCoroutine()
         {
+            // 해당 부분 없으면 꾹 누른 채로 공격 시, 계속 공격하며 죽는 모션 반복되는 현상 방지
+            if (PlayerManager.Instance.PlayerStatus.IsDead)
+                return;
+
             StartCoroutine(AttackCoroutine());
         }
 
