@@ -9,13 +9,16 @@ namespace YSJ
 {
     public class PlayerStatus : MonoBehaviour, IDamagable
     {
+        [Header("피격")]
+        float _cameraShakeIntensity = 0.5f;
+        float _cameraShakeTime = 0.25f;
+
         TextMeshPro _damageText;
-        
         SpriteRenderer _spriteRenderer;
-        WaitForSeconds _colorChangeTime = new WaitForSeconds(0.25f);
+        WaitForSeconds _hurtColorChangeTime = new WaitForSeconds(0.25f);
 
+        [Header("사망")]
         public static Action OnDeadAction;
-
         public bool IsDead { get; private set; } = false;
 
         #region 기준 스테이터스
@@ -148,6 +151,7 @@ namespace YSJ
             ShowDamageText(damage);
             UpdateHealth(-damage);
             StartCoroutine(TakeDamageColor());
+            GameManager.Instance.CameraController.ShakeCamera(_cameraShakeIntensity, _cameraShakeTime);
 
             // YSJ : 데미지 받으면 피격 애니메이션 재생
             PlayerAnimator playerAnimator = GetComponent<PlayerAnimator>();
@@ -233,7 +237,7 @@ namespace YSJ
         IEnumerator TakeDamageColor()
         {
             _spriteRenderer.color = Color.gray;
-            yield return _colorChangeTime;
+            yield return _hurtColorChangeTime;
             _spriteRenderer.color = Color.white;
         }
 

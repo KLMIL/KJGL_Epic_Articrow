@@ -4,11 +4,28 @@ namespace BMC
 {
     public class DummyProjectile : MonoBehaviour
     {
+        float _damage = 5f;
+        [SerializeField] LayerMask _stopLayerMask;
+
+        void Awake()
+        {
+            _stopLayerMask = LayerMask.GetMask("PlayerHurtBox");
+        }
+
+        // 보스가 데미지 주입하는 메서드
+        public void Init(float damage)
+        {
+            _damage = damage;
+        }
+
         void OnTriggerEnter2D(Collider2D collision)
         {
-            if(collision.CompareTag("Player"))
+            if ((_stopLayerMask.value & (1 << collision.gameObject.layer)) != 0)
             {
-                collision.gameObject.GetComponent<IDamagable>()?.TakeDamage(5f);
+                if(collision.gameObject.TryGetComponent<IDamagable>(out IDamagable damagable))
+                {
+                    damagable.TakeDamage(_damage);
+                }
                 Destroy(gameObject);
             }
         }
