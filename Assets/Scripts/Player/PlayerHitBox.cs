@@ -47,7 +47,7 @@ namespace BMC
             
             if ((1 << collision.gameObject.layer) == LayerMask.GetMask("EnemyHurtBox"))
             {
-                if (collision.transform.parent.TryGetComponent<IDamagable>(out IDamagable damagable))
+                if (collision.TryGetComponent<IDamagable>(out IDamagable damagable))
                 {
                     //if (_hitStopCoroutine == null)
                     //{
