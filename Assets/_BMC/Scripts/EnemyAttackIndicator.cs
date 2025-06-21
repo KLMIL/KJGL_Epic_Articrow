@@ -5,7 +5,7 @@ namespace BMC
 {
     public class EnemyAttackIndicator : MonoBehaviour
     {
-        public Transform target;               // 공격 목표
+        Transform _target;               // 공격 목표
         SpriteRenderer _indicator;             // 인디케이터
         SpriteRenderer _background;            // 배경
         Coroutine _coroutine;
@@ -30,6 +30,11 @@ namespace BMC
             _background.enabled = false;
         }
 
+        void Start()
+        {
+            _target = PlayerManager.Instance.transform;
+        }
+
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.T))
@@ -50,7 +55,7 @@ namespace BMC
         private IEnumerator ChargeCoroutine()
         {
             // 방향을 목표로 회전
-            Vector3 dir = (target.position - transform.position).normalized;
+            Vector3 dir = (_target.position - transform.position).normalized;
             transform.right = dir;
 
             // 원래 스케일 초기화
@@ -59,7 +64,7 @@ namespace BMC
             _indicator.enabled = true;
             _background.enabled = true;
 
-            _dist = Vector2.Distance(_indicator.transform.position, target.position) / 2;
+            _dist = Vector2.Distance(_indicator.transform.position, _target.position) / 2;
 
             // 1. 길이 확장
             _indicator.transform.localScale = new Vector3(_dist, _endThickness, 1);
