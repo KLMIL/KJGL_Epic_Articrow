@@ -12,10 +12,12 @@ namespace Game.Enemy
         private void Start()
         {
             ownerController = GetComponentInParent<EnemyController>();
+            GetComponentInChildren<TestEnemyTakeDamage>().Init(this);
         }
 
         private void OnDisable()
         {
+            damageText.text = "0";
             damageText = null;
         }
 
