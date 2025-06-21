@@ -17,12 +17,14 @@ namespace Game.Enemy
 
         private void OnDisable()
         {
-            damageText.text = "0";
+            //damageText.text = "0";
             damageText = null;
         }
 
         public void TakeDamage(float damage)
         {
+            if (ownerController.FSM.isDied) return;
+
             ownerController.FSM.isDamaged = true;
             float currDamage = damage;
 

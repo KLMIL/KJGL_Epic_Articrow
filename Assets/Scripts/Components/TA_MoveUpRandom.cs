@@ -20,6 +20,7 @@ public class TA_MoveUpRandom : MonoBehaviour
     private void OnEnable()
     {
         //alpha 값 초기화
+        tmp.text = "0";
         _color = tmp.color;
         _color.a = 1f;
         tmp.color = _color;
@@ -36,7 +37,7 @@ public class TA_MoveUpRandom : MonoBehaviour
 
         if (tmp.color.a <= 0.25f)
         {
-            tmp.text = "0";
+            //tmp.text = "0";
             Managers.TestPool.Return(Define.PoolID.DamageText, gameObject);
         }
     }
