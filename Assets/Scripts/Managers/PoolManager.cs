@@ -30,7 +30,7 @@ namespace BMC
         public void InitRegister()
         {
             // 풀링 목록 구성
-            Register(PoolType.TextPool, PoolID.DamageText, 1000);
+            Register(PoolType.TextPool, PoolID.DamageText, 30);
             Register(PoolType.EffectPool, PoolID.ManaEnergy);
             Register(PoolType.SkillPool, PoolID.Bullet_T1);
             Register(PoolType.SkillPool, PoolID.Bullet_T2);
