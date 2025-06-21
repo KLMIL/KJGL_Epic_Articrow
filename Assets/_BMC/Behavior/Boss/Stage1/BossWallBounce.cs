@@ -8,7 +8,7 @@ namespace BMC
         BossFSM _fsm;
 
         bool _isReflect = false;
-        [SerializeField] LayerMask _stopLayerMask;
+        LayerMask _stopLayerMask;
         [SerializeField] BehaviorGraphAgent _behaviorGraphAgent;
 
         void Awake()

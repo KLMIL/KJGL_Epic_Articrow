@@ -15,11 +15,6 @@ namespace BMC
         [SerializeField] BehaviorGraphAgent _behaviorGraphAgent;
         [SerializeField] Transform _target;
 
-        [Header("돌진")]
-        bool _isReflect = false;
-        public Vector2 RushDirection { get; set; } // 돌진 방향
-        [SerializeField] LayerMask _stopLayerMask;
-
         void Awake()
         {
             Init();
