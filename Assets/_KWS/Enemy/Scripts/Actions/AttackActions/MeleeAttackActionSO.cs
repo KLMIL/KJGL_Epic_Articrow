@@ -126,20 +126,19 @@ namespace Game.Enemy
 
             Vector2 attackOrigin = (Vector2)controller.transform.position + attackOffset;
             float radius = attackRange;
-            LayerMask playerMask = LayerMask.GetMask("Player");
+            LayerMask playerMask = LayerMask.GetMask("PlayerHurtBox");
 
             Collider2D[] hits = Physics2D.OverlapCircleAll(attackOrigin, radius, playerMask);
 
             foreach (var hit in hits)
             {
                 // 태그까지 검사 -> 안전망 역할
-                if (hit.CompareTag("Player") && hit.isTrigger)
-                {
+
                     float damage = controller.Status.attack * damageMultiply;
                     Transform target = hit.transform;
                     controller.DealDamageToPlayer(damage, target, false);
                     break;
-                }
+    
             }
         }
 

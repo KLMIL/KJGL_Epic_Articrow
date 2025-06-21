@@ -1,12 +1,13 @@
 using BMC;
 using UnityEngine;
+using YSJ;
 
 namespace Game.Enemy
 {
     public class EnemyDealDamage : MonoBehaviour
     {
         EnemyController ownerController;
-        public string targetTag = "Player";
+        //public string targetTag = "PlayerHurtBox";
 
         bool isPlayerContact = false;
 
@@ -18,14 +19,16 @@ namespace Game.Enemy
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            Debug.LogWarning("Player contact with enemy");
-            if (collision.CompareTag(targetTag) && collision.isTrigger)
+            //if (collision.GetComponent<PlayerHurtBox>() == null) return;
+
+            if ((1 << collision.gameObject.layer) == LayerMask.GetMask("PlayerHurtBox"))
             {
-                ownerController.Player = collision.transform;
+                //ownerController.Player = collision.transform;
+                Debug.LogError("플레이어 돌진 공격 시도");
 
                 if (!ownerController.FSM.isRushAttacked) // 돌진 공격 수행
                 {
-                    Debug.LogWarning("Rush Attack go");
+                    Debug.LogError("플레이어 돌진 공격 성공");
                     Transform target = collision.transform;
                     ownerController.DealDamageToPlayer(ownerController.Status.attack * ownerController.FSM.rushDamageMultuply, target);
                     ownerController.FSM.isRushAttacked = true;
@@ -48,7 +51,7 @@ namespace Game.Enemy
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.CompareTag(targetTag))
+            if ((1 << collision.gameObject.layer) == LayerMask.GetMask("PlayerHurtBox"))
             {
                 isPlayerContact = false;
                 ownerController.FSM.isContactDamageActive = false;

@@ -17,6 +17,7 @@ namespace Game.Enemy
 
         private void OnDisable()
         {
+            damageText.text = "0";
             damageText = null;
         }
 
