@@ -57,8 +57,12 @@ namespace Game.Enemy
 
             ownerController.Status.healthPoint -= currDamage;
 
-            if(ownerController.Status.healthPoint <= 0)
-                Managers.TestPool.Return(Define.PoolID.DamageText, gameObject);
+            // TODO: 반납하면 Jar Larva 안 죽는 문제 있어서 임시 주석
+            //if (ownerController.Status.healthPoint <= 0)
+            //{
+            //    Managers.TestPool.Return(Define.PoolID.DamageText, gameObject);
+            //}
+
 
             //ownerController.FSM.pendingDamage += damage;
 
