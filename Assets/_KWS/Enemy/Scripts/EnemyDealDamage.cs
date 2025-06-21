@@ -24,28 +24,22 @@ namespace Game.Enemy
             if ((1 << collision.gameObject.layer) == LayerMask.GetMask("PlayerHurtBox"))
             {
                 //ownerController.Player = collision.transform;
-                Debug.LogError("플레이어 돌진 공격 시도");
 
                 if (!ownerController.FSM.isRushAttacked) // 돌진 공격 수행
                 {
-                    Debug.LogError("플레이어 돌진 공격 성공");
                     Transform target = collision.transform;
                     ownerController.DealDamageToPlayer(ownerController.Status.attack * ownerController.FSM.rushDamageMultuply, target);
                     ownerController.FSM.isRushAttacked = true;
 
                     // 임시로 접촉 공격 쿨타임도 돌도록 처리
                     ownerController.FSM.lastContactAttackTime = Time.time;
+
+                    ownerController.FSM.isRushAttacked = true;
                     return;
                 }
 
                 isPlayerContact = true;
                 ownerController.FSM.isContactDamageActive = true;
-            }
-
-            // 임시로 Rush를 멈출 코드
-            if (ownerController.FSM.isRushAttacked == false)
-            {
-                ownerController.FSM.isRushAttacked = true;
             }
         }
 
