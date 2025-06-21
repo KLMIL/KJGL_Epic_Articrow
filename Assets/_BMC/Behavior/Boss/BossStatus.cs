@@ -8,9 +8,7 @@ namespace BMC
 {
     public class BossStatus : MonoBehaviour, IDamagable
     {
-        Animator _anim;
         CapsuleCollider2D _collider;
-        SpriteRenderer _spriteRenderer;
         WaitForSeconds _colorChangeTime = new WaitForSeconds(0.25f);
         BehaviorGraphAgent _behaviorGraphAgent;
         TextMeshPro _damageText;
@@ -27,13 +25,10 @@ namespace BMC
 
         void Awake()
         {
-            _anim = GetComponent<Animator>();
             _collider = GetComponent<CapsuleCollider2D>();
-            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             _visual = GetComponentInChildren<SpriteRenderer>();
             Init();
-
         }
 
         public void Init()
@@ -49,26 +44,14 @@ namespace BMC
             }
         }
 
-
         public void TakeDamage(float damage)
         {
             if (IsDead)
                 return;
 
-            //// 애니메이션 재생
-            //AnimatorStateInfo currentStateInfo = _anim.GetCurrentAnimatorStateInfo(0);
-            //if(!currentStateInfo.IsName("Shoot") && !currentStateInfo.IsName("Rush"))
-            //{
-            //    if(!currentStateInfo.IsName("Hit") || currentStateInfo.IsName("Idle"))
-            //    {
-            //        _anim.Play("Hit");
-            //    }
-            //}
-
             Health -= damage;
 
             Debug.Log($"보스 체력: {Health}");
-
             // 대미지 부여 텍스트
             if (_damageText != null && _damageText.gameObject.activeInHierarchy)
             {
@@ -92,7 +75,7 @@ namespace BMC
             {
                 // 피격 색상 변경 중지
                 StopAllCoroutines();
-                _spriteRenderer.color = Color.gray;
+                _visual.color = Color.gray;
 
                 IsDead = true;
                 _collider.enabled = false;
@@ -104,19 +87,9 @@ namespace BMC
         // 피격 색상 변경
         IEnumerator TakeDamageColor()
         {
-            _spriteRenderer.color = Color.gray;
+            _visual.color = Color.gray;
             yield return _colorChangeTime;
-            _spriteRenderer.color = Color.white;
+            _visual.color = Color.white;
         }
-
-        //private void OnCollisionEnter2D(Collision2D collision)
-        //{
-        //    _behaviorGraphAgent.GetVariable<BossState>("CurrentState", out BlackboardVariable<BossState> bossState);
-        //    if (collision.gameObject.CompareTag("Player") && bossState == BossState.Rush)
-        //    {
-        //        collision.gameObject.GetComponent<Rigidbody2D>()?.AddForce((collision.transform.position - transform.position).normalized * 10f, ForceMode2D.Impulse);
-        //        collision.gameObject.GetComponent<IDamagable>()?.TakeDamage(Damage);
-        //    }
-        //}
     }
 }
