@@ -34,13 +34,16 @@ namespace Game.Enemy
             }
 
             // 대미지 부여 텍스트
-            if (damageText != null && damageText.gameObject.activeInHierarchy)
+            if (damageText != null)
             {
-                damageText.text = (float.Parse(damageText.text) + currDamage).ToString("F0");
+                if (damageText.gameObject.activeInHierarchy)
+                {
+                    damageText.text = (float.Parse(damageText.text) + currDamage).ToString("F0");
 
-                Color color = damageText.color;
-                color.a = 1;
-                damageText.color = color;
+                    Color color = damageText.color;
+                    color.a = 1;
+                    damageText.color = color;
+                }
             }
             else
             {
