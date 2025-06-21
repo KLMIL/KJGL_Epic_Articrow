@@ -16,10 +16,6 @@ public partial class BossDieAction : Action
             _anim = Self.Value.GetComponent<Animator>();
         _anim.Play("Die");
 
-        //// 파괴
-        //AnimatorStateInfo currentStateInfo = _anim.GetCurrentAnimatorStateInfo(0);
-        //GameObject.Destroy(Self.Value, currentStateInfo.length * 3);
-
         return Status.Running;
     }
 }

@@ -45,9 +45,9 @@ namespace BMC
             //TODO : 콜리전 정리하면서 같이 정리하기
             if (!collision.isTrigger) return;
             
-            if ((1 << collision.gameObject.layer) == LayerMask.GetMask("Monster"))
+            if ((1 << collision.gameObject.layer) == LayerMask.GetMask("EnemyHurtBox"))
             {
-                if (collision.TryGetComponent<IDamagable>(out IDamagable damagable))
+                if (collision.transform.parent.TryGetComponent<IDamagable>(out IDamagable damagable))
                 {
                     //if (_hitStopCoroutine == null)
                     //{
