@@ -47,7 +47,7 @@ namespace YSJ
                     {
                         SFX sfx = Util.StringToEnum<SFX>(clip.name);
                         _sfxDict.Add(sfx, clip);
-                        Debug.Log(clip.name);
+                        //Debug.Log(clip.name);
                     }
                 }
             }
