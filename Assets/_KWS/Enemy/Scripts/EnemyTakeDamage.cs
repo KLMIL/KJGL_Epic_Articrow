@@ -56,6 +56,10 @@ namespace Game.Enemy
 
 
             ownerController.Status.healthPoint -= currDamage;
+
+            if(ownerController.Status.healthPoint <= 0)
+                Managers.TestPool.Return(Define.PoolID.DamageText, gameObject);
+
             //ownerController.FSM.pendingDamage += damage;
 
             // TODO: TakeDamage에서 공격자 Transfrom 전달하기
