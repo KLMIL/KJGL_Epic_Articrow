@@ -4,7 +4,7 @@ namespace Game.Enemy
 {
     // TODO: 추후 몬스터 프리펩 계층구조 변경 이후 제거예정
 
-    public class TestEnemyTakeDamage : MonoBehaviour
+    public class TestEnemyTakeDamage : MonoBehaviour, IDamagable
     {
         EnemyTakeDamage _enemyTakeDamage;
 
