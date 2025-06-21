@@ -58,7 +58,8 @@ namespace CKT
             if (iDamageable != null)
             {
                 float totalDamage = _artifactSO.Damage + PlayerManager.Instance.PlayerStatus.RightDamage;
-                iDamageable.TakeDamage(totalDamage);
+                float damageRate = GameManager.Instance.RightSkillManager.DamageRate;
+                iDamageable.TakeDamage(totalDamage * damageRate);
 
                 //true면 플레이가 호출한 Projectile,  false면 HitSkill에서 생성된 Projectile
                 if (_isCreateFromPlayer)

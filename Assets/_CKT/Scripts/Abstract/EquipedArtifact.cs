@@ -47,14 +47,16 @@ namespace CKT
         {
             if (_attackCoroutine != null) return;
 
-            if (BMC.PlayerManager.Instance.PlayerStatus.Mana < _artifactSO.ManaCost)
+            float curMana = BMC.PlayerManager.Instance.PlayerStatus.Mana;
+            float totalManaCost = _artifactSO.ManaCost - BMC.PlayerManager.Instance.PlayerStatus.SpendManaOffsetAmount;
+            if (curMana < totalManaCost)
             {
                 _manaLackCoroutine = _manaLackCoroutine ?? StartCoroutine(ManaLackCoroutine());
                 return;
             }
             else
             {
-                BMC.PlayerManager.Instance.PlayerStatus.SpendMana(_artifactSO.ManaCost);
+                BMC.PlayerManager.Instance.PlayerStatus.SpendMana(totalManaCost);
                 _attackCoroutine = StartCoroutine(AttackCoroutine(list));
             }
         }

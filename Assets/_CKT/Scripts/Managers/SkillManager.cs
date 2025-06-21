@@ -9,6 +9,7 @@ namespace CKT
     public class SkillManager
     {
         #region [아티팩트가 생성할 Projectile 스탯]
+        public float DamageRate = 1f;
         public FuncT0<ArtifactSO> GetArtifactSOFuncT0 = new();
         #endregion
 
@@ -98,6 +99,27 @@ namespace CKT
                     }
                 }
             }
+
+            int castScatterCount = 1;
+            if (SkillDupDict.ContainsKey("CastScatter"))
+            {
+                castScatterCount = 1 + (2 * SkillDupDict["CastScatter"]);
+            }
+
+            int hitScatterCount = 1;
+            if (SkillDupDict.ContainsKey("HitScatter"))
+            {
+                hitScatterCount = 2 + SkillDupDict["HitScatter"];
+            }
+
+            int castAdditional = 1;
+            if (SkillDupDict.ContainsKey("CastAdditional"))
+            {
+                castAdditional = 1 + SkillDupDict["CastAdditional"];
+            }
+
+            int totalProjectileCount = castScatterCount * hitScatterCount * castAdditional;
+            DamageRate = Mathf.Ceil(100 * (1f / totalProjectileCount)) / 100f;
         }
         #endregion
     }

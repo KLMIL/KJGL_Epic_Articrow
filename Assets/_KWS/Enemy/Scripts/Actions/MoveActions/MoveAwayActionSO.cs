@@ -20,10 +20,11 @@ namespace Game.Enemy
         public MoveAwayMode mode = MoveAwayMode.Simple;
         public float wallCheckDistance = 0.5f;
         public bool inverse = false;
+        public bool isSuperArmor = false;
 
         public override void Act(EnemyController controller)
         {
-            controller.FSM.isSuperArmor = false;
+            controller.FSM.isSuperArmor = isSuperArmor;
 
             if (controller.Player == null) return;
 

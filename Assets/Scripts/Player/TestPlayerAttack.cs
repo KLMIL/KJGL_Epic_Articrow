@@ -8,7 +8,7 @@ namespace BMC
     {
         Rigidbody2D _rb;
         PlayerAnimator _playerAnimator; // 플레이어 애니메이터
-        AttackSlash _attackSlash;
+        PlayerHitBox _attackSlash;
 
         [field: SerializeField] public int CurrentAttackStep { get; private set; }  // 현재 공격 단계
         int _maxAttackStep = 2;         // 최대 공격 단계

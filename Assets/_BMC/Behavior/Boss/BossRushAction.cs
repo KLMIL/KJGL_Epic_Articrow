@@ -24,13 +24,12 @@ public partial class BossRushAction : Action
             _fsm = Self.Value.GetComponent<BossFSM>();
         }
 
-        if (RushDirection.Value == Vector2.zero && Target.Value != null && Self.Value != null)
+        _fsm.HitBox.OnOff(true);
+        if (Target.Value != null && Self.Value != null)
         {
             Debug.Log("돌진 방향 계산");
             _fsm.Anim.Play("Rush");
-            RushDirection.Value = (Target.Value.transform.position - Self.Value.transform.position).normalized;
-            _fsm.Flip(RushDirection.Value.x);
-            _fsm.RushDirection = RushDirection.Value;
+            _fsm.FlipX(RushDirection.Value.x);
         }
         return Status.Running;
     }
@@ -54,5 +53,10 @@ public partial class BossRushAction : Action
         }
 
         return Status.Running;
+    }
+
+    protected override void OnEnd()
+    {
+        _fsm.HitBox.OnOff(false);
     }
 }

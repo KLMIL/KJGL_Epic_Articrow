@@ -21,7 +21,7 @@ namespace Game.Enemy
 
         Rigidbody2D _rb;
 
-        public string targetTag = "Player";
+        public string targetTag = "PlayerHurtBox";
 
 
         public void InitProjecitle(
@@ -53,7 +53,7 @@ namespace Game.Enemy
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag(targetTag) && collision.isTrigger)
+            if ((1 << collision.gameObject.layer) == LayerMask.GetMask("PlayerHurtBox"))
             {
                 if (!_isSpawnMode)
                 {

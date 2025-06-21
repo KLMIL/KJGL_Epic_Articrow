@@ -68,6 +68,7 @@ namespace Game.Enemy
 
             // 쿨타임 부여
             controller.lastAttackTimes[key] = Time.time;
+            Debug.LogError("물리공격 쿨타임 부여");
         }
 
         public override void OnEnter(EnemyController controller)
@@ -91,6 +92,7 @@ namespace Game.Enemy
                     break;
                 case MeleeAttackMode.Rush:
                     controller.FSM.isRushing = false;
+                    controller.FSM.isRushAttacked = true;
                     controller.FSM.currentActionDamageMultiply = 1.0f;
                     break;
             }
@@ -126,20 +128,19 @@ namespace Game.Enemy
 
             Vector2 attackOrigin = (Vector2)controller.transform.position + attackOffset;
             float radius = attackRange;
-            LayerMask playerMask = LayerMask.GetMask("Player");
+            LayerMask playerMask = LayerMask.GetMask("PlayerHurtBox");
 
             Collider2D[] hits = Physics2D.OverlapCircleAll(attackOrigin, radius, playerMask);
 
             foreach (var hit in hits)
             {
                 // 태그까지 검사 -> 안전망 역할
-                if (hit.CompareTag("Player") && hit.isTrigger)
-                {
+
                     float damage = controller.Status.attack * damageMultiply;
                     Transform target = hit.transform;
                     controller.DealDamageToPlayer(damage, target, false);
                     break;
-                }
+    
             }
         }
 

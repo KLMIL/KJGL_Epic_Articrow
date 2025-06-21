@@ -12,10 +12,12 @@ namespace Game.Enemy
         private void Start()
         {
             ownerController = GetComponentInParent<EnemyController>();
+            GetComponentInChildren<TestEnemyTakeDamage>().Init(this);
         }
 
         private void OnDisable()
         {
+            damageText.text = "0";
             damageText = null;
         }
 
@@ -32,18 +34,21 @@ namespace Game.Enemy
             }
 
             // 대미지 부여 텍스트
-            if (damageText != null && damageText.gameObject.activeInHierarchy)
+            if (damageText != null)
             {
-                damageText.text = (float.Parse(damageText.text) + currDamage).ToString();
+                if (damageText.gameObject.activeInHierarchy)
+                {
+                    damageText.text = (float.Parse(damageText.text) + currDamage).ToString("F0");
 
-                Color color = damageText.color;
-                color.a = 1;
-                damageText.color = color;
+                    Color color = damageText.color;
+                    color.a = 1;
+                    damageText.color = color;
+                }
             }
             else
             {
                 damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-                damageText.text = currDamage.ToString();
+                damageText.text = currDamage.ToString("F0");
             }
             damageText.transform.position = this.transform.position + this.transform.up;
 

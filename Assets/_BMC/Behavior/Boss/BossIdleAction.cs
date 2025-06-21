@@ -11,12 +11,14 @@ public partial class BossIdleAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     BossFSM _fsm;
+    EnemyAttackIndicator _enemyAttackIndicator;
 
     protected override Status OnStart()
     {
         if(_fsm == null)
         {
             _fsm = Self.Value.GetComponent<BossFSM>();
+            _enemyAttackIndicator = Self.Value.GetComponentInChildren<EnemyAttackIndicator>();
         }
 
         AnimatorStateInfo animatorStateInfo = _fsm.Anim.GetCurrentAnimatorStateInfo(0);
