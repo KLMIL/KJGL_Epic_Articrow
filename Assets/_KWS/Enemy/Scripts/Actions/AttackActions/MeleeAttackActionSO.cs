@@ -68,6 +68,7 @@ namespace Game.Enemy
 
             // 쿨타임 부여
             controller.lastAttackTimes[key] = Time.time;
+            Debug.LogError("물리공격 쿨타임 부여");
         }
 
         public override void OnEnter(EnemyController controller)
@@ -91,6 +92,7 @@ namespace Game.Enemy
                     break;
                 case MeleeAttackMode.Rush:
                     controller.FSM.isRushing = false;
+                    controller.FSM.isRushAttacked = true;
                     controller.FSM.currentActionDamageMultiply = 1.0f;
                     break;
             }
