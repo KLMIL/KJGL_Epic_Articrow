@@ -1,3 +1,4 @@
+using BMC;
 using UnityEngine;
 
 namespace Game.Enemy
@@ -58,7 +59,9 @@ namespace Game.Enemy
         public void DealDamageToPlayer(float damage, Transform targetTransform, bool forceToNextState)
         {
             //IDamagable target = ownerController.Player.GetComponent<IDamagable>();
-            IDamagable target = targetTransform.GetComponent<IDamagable>();
+            //IDamagable target = targetTransform.GetComponent<IDamagable>();
+
+            PlayerHurtBox target = targetTransform.GetComponent<PlayerHurtBox>();
 
             if (target != null)
             {
