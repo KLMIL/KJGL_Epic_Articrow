@@ -11,10 +11,30 @@ namespace Game.Enemy
 )]
     public class AttackReadyActionSO : EnemyActionSO
     {
+
+        public override void OnEnter(EnemyController controller)
+        {
+            controller._attackIndicator?.Show();
+        }
+
         public override void Act(EnemyController controller)
         {
             controller.FSM.isSuperArmor = true;
-            // 아무것도 하지 않음.
+
+            if (controller._attackIndicator != null)
+            {
+                Vector2 dir = (controller.Player.position - controller.transform.position).normalized;
+                float len = (controller.Player.position - controller.transform.position).magnitude * 2;
+
+                len = len < controller.FSM.indicatorLength * 2 ? len : controller.FSM.indicatorLength * 2;
+
+                controller._attackIndicator?.SetDirection(dir, len);
+            }
+        }
+
+        public override void OnExit(EnemyController controller)
+        {
+            controller._attackIndicator?.Hide();
         }
     }
 }

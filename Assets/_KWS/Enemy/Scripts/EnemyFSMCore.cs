@@ -50,6 +50,9 @@ namespace Game.Enemy
         // TODO: 임시 변수 필드 -> EnemyStatusEffect 클래스로 분리하기
         public float enemyDamagedMultiply = 1f;
         public float enemyDamagedMultiplyRemainTime = 0f;
+
+        // 인디케이터를 위한 공통 변수
+        public float indicatorLength = 1f;
         #endregion
 
 

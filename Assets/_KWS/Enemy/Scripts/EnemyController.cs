@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.InputSystem.OnScreen.OnScreenStick;
 
 namespace Game.Enemy
 {
@@ -29,6 +30,8 @@ namespace Game.Enemy
 
         [HideInInspector] public Transform Player;
         [HideInInspector] public Transform Attacker = null;
+
+        [HideInInspector] public EnemyAttackIndicator _attackIndicator;
 
         Coroutine markingCoroutine;
 
@@ -62,6 +65,11 @@ namespace Game.Enemy
 
             // FSM 생성
             FSM = new EnemyFSMCore(this, Behaviours);
+            _attackIndicator = GetComponentInChildren<EnemyAttackIndicator>(true);
+            if (_attackIndicator == null)
+            {
+                Debug.Log($"{gameObject.name}: No AttackIndicator assigned");
+            }
         }
 
         private void OnEnable()
@@ -72,6 +80,34 @@ namespace Game.Enemy
 
         private void Start()
         {
+            foreach (var behaviour in Behaviours)
+            {
+                // TODO: attack length 관련 공통 변수로 통일 필요
+
+                if (behaviour.action is MeleeAttackActionSO meleeAttack)
+                {
+                    if (meleeAttack.meleeAttackMode == MeleeAttackMode.Basic)
+                    {
+                        FSM.indicatorLength = meleeAttack.attackRange;
+                    }
+                    if (meleeAttack.meleeAttackMode == MeleeAttackMode.Rush)
+                    {
+                        FSM.indicatorLength = meleeAttack.rushSpeedMultiply * meleeAttack.rushDuration * Status.moveSpeed;
+                    }
+                }
+
+                if (behaviour.action is ProjectileAttackActionSO projectileAttack)
+                {
+                    FSM.indicatorLength = projectileAttack.projectileSpeed * projectileAttack.lifetime;
+                }
+
+                if (behaviour.action is SpecialAttackActionSO specialAttack)
+                {
+                    FSM.indicatorLength = specialAttack.spawnRadius;
+                }
+            }
+
+
             SpriteRenderer = GetComponent<SpriteRenderer>();
             _animation = GetComponent<EnemyAnimation>();
             _movement = GetComponent<EnemyMovement>();
@@ -109,7 +145,7 @@ namespace Game.Enemy
             {
                 StopCoroutine(markingCoroutine);
             }
-            
+
             // TODO: 덮어쓰는 방식을 어떻게 할지 결정할 것
             FSM.enemyDamagedMultiply = multiply;
             FSM.enemyDamagedMultiplyRemainTime = Time.time + duration;
