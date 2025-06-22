@@ -24,8 +24,13 @@ namespace BMC
         }
 
         // 방 아이콘 설정
-        public void SetRoomIcon(Sprite sprite)
+        public void SetRoomIcon(Sprite sprite = null)
         {
+            if(sprite == null)
+            {
+                _roomTypeIcon.enabled = false;
+                return;
+            }
             _roomTypeIcon.sprite = sprite;
         }
     }

@@ -24,6 +24,14 @@ namespace BMC
             //GetComponentInChildren<EnemySpawner>().SpawnBoss();
         }
 
+        void Start()
+        {
+            // 보스 방 아이콘 보여주기
+            UI_InGameEventBus.OnActiveMinimapRoom?.Invoke(RoomData.Row * MapManager.Instance.MaxCol + RoomData.Col);
+            UI_InGameEventBus.OnDeactivateMinimapRoom?.Invoke(RoomData.Row * MapManager.Instance.MaxCol + RoomData.Col);
+        }
+
+
         //public void SpawnBoss()
         //{
         //    GetComponentInChildren<EnemySpawner>().SpawnBoss();

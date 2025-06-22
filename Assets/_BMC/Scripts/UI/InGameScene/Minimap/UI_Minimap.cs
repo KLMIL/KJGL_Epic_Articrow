@@ -51,14 +51,15 @@ namespace BMC
 
         public void SetRoomIcon(int idx)
         {
+            // 해당하는 인덱스의 방 정보 가져오기
             int row = idx / MapManager.Instance.MaxCol;
             int col = idx % MapManager.Instance.MaxCol;
             Room room = MapManager.Instance.GetRoom(row, col);
 
-            if(_roomTypeIconDict.TryGetValue(room.RoomData.RoomType, out Sprite sprite))
-            {
-                _ui_Rooms[idx].SetRoomIcon(sprite);
-            }
+            // 아이콘 설정
+            Sprite iconSprite = null;
+            _roomTypeIconDict.TryGetValue(room.RoomData.RoomType, out iconSprite);
+            _ui_Rooms[idx].SetRoomIcon(iconSprite);
         }
     }
 }
