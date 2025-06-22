@@ -1,0 +1,80 @@
+using System.Collections;
+using Unity.Behavior;
+using UnityEngine;
+
+namespace BMC
+{
+    public class GolemBossStatus : BossStatus, IDamagable
+    {
+        CapsuleCollider2D _collider;
+
+        [Header("스테이터스")]
+        [field: SerializeField] public float Damage { get; set; } = 10f;
+
+        void Awake()
+        {
+            _collider = GetComponent<CapsuleCollider2D>();
+            _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
+            _visual = GetComponentInChildren<SpriteRenderer>();
+            Init();
+        }
+
+        public override void Init()
+        {
+            Health = 5000;
+        }
+
+        void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.G))
+            {
+                TakeDamage(1000f);
+            }
+        }
+
+        public void TakeDamage(float damage)
+        {
+            if (IsDead)
+                return;
+
+            Health -= damage;
+
+            Debug.Log($"보스 체력: {Health}");
+            ShowTakeDamageText(damage);
+
+            Debug.LogError("데미지 받아서 색변경됨");
+            StartCoroutine(TakeDamageColor());
+            
+            // 보스 체력 UI
+            UI_InGameEventBus.OnBossHpSliderValueUpdate?.Invoke(Health);
+
+            // 사망
+            if (Health <= 0)
+            {
+                Die();
+            }
+        }
+
+        // 피격 시, 색상 변경
+        protected IEnumerator TakeDamageColor()
+        {
+            _visual.color = Color.gray;
+            Debug.LogError("피격 색상 변경");
+            yield return _colorChangeTime;
+            Debug.LogError("피격 색상 복구");
+            _visual.color = Color.white;
+        }
+
+        public override void Die()
+        {
+            IsDead = true;
+            _collider.enabled = false;
+            _behaviorGraphAgent.SetVariableValue("IsDead", IsDead);
+            _behaviorGraphAgent.SetVariableValue("CurrentState", BossState.Die);
+
+            // 피격 색상 변경 중지
+            StopAllCoroutines();
+            _visual.color = Color.gray;
+        }
+    }
+}

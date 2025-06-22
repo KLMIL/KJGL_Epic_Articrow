@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace BMC
 {
+    // 보스가 데미지 받는 HurtBox
     public class BossHurtBox : MonoBehaviour, IDamagable
     {
         BossFSM _fsm;

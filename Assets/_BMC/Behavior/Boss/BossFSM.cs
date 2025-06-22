@@ -8,7 +8,7 @@ namespace BMC
         Transform _visual;
         public Rigidbody2D RB { get; private set; }
         public Animator Anim { get; private set; }
-        public BossStatus Status { get; private set; }  // 보스 상태 정보
+        public GolemBossStatus Status { get; private set; }  // 보스 상태 정보
         public BossHitBox HitBox { get; private set; }  // 보스 히트 박스
         public BossHurtBox HurtBox { get; private set; }  // 보스 히트 박스
 
@@ -24,7 +24,7 @@ namespace BMC
         {
             Anim = GetComponent<Animator>();
             RB = GetComponent<Rigidbody2D>();
-            Status = GetComponent<BossStatus>();
+            Status = GetComponent<GolemBossStatus>();
             HitBox = GetComponentInChildren<BossHitBox>();
             HurtBox = GetComponentInChildren<BossHurtBox>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
@@ -43,7 +43,7 @@ namespace BMC
         // x 방향으로 비주얼 회전
         public void FlipX(float x)
         {
-            float angle = (x>=0) ? 0 : 180;
+            float angle = (x >= 0) ? 0 : 180;
             _visual.rotation = Quaternion.Euler(0, angle, 0);
         }
     }

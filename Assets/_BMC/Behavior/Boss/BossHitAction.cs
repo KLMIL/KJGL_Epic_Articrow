@@ -10,12 +10,12 @@ using BMC;
 public partial class BossHitAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
-    BossStatus _status;
+    GolemBossStatus _status;
 
     protected override Status OnStart()
     {
         if(_status == null)
-            _status = Self.Value.GetComponent<BossStatus>();
+            _status = Self.Value.GetComponent<GolemBossStatus>();
 
         _status.TakeDamage(10f);
         return Status.Running;
