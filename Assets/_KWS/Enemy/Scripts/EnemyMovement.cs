@@ -24,7 +24,11 @@ namespace Game.Enemy
         {
             ownerController = GetComponent<EnemyController>();
             rb = GetComponent<Rigidbody2D>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        private void Start()
+        {
+            _spriteRenderer = ownerController.SpriteRenderer;
         }
 
         private void FixedUpdate()

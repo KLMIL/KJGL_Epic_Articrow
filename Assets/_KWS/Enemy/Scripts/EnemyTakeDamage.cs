@@ -25,7 +25,10 @@ namespace Game.Enemy
         {
             if (ownerController.FSM.isDied) return;
 
-            ownerController.FSM.isDamaged = true;
+            if (!ownerController.FSM.isSuperArmor)
+            {
+                ownerController.FSM.isDamaged = true;
+            }
             float currDamage = damage;
 
             // 표식이 있는지 검사해서, 있다면 대미지 배율 적용

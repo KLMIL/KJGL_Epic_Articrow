@@ -5,12 +5,7 @@ using static UnityEngine.InputSystem.OnScreen.OnScreenStick;
 
 namespace Game.Enemy
 {
-    [RequireComponent(typeof(EnemyMovement))]
-    [RequireComponent(typeof(EnemyDealDamage))]
-    [RequireComponent(typeof(EnemyTakeDamage))]
-    [RequireComponent(typeof(EnemyAnimation))]
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(Animator))]
     public class EnemyController : MonoBehaviour
     {
         [Header("Enemy Status")]
@@ -38,8 +33,6 @@ namespace Game.Enemy
 
         public string CurrentStateName => FSM.CurrentStateName;
         public string CurrentAnimation => _animation.CurrentAnimation;
-
-
 
 
         #region Initialization
@@ -108,10 +101,13 @@ namespace Game.Enemy
             }
 
 
-            SpriteRenderer = GetComponent<SpriteRenderer>();
-            _animation = GetComponent<EnemyAnimation>();
+            //SpriteRenderer = GetComponent<SpriteRenderer>();
+            _animation = GetComponentInChildren<EnemyAnimation>();
+            SpriteRenderer = _animation.SpriteRenderer;
+            
             _movement = GetComponent<EnemyMovement>();
             _dealDamage = GetComponent<EnemyDealDamage>();
+
             Player = GameObject.FindWithTag("Player")?.transform;
         }
         #endregion
