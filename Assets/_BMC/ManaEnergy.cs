@@ -45,7 +45,7 @@ namespace BMC
         IEnumerator MoveBezierCurveToTargetCoroutine(float duration = 1.0f)
         {
             float time = 0f;
-            while (Vector2.Distance(transform.position, _destinationTransform.position) >= 0.1f)
+            while (_destinationTransform != null && Vector2.Distance(transform.position, _destinationTransform.position) >= 0.1f)
             {
                 // p4(p1과 p2의 사이), p5(p2과 p3의 사이) 설정
                 Vector3 p4 = Vector3.Lerp(_startPos, _controlPoint, time);

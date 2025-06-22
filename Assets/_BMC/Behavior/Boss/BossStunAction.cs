@@ -17,6 +17,7 @@ public partial class BossStunAction : Action
         if (_fsm == null)
             _fsm = Self.Value.GetComponent<BossFSM>();
 
+        _fsm.RB.linearVelocity = Vector2.zero; // 보스의 속도를 0으로 초기화
         _fsm.Anim.Play("Stun");
 
         return Status.Running;

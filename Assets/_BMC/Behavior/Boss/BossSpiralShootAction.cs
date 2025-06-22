@@ -18,7 +18,7 @@ public partial class BossSpiralShootAction : Action
 
     float _timer;
     float _shootTimer;
-    float _angle;
+    float _shootStartAngle;     // 발사 시작 각도
     float _angleOffset = 10f;
     float _shootForce = 15f;
 
@@ -26,7 +26,7 @@ public partial class BossSpiralShootAction : Action
     {
         _timer = 0f;
         _shootTimer = 0f;
-        _angle = 0f;
+        _shootStartAngle = UnityEngine.Random.Range(0f, 360f); // 시작 각도 랜덤
 
         if(_fsm == null)
             _fsm = Self.Value.GetComponent<BossFSM>();
@@ -49,8 +49,8 @@ public partial class BossSpiralShootAction : Action
         if (_shootTimer >= _interval)
         {
             _shootTimer = 0f;
-            FireProjectile(_angle);
-            _angle += _angleOffset; // 나선 회전 각도 증가
+            FireProjectile(_shootStartAngle);
+            _shootStartAngle += _angleOffset; // 나선 회전 각도 증가
         }
 
         //if (timer >= duration)
@@ -65,8 +65,9 @@ public partial class BossSpiralShootAction : Action
 
     void FireProjectile(float angle)
     {
-        Vector3 dir = Quaternion.Euler(0, 0, angle) * Vector3.right;
-        GameObject proj = GameObject.Instantiate(Projectile.Value, Self.Value.transform.position, Quaternion.identity);
-        proj.GetComponent<Rigidbody2D>().linearVelocity = dir.normalized * _shootForce;
+        Vector3 direction = Quaternion.Euler(0, 0, angle) * Vector3.right;
+        GameObject projectile = GameObject.Instantiate(Projectile.Value, Self.Value.transform.position, Quaternion.identity);
+        projectile.transform.right = direction;
+        projectile.GetComponent<Rigidbody2D>().linearVelocity = direction.normalized * _shootForce;
     }
 }
