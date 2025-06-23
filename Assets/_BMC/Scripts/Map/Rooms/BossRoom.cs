@@ -19,7 +19,7 @@ namespace BMC
             };
 
             gameObject.name = gameObject.name + $"({RoomData.Row}, {RoomData.Col})";
-            DisposeInvalidDoor();
+            //DisposeInvalidDoor();
             //OpenAllValidDoor();
             //GetComponentInChildren<EnemySpawner>().SpawnBoss();
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using YSJ;
 using static Define;
 
 namespace BMC
@@ -168,6 +169,12 @@ namespace BMC
             _spriteRenderer.color = color;
         }
 
+        // 다음 스테이지로 넘어가기
+        public void NextStage()
+        {
+            Managers.Scene.LoadScene(Define.SceneType.EndingScene);
+        }
+
         #region OnTrigger
         void OnTriggerEnter2D(Collider2D collision)
         {
@@ -175,7 +182,16 @@ namespace BMC
             {
                 if (collision.isTrigger) // 플레이어 Hit box 무시
                     return;
-                TryTransferToNextRoom(collision.transform);
+
+                // TODO: 임시 코드
+                if(_currentRoom.RoomData.RoomType == RoomType.BossRoom && DoorPosition == DoorPosition.Up)
+                {
+                    NextStage();
+                }
+                else
+                {
+                    TryTransferToNextRoom(collision.transform);
+                }
             }
         }
         #endregion

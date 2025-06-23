@@ -24,6 +24,7 @@ namespace BMC
             {
                 _isReflect = true;
                 Debug.Log("벽 닿음");
+                GameManager.Instance.CameraController.ShakeCamera(5f, 0.1f);
                 _behaviorGraphAgent.SetVariableValue("IsCollisionWithObstacle", true);
 
                 //Debug.Log("Normal of the first point: " + collision.contacts[0].normal);
