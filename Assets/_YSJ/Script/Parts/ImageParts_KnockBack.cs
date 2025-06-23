@@ -17,7 +17,7 @@ public class ImageParts_KnockBack : ImageParts, ISkillable
         if (hit.collider != null && hit.collider.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb2d))
         {
             hit.collider.GetComponent<EnemyController>().StopAllCoroutines();
-            hit.collider.GetComponent<EnemyController>().StartKnockbackCoroutine(directoin, 3f, 0.1f, 10);
+            hit.collider.GetComponent<EnemyController>().StartKnockbackCoroutine(directoin, 3f * level, 0.1f, 10);
         }
 
         yield return null;
