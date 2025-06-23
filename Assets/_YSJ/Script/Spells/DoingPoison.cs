@@ -22,7 +22,6 @@ public class DoingPoison : MonoBehaviour
 
     private void Awake()
     {
-        print("독생성");
     }
 
     private void Start()
@@ -83,7 +82,5 @@ public class DoingPoison : MonoBehaviour
         {
             sprite.color = defaultColor;
         }
-        
-        print("독파괴");
     }
 }

@@ -31,7 +31,7 @@ public class ImageParts_Poison : ImageParts, ISkillable
         }
         else
         {
-            print("타겟없음");
+            print("독맞을타겟없음");
         }
 
         yield return null;
