@@ -42,10 +42,10 @@ namespace BMC
 
             CheckPlayerDirection.CheckCurrentDirection();
 
-            if (Input.GetMouseButtonDown(2)) // 마우스 휠 클릭
-            {
-                MapManager.Instance.CurrentRoom.RoomClearComplete();
-            }
+            //if (Input.GetMouseButtonDown(2)) // 마우스 휠 클릭
+            //{
+            //    MapManager.Instance.CurrentRoom.RoomClearComplete();
+            //}
         }
 
         void FixedUpdate()

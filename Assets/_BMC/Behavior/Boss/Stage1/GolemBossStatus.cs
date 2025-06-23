@@ -26,13 +26,13 @@ namespace BMC
             Health = 5000;
         }
 
-        void Update()
-        {
-            if(Input.GetKeyDown(KeyCode.G))
-            {
-                TakeDamage(1000f);
-            }
-        }
+        //void Update()
+        //{
+        //    if(Input.GetKeyDown(KeyCode.G))
+        //    {
+        //        TakeDamage(1000f);
+        //    }
+        //}
 
         public void TakeDamage(float damage)
         {
