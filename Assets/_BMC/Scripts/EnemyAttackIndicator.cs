@@ -11,14 +11,14 @@ namespace BMC
         Coroutine _coroutine;
 
         [Header("길이")]
-        [SerializeField] float _dist;
+        float _dist = 30f;
 
         [Header("시간")]
         float _fillDuration = 1f;   // 두께 확장 시간
 
         [Header("두께")]
-        float _startThickness = 0.1f; // 시작 두께
-        float _endThickness = 0.5f;   // 최종 두께
+        float _startThickness = 0.5f; // 시작 두께
+        float _endThickness = 1f;   // 최종 두께
 
 
         void Awake()
@@ -65,7 +65,6 @@ namespace BMC
             _background.enabled = true;
 
             //_dist = Vector2.Distance(_indicator.transform.position, _target.position) / 2;
-            _dist = Vector2.Distance(_indicator.transform.position, _target.position);
 
             // 1. 길이 확장
             _indicator.transform.localScale = new Vector3(_dist, _endThickness, 1);
