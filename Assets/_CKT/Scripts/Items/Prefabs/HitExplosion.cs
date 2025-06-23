@@ -4,7 +4,7 @@ namespace CKT
 {
     public class HitExplosion : Explosion
     {
-        protected override float BaseDamage => 12f;
+        protected override float BaseDamage => 8f;
 
         protected override float DisableTime => 1f;
 
