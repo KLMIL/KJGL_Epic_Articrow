@@ -12,6 +12,7 @@ public partial class BossSpiralShootAction : Action
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<GameObject> Projectile;
     BossFSM _fsm;
+    Transform _shootTransform;
 
     float _duration = 5f;
     float _interval = 0.05f; // 연사 속도
@@ -28,8 +29,11 @@ public partial class BossSpiralShootAction : Action
         _shootTimer = 0f;
         _shootStartAngle = UnityEngine.Random.Range(0f, 360f); // 시작 각도 랜덤
 
-        if(_fsm == null)
+        if (_fsm == null)
+        {
             _fsm = Self.Value.GetComponent<BossFSM>();
+            _shootTransform = Self.Value.transform.Find("Visual/Core");
+        }
 
         _fsm.RB.linearVelocity = Vector2.zero;
         AnimatorStateInfo animatorStateInfo = _fsm.Anim.GetCurrentAnimatorStateInfo(0);
@@ -66,7 +70,7 @@ public partial class BossSpiralShootAction : Action
     void FireProjectile(float angle)
     {
         Vector3 direction = Quaternion.Euler(0, 0, angle) * Vector3.right;
-        GameObject projectile = GameObject.Instantiate(Projectile.Value, Self.Value.transform.position, Quaternion.identity);
+        GameObject projectile = GameObject.Instantiate(Projectile.Value, _shootTransform.position, Quaternion.identity);
         projectile.transform.right = direction;
         projectile.GetComponent<Rigidbody2D>().linearVelocity = direction.normalized * _shootForce;
     }
