@@ -12,7 +12,9 @@ public class UI_InGameEventBus : MonoBehaviour
     // 피해
     public static Action OnShowBloodCanvas;
 
-    // 플레이어, 보스 HP 슬라이더 업데이트
+    // 플레이어, 보스 HP 슬라이더
+    public static Canvas PlayerStatusCanvas;              // 플레이어 상태 캔버스 가져오기
+    public static RectTransform ManaSliderHandle;        // 플레이어 MP 슬라이더 핸들 가져오기
     public static Action<float> OnPlayerHpSliderValueUpdate;    // 플레이어 HP 슬라이더 값 업데이트
     public static Action<float> OnPlayerHpSliderMaxValueUpdate; // 플레이어 HP 슬라이더 최대값 업데이트
     public static Action<float> OnPlayerMpSliderValueUpdate;    // 플레이어 MP 슬라이더 값 업데이트
@@ -25,6 +27,8 @@ public class UI_InGameEventBus : MonoBehaviour
 
     public static void Clear()
     {
+        PlayerStatusCanvas = null;
+        ManaSliderHandle = null;
         OnToggleChoiceRoomCanvas = null;
         OnShowBloodCanvas = null;
         OnPlayerHpSliderValueUpdate = null;
