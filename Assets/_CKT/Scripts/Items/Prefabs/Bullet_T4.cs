@@ -7,7 +7,7 @@ namespace CKT
     {
         Pellet[] _pellets;
         float[] _scatterSpeeds;
-        float _moveXSpeed = 4.5f;
+        float _baseScatterSpeed = 3f;
 
         public override void Init(bool isCreateFromPlayer)
         {
@@ -34,10 +34,10 @@ namespace CKT
             _pellets = _pellets ?? GetComponentsInChildren<Pellet>();
 
             _scatterSpeeds = new float[_pellets.Length];
-            float _deltaSpeed = (_moveXSpeed * 2) / (_pellets.Length - 1);
+            float _deltaSpeed = (_baseScatterSpeed * 2) / (_pellets.Length - 1);
             for (int i = 0; i < _pellets.Length; i++)
             {
-                _scatterSpeeds[i] = _moveXSpeed - (_deltaSpeed * i);
+                _scatterSpeeds[i] = _baseScatterSpeed - (_deltaSpeed * i);
                 _pellets[i].gameObject.SetActive(true);
                 _pellets[i].Init(base._isCreateFromPlayer);
             }
