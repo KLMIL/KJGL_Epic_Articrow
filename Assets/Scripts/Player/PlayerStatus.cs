@@ -163,6 +163,7 @@ namespace YSJ
             if (Health <= 0)
             {
                 OnDeadAction.Invoke();
+                UI_InGameEventBus.OnShowGameOverCanvas?.Invoke(); // 게임 오버 화면 표시
             }
         }
 
