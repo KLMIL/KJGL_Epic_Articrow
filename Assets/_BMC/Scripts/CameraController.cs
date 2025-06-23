@@ -52,10 +52,10 @@ namespace BMC
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Q))
-                SetCameraTargetPlayer();
-            else if(Input.GetKeyDown(KeyCode.E))
-                SetCameraTargetRoom(MapManager.Instance.CurrentRoom.transform);
+            //if (Input.GetKeyDown(KeyCode.Q))
+            //    SetCameraTargetPlayer();
+            //else if(Input.GetKeyDown(KeyCode.E))
+            //    SetCameraTargetRoom(MapManager.Instance.CurrentRoom.transform);
 
             if (_shakeTimer > 0)
             {

@@ -35,11 +35,11 @@ namespace BMC
             _target = PlayerManager.Instance.transform;
         }
 
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.T))
-                PlayChargeAndAttack();
-        }
+        //void Update()
+        //{
+        //    if (Input.GetKeyDown(KeyCode.T))
+        //        PlayChargeAndAttack();
+        //}
 
         public void Init(float time)
         {
