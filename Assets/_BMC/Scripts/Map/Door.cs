@@ -11,11 +11,11 @@ namespace BMC
         [Header("기본 컴포넌트")]
         Animator _anim;
         SpriteRenderer _spriteRenderer;
-        BoxCollider2D _boxCollider2D;
+        [SerializeField] BoxCollider2D _boxCollider;
 
         [Header("상태")]
-        [SerializeField] Room _currentRoom;
-        [SerializeField] bool _isOpen = false;
+        [field: SerializeField] public Room CurrentRoom { get; private set; }
+        [field: SerializeField] public bool IsOpen { get; private set; }
 
         [Header("다음 방 관련")]
         [field: SerializeField] public DoorPosition DoorPosition { get; private set; }    // 문 위치
@@ -23,28 +23,34 @@ namespace BMC
         [field: SerializeField] public Room NextRoom { get; set; }
         float _doorSpawnPlayerPositionOffset = 0.7f;
 
+        DoorDetectionPlayer _doorDetectionPlayer;
+
         void Awake()
         {
             _anim = GetComponent<Animator>();
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            _boxCollider2D = GetComponent<BoxCollider2D>();
-            _currentRoom = transform.root.GetComponent<Room>();
+            _boxCollider = GetComponent<BoxCollider2D>();
+            CurrentRoom = transform.root.GetComponent<Room>();
+            _doorDetectionPlayer = GetComponentInChildren<DoorDetectionPlayer>();
+            _doorDetectionPlayer.Init(this);
         }
 
         #region 문 개방/폐쇄
         // 열기
         public void Open()
         {
-            _isOpen = true;
-            _boxCollider2D.isTrigger = true;
+            IsOpen = true;
+            //_boxCollider.enabled = false;
+            //_collision.isTrigger = true;
             _anim.Play("Open");
         }
 
         // 닫기
         public void Close()
         {
-            _isOpen = false;
-            _boxCollider2D.isTrigger = false;
+            IsOpen = false;
+            _boxCollider.enabled = true;
+            //_boxCollider2D.isTrigger = false;
         }
 
         // 폐기(아예 벽으로 만들고 문 기능 못하게 하기)
@@ -70,14 +76,14 @@ namespace BMC
             MapManager.Instance.CurrentRoom.DeactivateRoom();
 
             // 2. 현재 방의 선택된 문으로 설정
-            _currentRoom.SelectedDoor = this;
+            CurrentRoom.SelectedDoor = this;
 
             // 3. 다음 방의 정보 가져오기
             Tuple<int, int> nextRoomIndex = GetNextRoomIndex();
             NextRoom = MapManager.Instance.GetRoom(nextRoomIndex.Item1, nextRoomIndex.Item2);
 
             // 4. 클리어 했는데 다음 방이 없다면, 방 생성 UI 띄우기
-            if (_currentRoom.RoomData.IsCleared && NextRoom == null)
+            if (CurrentRoom.RoomData.IsCleared && NextRoom == null)
             {
                 // 방 선택 UI 띄우고, 문 정보 넘기기
                 UI_InGameEventBus.OnToggleChoiceRoomCanvas?.Invoke();
@@ -99,7 +105,7 @@ namespace BMC
                 MapManager.Instance.CurrentRoom.ActivateRoom();
                 DoorPosition nextRoomDoorPosition = GetDoorPositionOfNextRoom();
                 Door spawnDoor = NextRoom.GetDoor(nextRoomDoorPosition);
-                _doorSpawnPlayerPositionOffset = (nextRoomDoorPosition == DoorPosition.Up || nextRoomDoorPosition == DoorPosition.Down) ? 1.5f : 1f;
+                _doorSpawnPlayerPositionOffset = (nextRoomDoorPosition == DoorPosition.Up || nextRoomDoorPosition == DoorPosition.Down) ? 1.25f : 1f;
                 playerTransform.position = spawnDoor.transform.position + spawnDoor.transform.up * _doorSpawnPlayerPositionOffset;
                 GameManager.Instance.CameraController.SetCameraTargetRoom(NextRoom.transform);  // 카메라 전환
 
@@ -116,14 +122,14 @@ namespace BMC
                     NextRoom.CloseAllValidDoor();
             }
 
-            _currentRoom.SelectedDoor = null;
+            CurrentRoom.SelectedDoor = null;
         }
 
         // 다음 방의 행,열 반환
         public Tuple<int, int> GetNextRoomIndex()
         {
             // 다음 방 위치 계산
-            int row = _currentRoom.RoomData.Row, col = _currentRoom.RoomData.Col;
+            int row = CurrentRoom.RoomData.Row, col = CurrentRoom.RoomData.Col;
             switch (DoorPosition)
             {
                 case DoorPosition.Up:
@@ -174,26 +180,5 @@ namespace BMC
         {
             Managers.Scene.LoadScene(Define.SceneType.EndingScene);
         }
-
-        #region OnTrigger
-        void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Player") && _isOpen)
-            {
-                if (collision.isTrigger) // 플레이어 Hit box 무시
-                    return;
-
-                // TODO: 임시 코드
-                if(_currentRoom.RoomData.RoomType == RoomType.BossRoom && DoorPosition == DoorPosition.Up)
-                {
-                    NextStage();
-                }
-                else
-                {
-                    TryTransferToNextRoom(collision.transform);
-                }
-            }
-        }
-        #endregion
     }
 }
