@@ -11,7 +11,6 @@ public class DoingPoison : MonoBehaviour
     public Color defaultColor { get; private set; } = Color.white; // 기본 색상
 
     Color poisonColor = Color.green;
-    public float hitTimeRecord { get; private set; } // 맞았을 때 시간기록
 
 
     public void Initialize(float time, float damage, float interval)
@@ -23,35 +22,36 @@ public class DoingPoison : MonoBehaviour
 
     private void Awake()
     {
-        // 시간기록
-        hitTimeRecord = Time.time;
+        print("독생성");
     }
 
     private void Start()
     {
         // SpriteRenderer가 있는지 확인하고, 있다면 색상변경
-        if (TryGetComponent<SpriteRenderer>(out SpriteRenderer sprite)) 
+        if (TryGetComponent<SpriteRenderer>(out SpriteRenderer sprite))
         {
             DoingPoison[] otherPoisons = GetComponents<DoingPoison>();
 
             // 독이 나만있으면
-            if (otherPoisons.Length == 1)
+            if (otherPoisons.Length <= 1)
             {
-                defaultColor = sprite.color;
                 sprite.color = poisonColor;
                 return;
             }
 
-            // 다른 DoingPoison이 있으면
-            DoingPoison firstPoision = this; // 일단 나로 임시 초기화 ㅎ;
-            foreach (DoingPoison poison in otherPoisons)
-            {
-                if (firstPoision.hitTimeRecord > poison.hitTimeRecord) 
-                {
-                    firstPoision = poison; // 젤 작은 hitTimeRecord 찾기
-                }
-            }
-            defaultColor = firstPoision.defaultColor;
+            //// 다른 DoingPoison이 있으면
+            //DoingPoison firstPoision = this; // 일단 나로 임시 초기화 ㅎ;
+            //foreach (DoingPoison poison in otherPoisons)
+            //{
+            //    if (firstPoision.hitTimeRecord > poison.hitTimeRecord) 
+            //    {
+            //        firstPoision = poison; // 젤 작은 hitTimeRecord 찾기
+            //    }
+            //}
+        }
+        else 
+        {
+            print("스프라이트 못찾음");
         }
     }
 
@@ -66,7 +66,7 @@ public class DoingPoison : MonoBehaviour
 
         if (elapsedDeltaTime >= interval) 
         {
-            GetComponent<IDamagable>().TakeDamage(damage);
+            GetComponentInChildren<IDamagable>().TakeDamage(damage);
             elapsedDeltaTime = 0f;
         }
     }
@@ -78,6 +78,12 @@ public class DoingPoison : MonoBehaviour
         {
             return; // 다른 독이 존재하면 색상 변경하지 않음
         }
-        GetComponent<SpriteRenderer>().color = defaultColor;
+
+        if (TryGetComponent<SpriteRenderer>(out SpriteRenderer sprite)) 
+        {
+            sprite.color = defaultColor;
+        }
+        
+        print("독파괴");
     }
 }
