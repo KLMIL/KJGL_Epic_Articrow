@@ -28,7 +28,9 @@ namespace Game.Enemy
 
                 len = len < controller.FSM.indicatorLength * 2 ? len : controller.FSM.indicatorLength * 2;
 
-                controller._attackIndicator?.SetDirection(dir, len);
+                //controller._attackIndicator?.SetDirection(dir, len);
+                // 임시: 항상 최대 공격 사거리로 indicator 생성
+                controller._attackIndicator?.SetDirection(dir, controller.FSM.indicatorLength * 2);
             }
         }
 
