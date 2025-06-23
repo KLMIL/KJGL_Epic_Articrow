@@ -7,6 +7,7 @@ namespace BMC
     public class GolemBossStatus : BossStatus, IDamagable
     {
         CapsuleCollider2D _collider;
+        SpriteRenderer _core;
 
         [Header("스테이터스")]
         [field: SerializeField] public float Damage { get; set; } = 10f;
@@ -16,6 +17,7 @@ namespace BMC
             _collider = GetComponent<CapsuleCollider2D>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             _visual = GetComponentInChildren<SpriteRenderer>();
+            _core = _visual.GetComponentInChildren<SpriteRenderer>();
             Init();
         }
 
@@ -59,10 +61,12 @@ namespace BMC
         protected IEnumerator TakeDamageColor()
         {
             _visual.color = Color.gray;
+            _core.color = Color.gray;
             Debug.LogError("피격 색상 변경");
             yield return _colorChangeTime;
             Debug.LogError("피격 색상 복구");
             _visual.color = Color.white;
+            _core.color = Color.white;
         }
 
         public override void Die()
@@ -75,6 +79,13 @@ namespace BMC
             // 피격 색상 변경 중지
             StopAllCoroutines();
             _visual.color = Color.gray;
+        }
+
+        // GolemBossDie 애니메이션 끝에서 실행할 애니메이션 이벤트
+        public void OnDieEndAniationEvent()
+        {
+            Debug.Log("보스 방 클리어");
+            MapManager.Instance.CurrentRoom.RoomClearComplete();
         }
     }
 }
