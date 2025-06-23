@@ -5,11 +5,16 @@ namespace Game.Enemy
     public class EnemyAnimation : MonoBehaviour
     {
         Animator animator;
+        SpriteRenderer _spriteRenderer;
         [HideInInspector] public string CurrentAnimation = "";
+
+        // Properties;
+        public SpriteRenderer SpriteRenderer => _spriteRenderer;
 
         private void Awake()
         {
             animator = GetComponent<Animator>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         public void Play(string animationName)
