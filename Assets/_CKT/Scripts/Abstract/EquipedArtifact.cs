@@ -41,6 +41,8 @@ namespace CKT
             _skillManager.OnHandPerformActionT1.SingleRegister((list) => Attack(list));
             _skillManager.OnHandCancelActionT0.SingleRegister(() => AttackCancel());
             _skillManager.OnThrowAwayActionT0.SingleRegister(() => ThrowAway());
+
+            YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.Trigger(_artifactSO.ArtifactSprite);
         }
 
         protected void Attack(List<GameObject> list)
@@ -108,6 +110,8 @@ namespace CKT
             _skillManager.OnHandPerformActionT1.Unregister((list) => Attack(list));
             _skillManager.OnHandCancelActionT0.Unregister(() => AttackCancel());
             _skillManager.OnThrowAwayActionT0.Unregister(() => ThrowAway());
+
+            YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.Trigger(null);
 
             Destroy(this.gameObject);
         }
