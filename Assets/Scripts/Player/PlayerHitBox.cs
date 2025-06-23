@@ -58,7 +58,8 @@ namespace BMC
                     // 마나 흡수
                     ManaEnergy spirit = Managers.TestPool.Get<ManaEnergy>(Define.PoolID.ManaEnergy);
                     spirit.transform.position = collision.transform.position;
-                    spirit.SetSealed(transform);
+                    spirit.Init();
+                    spirit.MoveToSlider();
 
                     float damage = PlayerManager.Instance.PlayerAttack.CurrentAttackStep == 1 ? 8f : 12f;
                     damagable.TakeDamage(damage);

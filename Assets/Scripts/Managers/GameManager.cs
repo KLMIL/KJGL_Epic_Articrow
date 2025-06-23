@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public CKT.SkillManager LeftSkillManager { get; private set; } = new();
     public CKT.SkillManager RightSkillManager { get; private set; } = new();
 
+    public Camera Camera { get; private set; }
     public CameraController CameraController { get; private set; }
 
     [Header("일시 정지")]
@@ -40,7 +41,8 @@ public class GameManager : MonoBehaviour
         LeftSkillManager.Init();
         RightSkillManager.Init();
         EnemySpawner = GetComponent<BMC.EnemySpawner>();
-        CameraController = Camera.main.GetComponentInParent<CameraController>();
+        Camera = Camera.main;
+        CameraController = Camera.GetComponentInParent<CameraController>();
     }
 
     public List<GameObject> MagicItems = new();
