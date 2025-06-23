@@ -29,7 +29,7 @@ namespace Game.Enemy
         [HideInInspector] public EnemyAttackIndicator _attackIndicator;
 
         Coroutine markingCoroutine;
-
+        Coroutine gravitySurgeCoroutine;
 
         public string CurrentStateName => FSM.CurrentStateName;
         public string CurrentAnimation => _animation.CurrentAnimation;
@@ -160,6 +160,21 @@ namespace Game.Enemy
         public void StartTintCoroutineOnce(Color color)
         {
             StartCoroutine(SpriteTintOnceCoroutine(color));
+        }
+
+        public void StartGravitySurgeCoroutine(Coroutine coroutine)
+        {
+            gravitySurgeCoroutine = coroutine;
+        }
+
+        public void EndGravitySurgeCoroutine()
+        {
+            gravitySurgeCoroutine = null;
+        }
+
+        public bool IsGravitySurgeCoroutineGO()
+        {
+            return gravitySurgeCoroutine != null;
         }
         #endregion
 

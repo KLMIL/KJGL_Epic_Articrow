@@ -36,6 +36,9 @@ namespace Game.Enemy
             if (_currentDirection == Vector2.zero) return;
             // 좌우 이동 방향에 따라 flipX 결정
 
+            //Debug.Log($"움직일 수 있나? {ownerController.FSM.isGravitySurge}");
+            if (ownerController.FSM.isGravitySurge) return; // 임시로 끌려갈때는 움직임 X
+
 
             elapsedTime += Time.fixedDeltaTime;
 

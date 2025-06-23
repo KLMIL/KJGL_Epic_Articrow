@@ -17,13 +17,14 @@ namespace CKT
             Vector3 startPos = position;
 
             // TODO: 사운드 적절한 넉백 사운드로 바꾸기
-            YSJ.Managers.Sound.PlaySFX(Define.SFX.HitExplosion);
+            //YSJ.Managers.Sound.PlaySFX(Define.SFX.HitExplosion);
             
             GameObject obj = Instantiate(HitKnockbackFieldPrefab, startPos, Quaternion.identity);
             obj.transform.position = startPos;
             obj.GetComponent<HitGravitySurge>().Init(level);
 
-            Destroy(obj, 0.5f);
+            // 프리펩에서 직접 제거하도록 변경
+            Destroy(obj, 0.5f * level + 0.1f);
 
             yield return null;
         }

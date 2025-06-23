@@ -53,6 +53,9 @@ namespace Game.Enemy
 
         // 인디케이터를 위한 공통 변수
         public float indicatorLength = 1f;
+
+        // TODO: 블랙홀 파츠를 위한 임시 필드
+        public bool isGravitySurge = false;
         #endregion
 
 
