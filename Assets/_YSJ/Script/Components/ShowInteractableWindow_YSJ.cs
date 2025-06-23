@@ -14,19 +14,12 @@ public class ShowInteractableWindow_YSJ : MonoBehaviour
         window.transform.localPosition = new Vector3(1, 1, 0);
     }
 
-    void Update()
+    public void ShowWindow()
     {
-        foreach (Collider2D col in Physics2D.OverlapCircleAll(transform.position, distance)) 
-        {
-            if (col.TryGetComponent<PlayerStatus>(out PlayerStatus player))
-            {
-                window.SetActive(true);
-                break;
-            }
-            else 
-            {
-                window.SetActive(false);
-            }
-        }
+        window.SetActive(true);
+    }
+    public void HideWindow()
+    {
+        window.SetActive(false);
     }
 }
