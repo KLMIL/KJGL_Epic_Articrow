@@ -1,8 +1,6 @@
 using CKT;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class ImageParts_Poison : ImageParts, ISkillable
 {
@@ -26,7 +24,7 @@ public class ImageParts_Poison : ImageParts, ISkillable
         if (hit.collider != null)
         {
             print(hit.collider.name);
-            DoingPoison poison = hit.collider.AddComponent<DoingPoison>();
+            DoingPoison poison = hit.collider.gameObject.AddComponent<DoingPoison>();
             poison.Initialize(time, level * damage, interval);
         }
         else
