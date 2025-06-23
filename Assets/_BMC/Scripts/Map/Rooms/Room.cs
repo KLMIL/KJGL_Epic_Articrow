@@ -107,7 +107,7 @@ namespace BMC
         // 보상 소환
         public void SpawnReward()
         {
-            if (_roomData.IsCleared)
+            if (_roomData.IsCleared && _roomData.RoomType != RoomType.BossRoom)
             {
                 List<GameObject> rewardList = MapManager.Instance.RoomTypeRewardListDict[RoomData.RoomType];
                 GameObject rewardObject = rewardList[Random.Range(0, rewardList.Count)];
@@ -123,10 +123,8 @@ namespace BMC
                 Debug.LogError(" 방 클리어");
                 _roomData.IsCleared = true;
                 SpawnReward();
-                //OpenAllValidDoor();
                 GameManager.Instance.CameraController.SetCameraTargetRoom(transform);
                 Invoke(nameof(OpenAllValidDoor), _openTime);
-                //CameraController.Instance.SetCameraTargetRoom(transform);
             }
         }
         #endregion

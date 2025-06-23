@@ -15,7 +15,8 @@ namespace BMC
         [SerializeField] CinemachineConfiner2D _confiner;
 
         [Header("흔들림")]
-        [SerializeField] CinemachineBasicMultiChannelPerlin _cinemachineBasicMultiChannelPerlin;
+        [SerializeField] CinemachineBasicMultiChannelPerlin _roomCinemachineBasicMultiChannelPerlin;
+        [SerializeField] CinemachineBasicMultiChannelPerlin _playerCinemachineBasicMultiChannelPerlin;
         float _startIntensity = 0.5f;   // 흔들기 시작할 때, 첫 강도
         float _shakeTimer;              // 흔드는 시간
         float _shakeTimerTotal;         // 전체 흔드는 시간
@@ -36,15 +37,15 @@ namespace BMC
             // 플레이어 카메라
             _playerCinemachineCamera = cinemachineCameras[1];
             _confiner = _playerCinemachineCamera.GetComponent<CinemachineConfiner2D>();
-            
+
             // 카메라 쉐이킹
-            _cinemachineBasicMultiChannelPerlin = _playerCinemachineCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
+            _roomCinemachineBasicMultiChannelPerlin = _roomCinemachineCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
+            _playerCinemachineBasicMultiChannelPerlin = _playerCinemachineCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
 
         }
 
         void Start()
         {
-
             _cameraTarget.TrackingTarget = PlayerManager.Instance.transform;
             _playerCinemachineCamera.Target = _cameraTarget;
         }
@@ -61,7 +62,8 @@ namespace BMC
                 _shakeTimer -= Time.deltaTime;
                 if (_shakeTimer <= 0)
                 {
-                    _cinemachineBasicMultiChannelPerlin.AmplitudeGain = Mathf.Lerp(_startIntensity, 0f, 1 - (_shakeTimer / _shakeTimerTotal));
+                    _roomCinemachineBasicMultiChannelPerlin.AmplitudeGain = Mathf.Lerp(_startIntensity, 0f, 1 - (_shakeTimer / _shakeTimerTotal));
+                    _playerCinemachineBasicMultiChannelPerlin.AmplitudeGain = Mathf.Lerp(_startIntensity, 0f, 1 - (_shakeTimer / _shakeTimerTotal));
                 }
             }
         }
@@ -69,7 +71,8 @@ namespace BMC
         // 카메라 흔들기
         public void ShakeCamera(float intensity = 5f, float time = 0.1f)
         {
-            _cinemachineBasicMultiChannelPerlin.AmplitudeGain = intensity;
+            _roomCinemachineBasicMultiChannelPerlin.AmplitudeGain = intensity;
+            _playerCinemachineBasicMultiChannelPerlin.AmplitudeGain = intensity;
             _startIntensity = intensity;
             _shakeTimerTotal = time;
             _shakeTimer = time;
@@ -79,8 +82,8 @@ namespace BMC
         // 카메라 방 목표 설정
         public void SetCameraTargetRoom(Transform target)
         {
-            _roomCinemachineCamera.gameObject.SetActive(true);
-            _playerCinemachineCamera.gameObject.SetActive(false);
+            _roomCinemachineCamera.enabled = true;
+            _playerCinemachineCamera.enabled = false;
             if (_cameraTarget.TrackingTarget != target)
             {
                 // 목표 설정
@@ -94,8 +97,8 @@ namespace BMC
         public void SetCameraTargetPlayer(Transform player = null)
         {
             _confiner.BoundingShape2D = MapManager.Instance.CurrentRoom.GetComponent<PolygonCollider2D>();
-            _roomCinemachineCamera.gameObject.SetActive(false);
-            _playerCinemachineCamera.gameObject.SetActive(true);
+            _roomCinemachineCamera.enabled = false;
+            _playerCinemachineCamera.enabled = true;
         }
         #endregion
     }
