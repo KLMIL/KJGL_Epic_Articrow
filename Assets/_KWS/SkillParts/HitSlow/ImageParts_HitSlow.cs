@@ -15,7 +15,7 @@ namespace CKT
     public class ImageParts_HitSlow : ImageParts, ISkillable
     {
         public float slowMultiply = 0.3f;
-        public float slowDuration = 1f;
+        public float slowDuration = 2f;
         public float slowRadius = 1f;
 
         public GameObject hitSlowPrefab;

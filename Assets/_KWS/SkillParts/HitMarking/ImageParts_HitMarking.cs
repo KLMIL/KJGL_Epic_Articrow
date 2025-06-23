@@ -24,7 +24,6 @@ namespace CKT
         {
             Debug.Log($"{SkillName}, Level+{level}");
 
-            Debug.LogError("Here?");
 
             Collider2D[] hits = Physics2D.OverlapCircleAll(position, hitRadius, LayerMask.GetMask("Monster"));
 
@@ -37,7 +36,6 @@ namespace CKT
             {
                 if (hit == null) continue;
 
-                Debug.LogError("Here good");
                 EnemyController enemyController = hit.GetComponent<EnemyController>();
                 enemyController.StartMarkingCoroutine(damageMultiply, damageDuration * level);
 
