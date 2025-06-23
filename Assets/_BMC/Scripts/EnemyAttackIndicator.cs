@@ -64,7 +64,8 @@ namespace BMC
             _indicator.enabled = true;
             _background.enabled = true;
 
-            _dist = Vector2.Distance(_indicator.transform.position, _target.position) / 2;
+            //_dist = Vector2.Distance(_indicator.transform.position, _target.position) / 2;
+            _dist = Vector2.Distance(_indicator.transform.position, _target.position);
 
             // 1. 길이 확장
             _indicator.transform.localScale = new Vector3(_dist, _endThickness, 1);
