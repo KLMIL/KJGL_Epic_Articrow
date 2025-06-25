@@ -24,6 +24,12 @@ public class SceneManagerEx
         SceneManager.LoadScene(sceneName);
     }
 
+    // 씬 로드
+    public void LoadScene(int idx)
+    {
+        SceneManager.LoadScene(idx);
+    }
+
     // 씬 정리
     public void Clear()
     {
