@@ -9,13 +9,17 @@ namespace YSJ
 {
     public class PlayerStatus : MonoBehaviour, IDamagable
     {
+        PlayerAnimator _playerAnimator;
+        Rigidbody2D _rb;
+
         [Header("피격")]
+        SpriteRenderer _spriteRenderer;
+        TextMeshPro _damageText;
+        public bool IsHurt { get; private set; } = false; // 피격 여부
         float _cameraShakeIntensity = 0.5f;
         float _cameraShakeTime = 0.25f;
-
-        TextMeshPro _damageText;
-        SpriteRenderer _spriteRenderer;
-        WaitForSeconds _hurtColorChangeTime = new WaitForSeconds(0.25f);
+        float _invincibleTime = 1f;
+        int _colorChangeLoopCount = 20; // 색상 변경 루프 횟수
 
         [Header("사망")]
         public static Action OnDeadAction;
@@ -63,8 +67,8 @@ namespace YSJ
             set
             {
                 _health = value;
-                //_health = Mathf.Clamp(_health, 0, MaxHealth);
-                //UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(_health);
+                _health = Mathf.Clamp(_health, 0, MaxHealth);
+                UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(_health);
             }
         }
 
@@ -115,9 +119,11 @@ namespace YSJ
 
         void Awake()
         {
+            _rb = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            _playerAnimator = GetComponent<PlayerAnimator>();
+            OnDeadAction += Die;
             Init();
-            OnDeadAction += Death;
         }
 
         public void Init()
@@ -127,64 +133,13 @@ namespace YSJ
         }
 
         #region 체력 관련
-        public void TakeDamage(float damage)
-        {
-            if (IsDead || PlayerManager.Instance.PlayerDash.IsDash)
-                return;
-
-            //YSJ : 베리어가 있는 지 확인
-            List<Collider2D> colliders = new();
-            ContactFilter2D filter = new ContactFilter2D();
-            filter.SetLayerMask(LayerMask.GetMask("Player"));
-            filter.useTriggers = true;
-            Physics2D.OverlapCollider(GetComponent<Collider2D>(), filter, colliders);
-            foreach (Collider2D col in colliders)
-            {
-                if (col.TryGetComponent<Barrier>(out Barrier barrier)) 
-                {
-                    barrier.TakeDamage(damage); // 베리어가 있으면 베리어가 대신받음
-                    return;
-                }
-            }
-
-            UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
-            ShowDamageText(damage);
-            UpdateHealth(-damage);
-            StartCoroutine(TakeDamageColor());
-            GameManager.Instance.CameraController.ShakeCamera(_cameraShakeIntensity, _cameraShakeTime);
-
-            // YSJ : 데미지 받으면 피격 애니메이션 재생
-            PlayerAnimator playerAnimator = GetComponent<PlayerAnimator>();
-            if (playerAnimator)
-            {
-                playerAnimator.CurrentState |= PlayerAnimator.State.Hurt;
-            }
-
-            if (Health <= 0)
-            {
-                OnDeadAction.Invoke();
-                UI_InGameEventBus.OnShowGameOverCanvas?.Invoke(); // 게임 오버 화면 표시
-            }
-        }
-
         // 체력 회복
-        public void RecoverHealth(float amount) => UpdateHealth(amount);
-
-        // 체력 갱신
-        void UpdateHealth(float delta)
-        {
-            Health += delta;
-            Health = Mathf.Clamp(Health, 0, MaxHealth);
-            UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(Health);
-        }
+        public void RecoverHealth(float amount) => Health += amount;
         #endregion
 
         #region 마나 관련
         // 마나 재생
         public void RegenerateMana(float amount) => Mana += amount;
-
-        // 마나 회복
-        public void RecoveryMana(float amount) => Mana += amount;
 
         // 마나 소비
         public bool SpendMana(float amount)
@@ -199,16 +154,81 @@ namespace YSJ
             //UpdateMana(-amount);
             return true;
         }
-
-
-        // 마나 갱신
-        void UpdateMana(float delta)
-        {
-            Mana += delta;
-            //Mana = Mathf.Clamp(Mana, 0, MaxMana);
-            //UI_InGameEventBus.OnPlayerMpSliderValueUpdate?.Invoke(Mana);
-        }
         #endregion
+
+        #region 피해 및 사망 관련
+        // 피해 받기
+        public void TakeDamage(float damage)
+        {
+            if (IsDead || IsHurt || PlayerManager.Instance.PlayerDash.IsDash)
+            {
+                return;
+            }
+
+            if (!IsHurt)
+            {
+                //YSJ : 베리어가 있는 지 확인
+                List<Collider2D> colliders = new();
+                ContactFilter2D filter = new ContactFilter2D();
+                filter.SetLayerMask(LayerMask.GetMask("Player"));
+                filter.useTriggers = true;
+                Physics2D.OverlapCollider(GetComponent<Collider2D>(), filter, colliders);
+                foreach (Collider2D col in colliders)
+                {
+                    if (col.TryGetComponent<Barrier>(out Barrier barrier))
+                    {
+                        barrier.TakeDamage(damage); // 베리어가 있으면 베리어가 대신받음
+                        return;
+                    }
+                }
+
+                UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
+                ShowDamageText(damage);
+                Health -= damage;
+                StartCoroutine(InvincibleCoroutine(_invincibleTime));
+                GameManager.Instance.CameraController.ShakeCamera(_cameraShakeIntensity, _cameraShakeTime);
+                _playerAnimator.CurrentState |= PlayerAnimator.State.Hurt;
+            }
+
+            if (Health <= 0)
+            {
+                OnDeadAction.Invoke();
+                UI_InGameEventBus.OnShowGameOverCanvas?.Invoke(); // 게임 오버 화면 표시
+            }
+        }
+
+        // 무적 코루틴
+        IEnumerator InvincibleCoroutine(float second)
+        {
+            IsHurt = true;
+
+            Color damagedColor = Color.gray;
+
+            float loopCount = 0f;
+            float alphaChange = 0.1f;
+
+            while (IsHurt)
+            {
+                // WaitForFixedUpdate()로 0.02초 대기
+                //_colorChangeLoopCount(20)번 반복하여 0.4초 동안 색상 변경
+                for (int i = 0; i < _colorChangeLoopCount; i++)
+                {
+                    damagedColor.a += (i <_colorChangeLoopCount * 0.5) ? -alphaChange : alphaChange;
+                    _spriteRenderer.color = damagedColor;
+
+                    // 0.02초 대기
+                    yield return new WaitForFixedUpdate();
+                    loopCount += 0.02f;
+
+                    if (loopCount >= second)
+                    {
+                        IsHurt = false;
+                        break;
+                    }
+                }
+            }
+            _spriteRenderer.color = Color.white; // 색상 복구
+        }
 
         // 데미지 텍스트 띄우기
         void ShowDamageText(float damage)
@@ -234,28 +254,20 @@ namespace YSJ
             _damageText.transform.position = this.transform.position + this.transform.up;
         }
 
-        // 피격 색상 변경
-        IEnumerator TakeDamageColor()
-        {
-            _spriteRenderer.color = Color.gray;
-            yield return _hurtColorChangeTime;
-            _spriteRenderer.color = Color.white;
-        }
-
         // 사망
-        void Death()
+        void Die()
         {
             IsDead = true;
 
             // 피격 색상 변경 중지
             StopAllCoroutines();
-            _spriteRenderer.color = Color.gray;
+            _spriteRenderer.color = Color.gray; // 시체 색상
 
             // 물리 효과 적용 x
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            rb.linearVelocity = Vector2.zero;
-            rb.bodyType = RigidbodyType2D.Kinematic;
+            _rb.linearVelocity = Vector2.zero;
+            _rb.bodyType = RigidbodyType2D.Kinematic;
         }
+        #endregion
 
         void OnDestroy()
         {
