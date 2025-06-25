@@ -9,7 +9,7 @@ namespace CKT
 
         private void Start()
         {
-            YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.Register((sprite) => UpdateImage_Artifact(sprite));
+            YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.SingleRegister((sprite) => UpdateImage_Artifact(sprite));
         }
 
         void UpdateImage_Artifact(Sprite sprite)
