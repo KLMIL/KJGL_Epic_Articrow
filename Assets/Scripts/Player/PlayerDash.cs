@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,7 +5,6 @@ namespace BMC
 {
     public class PlayerDash : MonoBehaviour
     {
-        Collider2D _hitBox;
         Rigidbody2D _rb;
         public Silhouette Silhouette => _silhouette;
         Silhouette _silhouette;
@@ -19,14 +17,6 @@ namespace BMC
 
         void Start()
         {
-            /*Collider2D[] _colliderArray = GetComponents<Collider2D>();
-            for (int i = 0; i < _colliderArray.Length; i++)
-            {
-                if (_colliderArray[i].isTrigger)
-                {
-                    _hitBox = _colliderArray[i];
-                }
-            }*/
             _rb = GetComponent<Rigidbody2D>();
             _silhouette = GetComponent<Silhouette>();
             YSJ.Managers.Input.OnDashAction += TryDash;
@@ -43,13 +33,11 @@ namespace BMC
         IEnumerator DashCoroutine(Vector2 dashDir, float dashSpeed, float dashTime, float dashCoolTime)
         {
             _silhouette.IsActive = true;
-            //_hitBox.enabled = false;
             IsDash = true;
             _rb.linearVelocity += dashDir * dashSpeed;
 
             yield return new WaitForSeconds(dashTime);
             _silhouette.IsActive = false;
-            //_hitBox.enabled = true;
             IsDash = false;
             _rb.linearVelocity -= _rb.linearVelocity;
 
@@ -84,7 +72,7 @@ namespace BMC
         }
         #endregion
 
-        private void OnDestroy()
+        void OnDestroy()
         {
             YSJ.Managers.Input.OnDashAction -= TryDash;
         }

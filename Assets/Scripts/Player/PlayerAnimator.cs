@@ -49,7 +49,6 @@ namespace YSJ
             // Dead 상태
             if ((CurrentState & State.Dead) == State.Dead)
             {
-                // 플립
                 FlipX();
                 _anim.Play("Dead");
                 return;
@@ -64,7 +63,6 @@ namespace YSJ
             //Hurt 상태
             if ((CurrentState & State.Hurt) == State.Hurt)
             {
-                // 플립
                 FlipX();
                 _anim.Play("Hurt");
                 return;
