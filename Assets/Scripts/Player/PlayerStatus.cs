@@ -112,7 +112,7 @@ namespace YSJ
             }
         }
         #endregion
-
+    
         void Awake()
         {
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
