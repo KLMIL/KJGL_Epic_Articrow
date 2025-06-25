@@ -10,6 +10,8 @@ namespace YSJ
         public Transform LeftHand;
         public Transform RightHand;
 
+        public InventoryCanvas_YSJ InventoryCanvas;
+
         public void InstantiateSettingsUI()
         {
             UI_CommonEventBus.Clear();

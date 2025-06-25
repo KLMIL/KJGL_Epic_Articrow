@@ -116,7 +116,7 @@ namespace YSJ
             }
         }
         #endregion
-
+    
         void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();

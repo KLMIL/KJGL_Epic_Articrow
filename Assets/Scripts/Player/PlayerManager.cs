@@ -59,23 +59,23 @@ namespace BMC
             //else
             //    _playerMove.Stop();
 
-            if (YSJ.Managers.Input.IsPressLeftHandAttack)
-            {
-                GameManager.Instance.LeftSkillManager.TriggerHand();
-            }
-            /*else
-            {
-                GameManager.Instance.LeftSkillManager.OnHandCancelActionT0?.Trigger();
-            }*/
+            //if (YSJ.Managers.Input.IsPressLeftHandAttack)
+            //{
+            //    GameManager.Instance.LeftSkillManager.TriggerHand();
+            //}
+            ///*else
+            //{
+            //    GameManager.Instance.LeftSkillManager.OnHandCancelActionT0?.Trigger();
+            //}*/
 
-            if (YSJ.Managers.Input.IsPressRightHandAttack)
-            {
-                GameManager.Instance.RightSkillManager.TriggerHand();
-            }
-            /*else
-            {
-                GameManager.Instance.RightSkillManager.OnHandCancelActionT0?.Trigger();
-            }*/
+            //if (YSJ.Managers.Input.IsPressRightHandAttack)
+            //{
+            //    GameManager.Instance.RightSkillManager.TriggerHand();
+            //}
+            ///*else
+            //{
+            //    GameManager.Instance.RightSkillManager.OnHandCancelActionT0?.Trigger();
+            //}*/
         }
 
         void OnDestroy()

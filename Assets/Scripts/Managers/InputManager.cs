@@ -24,8 +24,13 @@ public class InputManager
     public Action<Vector2> OnDashAction;          // 구르기
     public Action OnInteractAction;               // 상호작용(줍기)
     public Action OnInventoryAction;              // 인벤토리
+
     public Action OnLeftHandAction;               // 좌수
+    public Action OnLeftHandActionEnd;            // YSJ 왼클릭 땠을 때
+
     public Action OnRightHandAction;              // 우수
+    public Action OnRightHandActionEnd;           // YSJ 우클릭 댔을 때
+
     public Action OnPauseAction;                  // 일시정지
     #endregion
 
@@ -165,6 +170,11 @@ public class InputManager
             OnLeftHandAction?.Invoke();
             //Debug.Log("좌수");
         }
+        // YSJ cancled로 실행된거면 cancleEvent호출
+        if (context.canceled) 
+        {
+            OnLeftHandActionEnd?.Invoke();
+        }
     }
 
     void OnRightHand(InputAction.CallbackContext context)
@@ -178,8 +188,11 @@ public class InputManager
         if (context.canceled)
         {
             //TODO : SkillManager 정리할 때 같이 정리하기
-            ActionT0 onHandCancelActionT0 = GameManager.Instance.RightSkillManager.OnHandCancelActionT0;
-            if (onHandCancelActionT0 != null) onHandCancelActionT0.Trigger();
+            //ActionT0 onHandCancelActionT0 = GameManager.Instance.RightSkillManager.OnHandCancelActionT0;
+            //if (onHandCancelActionT0 != null) onHandCancelActionT0.Trigger();
+
+            // YSJ
+            OnRightHandActionEnd?.Invoke();
         }
     }
     #endregion
