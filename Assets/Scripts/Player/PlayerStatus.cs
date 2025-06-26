@@ -128,12 +128,12 @@ namespace YSJ
 
         void Update()
         {
-            // 테스트용
-            if(Input.GetKeyDown(KeyCode.T))
-            {
-                TakeDamage(25f);
-                SpendMana(25f);
-            }
+            //// 테스트용
+            //if(Input.GetKeyDown(KeyCode.T))
+            //{
+            //    TakeDamage(25f);
+            //    SpendMana(25f);
+            //}
         }
 
         public void Init()

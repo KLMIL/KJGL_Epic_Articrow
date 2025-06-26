@@ -15,15 +15,19 @@ public partial class VisualizeRushDirectionAction : Action
     [SerializeReference] public BlackboardVariable<float> WaitRushTime;
     [SerializeReference] public BlackboardVariable<bool> IsCanRush;
     BossFSM _fsm;
-    EnemyAttackIndicator _enemyAttackIndicator;
+    RushAttackIndicator _enemyAttackIndicator;
+    Vector2 _lookDirection;
 
     protected override Status OnStart()
     {
         if (_fsm == null)
         {
             _fsm = Self.Value.GetComponent<BossFSM>();
-            _enemyAttackIndicator = Self.Value.GetComponentInChildren<EnemyAttackIndicator>();
+            _enemyAttackIndicator = Self.Value.GetComponentInChildren<RushAttackIndicator>();
         }
+
+        _lookDirection = (Target.Value.transform.position - Self.Value.transform.position).normalized;
+        _fsm.FlipX(_lookDirection.x);
         _enemyAttackIndicator.Init(WaitRushTime.Value);
         _enemyAttackIndicator.PlayChargeAndAttack();
         RushDirection.Value = (Target.Value.transform.position - Self.Value.transform.position).normalized;

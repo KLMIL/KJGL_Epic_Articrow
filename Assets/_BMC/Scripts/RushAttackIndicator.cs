@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BMC
 {
-    public class EnemyAttackIndicator : MonoBehaviour
+    public class RushAttackIndicator : MonoBehaviour
     {
         Transform _target;               // 공격 목표
         SpriteRenderer _indicator;             // 인디케이터
@@ -18,7 +18,7 @@ namespace BMC
 
         [Header("두께")]
         float _startThickness = 0.5f; // 시작 두께
-        float _endThickness = 1f;   // 최종 두께
+        float _endThickness = 1.5f;   // 최종 두께
 
 
         void Awake()

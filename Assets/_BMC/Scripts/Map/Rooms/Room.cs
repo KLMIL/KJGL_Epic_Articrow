@@ -62,7 +62,7 @@ namespace BMC
             {
                 GameObject scarecrowPrefab = Managers.Resource.Instantiate("ScarecrowPrefab");
                 scarecrowPrefab.name = "Scarecrow";
-                Debug.LogError("허수아비 소환");
+                //Debug.LogError("허수아비 소환");
             }
             else
             {
@@ -75,7 +75,7 @@ namespace BMC
         {
             if (!_roomData.IsCleared)
             {
-                Debug.LogError(" 방 클리어");
+                //Debug.LogError(" 방 클리어");
                 _roomData.IsCleared = true;
                 SpawnScarecrow();
                 //GameManager.Instance.CameraController.SetCameraTargetRoom(transform);
