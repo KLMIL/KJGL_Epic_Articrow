@@ -22,10 +22,5 @@ namespace BMC
             PlacePlayer();
             Init();
         }
-
-        public void PlacePlayer()
-        {
-            PlayerManager.Instance.transform.position = transform.position; // 플레이어 위치 초기화
-        }
     }
 }

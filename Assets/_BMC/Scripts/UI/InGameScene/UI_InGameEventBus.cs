@@ -13,17 +13,21 @@ public class UI_InGameEventBus : MonoBehaviour
     public static Action OnShowGameOverCanvas;                  // 게임 오버 화면 표시
 
     // 플레이어, 보스 HP 슬라이더
-    public static Action<float> OnPlayerHpSliderValueUpdate;    // 플레이어 HP 슬라이더 값 업데이트
-    public static Action<float> OnPlayerHpSliderMaxValueUpdate; // 플레이어 HP 슬라이더 최대값 업데이트
-    public static Action<float> OnPlayerMpSliderValueUpdate;    // 플레이어 MP 슬라이더 값 업데이트
-    public static Action<float> OnPlayerMpSliderMaxValueUpdate; // 플레이어 MP 슬라이더 최대값 업데이트
-    public static Action<float> OnBossHpSliderValueUpdate;      // 보스 HP 슬라이더 값 업데이트
+    public static Action<float> OnPlayerHpSliderValueUpdate;            // 플레이어 HP 슬라이더 값 업데이트
+    public static Action<float> OnPlayerHpSliderMaxValueUpdate;         // 플레이어 HP 슬라이더 최대값 업데이트
+    public static Action<float> OnPlayerDashCoolTimeSliderValueUpdate;  // 플레이어 대시 쿨타임 슬라이더 값 업데이트
+    public static Action<float> OnPlayerDashCoolTimeMaxValueUpdate;     // 플레이어 대시 쿨타임 슬라이더 최대값 업데이트
+    public static Action<float> OnPlayerMpSliderValueUpdate;            // 플레이어 MP 슬라이더 값 업데이트
+    public static Action<float> OnPlayerMpSliderMaxValueUpdate;         // 플레이어 MP 슬라이더 최대값 업데이트
+    public static Action<float> OnBossHpSliderValueUpdate;              // 보스 HP 슬라이더 값 업데이트
 
     public static void Clear()
     {
         OnShowBloodCanvas = null;
         OnPlayerHpSliderValueUpdate = null;
         OnPlayerHpSliderMaxValueUpdate = null;
+        OnPlayerDashCoolTimeSliderValueUpdate = null;
+        OnPlayerDashCoolTimeMaxValueUpdate = null;
         OnPlayerMpSliderValueUpdate = null;
         OnPlayerMpSliderMaxValueUpdate = null;
         OnBossHpSliderValueUpdate = null;

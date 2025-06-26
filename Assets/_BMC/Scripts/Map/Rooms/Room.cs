@@ -16,12 +16,15 @@ namespace BMC
         [SerializeField] protected Door[] _doors;
         float _openTime = 2.5f; // 문 열리는 시간
 
+        protected StartPosition _startPosition; // 방 진입 시 시작 위치 
+
         [Header("클리어 관련")]
         EnemySpawner _enemySpawner;
 
         void Awake()
         {
             FindDoor();
+            _startPosition = GetComponentInChildren<StartPosition>();
         }
 
         public virtual void Init() { }
@@ -53,6 +56,11 @@ namespace BMC
             }
         }
         #endregion
+
+        public void PlacePlayer()
+        {
+            PlayerManager.Instance.transform.position = _startPosition.transform.position; // 플레이어 위치 초기화
+        }
 
         #region 클리어 관련
         // 보상 소환

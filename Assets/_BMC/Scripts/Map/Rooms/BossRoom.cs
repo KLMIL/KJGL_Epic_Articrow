@@ -20,6 +20,11 @@ namespace BMC
             //GetComponentInChildren<EnemySpawner>().SpawnBoss();
         }
 
+        void Start()
+        {
+            PlacePlayer();
+        }
+
         //public void SpawnBoss()
         //{
         //    GetComponentInChildren<EnemySpawner>().SpawnBoss();
