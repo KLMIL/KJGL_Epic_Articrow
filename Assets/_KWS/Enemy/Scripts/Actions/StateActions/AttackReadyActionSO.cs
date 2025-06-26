@@ -14,11 +14,6 @@ namespace Game.Enemy
 
         public override void OnEnter(EnemyController controller)
         {
-            controller._attackIndicator?.Show();
-        }
-
-        public override void Act(EnemyController controller)
-        {
             controller.FSM.isSuperArmor = true;
 
             if (controller._attackIndicator != null)
@@ -32,11 +27,20 @@ namespace Game.Enemy
                 // 임시: 항상 최대 공격 사거리로 indicator 생성
                 controller._attackIndicator?.SetDirection(dir, controller.FSM.indicatorLength * 2);
             }
+
+            controller.FSM.AttackTargetPosition = controller.Player.position;
+            controller._attackIndicator?.Show();
+        }
+
+        public override void Act(EnemyController controller)
+        {
+            // 효율을 위해 아무것도 하지 않음. 
         }
 
         public override void OnExit(EnemyController controller)
         {
-            controller._attackIndicator?.Hide();
+            controller._attackIndicator?.BlinkAndHide();
+            //controller._attackIndicator?.Hide();
         }
     }
 }

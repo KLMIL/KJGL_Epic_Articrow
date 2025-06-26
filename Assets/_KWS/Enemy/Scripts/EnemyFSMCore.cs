@@ -56,6 +56,9 @@ namespace Game.Enemy
 
         // TODO: 블랙홀 파츠를 위한 임시 필드
         public bool isGravitySurge = false;
+
+        // AttackReady Action에서 저장할 플레이어(공격할) 위치
+        public Vector2 AttackTargetPosition;
         #endregion
 
 

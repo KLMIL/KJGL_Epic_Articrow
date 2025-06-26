@@ -87,8 +87,9 @@ namespace Game.Enemy
             int count = 0;
 
             // 같은 방향으로 발사하기 위해 방향 함수를 while문 밖으로 뺌
-            Vector3 firePos = controller.transform.position + firePointOffset;
-            Vector3 dir = (controller.Player.position - firePos).normalized;
+            Vector2 firePos = controller.transform.position + firePointOffset;
+            //Vector3 dir = (controller.Player.position - firePos).normalized;
+            Vector2 dir = (controller.FSM.AttackTargetPosition - firePos).normalized;
             Vector2 velocity = dir * projectileSpeed;
 
             if (dir.x != 0)
