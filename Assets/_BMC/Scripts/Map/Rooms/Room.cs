@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using YSJ;
 using static Define;
 
 namespace BMC
@@ -55,13 +56,17 @@ namespace BMC
 
         #region 클리어 관련
         // 보상 소환
-        public void SpawnReward()
+        public void SpawnScarecrow()
         {
             if (_roomData.IsCleared && _roomData.RoomType != RoomType.BossRoom)
             {
-                List<GameObject> rewardList = StageManager.Instance.RoomTypeRewardListDict[RoomData.RoomType];
-                GameObject rewardObject = rewardList[Random.Range(0, rewardList.Count)];
-                Instantiate(rewardObject, transform.position, Quaternion.identity);
+                GameObject scarecrowPrefab = Managers.Resource.Instantiate("ScarecrowPrefab");
+                scarecrowPrefab.name = "Scarecrow";
+                Debug.LogError("허수아비 소환");
+            }
+            else
+            {
+                Debug.LogError("허수아비 소환 실패");
             }
         }
         
@@ -72,7 +77,7 @@ namespace BMC
             {
                 Debug.LogError(" 방 클리어");
                 _roomData.IsCleared = true;
-                //SpawnReward();
+                SpawnScarecrow();
                 //GameManager.Instance.CameraController.SetCameraTargetRoom(transform);
                 Invoke(nameof(OpenAllValidDoor), _openTime);
             }

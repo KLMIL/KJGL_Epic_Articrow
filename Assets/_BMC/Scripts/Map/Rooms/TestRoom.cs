@@ -3,19 +3,17 @@ using static Define;
 
 namespace BMC
 {
-    public class StartRoom : Room
+    public class TestRoom : Room
     {
         public override void Init()
         {
             // 방 데이터 초기화
             _roomData = new RoomData
             {
-                RoomType = RoomType.StartRoom,
-                RoomState = RoomState.Active,
-                IsCleared = true
+                RoomType = RoomType.None,
+                RoomState = RoomState.Undiscover,
+                IsCleared = false,
             };
-
-            OpenAllValidDoor();
         }
 
         void Start()

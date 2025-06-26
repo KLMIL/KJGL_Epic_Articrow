@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using YSJ;
+using static Define;
 
 namespace BMC
 {
@@ -17,10 +19,33 @@ namespace BMC
             _anim = GetComponent<Animator>();
         }
 
+        void Start()
+        {
+            _anim.Play("Spawn");
+        }
+
         public void TakeDamage(float damage)
         {
             _anim.Play("Hurt");
             ShowDamageText(damage);
+        }
+
+        // Spawn 애니메이션 이벤트
+        void OnSpawnAnimationEvent()
+        {
+            SpawnReward();
+        }
+
+        void SpawnReward()
+        {
+            List<GameObject> artifactList = StageManager.Instance.RoomTypeRewardListDict[RoomType.ArtifactRoom];
+            List<GameObject> magicList = StageManager.Instance.RoomTypeRewardListDict[RoomType.MagicRoom];
+            GameObject rewardObject = artifactList[Random.Range(0, artifactList.Count)];
+            
+            Vector3 dir = Vector3.down;
+            Instantiate(rewardObject, transform.position + dir - transform.right, Quaternion.identity);
+            rewardObject = magicList[Random.Range(0, magicList.Count)];
+            Instantiate(rewardObject, transform.position + dir + transform.right, Quaternion.identity);
         }
 
         // 데미지 텍스트 띄우기
