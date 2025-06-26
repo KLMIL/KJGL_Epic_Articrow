@@ -6,10 +6,10 @@ using static Define;
 
 namespace BMC
 {
-    public class MapManager : MonoBehaviour
+    public class StageManager : MonoBehaviour
     {
-        static MapManager s_instance;
-        public static MapManager Instance => s_instance;
+        static StageManager s_instance;
+        public static StageManager Instance => s_instance;
 
         [Header("방 생성 관련")]
         public Dictionary<RoomType, List<Room>> RoomTypeRoomListDict { get; private set; } = new Dictionary<RoomType, List<Room>>(); // 방 타입별 종류 (추후에 스테이지별로 관리할 수 있도록 수정 예정)

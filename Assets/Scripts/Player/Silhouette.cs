@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using YSJ;
 
 // 대시 실루엣
@@ -15,8 +16,8 @@ public class Silhouette : MonoBehaviour
     [SerializeField] float _silhouetteTime = 0.1f;      // 실루엣 위치 조정 주기 (작게 하면 촘촘하게 나옴)
     [SerializeField] float _delta = 0;                  // 실루엣 위치 조정 시간 카운트
 
-    [SerializeField] int _idx = 0;                      // 실루엣 리스트 인덱스
-    [SerializeField] GameObject _silhouetteParent;      // 실루엣 보관할 오브젝트
+    [SerializeField] int _idx = 0;                                                      // 실루엣 리스트 인덱스
+    [SerializeField] public GameObject SilhouetteParent { get; private set; }           // 실루엣 보관할 오브젝트
     [SerializeField] List<SpriteRenderer> _silhouetteList = new List<SpriteRenderer>(); // 실루엣 리스트
 
     void Awake()
@@ -36,15 +37,16 @@ public class Silhouette : MonoBehaviour
         _delta = 0;
         _idx = 0;
 
-        if (!_silhouetteParent)
+        if (!SilhouetteParent)
         {
             // 하이어라키 정리를 위해 따로 정리용 오브젝트를 두고, 밑에 위치시키기
-            _silhouetteParent = new GameObject(gameObject.name + " SilhouetteList");
+            SilhouetteParent = new GameObject(gameObject.name + " SilhouetteList");
+            DontDestroyOnLoad(SilhouetteParent); // 씬 전환 시에도 유지되도록 설정
             for (int i = 0; i < _silhouetteCount; i++)
             {
                 // 빈 게임오브젝트 생성
                 GameObject spriteCopy = new GameObject(transform.gameObject.name + " Silhouette " + i);
-                spriteCopy.transform.parent = _silhouetteParent.transform;
+                spriteCopy.transform.parent = SilhouetteParent.transform;
 
                 // SpriteRenderer 컴포넌트 추가
                 SpriteRenderer spriteRenderer = spriteCopy.AddComponent<SpriteRenderer>();
@@ -98,9 +100,17 @@ public class Silhouette : MonoBehaviour
             _silhouetteList[i].color -= new Color(0, 0, 0, 1f / _silhouetteList.Count);
     }
 
+    // 바로 실루엣 페이드 아웃
+    public void DirectFadeOutSilhouette()
+    {
+        // 모든 실루엣 바로 투명하게 하기
+        for (int i = 0; _silhouetteList.Count > i; i++)
+            _silhouetteList[i].color -= new Color(0, 0, 0, 0f);
+    }
+
     public void Clear()
     {
         _silhouetteList.Clear();
-        Destroy(_silhouetteParent);
+        Destroy(SilhouetteParent);
     }
 }

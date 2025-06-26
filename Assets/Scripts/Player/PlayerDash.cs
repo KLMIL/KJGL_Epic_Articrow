@@ -74,6 +74,7 @@ namespace BMC
 
         void OnDestroy()
         {
+            _silhouette.Clear(); // 실루엣 정리
             YSJ.Managers.Input.OnDashAction -= TryDash;
         }
     }

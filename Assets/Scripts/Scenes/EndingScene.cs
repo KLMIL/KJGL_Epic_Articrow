@@ -15,6 +15,9 @@ namespace YSJ
         public override void Clear()
         {
             Debug.Log("엔딩 씬 종료");
+
+            // 이벤트 버스 초기화
+            UI_InGameEventBus.Clear();
         }
     }
 }

@@ -1,6 +1,7 @@
 using BMC;
 using System.Collections.Generic;
 using UnityEngine;
+using YSJ;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
 
+        TrySpawnPlayer();
+
         MainCamera = Camera.main;
         Inventory.Init();
         LeftSkillManager.Init();
@@ -46,6 +49,17 @@ public class GameManager : MonoBehaviour
     }
 
     public List<GameObject> MagicItems = new();
+
+    public void TrySpawnPlayer()
+    {
+        if (PlayerManager.Instance == null)
+        {
+            GameObject playerGO = Managers.Resource.Instantiate("PlayerPrefab");
+            playerGO.name = "PlayerPrefab";
+        }
+
+        // TODO: 플레이어 소환 위치 설정
+    }
 
     // 일시 정지 및 재개 기능
     public void TogglePauseGame(bool isActive)

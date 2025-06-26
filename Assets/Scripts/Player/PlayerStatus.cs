@@ -126,6 +126,16 @@ namespace YSJ
             Init();
         }
 
+        void Update()
+        {
+            // 테스트용
+            if(Input.GetKeyDown(KeyCode.T))
+            {
+                TakeDamage(25f);
+                SpendMana(25f);
+            }
+        }
+
         public void Init()
         {
             Health = MaxHealth;

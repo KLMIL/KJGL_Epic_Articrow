@@ -27,7 +27,7 @@ namespace BMC
 
         public void Init()
         {
-            SpawnArea spawnArea = MapManager.Instance.CurrentRoom.GetComponentInChildren<SpawnArea>();
+            SpawnArea spawnArea = StageManager.Instance.CurrentRoom.GetComponentInChildren<SpawnArea>();
             _spawnAreaTilemap = spawnArea.GetComponent<Tilemap>();
 
             // 타일맵의 경계를 압축하여 정확한 크기를 반영, Tilemap의 Bounds 재설정 (맵을 수정했을 때 Bounds가 변경되지 않는 문제 해결
@@ -53,7 +53,7 @@ namespace BMC
         public void SpawnBoss()
         {
             _currentSpawnCount = 0;
-            GameObject bossGO = MapManager.Instance.CurrentRoom.GetComponentInChildren<BossFSM>(true).gameObject;
+            GameObject bossGO = StageManager.Instance.CurrentRoom.GetComponentInChildren<BossFSM>(true).gameObject;
             _spawnedEnemyList.Add(bossGO);
             _currentSpawnCount++;
             bossGO.SetActive(true);
@@ -106,7 +106,7 @@ namespace BMC
                 _spawnedEnemyList.Clear(); // 소환된 적 리스트 초기화
                 _possibleSpawnPositionList.Clear();
                 _currentSpawnCount = 0; // 현재 소환된 적 수 초기화
-                MapManager.Instance.CurrentRoom.RoomClearComplete(); // 방 클리어
+                StageManager.Instance.CurrentRoom.RoomClearComplete(); // 방 클리어
             }
         }
     }

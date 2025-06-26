@@ -59,7 +59,7 @@ namespace BMC
         {
             if (_roomData.IsCleared && _roomData.RoomType != RoomType.BossRoom)
             {
-                List<GameObject> rewardList = MapManager.Instance.RoomTypeRewardListDict[RoomData.RoomType];
+                List<GameObject> rewardList = StageManager.Instance.RoomTypeRewardListDict[RoomData.RoomType];
                 GameObject rewardObject = rewardList[Random.Range(0, rewardList.Count)];
                 Instantiate(rewardObject, transform.position, Quaternion.identity);
             }
@@ -72,8 +72,8 @@ namespace BMC
             {
                 Debug.LogError(" 방 클리어");
                 _roomData.IsCleared = true;
-                SpawnReward();
-                GameManager.Instance.CameraController.SetCameraTargetRoom(transform);
+                //SpawnReward();
+                //GameManager.Instance.CameraController.SetCameraTargetRoom(transform);
                 Invoke(nameof(OpenAllValidDoor), _openTime);
             }
         }

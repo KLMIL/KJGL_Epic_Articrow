@@ -24,9 +24,6 @@ namespace YSJ
         void OnDestroy()
         {
             Managers.Input.ClearAction();
-
-            // 인게임 씬 종료 시 이벤트 버스 초기화
-            UI_InGameEventBus.Clear();
         }
     }
 }
