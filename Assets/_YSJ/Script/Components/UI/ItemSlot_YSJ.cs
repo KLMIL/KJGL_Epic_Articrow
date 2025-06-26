@@ -5,24 +5,40 @@ public class ItemSlot_YSJ : MonoBehaviour, IDropHandler
 {
     public void OnDrop(PointerEventData eventData)
     {
-        CanDragItem_YSJ DraggedItem = eventData.pointerDrag.GetComponent<CanDragItem_YSJ>();
+        CanDragItem_YSJ draggedItem = eventData.pointerDrag.GetComponent<CanDragItem_YSJ>();
 
         if (transform.childCount == 0)
         {
-            DraggedItem.currentParent = transform;
+            AddInSlotItem(draggedItem); // 슬롯에 아이템이 없으면 그냥 넣어주기
         }
         else
         {
-            // 아이템이 이미 존재하면 부모바꿔주기
-            CanDragItem_YSJ currentItem = transform.GetChild(0).GetComponent<CanDragItem_YSJ>();
-            if (currentItem != null) 
-            {
-                currentItem.transform.SetParent(DraggedItem.currentParent);
-                currentItem.currentParent = DraggedItem.currentParent;
-
-                DraggedItem.currentParent = transform;
-            }
-            
+            SwitchItem(draggedItem);
         }
+    }
+
+    virtual public void SwitchItem(CanDragItem_YSJ draggedItem) 
+    {
+        MoveInSlotItem(draggedItem.currentParent); // 현재 드래그한 아이템의 부모를 슬롯으로 이동
+        AddInSlotItem(draggedItem); // 드랍한 슬롯에 새로 드래그한 아이템을 넣어주기
+    }
+
+    virtual public void MoveInSlotItem(Transform Goal)
+    {
+        CanDragItem_YSJ currentItem = transform.GetChild(0).GetComponent<CanDragItem_YSJ>();
+        if (currentItem != null)
+        {
+            currentItem.transform.SetParent(Goal);
+            currentItem.currentParent = Goal;
+        }
+    }
+
+    virtual public void AddInSlotItem(CanDragItem_YSJ draggedItem) 
+    {
+        if (draggedItem.currentParent.TryGetComponent<ArtifactSlotUI_YSJ>(out ArtifactSlotUI_YSJ artifactslot)) 
+        {
+            artifactslot.CurrentArtifact.RemoveParts(artifactslot.SlotIndex); // 현재 슬롯의 파츠 아티팩트에서 등록해제
+        }
+        draggedItem.currentParent = transform;
     }
 }
