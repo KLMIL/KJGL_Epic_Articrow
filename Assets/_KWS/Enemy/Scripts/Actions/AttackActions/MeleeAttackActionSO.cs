@@ -156,7 +156,8 @@ namespace Game.Enemy
             if (!controller.FSM.isRushing)// 일반 돌진
             {
                 // 첫 rush에서 방향 초기화
-                controller.FSM.rushDirection = (controller.Player.position - controller.transform.position).normalized;
+                //controller.FSM.rushDirection = (controller.Player.position - controller.transform.position).normalized;
+                controller.FSM.rushDirection = (controller.FSM.AttackTargetPosition - (Vector2)controller.transform.position).normalized;
             }
 
             controller.FSM.rushDamageMultuply = damageMultiply;
