@@ -14,7 +14,6 @@ public partial class BossSpiralShootAction : Action
     BossFSM _fsm;
     Transform _shootTransform;
 
-    float _duration = 5f;
     float _interval = 0.05f; // 연사 속도
 
     float _timer;
@@ -57,15 +56,11 @@ public partial class BossSpiralShootAction : Action
             _shootStartAngle += _angleOffset; // 나선 회전 각도 증가
         }
 
-        //if (timer >= duration)
-        //    EndAction(true);
-
         return Status.Running;
     }
 
     protected override void OnEnd()
-    {
-    }
+    { }
 
     void FireProjectile(float angle)
     {

@@ -22,13 +22,12 @@ namespace BMC
         [SerializeField] int _currentWaveIndex;          // 현재 웨이브 인덱스
         [SerializeField] int _enemyCount;                // 적 수
         [SerializeField] int _enemyDieCount;             // 죽은 적 수
+        public static Action OnEnemyDie;
 
         [Header("위치 관련")]
         Tilemap _spawnAreaTilemap;
         Vector3 _offset = new Vector3(0.5f, 0.5f, 0);                                           // 적 배치는 타일 모서리 위치이므로 타일 중앙에 배치할 수 있도록하는 offset
         [SerializeField] List<Vector3> _possibleSpawnPositionList = new List<Vector3>();        // 소환 가능한 위치 리스트
-
-        public static Action OnWaveStart;
 
         void Awake()
         {
@@ -38,12 +37,17 @@ namespace BMC
             if (_instance == null)
             {
                 _instance = this;
-                OnWaveStart = StartWave;
             }
             else
             {
                 Destroy(gameObject);
             }
+        }
+
+        void Start()
+        {
+            OnEnemyDie = CountEnemyDie;
+            OnEnemyDie += StartWave;
         }
 
         public void Init()
@@ -56,20 +60,21 @@ namespace BMC
 
             // 소환 가능한 타일 계산
             CalculateSpawnPossibleTiles();
+
+            // 웨이브 시작
+            StartWave();
         }
 
-        void Update()
+        // 몬스터 죽었을 때 호출
+        public void CountEnemyDie()
         {
-            if(Input.GetKeyDown(KeyCode.G))
-            {
-                StartWave();
-            }
+            _enemyDieCount++;
         }
 
         // 웨이브 시작
         public void StartWave()
         {
-            if(_currentWaveIndex == _enemyWaveList.Count && !_isAllWaveClear)
+            if(_currentWaveIndex == _enemyWaveList.Count && _enemyCount == _enemyDieCount && !_isAllWaveClear)
             {
                 // 클리어
                 _isAllWaveClear = true;
@@ -157,28 +162,6 @@ namespace BMC
                 }
             }
         }
-
-        //// TODO: 현재는 Room 클래스에서 Update로 확인하고 있는데, vertical slice 이후에 몬스터가 죽었을 때, action 호출하는 식으로 변경해야 함
-        //// 소환된 적 전부 죽였는지 여부 반환
-        //public void IsClear()
-        //{
-        //    int dieEnemyCount = 0; // 죽은 적 수
-        //    foreach (var enemy in _spawnedEnemyList)
-        //    {
-        //        if (enemy == null)
-        //        {
-        //            dieEnemyCount++;
-        //        }
-        //    }
-
-        //    if(dieEnemyCount == _spawnCount)
-        //    {
-        //        _spawnedEnemyList.Clear(); // 소환된 적 리스트 초기화
-        //        _possibleSpawnPositionList.Clear();
-        //        _currentSpawnCount = 0; // 현재 소환된 적 수 초기화
-        //        StageManager.Instance.CurrentRoom.RoomClearComplete(); // 방 클리어
-        //    }
-        //}
 
         void OnDestroy()
         {
