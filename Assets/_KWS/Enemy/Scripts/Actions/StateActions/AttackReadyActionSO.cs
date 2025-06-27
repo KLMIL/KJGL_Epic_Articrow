@@ -15,10 +15,11 @@ namespace Game.Enemy
         public override void OnEnter(EnemyController controller)
         {
             controller.FSM.isSuperArmor = true;
+            controller.FSM.AttackTargetPosition = controller.Player.position;
 
             if (controller._attackIndicator != null)
             {
-                Vector2 dir = (controller.Player.position - controller.transform.position).normalized;
+                Vector2 dir = (controller.FSM.AttackTargetPosition - (Vector2)controller.transform.position).normalized;
                 float len = (controller.Player.position - controller.transform.position).magnitude * 2;
 
                 len = len < controller.FSM.indicatorLength * 2 ? len : controller.FSM.indicatorLength * 2;
@@ -28,7 +29,6 @@ namespace Game.Enemy
                 controller._attackIndicator?.SetDirection(dir, controller.FSM.indicatorLength * 2);
             }
 
-            controller.FSM.AttackTargetPosition = controller.Player.position;
             controller._attackIndicator?.Show();
         }
 
