@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using YSJ;
 using static Define;
@@ -19,12 +18,22 @@ namespace BMC
         protected StartPosition _startPosition; // 방 진입 시 시작 위치 
 
         [Header("클리어 관련")]
-        EnemySpawner _enemySpawner;
+        protected EnemySpawner _enemySpawner;
 
         void Awake()
         {
             FindDoor();
             _startPosition = GetComponentInChildren<StartPosition>();
+        }
+
+        void Update()
+        {
+            //// (임시 코드) -> 나중에 Action으로 변경 필요
+            //if (_roomData.RoomType != RoomType.StartRoom &&
+            //    _roomData.RoomType != RoomType.BossRoom)
+            //{
+            //    _enemySpawner.IsClear();
+            //}
         }
 
         public virtual void Init() { }
@@ -91,22 +100,5 @@ namespace BMC
             }
         }
         #endregion
-
-        // 적 소환
-        public void SpawnEnemy()
-        {
-            if (!_roomData.IsCleared)
-            {
-                if (_roomData.RoomType != RoomType.StartRoom)
-                {
-                    _enemySpawner = GameManager.Instance.EnemySpawner;
-                    _enemySpawner.Init();
-                    if (_roomData.RoomType == RoomType.BossRoom)
-                        _enemySpawner.SpawnBoss();
-                    else
-                        _enemySpawner.SpawnEnemy();
-                }
-            }
-        }
     }
 }

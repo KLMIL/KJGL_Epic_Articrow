@@ -635,7 +635,6 @@ GameObject:
   m_Component:
   - component: {fileID: 173706847}
   - component: {fileID: 173706848}
-  - component: {fileID: 173706849}
   m_Layer: 0
   m_Name: '@GameManager'
   m_TagString: Untagged
@@ -673,21 +672,6 @@ MonoBehaviour:
   <IsPaused>k__BackingField: 0
   _pauseLevel: 0
   MagicItems: []
---- !u!114 &173706849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 173706846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4983abc6510f9d740af349940f7d13e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spawnedEnemyList: []
-  _spawnCount: 7
-  _currentSpawnCount: 0
 --- !u!1001 &208900292
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4844,6 +4828,70 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8545638617554626517, guid: 0ce663bdb5fd5694db8f5cc165935b5f, type: 3}
   m_PrefabInstance: {fileID: 1073195547}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1157617650
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1157617652}
+  - component: {fileID: 1157617651}
+  m_Layer: 0
+  m_Name: '@EnemySpawner'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1157617651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157617650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4983abc6510f9d740af349940f7d13e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isAllWaveClear: 0
+  _enemyWaveList:
+  - enemySpawnInfoList:
+    - EnemyPrefab: {fileID: 280942326239313078, guid: dc06c7929b5862c4abf09042528e0e23, type: 3}
+      SpawnPosition: {x: 0, y: 0}
+      SpawnDelay: 0
+    - EnemyPrefab: {fileID: 409916835729264519, guid: e435d95e4cc45e64781bbd2cffd2a0a1, type: 3}
+      SpawnPosition: {x: 0, y: 0}
+      SpawnDelay: 0
+  - enemySpawnInfoList:
+    - EnemyPrefab: {fileID: 7109929917498522947, guid: a5dccda31cb2735409ed202b51269ef0, type: 3}
+      SpawnPosition: {x: 0, y: 0}
+      SpawnDelay: 0
+    - EnemyPrefab: {fileID: 3006341480942975301, guid: dc0c0d0f0fbf9fc4b84939d693e53367, type: 3}
+      SpawnPosition: {x: 0, y: 0}
+      SpawnDelay: 0
+  _currentWaveIndex: 0
+  _enemyCount: 0
+  _enemyDieCount: 0
+  _possibleSpawnPositionList: []
+--- !u!4 &1157617652
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157617650}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1160721939
 GameObject:
   m_ObjectHideFlags: 0
@@ -7018,15 +7066,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6575604293825599399, guid: 609bf6b27f3dd2344b586cb144babcb1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.4054481
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6575604293825599399, guid: 609bf6b27f3dd2344b586cb144babcb1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.9091345
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6575604293825599399, guid: 609bf6b27f3dd2344b586cb144babcb1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.06495593
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6575604293825599399, guid: 609bf6b27f3dd2344b586cb144babcb1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -19091,7 +19139,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roomData:
     RoomType: 0
-    RoomState: 0
     IsCleared: 0
   _doors: []
 --- !u!114 &6044067300164584639
@@ -21540,7 +21587,8 @@ SceneRoots:
   - {fileID: 949322558}
   - {fileID: 2364386225041828921}
   - {fileID: 1258037265}
-  - {fileID: 2114857200}
   - {fileID: 1160721941}
   - {fileID: 173706847}
+  - {fileID: 1157617652}
+  - {fileID: 2114857200}
   - {fileID: 1908081040}

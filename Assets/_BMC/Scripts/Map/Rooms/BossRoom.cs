@@ -11,7 +11,6 @@ namespace BMC
             _roomData = new RoomData
             {
                 RoomType = RoomType.BossRoom,
-                RoomState = RoomState.Undiscover,
                 IsCleared = false,
             };
 

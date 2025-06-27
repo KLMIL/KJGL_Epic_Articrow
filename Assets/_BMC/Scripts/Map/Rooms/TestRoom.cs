@@ -1,4 +1,3 @@
-using UnityEngine;
 using static Define;
 
 namespace BMC
@@ -11,7 +10,6 @@ namespace BMC
             _roomData = new RoomData
             {
                 RoomType = RoomType.None,
-                RoomState = RoomState.Undiscover,
                 IsCleared = false,
             };
         }
@@ -21,6 +19,7 @@ namespace BMC
             StageManager.Instance.CurrentRoom = this; // 현재 방 설정
             PlacePlayer();
             Init();
+            EnemySpawner.Instance.Init();
         }
     }
 }

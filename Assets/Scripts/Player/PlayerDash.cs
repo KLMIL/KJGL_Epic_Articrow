@@ -27,24 +27,24 @@ namespace BMC
             if(PlayerManager.Instance.PlayerStatus.IsDead)
                 return;
 
-            _dashCoroutine = _dashCoroutine ?? StartCoroutine(DashCoroutine(dashDir, _dashSpeed, _dashTime, DashCoolTime));
+            _dashCoroutine = _dashCoroutine ?? StartCoroutine(DashCoroutine(dashDir));
         }
 
-        IEnumerator DashCoroutine(Vector2 dashDir, float dashSpeed, float dashTime, float dashCoolTime)
+        IEnumerator DashCoroutine(Vector2 dashDir)
         {
             _silhouette.IsActive = true;
             IsDash = true;
-            _rb.linearVelocity += dashDir * dashSpeed;
+            _rb.linearVelocity += dashDir * _dashSpeed;
 
-            yield return new WaitForSeconds(dashTime);
+            yield return new WaitForSeconds(_dashTime);
             _silhouette.IsActive = false;
             IsDash = false;
             _rb.linearVelocity -= _rb.linearVelocity;
 
-            float remainCoolTime = dashCoolTime - dashTime;
+            //float remainCoolTime = DashCoolTime - _dashTime;
             float timer = 0;
             UI_InGameEventBus.OnPlayerDashCoolTimeSliderValueUpdate?.Invoke(timer);
-            while (timer < remainCoolTime)
+            while (timer < DashCoolTime)
             {
                 timer += Time.deltaTime;
                 UI_InGameEventBus.OnPlayerDashCoolTimeSliderValueUpdate?.Invoke(timer);

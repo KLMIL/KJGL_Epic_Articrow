@@ -10,7 +10,6 @@ namespace BMC
             _roomData = new RoomData
             {
                 RoomType = RoomType.StartRoom,
-                RoomState = RoomState.Active,
                 IsCleared = true
             };
 
