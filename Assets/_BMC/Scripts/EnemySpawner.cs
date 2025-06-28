@@ -19,9 +19,9 @@ namespace BMC
         [Header("웨이브 관련")]
         [SerializeField] bool _isAllWaveClear;
         [SerializeField] List<EnemyWave> _enemyWaveList;
-        [SerializeField] int _currentWaveIndex;          // 현재 웨이브 인덱스
-        [SerializeField] int _enemyCount;                // 적 수
-        [SerializeField] int _enemyDieCount;             // 죽은 적 수
+        [SerializeField] int _currentWaveIndex;                 // 현재 웨이브 인덱스
+        [SerializeField] public int EnemyCount { get; set; }    // 적 수
+        [SerializeField] int _enemyDieCount;                    // 죽은 적 수
         public static Action OnEnemyDie;
 
         [Header("위치 관련")]
@@ -74,7 +74,7 @@ namespace BMC
         // 웨이브 시작
         public void StartWave()
         {
-            if(_currentWaveIndex == _enemyWaveList.Count && _enemyCount == _enemyDieCount && !_isAllWaveClear)
+            if(_currentWaveIndex == _enemyWaveList.Count && EnemyCount == _enemyDieCount && !_isAllWaveClear)
             {
                 // 클리어
                 _isAllWaveClear = true;
@@ -83,11 +83,11 @@ namespace BMC
             }
 
             // 죽은 적 수와 현재 웨이브의 적 수가 불일치 or 웨이브 리스트가 비어있음 or 모든 웨이브 클리어
-            if (_enemyDieCount != _enemyCount || _enemyWaveList.Count == 0 || _isAllWaveClear)
+            if (_enemyDieCount != EnemyCount || _enemyWaveList.Count == 0 || _isAllWaveClear)
                 return;
 
             // 웨이브 시작
-            _enemyCount = _enemyWaveList[_currentWaveIndex].enemySpawnInfoList.Count;
+            EnemyCount = _enemyWaveList[_currentWaveIndex].enemySpawnInfoList.Count;
             _enemyDieCount = 0;
 
             if (_currentWaveIndex < _enemyWaveList.Count)
