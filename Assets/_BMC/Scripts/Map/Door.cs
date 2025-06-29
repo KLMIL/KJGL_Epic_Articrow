@@ -18,6 +18,8 @@ namespace BMC
 
         DoorDetectionPlayer _doorDetectionPlayer;
 
+        static Coroutine _nextStageCoroutine;
+
         void Awake()
         {
             _anim = GetComponent<Animator>();
@@ -26,6 +28,7 @@ namespace BMC
             CurrentRoom = transform.root.GetComponent<Room>();
             _doorDetectionPlayer = GetComponentInChildren<DoorDetectionPlayer>();
             _doorDetectionPlayer.Init(this);
+            _nextStageCoroutine = null;
         }
 
         #region 문 개방/폐쇄
@@ -84,7 +87,11 @@ namespace BMC
             int sceneIdx = SceneManager.GetActiveScene().buildIndex;
             int sceneCount = SceneManager.sceneCountInBuildSettings;
             sceneIdx = (sceneIdx + 1) % sceneCount;
-            Managers.Scene.LoadScene(sceneIdx);
+            //Managers.Scene.LoadScene(sceneIdx);
+            if(_nextStageCoroutine == null)
+            {
+                _nextStageCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine(sceneIdx));
+            }
         }
     }
 }

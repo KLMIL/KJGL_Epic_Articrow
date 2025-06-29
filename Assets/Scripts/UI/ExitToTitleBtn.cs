@@ -1,20 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace YSJ
+namespace BMC
 {
-    public class LoadSceneBtn : MonoBehaviour
+    public class ExitToTitleBtn : MonoBehaviour
     {
         //[SerializeField] Define.SceneType _sceneType;
         [SerializeField] string _sceneName; // 나중에 Enum으로 바꾸기
         Button _btn;
-
-        static Coroutine _loadSceneCoroutine;
-
-        void Awake()
-        {
-            _loadSceneCoroutine = null;
-        }
 
         void Start()
         {
@@ -30,12 +23,7 @@ namespace YSJ
         void OnClicked()
         {
             //Managers.Scene.LoadScene(_sceneType);
-            //Managers.Scene.LoadScene(_sceneName);
-
-            if(_loadSceneCoroutine == null)
-            {
-                _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine(_sceneName));
-            }
+            YSJ.Managers.Scene.LoadScene(_sceneName);
         }
     }
 }

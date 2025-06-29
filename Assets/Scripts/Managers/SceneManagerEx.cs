@@ -1,3 +1,5 @@
+using BMC;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Define;
@@ -28,6 +30,40 @@ public class SceneManagerEx
     public void LoadScene(int idx)
     {
         SceneManager.LoadScene(idx);
+    }
+
+    public IEnumerator LoadSceneCoroutine(int idx)
+    {
+        UI_SceneTransitionCanvas sceneFade = GameObject.FindAnyObjectByType<UI_SceneTransitionCanvas>();
+        yield return sceneFade.FadeOutCoroutine(1f); // 페이드 아웃
+
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(idx);
+        asyncOperation.allowSceneActivation = false; // 씬 활성화는 나중에
+        while (!asyncOperation.isDone)
+        {
+            if (asyncOperation.progress >= 0.9f) // 로딩이 거의 끝났을 때
+            {
+                asyncOperation.allowSceneActivation = true; // 씬 활성화
+            }
+            yield return null;
+        }
+    }
+
+    public IEnumerator LoadSceneCoroutine(string sceneName)
+    {
+        UI_SceneTransitionCanvas sceneFade = GameObject.FindAnyObjectByType<UI_SceneTransitionCanvas>();
+        yield return sceneFade.FadeOutCoroutine(1f); // 페이드 아웃
+
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+        asyncOperation.allowSceneActivation = false; // 씬 활성화는 나중에
+        while (!asyncOperation.isDone)
+        {
+            if (asyncOperation.progress >= 0.9f) // 로딩이 거의 끝났을 때
+            {
+                asyncOperation.allowSceneActivation = true; // 씬 활성화
+            }
+            yield return null; // 다음 프레임까지 대기
+        }
     }
 
     // 씬 정리
