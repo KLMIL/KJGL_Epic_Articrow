@@ -64,7 +64,7 @@ namespace CKT
                 //true면 플레이가 호출한 Projectile,  false면 HitSkill에서 생성된 Projectile
                 if (_isCreateFromPlayer)
                 {
-                    Vector3 closestPoint = collision.ClosestPoint(this.transform.position);
+                    Vector3 closestPoint = collision.ClosestPoint(YSJ.Managers.Input.MouseWorldPos);
                     SkillManager skillManager = GameManager.Instance.RightSkillManager;
                     foreach (Func<Vector3, Vector3, IEnumerator> hitSkill in skillManager.HitSkillDict.Values)
                     {

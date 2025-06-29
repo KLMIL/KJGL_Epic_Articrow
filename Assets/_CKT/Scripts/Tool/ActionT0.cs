@@ -27,11 +27,10 @@ public class ActionT0
 
     public void Trigger()
     {
-        CleanUp();
-        _action?.Invoke();
+        SafeInvoke();
     }
 
-    void CleanUp()
+    void SafeInvoke()
     {
         if (_action == null) return;
 
@@ -44,5 +43,7 @@ public class ActionT0
                 _action += (Action)del;
             }
         }
+
+        _action?.Invoke();
     }
 }

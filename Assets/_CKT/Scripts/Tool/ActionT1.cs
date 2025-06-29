@@ -27,11 +27,11 @@ public class ActionT1<T1>
 
     public void Trigger(T1 param)
     {
-        CleanUp();
+        //safeInvoke(param);
         _action?.Invoke(param);
     }
 
-    void CleanUp()
+    void safeInvoke(T1 param)
     {
         if (_action == null) return;
 
@@ -44,5 +44,7 @@ public class ActionT1<T1>
                 _action += (Action<T1>)del;
             }
         }
+
+        _action?.Invoke(param);
     }
 }

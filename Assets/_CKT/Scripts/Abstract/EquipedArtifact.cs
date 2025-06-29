@@ -25,12 +25,7 @@ namespace CKT
         Coroutine _manaLackCoroutine = null;
         #endregion
 
-        private void Start()
-        {
-            Init();
-        }
-
-        protected void Init()
+        private void OnEnable()
         {
             _renderer = GetComponentInChildren<SpriteRenderer>();
             _animator = GetComponentInChildren<Animator>();
@@ -38,14 +33,28 @@ namespace CKT
 
             _skillManager = GameManager.Instance.RightSkillManager;
             _skillManager.GetArtifactSOFuncT0.SingleRegister(() => { return _artifactSO; });
-            _skillManager.OnHandPerformActionT1.SingleRegister((list) => Attack(list));
-            _skillManager.OnHandCancelActionT0.SingleRegister(() => AttackCancel());
-            _skillManager.OnThrowAwayActionT0.SingleRegister(() => ThrowAway());
+            YSJ.Managers.Input.OnRightHandAction += Attack;
+            YSJ.Managers.Input.OnRightHandActionEnd += AttackCancel;
+            //_skillManager.OnHandPerformActionT1.SingleRegister((list) => Attack(list));
+            //_skillManager.OnHandCancelActionT0.SingleRegister(() => AttackCancel());
+            //_skillManager.OnThrowAwayActionT0.SingleRegister(() => ThrowAway());
 
             YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.Trigger(_artifactSO.ArtifactSprite);
         }
 
-        protected void Attack(List<GameObject> list)
+        private void OnDisable()
+        {
+            _skillManager.GetArtifactSOFuncT0.Init();
+            YSJ.Managers.Input.OnRightHandAction -= Attack;
+            YSJ.Managers.Input.OnRightHandActionEnd -= AttackCancel;
+            //_skillManager.OnHandPerformActionT1.Unregister((list) => Attack(list));
+            //_skillManager.OnHandCancelActionT0.Unregister(() => AttackCancel());
+            //_skillManager.OnThrowAwayActionT0.Unregister(() => ThrowAway());
+
+            YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.Trigger(null);
+        }
+
+        protected void Attack()
         {
             if (_attackCoroutine != null) return;
 
@@ -59,7 +68,7 @@ namespace CKT
             else
             {
                 BMC.PlayerManager.Instance.PlayerStatus.SpendMana(totalManaCost);
-                _attackCoroutine = StartCoroutine(AttackCoroutine(list));
+                _attackCoroutine = StartCoroutine(AttackCoroutine(_skillManager.SlotList));
             }
         }
 
@@ -97,7 +106,7 @@ namespace CKT
 
         }
 
-        void ThrowAway()
+        public void ThrowAway()
         {
             //필드 아티팩트 생성
             GameObject fieldArtifact = Resources.Load<GameObject>($"FieldArtifacts/Field{_artifactSO.ArtifactName}");
@@ -107,9 +116,11 @@ namespace CKT
 
             //빈 손으로 초기화
             _skillManager.GetArtifactSOFuncT0.Init();
-            _skillManager.OnHandPerformActionT1.Unregister((list) => Attack(list));
-            _skillManager.OnHandCancelActionT0.Unregister(() => AttackCancel());
-            _skillManager.OnThrowAwayActionT0.Unregister(() => ThrowAway());
+            YSJ.Managers.Input.OnRightHandAction -= Attack;
+            YSJ.Managers.Input.OnRightHandActionEnd -= AttackCancel;
+            //_skillManager.OnHandPerformActionT1.Unregister((list) => Attack(list));
+            //_skillManager.OnHandCancelActionT0.Unregister(() => AttackCancel());
+            //_skillManager.OnThrowAwayActionT0.Unregister(() => ThrowAway());
 
             YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.Trigger(null);
 

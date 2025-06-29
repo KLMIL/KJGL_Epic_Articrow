@@ -7,7 +7,8 @@ public class Define
         None,
         TitleScene,
         InGameScene,
-        EndingScene
+        EndingScene,
+        TutorialScene
     }
     #endregion
 
