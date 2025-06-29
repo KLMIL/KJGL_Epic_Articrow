@@ -58,8 +58,8 @@ namespace BMC
             _onOffBtnActionDict.Add(OnOffButtonType.VSync, ToggleVSync);
 
             // 비디오 & 오디오 설정
-            fullscreentext.text = (Screen.fullScreen) ? "On" : "Off";
-            vsyncText.text = PlayerPrefs.GetInt("VSync") == 1 ? "On" : "Off";
+            fullscreentext.text = (Screen.fullScreen) ? "O" : "X";
+            vsyncText.text = PlayerPrefs.GetInt("VSync") == 1 ? "O" : "X";
             //musicSlider.GetComponent<Slider>().value = PlayerPrefs.GetFloat("MusicVolume");
 
             // 조작
@@ -79,7 +79,7 @@ namespace BMC
             // Screen,fullScreen은 변경되지만, UI 텍스트 업데이트는 그 프레임에서는 반영되지 않고, 다음 프레임에 적용되는 경우가 있을 수 있음
             // 즉, 화면 모드 전환이 일어나면서 Unity가 내부적으로 약간의 지연을 가지기 때문에, Screen.fullScreen을 즉시 읽어오는 것이 정확하지 않을 수 있음
             bool newState = !Screen.fullScreen;
-            fullscreentext.text = newState ? "On" : "Off";
+            fullscreentext.text = newState ? "O" : "X";
             Screen.fullScreen = newState;
         }
 
@@ -92,7 +92,7 @@ namespace BMC
         public void ToggleVSync()
         {
             QualitySettings.vSyncCount = (QualitySettings.vSyncCount == 0) ? 1 : 0;
-            vsyncText.text = (QualitySettings.vSyncCount == 0) ? "On" : "Off";
+            vsyncText.text = (QualitySettings.vSyncCount == 0) ? "O" : "X";
         }
         #endregion
 
@@ -106,7 +106,7 @@ namespace BMC
             int toolTipsValue = PlayerPrefs.GetInt("ToolTips");
             int setValue = (toolTipsValue == 0) ? 1 : 0;
             PlayerPrefs.SetInt("ToolTips", setValue);
-            tooltipstext.text = (toolTipsValue == 0) ? "On" : "Off";
+            tooltipstext.text = (toolTipsValue == 0) ? "O" : "X";
         }
 
         public void CameraEffects()
@@ -114,7 +114,7 @@ namespace BMC
             int cameraEffects = PlayerPrefs.GetInt("CameraEffects");
             int setValue = (cameraEffects == 0) ? 1 : 0;
             PlayerPrefs.SetInt("CameraEffects", setValue);
-            cameraeffectstext.text = (cameraEffects == 0) ? "On" : "Off";
+            cameraeffectstext.text = (cameraEffects == 0) ? "O" : "X";
         }
         #endregion
     }

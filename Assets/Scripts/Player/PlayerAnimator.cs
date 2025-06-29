@@ -39,10 +39,8 @@ namespace YSJ
 
         public void PlayAnimation()
         {
-            if (!_checkPlayerDirection)
+            if (!_checkPlayerDirection || _checkPlayerDirection.CurrentDirection == CheckPlayerDirection.Direction.None)
             {
-                Debug.LogError("CheckDirection 컴포넌트 없음!");
-                enabled = false;
                 return;
             }
 

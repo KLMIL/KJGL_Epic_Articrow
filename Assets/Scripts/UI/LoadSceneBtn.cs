@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using static Define;
 
 namespace YSJ
 {
@@ -9,6 +8,14 @@ namespace YSJ
         //[SerializeField] Define.SceneType _sceneType;
         [SerializeField] string _sceneName; // 나중에 Enum으로 바꾸기
         Button _btn;
+
+        static Coroutine _loadSceneCoroutine;
+
+        void Awake()
+        {
+            _loadSceneCoroutine = null;
+        }
+
         void Start()
         {
             Init();
@@ -23,7 +30,12 @@ namespace YSJ
         void OnClicked()
         {
             //Managers.Scene.LoadScene(_sceneType);
-            Managers.Scene.LoadScene(_sceneName);
+            //Managers.Scene.LoadScene(_sceneName);
+
+            if(_loadSceneCoroutine == null)
+            {
+                _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine(_sceneName));
+            }
         }
     }
 }

@@ -63,14 +63,6 @@ public class Define
         HealRoom,       // 회복
     }
 
-    // 방 상태
-    public enum RoomState
-    {
-        Undiscover,   // 미발견
-        Deactivate,   // 비활성화
-        Active,       // 활성화 
-    }
-
     // 문 방향
     public enum DoorPosition
     {

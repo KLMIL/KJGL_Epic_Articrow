@@ -16,8 +16,8 @@ namespace BMC
 
         void OnClicked()
         {
-            Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
+            PlayerManager.Instance.Clear();
+            SceneManager.LoadScene(1);
         }
     }
 }

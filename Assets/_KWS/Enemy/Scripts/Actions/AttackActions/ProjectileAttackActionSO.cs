@@ -122,6 +122,7 @@ namespace Game.Enemy
         private IEnumerator FireParabola(EnemyController controller, bool isSpawn)
         {
             int count = 0;
+            BMC.EnemySpawner.Instance.EnemyCount += projectileAmount; // 항아리에서 적 소환했을 때, 죽여야할 적 수 늘리기
 
             while (count < projectileAmount)
             {

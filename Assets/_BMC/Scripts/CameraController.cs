@@ -7,6 +7,9 @@ namespace BMC
     {
         CameraTarget _cameraTarget;
 
+        Camera _mainCamera;
+        Camera _backgroundCamera;
+
         [Header("방 모드")]
         [SerializeField] CinemachineCamera _roomCinemachineCamera;
 
@@ -28,6 +31,8 @@ namespace BMC
 
         public void Init()
         {
+            _mainCamera = Camera.main;
+            _backgroundCamera = transform.Find("BackgroundCamera").GetComponent<Camera>();
             CinemachineCamera[] cinemachineCameras = GetComponentsInChildren<CinemachineCamera>();
             
             // 방 카메라
@@ -46,6 +51,7 @@ namespace BMC
 
         void Start()
         {
+            //SetCameraRect();
             _cameraTarget.TrackingTarget = PlayerManager.Instance.transform;
             _playerCinemachineCamera.Target = _cameraTarget;
         }
@@ -67,6 +73,13 @@ namespace BMC
                 }
             }
         }
+
+        //public void SetCameraRect()
+        //{
+        //    _backgroundCamera.clearFlags = CameraClearFlags.SolidColor;
+        //    _backgroundCamera.backgroundColor = Color.black;
+        //    _mainCamera.rect = SettingsResolutionDropdown.CameraRect;
+        //}
 
         // 카메라 흔들기
         public void ShakeCamera(float intensity = 5f, float time = 0.1f)
@@ -96,7 +109,7 @@ namespace BMC
 
         public void SetCameraTargetPlayer(Transform player = null)
         {
-            _confiner.BoundingShape2D = MapManager.Instance.CurrentRoom.GetComponent<PolygonCollider2D>();
+            _confiner.BoundingShape2D = StageManager.Instance.CurrentRoom.GetComponent<PolygonCollider2D>();
             _roomCinemachineCamera.enabled = false;
             _playerCinemachineCamera.enabled = true;
         }
