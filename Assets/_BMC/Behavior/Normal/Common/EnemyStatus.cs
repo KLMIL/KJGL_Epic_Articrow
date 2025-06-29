@@ -5,10 +5,7 @@ using YSJ;
 
 namespace BMC
 {
-    /// <summary>
-    /// 보스들이 가지는 기본적인 상태 정보
-    /// </summary>
-    public class BossStatus : MonoBehaviour
+    public class EnemyStatus : MonoBehaviour
     {
         protected BehaviorGraphAgent _behaviorGraphAgent;                      // behavior graph 에이전트
         protected TextMeshPro _damageText;                                     // 데미지 텍스트
@@ -22,7 +19,7 @@ namespace BMC
         [field: SerializeField] public float Health { get; set; }
         [field: SerializeField] public float Damage { get; set; }
 
-        // 보스 상태 초기화
+        // 상태 초기화
         public virtual void Init()
         {
         }

@@ -2,13 +2,12 @@ using UnityEngine;
 
 namespace BMC
 {
-    // 보스가 데미지 받는 HurtBox
-    public class BossHurtBox : MonoBehaviour, IDamagable
+    public class EnemyHurtBox : MonoBehaviour, IDamagable
     {
-        BossFSM _fsm;
+        EnemyFSM _fsm;
         IDamagable _damagable;
 
-        public void Init(BossFSM fsm)
+        public void Init(EnemyFSM fsm)
         {
             _fsm = fsm;
             _damagable = _fsm.GetComponent<IDamagable>();
@@ -16,7 +15,7 @@ namespace BMC
 
         public void TakeDamage(float damage)
         {
-            Debug.Log("보스 데미지 주기");
+            Debug.Log("몬스터 데미지 주기");
             _damagable.TakeDamage(damage);
         }
     }
