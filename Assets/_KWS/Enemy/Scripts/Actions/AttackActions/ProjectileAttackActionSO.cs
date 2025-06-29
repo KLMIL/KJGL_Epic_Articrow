@@ -87,8 +87,9 @@ namespace Game.Enemy
             int count = 0;
 
             // 같은 방향으로 발사하기 위해 방향 함수를 while문 밖으로 뺌
-            Vector3 firePos = controller.transform.position + firePointOffset;
-            Vector3 dir = (controller.Player.position - firePos).normalized;
+            Vector2 firePos = controller.transform.position + firePointOffset;
+            //Vector3 dir = (controller.Player.position - firePos).normalized;
+            Vector2 dir = (controller.FSM.AttackTargetPosition - firePos).normalized;
             Vector2 velocity = dir * projectileSpeed;
 
             if (dir.x != 0)
@@ -121,6 +122,7 @@ namespace Game.Enemy
         private IEnumerator FireParabola(EnemyController controller, bool isSpawn)
         {
             int count = 0;
+            BMC.EnemySpawner.Instance.EnemyCount += projectileAmount; // 항아리에서 적 소환했을 때, 죽여야할 적 수 늘리기
 
             while (count < projectileAmount)
             {

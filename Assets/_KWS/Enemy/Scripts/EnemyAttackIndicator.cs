@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Game.Enemy
@@ -5,6 +6,7 @@ namespace Game.Enemy
     public class EnemyAttackIndicator : MonoBehaviour
     {
         SpriteRenderer _renderer;
+        Coroutine _blinkCoroutine = null;
 
         private void Awake()
         {
@@ -36,6 +38,37 @@ namespace Game.Enemy
         {
             if (_renderer == null) return;
             _renderer.enabled = false;
+        }
+
+        /// <summary>
+        /// 인디케이터를 빠르게 깜빡이는 함수. 공격 시작 직전임을 표시.
+        /// </summary>
+        public void BlinkAndHide(float duration = 0.1f, int count = 2)
+        {
+            if (_blinkCoroutine != null)
+            {
+                StopCoroutine(_blinkCoroutine);
+            }
+            _blinkCoroutine = StartCoroutine(BlinkCoroutine(duration, count));
+        }
+
+        private IEnumerator BlinkCoroutine(float duration, int count)
+        {
+            if (_renderer == null) yield break;
+
+            Color originColor = _renderer.color;
+            Color blinkColor = Color.white;
+
+            for (int i = 0; i < count; i++)
+            {
+                _renderer.color = blinkColor;
+                yield return new WaitForSeconds(duration / count);
+                _renderer.color = originColor;
+                yield return new WaitForSeconds(duration / count);
+            }
+            _renderer.color = originColor;
+
+            Hide();
         }
     }
 }

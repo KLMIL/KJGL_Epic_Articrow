@@ -1,31 +1,19 @@
-using System.Collections.Generic;
+using BMC;
 using UnityEngine;
-using YSJ;
 
 public class BreakableObject : MonoBehaviour, IDamagable
 {
-    [SerializeField] GameObject Parts;
+    bool _isBreak;                             // 파편이 많이 생기는 것을 막기 위함
 
-    public void TakeDamage(float damage)
-    {
-        Break();
-    }
+    [SerializeField] GameObject _partsPrefab;  // 파편 오브젝트 모음
 
-    void Awake()
-    {
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.GetComponent<Rigidbody2D>())
-        {
-            Break(collision);
-        }
-    }
-
+    // 충돌 시, 파편 생성
     void Break(Collider2D collision) 
     {
-        GameObject spawnedParts = Instantiate(Parts, transform.position, transform.rotation);
+        _isBreak = true;
+        RandomManaRegenerate();
+
+        GameObject spawnedParts = Instantiate(_partsPrefab, transform.position, transform.rotation);
         spawnedParts.transform.SetParent(transform.parent, true);
 
         foreach (Transform part in spawnedParts.transform)
@@ -40,9 +28,10 @@ public class BreakableObject : MonoBehaviour, IDamagable
         Destroy(gameObject);
     }
 
+    // 피격 시, 파편 생성
     void Break() 
     {
-        GameObject spawnedParts = Instantiate(Parts, transform.position, transform.rotation);
+        GameObject spawnedParts = Instantiate(_partsPrefab, transform.position, transform.rotation);
         spawnedParts.transform.SetParent(transform.parent, true);
 
         foreach (Transform part in spawnedParts.transform)
@@ -55,5 +44,30 @@ public class BreakableObject : MonoBehaviour, IDamagable
         }
 
         Destroy(gameObject);
+    }
+
+    // 랜덤 마나 회복
+    void RandomManaRegenerate()
+    {
+        float randomAmount = Random.Range(0f, 10f);
+        PlayerManager.Instance.PlayerStatus.RegenerateMana(randomAmount);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        Break();
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (_isBreak)
+        {
+            return;
+        }
+
+        if (collision.GetComponent<Rigidbody2D>())
+        {
+            Break(collision);
+        }
     }
 }

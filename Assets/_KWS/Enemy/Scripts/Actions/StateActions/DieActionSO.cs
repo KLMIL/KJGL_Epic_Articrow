@@ -14,6 +14,7 @@ namespace Game.Enemy
     public class DieActionSO : EnemyActionSO
     {
         float deadDuration = 1.0f;
+        Color deadColor = new Color(0.7f, 0.7f, 0.7f);
 
         public override void Act(EnemyController controller)
         {
@@ -21,6 +22,14 @@ namespace Game.Enemy
 
             if (!controller.FSM.isDied)
             {
+                controller.FSM.isDied = true;
+
+                // TODO: 몬스터가 죽을 때마다 Wave 진행해야하는지 확인
+                BMC.EnemySpawner.OnEnemyDie?.Invoke();
+
+                // 죽는 소리 재생
+                YSJ.Managers.Sound.PlaySFX(Define.SFX.sfx_slime_die);
+
                 // 몬스터가 죽을 때 카메라 흔들림
                 GameManager.Instance.CameraController.ShakeCamera(0.5f, 0.1f);
 
@@ -31,16 +40,31 @@ namespace Game.Enemy
                 }
                 controller.StopMove();
 
-                // 몬스터 넉백 방향 움직임
-                Vector2 knockBackDir = (controller.transform.position - controller.Player.position).normalized;
-                controller.StartCoroutine(DeadKnockback(controller, deadDuration / 3));
+                // 몬스터 스프라이트 색 변경
+                controller.SpriteRenderer.color = deadColor;
+
+                // 몬스터 넉백 방향 움직임 -> DEP
+                //Vector2 knockBackDir = (controller.transform.position - controller.Player.position).normalized;
+                //controller.StartCoroutine(DeadKnockback(controller, deadDuration / 3));
+
+                // 몬스터 죽음 루틴 시작
+                controller.StartCoroutine(DeadSequence(controller, deadDuration));
 
                 // 오브젝트 제거 예약 및 사운드 재생
                 Object.Destroy(controller.gameObject, deadDuration);
-                YSJ.Managers.Sound.PlaySFX(Define.SFX.sfx_slime_die);
-
-                controller.FSM.isDied = true;
             }
+        }
+
+        private IEnumerator DeadSequence(EnemyController controller, float deadDuration)
+        {
+            // 넉백
+            yield return controller.StartCoroutine(DeadKnockback(controller, deadDuration / 3));
+
+            // 투명화
+            yield return controller.StartCoroutine(FadeOut(controller, deadDuration * 2 / 3));
+
+            // 제거
+            Object.Destroy(controller.gameObject);
         }
 
         private IEnumerator DeadKnockback(EnemyController controller, float duration)
@@ -84,6 +108,27 @@ namespace Game.Enemy
             }
 
             controller.transform.position = end;
+        }
+
+        private IEnumerator FadeOut(EnemyController controller, float duration)
+        {
+            Color startColor = controller.SpriteRenderer.color;
+            float elasped = 0f;
+
+            while (elasped < duration)
+            {
+                float t = elasped / duration;
+                Color fadedColor = startColor;
+                fadedColor.a = Mathf.Lerp(1f, 0f, t);
+                controller.SpriteRenderer.color = fadedColor;
+
+                elasped += Time.deltaTime;
+                yield return null;
+            }
+
+            Color finalColor = startColor;
+            finalColor.a = 0f;
+            controller.SpriteRenderer.color = finalColor;
         }
     }
 }

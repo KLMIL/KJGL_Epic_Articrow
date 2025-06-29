@@ -1,5 +1,4 @@
 using UnityEngine;
-using static Define;
 
 namespace BMC
 {
@@ -21,19 +20,7 @@ namespace BMC
             if (collision.CompareTag("Player") && _door.IsOpen)
             {
                 Debug.Log("문 닿음");
-
-                if (collision.isTrigger) // 플레이어 Hit box 무시
-                    return;
-
-                // TODO: 임시 코드
-                if (_door.CurrentRoom.RoomData.RoomType == RoomType.BossRoom && _door.DoorPosition == DoorPosition.Up)
-                {
-                    _door.NextStage();
-                }
-                else
-                {
-                    _door.TryTransferToNextRoom(collision.transform);
-                }
+                _door.NextStage();
             }
         }
         #endregion

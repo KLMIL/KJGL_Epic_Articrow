@@ -1,6 +1,7 @@
 using UnityEngine;
 using CKT;
 using YSJ;
+using UnityEngine.SceneManagement;
 
 namespace BMC
 {
@@ -21,6 +22,9 @@ namespace BMC
             if (s_instance == null)
             {
                 s_instance = this;
+                DontDestroyOnLoad(gameObject);
+
+                SceneManager.sceneLoaded += OnPlayerLoadedScene;
             }
             else
             {
@@ -42,10 +46,11 @@ namespace BMC
 
             CheckPlayerDirection.CheckCurrentDirection();
 
-            //if (Input.GetMouseButtonDown(2)) // 마우스 휠 클릭
-            //{
-            //    MapManager.Instance.CurrentRoom.RoomClearComplete();
-            //}
+            if (Input.GetMouseButtonDown(2)) // 마우스 휠 클릭
+            {
+                Room room = FindAnyObjectByType<Room>();
+                room.RoomClearComplete();
+            }
         }
 
         void FixedUpdate()
@@ -78,9 +83,29 @@ namespace BMC
             //}*/
         }
 
+        // Awake -> OnEnable -> SceneManager.sceneLoaded -> Start 순서로 실행
         void OnDestroy()
         {
+            SceneManager.sceneLoaded -= OnPlayerLoadedScene;
             s_instance = null;
+        }
+
+        // 씬 로드될 때 플레이어 오브젝트에게 해줘야할 작업
+        void OnPlayerLoadedScene(Scene scene, LoadSceneMode mode)
+        {
+            if(scene.name.Contains("Title") || scene.name.Contains("End"))
+            {
+                Clear();
+            }
+            else
+            {
+                Debug.LogWarning($"체력: {PlayerStatus.Health}, 마나: {PlayerStatus.Mana}");
+            }
+        }
+
+        public void Clear()
+        {
+            Destroy(gameObject);
         }
     }
 }

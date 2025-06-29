@@ -19,8 +19,6 @@ namespace BMC
 
         public void Init()
         {
-            _playerStatusCanvas = UI_InGameEventBus.PlayerStatusCanvas;
-            _manaSliderHandle = UI_InGameEventBus.ManaSliderHandle;
             _camera = GameManager.Instance.Camera;
         }
 

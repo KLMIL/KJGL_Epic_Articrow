@@ -85,7 +85,7 @@ namespace BMC
         public void OnDieEndAniationEvent()
         {
             Debug.Log("보스 방 클리어");
-            MapManager.Instance.CurrentRoom.RoomClearComplete();
+            StageManager.Instance.CurrentRoom.RoomClearComplete();
         }
     }
 }
