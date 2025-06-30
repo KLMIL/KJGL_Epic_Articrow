@@ -17,6 +17,11 @@ namespace Game.Enemy
         ParabolaAttack,
         ParabolaSpawn
     }
+    public enum ProjectileDebuff
+    {
+        Normal,
+        Immobilize
+    }
     [CreateAssetMenu(
         fileName = "ProjectileAtackAction",
         menuName = "Enemy/Action/Attack/Projectile Attack"
@@ -24,6 +29,7 @@ namespace Game.Enemy
     public class ProjectileAttackActionSO : EnemyActionSO
     {
         public ProjectileAttackMode projectileAttackMode = ProjectileAttackMode.LinearAttack;
+        public ProjectileDebuff projectileDebuff = ProjectileDebuff.Normal;
 
         public Vector3 firePointOffset = Vector3.zero;
 
@@ -109,7 +115,8 @@ namespace Game.Enemy
                     0.0f,
                     isSpawn ? projectilePrefab : null,
                     isSpawn,
-                    lifetime
+                    lifetime,
+                    projectileDebuff
                 );
             }
 
@@ -127,7 +134,8 @@ namespace Game.Enemy
                     0.0f,
                     isSpawn ? projectilePrefab : null,
                     isSpawn,
-                    lifetime
+                    lifetime,
+                    projectileDebuff
                 );
             }
 
@@ -145,7 +153,8 @@ namespace Game.Enemy
                     0.0f,
                     isSpawn ? projectilePrefab : null,
                     isSpawn,
-                    lifetime
+                    lifetime,
+                    projectileDebuff
                 );
             }
 
@@ -181,7 +190,8 @@ namespace Game.Enemy
                             0.0f,
                             isSpawn ? projectilePrefab : null,
                             isSpawn,
-                            lifetime
+                            lifetime,
+                            projectileDebuff
                         );
                 }
                 count++;
@@ -216,7 +226,8 @@ namespace Game.Enemy
                             1.0f,
                             isSpawn ? projectilePrefab : null,
                             isSpawn,
-                            lifetime
+                            lifetime,
+                            projectileDebuff
                         );
                 }
                 count++;
