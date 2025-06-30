@@ -9,9 +9,6 @@ namespace BMC
         CapsuleCollider2D _collider;
         SpriteRenderer _core;
 
-        [Header("스테이터스")]
-        [field: SerializeField] public float Damage { get; set; } = 10f;
-
         void Awake()
         {
             _collider = GetComponent<CapsuleCollider2D>();
@@ -24,15 +21,16 @@ namespace BMC
         public override void Init()
         {
             Health = 5000;
+            Damage = 10f;
         }
 
-        //void Update()
-        //{
-        //    if(Input.GetKeyDown(KeyCode.G))
-        //    {
-        //        TakeDamage(1000f);
-        //    }
-        //}
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                TakeDamage(1000f);
+            }
+        }
 
         public void TakeDamage(float damage)
         {
@@ -58,13 +56,13 @@ namespace BMC
         }
 
         // 피격 시, 색상 변경
-        protected IEnumerator TakeDamageColor()
+        IEnumerator TakeDamageColor()
         {
             _visual.color = Color.gray;
             _core.color = Color.gray;
-            Debug.LogError("피격 색상 변경");
+            //Debug.LogError("피격 색상 변경");
             yield return _colorChangeTime;
-            Debug.LogError("피격 색상 복구");
+            //Debug.LogError("피격 색상 복구");
             _visual.color = Color.white;
             _core.color = Color.white;
         }
@@ -74,7 +72,7 @@ namespace BMC
             IsDead = true;
             _collider.enabled = false;
             _behaviorGraphAgent.SetVariableValue("IsDead", IsDead);
-            _behaviorGraphAgent.SetVariableValue("CurrentState", BossState.Die);
+            _behaviorGraphAgent.SetVariableValue("CurrentState", GolemBossState.Die);
 
             // 피격 색상 변경 중지
             StopAllCoroutines();

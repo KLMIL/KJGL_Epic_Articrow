@@ -20,6 +20,7 @@ namespace BMC
 
         [Header("일반 스테이터스")]
         [field: SerializeField] public float Health { get; set; }
+        [field: SerializeField] public float Damage { get; set; }
 
         // 보스 상태 초기화
         public virtual void Init()

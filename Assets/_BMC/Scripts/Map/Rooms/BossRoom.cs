@@ -21,7 +21,9 @@ namespace BMC
 
         void Start()
         {
+            StageManager.Instance.CurrentRoom = this; // 현재 방 설정
             PlacePlayer();
+            Init();
         }
 
         //public void SpawnBoss()

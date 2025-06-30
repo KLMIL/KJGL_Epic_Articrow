@@ -17,9 +17,8 @@ public partial class ChaseAction : Action
     protected override Status OnStart()
     {
         agent = Self.Value.GetComponent<NavMeshAgent>();
-        agent.speed = 5f;
-        agent.SetDestination(Target.Value.transform.position);
-
+        agent.enabled = true;
+        agent.speed = 3f;
         return Status.Running;
     }
 

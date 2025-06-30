@@ -1,16 +1,17 @@
+using System.Linq;
 using Unity.Behavior;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace BMC
 {
-    public class BossFSM : MonoBehaviour
+    public class EnemyFSM : MonoBehaviour
     {
         Transform _visual;
-        public Rigidbody2D RB { get; private set; }
         public Animator Anim { get; private set; }
-        public GolemBossStatus Status { get; private set; }  // 보스 상태 정보
-        public BossHitBox HitBox { get; private set; }  // 보스 히트 박스
-        public BossHurtBox HurtBox { get; private set; }  // 보스 히트 박스
+        public Rigidbody2D RB { get; private set; }
+        public EnemyStatus Status { get; private set; }
+        public EnemyHurtBox HurtBox { get; private set; }  // 보스 히트 박스
 
         [SerializeField] BehaviorGraphAgent _behaviorGraphAgent;
         [SerializeField] Transform _target;
@@ -24,9 +25,8 @@ namespace BMC
         {
             Anim = GetComponent<Animator>();
             RB = GetComponent<Rigidbody2D>();
-            Status = GetComponent<GolemBossStatus>();
-            HitBox = GetComponentInChildren<BossHitBox>();
-            HurtBox = GetComponentInChildren<BossHurtBox>();
+            Status = GetComponent<EnemyStatus>();
+            HurtBox = GetComponentInChildren<EnemyHurtBox>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             _visual = transform.Find("Visual");
             //_stopLayerMask = LayerMask.GetMask("Obstacle");
@@ -34,9 +34,9 @@ namespace BMC
 
         void Start()
         {
-            HitBox.Init(Status.Damage);
+            Status.Init();
             HurtBox.Init(this);
-            _target = GameObject.FindWithTag("Player").transform;
+            _target = PlayerManager.Instance.transform;
             _behaviorGraphAgent.SetVariableValue("Target", _target.gameObject);
         }
 
