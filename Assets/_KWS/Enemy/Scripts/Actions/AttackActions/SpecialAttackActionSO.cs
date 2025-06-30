@@ -6,7 +6,7 @@ using UnityEngine;
  */
 namespace Game.Enemy
 {
-    public enum SpecialAttackMode { Summon };
+    public enum SpecialAttackMode { Summon, Boom };
     [CreateAssetMenu(
         fileName = "SpecialAttackAction",
         menuName = "Enemy/Action/Attack/Special Attack"
@@ -41,6 +41,9 @@ namespace Game.Enemy
                 case SpecialAttackMode.Summon:
                     Summon(controller);
                     break;
+                case SpecialAttackMode.Boom:
+                    Boom(controller);
+                    break;
             }
 
             // 쿨타임 부여
@@ -74,6 +77,21 @@ namespace Game.Enemy
                 Vector3 spawnPos = controller.transform.position + new Vector3(rand.x, 0, rand.y);
                 Instantiate(summoningPrefab, spawnPos, Quaternion.identity);
             }
+        }
+
+        private void Boom(EnemyController controller)
+        {
+            LayerMask playerMask = LayerMask.GetMask("PlayerHurtBox");
+            Collider2D[] hitTargets = Physics2D.OverlapCircleAll(controller.transform.position, spawnRadius, playerMask);
+
+            float damage = controller.Status.attack;
+            foreach (var hit in hitTargets)
+            {
+                Transform target = hit.transform;
+                controller.DealDamageToPlayer(damage, target, false);
+            }
+
+            controller.Status.healthPoint = 0;
         }
     }
 }
