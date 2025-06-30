@@ -116,7 +116,7 @@ namespace Game.Enemy
         // 임시로, 이동 전에 방향에 따라 회전시킬 함수
         private void FlipSpirte()
         {
-            if (_currentDirection.x != 0)
+            if (_spriteRenderer != null && _currentDirection.x != 0)
             {
                 _spriteRenderer.flipX = inverse ? _currentDirection.x < 0 : _currentDirection.x > 0;
             }

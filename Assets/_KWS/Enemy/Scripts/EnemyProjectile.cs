@@ -18,6 +18,7 @@ namespace Game.Enemy
         [SerializeField] GameObject _spawnPrefab;
         bool _isSpawnMode;
         float _lifetime;
+        ProjectileDebuff _debuff;
 
         Rigidbody2D _rb;
 
@@ -31,7 +32,8 @@ namespace Game.Enemy
                 float gravity,
                 GameObject spawnPrefab = null,
                 bool isSpawnMode = false,
-                float lifetime = 1.0f
+                float lifetime = 1.0f,
+                ProjectileDebuff debuff = ProjectileDebuff.Normal
             )
         {
             _ownerController = controller;
@@ -41,6 +43,7 @@ namespace Game.Enemy
             //_spawnPrefab = spawnPrefab;
             _isSpawnMode = isSpawnMode;
             _lifetime = lifetime;
+            _debuff = debuff;
             _rb = GetComponent<Rigidbody2D>();
             if (_rb != null)
             {
@@ -62,6 +65,10 @@ namespace Game.Enemy
                     Destroy(gameObject);
                 }
 
+                if (_debuff == ProjectileDebuff.Immobilize)
+                {
+                    // TODO: 이동불가 디버프 효과 부여
+                }
             }
         }
 
