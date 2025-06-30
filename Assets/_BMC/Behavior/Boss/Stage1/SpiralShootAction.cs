@@ -6,17 +6,15 @@ using Unity.Properties;
 using BMC;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "SpiralShoot", story: "[Self] shoot [Projectile] spiral", category: "Action", id: "ad6c5be37ebc6080140f3704670b1aed")]
-public partial class BossSpiralShootAction : Action
+[NodeDescription(name: "SpiralShoot", story: "[BossFSM] shoot [Projectile] spiral", category: "Action", id: "ad6c5be37ebc6080140f3704670b1aed")]
+public partial class SpiralShootAction : Action
 {
-    [SerializeReference] public BlackboardVariable<GameObject> Self;
+    [SerializeReference] public BlackboardVariable<BossFSM> BossFSM;
     [SerializeReference] public BlackboardVariable<GameObject> Projectile;
-    BossFSM _fsm;
     Transform _shootTransform;
 
     float _interval = 0.05f; // 연사 속도
 
-    float _timer;
     float _shootTimer;
     float _shootStartAngle;     // 발사 시작 각도
     float _angleOffset = 10f;
@@ -24,21 +22,17 @@ public partial class BossSpiralShootAction : Action
 
     protected override Status OnStart()
     {
-        _timer = 0f;
         _shootTimer = 0f;
-        _shootStartAngle = UnityEngine.Random.Range(0f, 360f); // 시작 각도 랜덤
+        _shootStartAngle = UnityEngine.Random.Range(0f, 360f);  // 시작 각도 랜덤
 
-        if (_fsm == null)
-        {
-            _fsm = Self.Value.GetComponent<BossFSM>();
-            _shootTransform = Self.Value.transform.Find("Visual/Core");
-        }
+        if(_shootTransform == null)
+            _shootTransform = BossFSM.Value.transform.Find("Visual/Core");
 
-        _fsm.RB.linearVelocity = Vector2.zero;
-        AnimatorStateInfo animatorStateInfo = _fsm.Anim.GetCurrentAnimatorStateInfo(0);
+        BossFSM.Value.RB.linearVelocity = Vector2.zero;
+        AnimatorStateInfo animatorStateInfo = BossFSM.Value.Anim.GetCurrentAnimatorStateInfo(0);
         if (!animatorStateInfo.IsName("Shoot"))
         {
-            _fsm.Anim.Play("Shoot");
+            BossFSM.Value.Anim.Play("SpiralShoot");
         }
 
         return Status.Running;
@@ -46,7 +40,6 @@ public partial class BossSpiralShootAction : Action
 
     protected override Status OnUpdate()
     {
-        _timer += Time.deltaTime;
         _shootTimer += Time.deltaTime;
 
         if (_shootTimer >= _interval)

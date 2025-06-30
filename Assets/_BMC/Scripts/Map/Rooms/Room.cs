@@ -75,7 +75,7 @@ namespace BMC
         // 보상 소환
         public void SpawnScarecrow()
         {
-            if (_roomData.IsCleared && _roomData.RoomType != RoomType.BossRoom)
+            if (_roomData.IsCleared)
             {
                 GameObject scarecrowPrefab = Managers.Resource.Instantiate("ScarecrowPrefab");
                 scarecrowPrefab.name = "Scarecrow";

@@ -98,6 +98,8 @@ namespace BMC
                 _indicator.enabled = false;
                 _indicator.color = originalColor;
                 _coroutine = null;
+
+                _fillDuration = 0.25F;
             }
         }
     }

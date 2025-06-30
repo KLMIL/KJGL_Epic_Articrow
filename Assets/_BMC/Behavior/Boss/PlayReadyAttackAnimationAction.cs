@@ -1,21 +1,21 @@
+using BMC;
 using System;
 using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
-using BMC;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "BossStunAction", story: "[BossFSM] Stun", category: "Action", id: "b26c4a10d14a11afd59da5b6649b236d")]
-public partial class BossStunAction : Action
+[NodeDescription(name: "PlayReadyAttackAnimation", story: "[BossFSM] play [AnimationName]", category: "Action", id: "e35962cf02be0c36f560d00418c27485")]
+// 전조 애니메이션 재생 액션
+public partial class PlayReadyAttackAnimationAction : Action
 {
     [SerializeReference] public BlackboardVariable<BossFSM> BossFSM;
+    [SerializeReference] public BlackboardVariable<string> AnimationName;
 
     protected override Status OnStart()
     {
-        BossFSM.Value.RB.linearVelocity = Vector2.zero; // 보스의 속도를 0으로 초기화
-        BossFSM.Value.Anim.Play("Stun");
-
+        BossFSM.Value.Anim.Play(AnimationName.Value);
         return Status.Running;
     }
 

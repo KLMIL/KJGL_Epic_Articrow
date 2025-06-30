@@ -36,15 +36,25 @@ namespace BMC
 
                 // 반사각
                 Vector2 reflectDirection = Vector2.Reflect(inDirection, collision.contacts[0].normal);
-                Debug.DrawRay(collision.contacts[0].point, reflectDirection, Color.green, 1f);
+
+                // 너무 평행하면 보정
+                if (Mathf.Abs(Vector2.Dot(reflectDirection.normalized, collision.contacts[0].normal)) < 0.3f)
+                {
+                    // 반사 방향에 수직 법선 방향으로 약간 밀어줌
+                    reflectDirection += collision.contacts[0].normal * 0.5f;
+                }
+
+                // 정규화 후 저장
+                reflectDirection.Normalize();
                 _behaviorGraphAgent.SetVariableValue("RushDirection", reflectDirection);
+
+                //Debug.DrawRay(collision.contacts[0].point, reflectDirection, Color.green, 1f);
+                //_behaviorGraphAgent.SetVariableValue("RushDirection", reflectDirection);
 
                 _fsm.FlipX(reflectDirection.x);
 
                 // 법선 벡터
                 Debug.DrawRay(collision.contacts[0].point, collision.contacts[0].normal, Color.red, 1f);
-
-                //Time.timeScale = 0f;
             }
             else
             {

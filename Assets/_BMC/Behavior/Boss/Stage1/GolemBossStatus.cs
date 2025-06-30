@@ -24,13 +24,13 @@ namespace BMC
             Damage = 10f;
         }
 
-        //void Update()
-        //{
-        //    if(Input.GetKeyDown(KeyCode.G))
-        //    {
-        //        TakeDamage(1000f);
-        //    }
-        //}
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                TakeDamage(1000f);
+            }
+        }
 
         public void TakeDamage(float damage)
         {
@@ -72,7 +72,7 @@ namespace BMC
             IsDead = true;
             _collider.enabled = false;
             _behaviorGraphAgent.SetVariableValue("IsDead", IsDead);
-            _behaviorGraphAgent.SetVariableValue("CurrentState", BossState.Die);
+            _behaviorGraphAgent.SetVariableValue("CurrentState", GolemBossState.Die);
 
             // 피격 색상 변경 중지
             StopAllCoroutines();

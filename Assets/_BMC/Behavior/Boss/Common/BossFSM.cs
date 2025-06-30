@@ -3,24 +3,28 @@ using UnityEngine;
 
 namespace BMC
 {
+    /// <summary>
+    /// 보스가 가지는 기본적인 상태 머신
+    /// </summary>
     public class BossFSM : MonoBehaviour
     {
-        Transform _visual;
-        public Rigidbody2D RB { get; private set; }
         public Animator Anim { get; private set; }
+        public Rigidbody2D RB { get; private set; }
         public BossStatus Status { get; private set; }  // 보스 상태 정보
         public BossHitBox HitBox { get; private set; }  // 보스 히트 박스
         public BossHurtBox HurtBox { get; private set; }  // 보스 히트 박스
 
-        [SerializeField] BehaviorGraphAgent _behaviorGraphAgent;
-        [SerializeField] Transform _target;
+        [SerializeField] protected BehaviorGraphAgent _behaviorGraphAgent;
+        Transform _visual;
+        [SerializeField] protected Transform _target;
 
-        void Awake()
+        public virtual void Awake()
         {
+            Debug.Log("BossFSM Awake");
             Init();
         }
 
-        void Init()
+        public virtual void Init()
         {
             Anim = GetComponent<Animator>();
             RB = GetComponent<Rigidbody2D>();
@@ -29,15 +33,6 @@ namespace BMC
             HurtBox = GetComponentInChildren<BossHurtBox>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             _visual = transform.Find("Visual");
-            //_stopLayerMask = LayerMask.GetMask("Obstacle");
-        }
-
-        void Start()
-        {
-            HitBox.Init(Status.Damage);
-            HurtBox.Init(this);
-            _target = PlayerManager.Instance.transform;
-            _behaviorGraphAgent.SetVariableValue("Target", _target.gameObject);
         }
 
         // x 방향으로 비주얼 회전
