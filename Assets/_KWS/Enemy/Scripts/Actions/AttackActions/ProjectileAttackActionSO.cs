@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.AppUI.Core;
 using UnityEngine;
 
 /*
@@ -10,10 +11,16 @@ namespace Game.Enemy
 {
     public enum ProjectileAttackMode 
     { 
+        ScatterLinearAttack,
         LinearAttack,
         LinearSpawn,
         ParabolaAttack,
         ParabolaSpawn
+    }
+    public enum ProjectileDebuff
+    {
+        Normal,
+        Immobilize
     }
     [CreateAssetMenu(
         fileName = "ProjectileAtackAction",
@@ -22,6 +29,7 @@ namespace Game.Enemy
     public class ProjectileAttackActionSO : EnemyActionSO
     {
         public ProjectileAttackMode projectileAttackMode = ProjectileAttackMode.LinearAttack;
+        public ProjectileDebuff projectileDebuff = ProjectileDebuff.Normal;
 
         public Vector3 firePointOffset = Vector3.zero;
 
@@ -33,6 +41,8 @@ namespace Game.Enemy
 
         public float damageMultiply = 1.0f;
         public float cooldown = 1.0f;
+
+        public float spreadAngle = 30f;
 
 
         public override void Act(EnemyController controller)
@@ -53,6 +63,9 @@ namespace Game.Enemy
 
             switch (projectileAttackMode)
             {
+                case ProjectileAttackMode.ScatterLinearAttack:
+                    controller.FSM.fireRoutine = controller.StartCoroutine(FireScatterLinear(controller, false));
+                    break;
                 case ProjectileAttackMode.LinearAttack:
                     controller.FSM.fireRoutine = controller.StartCoroutine(FireLinear(controller, false));
                     break;
@@ -81,6 +94,72 @@ namespace Game.Enemy
             controller.FSM.projectileIntervalTimer = 0;
         }
 
+
+
+        private IEnumerator FireScatterLinear(EnemyController controller, bool isSpawn)
+        {
+            Vector2 firePos = controller.transform.position + firePointOffset;
+            Vector2 baseDir = (controller.FSM.AttackTargetPosition - firePos).normalized;
+
+            // 중앙 발사
+            Vector2 velocity = baseDir * projectileSpeed;
+            GameObject currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity);
+            EnemyProjectile proj = currProj.GetComponent<EnemyProjectile>();
+
+            if (proj != null)
+            {
+                proj.InitProjecitle(
+                    controller,
+                    controller.Status.attack * damageMultiply,
+                    velocity,
+                    0.0f,
+                    isSpawn ? projectilePrefab : null,
+                    isSpawn,
+                    lifetime,
+                    projectileDebuff
+                );
+            }
+
+            // 왼쪽 발사
+            velocity = Quaternion.Euler(0, 0, -spreadAngle) * baseDir * projectileSpeed;
+            currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity);
+            proj = currProj.GetComponent<EnemyProjectile>();
+
+            if (proj != null)
+            {
+                proj.InitProjecitle(
+                    controller,
+                    controller.Status.attack * damageMultiply,
+                    velocity,
+                    0.0f,
+                    isSpawn ? projectilePrefab : null,
+                    isSpawn,
+                    lifetime,
+                    projectileDebuff
+                );
+            }
+
+            // 오른쪽 발사
+            velocity = Quaternion.Euler(0, 0, spreadAngle) * baseDir * projectileSpeed;
+            currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity);
+            proj = currProj.GetComponent<EnemyProjectile>();
+
+            if (proj != null)
+            {
+                proj.InitProjecitle(
+                    controller,
+                    controller.Status.attack * damageMultiply,
+                    velocity,
+                    0.0f,
+                    isSpawn ? projectilePrefab : null,
+                    isSpawn,
+                    lifetime,
+                    projectileDebuff
+                );
+            }
+
+            yield return null;
+        }
 
         private IEnumerator FireLinear(EnemyController controller, bool isSpawn)
         {
@@ -111,7 +190,8 @@ namespace Game.Enemy
                             0.0f,
                             isSpawn ? projectilePrefab : null,
                             isSpawn,
-                            lifetime
+                            lifetime,
+                            projectileDebuff
                         );
                 }
                 count++;
@@ -146,57 +226,10 @@ namespace Game.Enemy
                             1.0f,
                             isSpawn ? projectilePrefab : null,
                             isSpawn,
-                            lifetime
+                            lifetime,
+                            projectileDebuff
                         );
                 }
-                count++;
-                yield return new WaitForSeconds(projectileTurm);
-            }
-        }
-
-
-        [Obsolete("제거 예정 함수")]
-        private void DEP_NormalAttack(EnemyController controller)
-        {
-            // null 할당 오류 return
-            if (controller.Player == null || projectilePrefab == null) return;
-            if (controller.FSM.projectileFiredCount >= projectileAmount) return;
-
-            Vector3 playerDelta = controller.Player.position - controller.transform.position;
-            if (playerDelta.x != 0)
-            {
-                controller.SpriteRenderer.flipX = playerDelta.x > 0;
-            }
-
-            controller.FSM.fireRoutine = controller.StartCoroutine(DEP_FireProjectiles(controller));
-        }
-
-        [Obsolete("제거 예정 함수")]
-        private IEnumerator DEP_FireProjectiles(EnemyController controller)
-        {
-            int count = 0;
-            while (count < projectileAmount)
-            {
-                // 발사
-                Vector3 firePos = controller.transform.position + firePointOffset;
-                Vector3 dir = (controller.Player.position - firePos).normalized;
-                Vector2 velocity = dir * projectileSpeed;
-                GameObject currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity, controller.transform);
-                EnemyProjectile proj = currProj.GetComponent<EnemyProjectile>();
-
-                if (proj != null)
-                {
-                    //proj.InitProjecitle(
-                    //        controller,
-                    //        controller.Status.attack * damageMultiply,
-                    //        velocity
-                    //    );
-                }
-
-                //var rb = currProj.GetComponent<Rigidbody2D>();
-                //if (rb != null) rb.linearVelocity = dir * projectileSpeed;
-                //Destroy(currProj, 1f);
-
                 count++;
                 yield return new WaitForSeconds(projectileTurm);
             }
