@@ -14,21 +14,21 @@ public class ArtifactSlotUI_YSJ : ItemSlot_YSJ
     }
     public override void AddCurrentSlot(CanDragItem_YSJ draggedItem)
     {
-        int beforeIndex = SlotIndex;
+        //int beforeIndex = draggedItem.currentParent.SlotIndex;
 
         base.AddCurrentSlot(draggedItem);
 
         ImagePartsRoot_YSJ imageParts = draggedItem.GetComponent<ImagePartsRoot_YSJ>();
         if (imageParts)
         {
-            if (beforeIndex < SlotIndex)
-            {
-                CurrentArtifact.AddParts(imageParts, SlotIndex + 1); // 현재 슬롯의 파츠 아티팩트에 등록
-            }
-            else 
-            {
-                CurrentArtifact.AddParts(imageParts, SlotIndex); // 현재 슬롯의 파츠 아티팩트에 등록
-            }
+            //if (beforeIndex < SlotIndex)
+            //{
+            //    CurrentArtifact.AddParts(imageParts, SlotIndex + 1); // 현재 슬롯의 파츠 아티팩트에 등록
+            //}
+            //else 
+            //{
+            CurrentArtifact.AddParts(imageParts, SlotIndex); // 현재 슬롯의 파츠 아티팩트에 등록
+            //}
         }
         else 
         {
