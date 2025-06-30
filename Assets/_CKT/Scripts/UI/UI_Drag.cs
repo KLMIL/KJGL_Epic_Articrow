@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using BMC;
 
 namespace CKT
 {
@@ -39,7 +38,7 @@ namespace CKT
             {
                 Debug.Log("아이템 버리기");
                 GetComponent<ImageParts>().ThrowAway();
-                GameManager.Instance.Inventory.InvokeUpdateList();
+                BMC.PlayerManager.Instance.Inventory.InvokeUpdateList();
             }
 
             _image.raycastTarget = true;

@@ -9,26 +9,17 @@ namespace CKT
         public static TutorialManager Instance => _instance;
         static TutorialManager _instance;
 
-        BMC.Door _upDoor;
-        UI_EquipcParts _ui_equipParts; //파츠를 획득하면 장착하라는 UI 활성화
+        public ActionT1<bool> OnEquipPartsActionT1 = new(); //파츠를 획득하면 장착하라는 UI 활성화
+        public ActionT0 OnOpenDoorActionT0 = new(); //모든 문 열기
         bool _isRightHand; //우클릭으로 스킬을 사용했는지
-
-        InventorySlot _inventorySlot;
-        RightSlot _rightSlot;
 
         private void Awake()
         {
-            _instance = _instance ?? this;
+            _instance = this;
         }
 
         private void Start()
         {
-            _upDoor = transform.parent.GetComponentInChildren<BMC.Door>();
-            _ui_equipParts = transform.parent.GetComponentInChildren<UI_EquipcParts>();
-
-            _inventorySlot = FindAnyObjectByType<InventorySlot>();
-            _rightSlot = FindAnyObjectByType<RightSlot>();
-
             YSJ.Managers.Input.OnInteractAction += CheckInteraction;
             YSJ.Managers.Input.OnLeftHandActionEnd += CheckLeftHandEnd;
             YSJ.Managers.Input.OnRightHandAction += CheckRightHand;
@@ -36,6 +27,9 @@ namespace CKT
 
         private void OnDisable()
         {
+            OnEquipPartsActionT1.Init();
+            OnOpenDoorActionT0.Init();
+
             YSJ.Managers.Input.OnInteractAction -= CheckInteraction;
             YSJ.Managers.Input.OnLeftHandActionEnd -= CheckLeftHandEnd;
             YSJ.Managers.Input.OnRightHandAction -= CheckRightHand;
@@ -50,10 +44,10 @@ namespace CKT
         IEnumerator CheckInteractionCoroutine()
         {
             yield return null;
-            ImageParts imageParts = _inventorySlot.GetComponentInChildren<ImageParts>();
+            ImageParts imageParts = BMC.PlayerManager.Instance.GetComponentInChildren<InventorySlot>().GetComponentInChildren<ImageParts>();
             if (imageParts != null)
             {
-                _ui_equipParts.CanvasEnable(true);
+                OnEquipPartsActionT1.Trigger(true);
                 YSJ.Managers.Input.OnInteractAction -= CheckInteraction;
             }
         }
@@ -68,10 +62,10 @@ namespace CKT
         IEnumerator CheckLeftHandEndCoroutine()
         {
             yield return null;
-            ImageParts imageParts = _rightSlot.GetComponentInChildren<ImageParts>();
+            ImageParts imageParts = BMC.PlayerManager.Instance.GetComponentInChildren<RightSlot>().GetComponentInChildren<ImageParts>();
             if (imageParts != null)
             {
-                _ui_equipParts.CanvasEnable(false);
+                OnEquipPartsActionT1.Trigger(false);
                 YSJ.Managers.Input.OnLeftHandActionEnd -= CheckLeftHandEnd;
             }
         }
@@ -87,7 +81,7 @@ namespace CKT
         {
             yield return null;
             EquipedArtifact equipedArtifact = BMC.PlayerManager.Instance.GetComponentInChildren<EquipedArtifact>();
-            ImageParts imageParts = _rightSlot.GetComponentInChildren<ImageParts>();
+            ImageParts imageParts = BMC.PlayerManager.Instance.GetComponentInChildren<RightSlot>().GetComponentInChildren<ImageParts>();
             //아티팩트를 장착해야 한다 + 파츠를 장착해야 한다
             if ((equipedArtifact != null) && (imageParts != null))
             {
@@ -103,7 +97,7 @@ namespace CKT
             if (_isRightHand)
             {
                 //문 열림
-                _upDoor.Open();
+                OnOpenDoorActionT0.Trigger();
             }
         }
         #endregion

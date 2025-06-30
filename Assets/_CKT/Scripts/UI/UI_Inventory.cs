@@ -13,10 +13,15 @@ namespace CKT
 
         private void Start()
         {
-            YSJ.Managers.Input.OnInventoryAction += UI_EnableSwitch;
+            YSJ.Managers.Input.OnInventoryAction += UI_CanvasEnable;
         }
 
-        void UI_EnableSwitch()
+        private void OnDisable()
+        {
+            YSJ.Managers.Input.OnInventoryAction -= UI_CanvasEnable;
+        }
+
+        void UI_CanvasEnable()
         {
             _canvas.enabled = !_canvas.enabled;
         }

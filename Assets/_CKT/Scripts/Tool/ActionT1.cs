@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class ActionT1<T1>
 {
@@ -28,6 +29,10 @@ public class ActionT1<T1>
     public void Trigger(T1 param)
     {
         //safeInvoke(param);
+        if (_action == null)
+        {
+            Debug.Log("[ckt] ActionT1 is null");
+        }
         _action?.Invoke(param);
     }
 

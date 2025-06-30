@@ -61,7 +61,7 @@ namespace CKT
             _previousParent = this.transform.parent;
             _img.raycastTarget = false;
 
-            this.transform.SetParent(transform.root);
+            this.transform.SetParent(this.transform.root.GetComponentInChildren<UI_Inventory>().transform);
             this.transform.SetAsLastSibling();
         }
 
@@ -130,7 +130,7 @@ namespace CKT
             _img.raycastTarget = true;
             _previousParent = null;
 
-            GameManager.Instance.Inventory.InvokeUpdateList();
+            BMC.PlayerManager.Instance.Inventory.InvokeUpdateList();
         }
         #endregion
     }

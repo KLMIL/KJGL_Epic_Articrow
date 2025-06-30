@@ -31,7 +31,7 @@ namespace CKT
             _animator = GetComponentInChildren<Animator>();
             _firePoint = GetComponentInChildren<FirePoint>().transform;
 
-            _skillManager = GameManager.Instance.RightSkillManager;
+            _skillManager = BMC.PlayerManager.Instance.Inventory.SkillManager;
             _skillManager.GetArtifactSOFuncT0.SingleRegister(() => { return _artifactSO; });
             YSJ.Managers.Input.OnRightHandAction += Attack;
             YSJ.Managers.Input.OnRightHandActionEnd += AttackCancel;
@@ -57,6 +57,8 @@ namespace CKT
         protected void Attack()
         {
             if (_attackCoroutine != null) return;
+
+            Debug.Log("[ckt] EquipedArtifact Attack");
 
             float curMana = BMC.PlayerManager.Instance.PlayerStatus.Mana;
             float totalManaCost = _artifactSO.ManaCost - BMC.PlayerManager.Instance.PlayerStatus.SpendManaOffsetAmount;

@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class ActionT0
 {
@@ -27,7 +28,12 @@ public class ActionT0
 
     public void Trigger()
     {
-        SafeInvoke();
+        //SafeInvoke();
+        if (_action == null)
+        {
+            Debug.Log("[ckt] ActionT0 is null");
+        }
+        _action?.Invoke();
     }
 
     void SafeInvoke()

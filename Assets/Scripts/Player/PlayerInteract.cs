@@ -41,7 +41,7 @@ namespace CKT
                 if (iInteractable.ItemType == ItemType.Parts)
                 {
                     //Debug.Log("4");
-                    if (!GameManager.Instance.Inventory.CheckInventorySlotFull())
+                    if (!BMC.PlayerManager.Instance.Inventory.CheckInventorySlotFull())
                     {
                         //Debug.Log("5");
                         iInteractable.Interact(null);

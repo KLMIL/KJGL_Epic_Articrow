@@ -8,11 +8,6 @@ public class GameManager : MonoBehaviour
     static GameManager _instance;
     public static GameManager Instance => _instance;
 
-    public CKT.Inventory Inventory { get; private set; } = new CKT.Inventory();
-
-    public CKT.SkillManager LeftSkillManager { get; private set; } = new();
-    public CKT.SkillManager RightSkillManager { get; private set; } = new();
-
     public Camera Camera { get; private set; }
     public CameraController CameraController { get; private set; }
 
@@ -37,9 +32,6 @@ public class GameManager : MonoBehaviour
 
         TrySpawnPlayer();
 
-        Inventory.Init();
-        LeftSkillManager.Init();
-        RightSkillManager.Init();
         EnemySpawner = GetComponent<BMC.EnemySpawner>();
         //EnemySpawner.Init();
         Camera = Camera.main;

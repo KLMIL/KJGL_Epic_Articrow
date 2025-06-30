@@ -1,5 +1,7 @@
+using BMC;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CKT
 {
@@ -31,6 +33,7 @@ namespace CKT
         IEnumerator RestartCoroutine()
         {
             yield return new WaitForSeconds(0.5f);
+            PlayerManager.Instance.Clear();
             YSJ.Managers.Scene.LoadScene(Define.SceneType.TutorialScene);
         }
     }
