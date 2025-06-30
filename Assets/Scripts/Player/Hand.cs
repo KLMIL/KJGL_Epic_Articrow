@@ -45,7 +45,7 @@ namespace YSJ
             }
             else
             {
-                Debug.LogError("손 또는 부모의 스프라이트랜더러 없음!");
+                //Debug.LogError("손 또는 부모의 스프라이트랜더러 없음!");
             }
         }
 
