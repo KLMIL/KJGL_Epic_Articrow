@@ -4,20 +4,26 @@ using UnityEngine;
 
 namespace CKT
 {
-    [System.Serializable]
-    public class Inventory
+    public class Inventory : MonoBehaviour
     {
-        #region [InventoryList]
+        public CKT.SkillManager SkillManager { get; private set; } = new();
+
+        #region [인벤토리 리스트]
         List<GameObject> _inventoryList = new List<GameObject>();
         #endregion
 
-        #region [OnUpdateInventoryListActionT1]
+        #region [인벤토리 갱신]
         public ActionT1<List<GameObject>> OnUpdateInventoryListActionT1 = new();
         #endregion
 
-        #region [Slot Count]
+        #region [인벤토리 개수]
         public FuncT0<int> GetSlotCountInt = new();
         #endregion
+
+        private void Awake()
+        {
+            Init();
+        }
 
         public void Init()
         {
@@ -38,10 +44,7 @@ namespace CKT
         {
             //인벤토리 내용물 확인
             OnUpdateInventoryListActionT1.Trigger(_inventoryList);
-
-            //왼손, 오른손 슬롯 확인 후 효과 다시 적용
-            GameManager.Instance.LeftSkillManager.CheckSkill();
-            GameManager.Instance.RightSkillManager.CheckSkill();
+            SkillManager.CheckSkill();
         }
     }
 }

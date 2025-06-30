@@ -18,7 +18,7 @@ namespace CKT
             {
                 yield return new WaitForSeconds(0.05f);
 
-                ArtifactSO artifactSO = GameManager.Instance.RightSkillManager.GetArtifactSOFuncT0.Trigger();
+                ArtifactSO artifactSO = BMC.PlayerManager.Instance.Inventory.SkillManager.GetArtifactSOFuncT0.Trigger();
                 GameObject castAdditionalCopy = YSJ.Managers.TestPool.Get<GameObject>(artifactSO.ProjectilePoolID);
 
                 castAdditionalCopy.transform.position = position;

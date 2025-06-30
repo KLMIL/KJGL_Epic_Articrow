@@ -66,7 +66,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
                 interactItem.enabled = false;
 
                 //장착
-                Equip(artifact.transform);
+                Equip(artifact);
             }
             // 아티팩트 들고있으면
             else 
@@ -75,13 +75,14 @@ public class CanInteractObject_YSJ : MonoBehaviour
                 Unequip();
 
                 // 새거 장착
-                Equip(artifact.transform);
+                Equip(artifact);
             }
         }
     }
 
-    void Equip(Transform artifactTransform)
+    void Equip(Artifact_YSJ artifact)
     {
+        Transform artifactTransform = artifact.transform;
         artifactTransform.GetComponent<InteractObject_YSJ>().enabled = false;
         artifactTransform.GetComponent<Collider2D>().enabled = false;
 
@@ -89,6 +90,9 @@ public class CanInteractObject_YSJ : MonoBehaviour
         artifactTransform.localPosition = Vector3.zero;
         artifactTransform.localScale = Vector3.one;
         artifactTransform.localRotation = Quaternion.identity;
+
+        Managers.UI.InventoryCanvas.ArtifactWindow.RemoveAllSlotUI();
+        Managers.UI.InventoryCanvas.ArtifactWindow.CreateSlotUI(artifact);
     }
 
     void Unequip() 

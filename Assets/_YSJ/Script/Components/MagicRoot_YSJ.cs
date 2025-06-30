@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MagicRoot_YSJ : MonoBehaviour
@@ -7,37 +8,41 @@ public class MagicRoot_YSJ : MonoBehaviour
     public float Speed;
     public float LifeTime;
     public float AttackPower;
+    public int DestroyCount = 0;
 
-    public enum MagicType
-    {
-        None,
-        NormalAttack,
-        SkillAttack
-    }
-    public MagicType magicType;
+    public Action<Artifact_YSJ, GameObject> FlyingAction;
+    public Action<Artifact_YSJ, GameObject, GameObject> OnHitAction;
 
-    public void BulletInitialize(Artifact_YSJ ownerArtifact) 
+    public void BulletInitialize(Artifact_YSJ ownerArtifact)
     {
         this.ownerArtifact = ownerArtifact;
 
         Speed = ownerArtifact.Current_NormalBulletSpeed;
         LifeTime = ownerArtifact.Current_NormalAttackLifeTime;
         AttackPower = ownerArtifact.Current_NormalAttackPower;
+
+        FlyingAction += CountLifeTime;
     }
 
     public void OnHit(Collider2D hitObject)
     {
-        switch (magicType) 
+        OnHitAction?.Invoke(ownerArtifact, gameObject, hitObject.gameObject);
+        DestroyCount--;
+        if (DestroyCount < 0)
         {
-            case MagicType.None:
-                print("마법타입이 뭔지 모름!");
-                break;
-            case MagicType.NormalAttack:
-                ownerArtifact.HitNormalAttack?.Invoke(ownerArtifact, gameObject, hitObject.gameObject);
-                break;
-            case MagicType.SkillAttack:
-                ownerArtifact.HitSkillAttack?.Invoke(ownerArtifact, gameObject, hitObject.gameObject);
-                break;
+            Destroy(gameObject);
+        }
+    }
+
+    public void CountLifeTime(Artifact_YSJ ownerArtifact, GameObject Attack) 
+    {
+        if (LifeTime > 0)
+        {
+            LifeTime -= Time.deltaTime;
+        }
+        else 
+        {
+            Destroy(gameObject);
         }
     }
 }

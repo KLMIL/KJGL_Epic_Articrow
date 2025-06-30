@@ -1,4 +1,3 @@
-using BMC;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -16,11 +15,11 @@ namespace CKT
         public virtual void Init(bool isCreateFromPlayer)
         {
             _isCreateFromPlayer = isCreateFromPlayer;
-            _artifactSO = GameManager.Instance.RightSkillManager.GetArtifactSOFuncT0.Trigger();
+            _artifactSO = BMC.PlayerManager.Instance.Inventory.SkillManager.GetArtifactSOFuncT0.Trigger();
 
             _penetration = (isCreateFromPlayer) ? _artifactSO.Penetration : _artifactSO.Penetration + 1;
 
-            float existTime = _artifactSO.ExistTime - PlayerManager.Instance.PlayerStatus.RightCoolTime;
+            float existTime = _artifactSO.ExistTime - BMC.PlayerManager.Instance.PlayerStatus.RightCoolTime;
             existTime = Mathf.Clamp(existTime, 0, float.MaxValue);
             _disableCoroutine = StartCoroutine(DisableCoroutine(existTime));
 
@@ -57,15 +56,15 @@ namespace CKT
             IDamagable iDamageable = _target.GetComponent<IDamagable>();
             if (iDamageable != null)
             {
-                float totalDamage = _artifactSO.Damage + PlayerManager.Instance.PlayerStatus.RightDamage;
-                float damageRate = GameManager.Instance.RightSkillManager.DamageRate;
+                float totalDamage = _artifactSO.Damage + BMC.PlayerManager.Instance.PlayerStatus.RightDamage;
+                float damageRate = BMC.PlayerManager.Instance.Inventory.SkillManager.DamageRate;
                 iDamageable.TakeDamage(totalDamage * damageRate);
 
                 //true면 플레이가 호출한 Projectile,  false면 HitSkill에서 생성된 Projectile
                 if (_isCreateFromPlayer)
                 {
-                    Vector3 closestPoint = collision.ClosestPoint(this.transform.position);
-                    SkillManager skillManager = GameManager.Instance.RightSkillManager;
+                    Vector3 closestPoint = collision.ClosestPoint(YSJ.Managers.Input.MouseWorldPos);
+                    SkillManager skillManager = BMC.PlayerManager.Instance.Inventory.SkillManager;
                     foreach (Func<Vector3, Vector3, IEnumerator> hitSkill in skillManager.HitSkillDict.Values)
                     {
                         StartCoroutine(hitSkill(closestPoint, this.transform.up));

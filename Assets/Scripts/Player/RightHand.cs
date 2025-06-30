@@ -16,12 +16,9 @@ namespace YSJ
         {
             Transform artifact = getArtifact();
 
-            if (artifact)
+            if (artifact && artifact.TryGetComponent<Artifact_YSJ>(out Artifact_YSJ equipedArtifact))
             {
-                if (artifact.TryGetComponent<Artifact_YSJ>(out Artifact_YSJ equipedArtifact))
-                {
-                    equipedArtifact.NormalAttackTriggered();
-                }
+                equipedArtifact.NormalAttackClicked();      
             }
         }
 
@@ -46,7 +43,7 @@ namespace YSJ
             {
                 if (artifact.TryGetComponent<Artifact_YSJ>(out Artifact_YSJ equipedArtifact))
                 {
-                    equipedArtifact.SkillAttackTriggered();
+                    equipedArtifact.SkillAttackClicked();
                 }
             }
         }

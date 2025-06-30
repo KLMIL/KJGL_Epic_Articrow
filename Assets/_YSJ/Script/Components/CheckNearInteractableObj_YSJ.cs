@@ -5,8 +5,9 @@ using YSJ;
 
 public class CheckNearInteractableObj_YSJ : MonoBehaviour
 {
-    public float distance = 2f;
+    public float distance = 0.6f;
     List<Collider2D> nearInteractableColliders = new();
+
     void Update()
     {
         List<Collider2D> cols = Physics2D.OverlapCircleAll(transform.position, distance).ToList();

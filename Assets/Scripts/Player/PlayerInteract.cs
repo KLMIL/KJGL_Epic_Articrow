@@ -16,7 +16,7 @@ namespace CKT
 
         void Start()
         {
-            _scanRange = 1.5f;
+            _scanRange = 1.2f;
             _interactLayerMask = LayerMask.GetMask("Interact");
 
             YSJ.Managers.Input.OnInteractAction += InteractItem;
@@ -41,7 +41,7 @@ namespace CKT
                 if (iInteractable.ItemType == ItemType.Parts)
                 {
                     //Debug.Log("4");
-                    if (!GameManager.Instance.Inventory.CheckInventorySlotFull())
+                    if (!BMC.PlayerManager.Instance.Inventory.CheckInventorySlotFull())
                     {
                         //Debug.Log("5");
                         iInteractable.Interact(null);
@@ -53,7 +53,8 @@ namespace CKT
                     if (_rightHand.childCount != 0)
                     {
                         //Debug.Log("9");
-                        GameManager.Instance.RightSkillManager.OnThrowAwayActionT0.Trigger();
+                        //GameManager.Instance.RightSkillManager.OnThrowAwayActionT0.Trigger();
+                        _rightHand.GetComponentInChildren<EquipedArtifact>()?.ThrowAway();
                     }
 
                     iInteractable.Interact(_rightHand);

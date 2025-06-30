@@ -34,6 +34,7 @@ namespace CKT
         #endregion
         
         #region [SlotList]
+        public List<GameObject> SlotList => _slotList;
         List<GameObject> _slotList = new List<GameObject>();
         #endregion
 

@@ -58,13 +58,13 @@ namespace CKT
             if (_leftHandValue)
             {
                 _leftHandValue = false;
-                GameManager.Instance.LeftSkillManager.TriggerHand();
+                //GameManager.Instance.LeftSkillManager.TriggerHand();
             }
 
             if (_rightHandValue)
             {
                 _rightHandValue = false;
-                GameManager.Instance.RightSkillManager.TriggerHand();
+                //GameManager.Instance.RightSkillManager.TriggerHand();
             }
         }
 
@@ -111,7 +111,7 @@ namespace CKT
             {
                 if (iInteractable.ItemType == ItemType.Parts)
                 {
-                    if (!GameManager.Instance.Inventory.CheckInventorySlotFull())
+                    if (!BMC.PlayerManager.Instance.Inventory.CheckInventorySlotFull())
                     {
                         iInteractable.Interact(null);
                     }

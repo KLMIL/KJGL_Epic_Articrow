@@ -6,6 +6,7 @@ public class InventoryCanvas_YSJ : MonoBehaviour
     Canvas canvas;
 
     public Inventory_YSJ inventory { get; private set; }
+    public ArtifactWindow_YSJ ArtifactWindow { get; set; }
 
     private void Awake()
     {

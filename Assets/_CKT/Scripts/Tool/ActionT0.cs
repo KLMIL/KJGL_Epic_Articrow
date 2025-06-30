@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class ActionT0
 {
@@ -27,11 +28,15 @@ public class ActionT0
 
     public void Trigger()
     {
-        CleanUp();
+        //SafeInvoke();
+        if (_action == null)
+        {
+            Debug.Log("[ckt] ActionT0 is null");
+        }
         _action?.Invoke();
     }
 
-    void CleanUp()
+    void SafeInvoke()
     {
         if (_action == null) return;
 
@@ -44,5 +49,7 @@ public class ActionT0
                 _action += (Action)del;
             }
         }
+
+        _action?.Invoke();
     }
 }

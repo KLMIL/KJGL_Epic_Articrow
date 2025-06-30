@@ -16,6 +16,7 @@ namespace BMC
         public PlayerStatus PlayerStatus { get; private set; }
         public PlayerAttack PlayerAttack { get; private set; }
         public CheckPlayerDirection CheckPlayerDirection { get; private set; }
+        public Inventory Inventory { get; private set; }
 
         void Awake()
         {
@@ -37,6 +38,7 @@ namespace BMC
             PlayerStatus = this.gameObject.GetComponent<PlayerStatus>();
             PlayerAttack = this.gameObject.GetComponent<PlayerAttack>();
             CheckPlayerDirection = this.gameObject.GetComponent<CheckPlayerDirection>();
+            Inventory = this.gameObject.GetComponentInChildren<Inventory>();
         }
 
         void Update()

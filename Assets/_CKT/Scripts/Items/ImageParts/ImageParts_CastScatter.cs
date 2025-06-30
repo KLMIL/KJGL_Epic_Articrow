@@ -33,7 +33,7 @@ namespace CKT
                 }
                 Vector2 scatterDir = Util.RotateVector(direction, (sign * _scatterAngle)).normalized;
 
-                ArtifactSO artifactSO = GameManager.Instance.RightSkillManager.GetArtifactSOFuncT0.Trigger();
+                ArtifactSO artifactSO = BMC.PlayerManager.Instance.Inventory.SkillManager.GetArtifactSOFuncT0.Trigger();
                 GameObject castScatterCopy = YSJ.Managers.TestPool.Get<GameObject>(artifactSO.ProjectilePoolID);
                 castScatterCopy.transform.position = position;
                 castScatterCopy.transform.up = scatterDir;
