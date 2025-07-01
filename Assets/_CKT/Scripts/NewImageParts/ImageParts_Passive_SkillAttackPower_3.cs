@@ -23,8 +23,8 @@ public class ImageParts_Passive_SkillAttackPower_3 : ImagePartsRoot_YSJ, IImageP
     public void SkillAttackPessive(Artifact_YSJ fireArtifact)
     {
         YSJ.PlayerStatus playerStatus = BMC.PlayerManager.Instance.PlayerStatus;
-        float add = 0.015f * playerStatus.OffsetMaxMana;
-        add = Mathf.Clamp(add, 0, 40f);
+        float add = 25f * playerStatus.OffsetMaxMana;
+        add = Mathf.Clamp(add, 0, 75f);
 
         fireArtifact.Added_SkillAttackPower += add;
         Debug.Log($"[ckt] {partsName} {add}");
