@@ -4,12 +4,20 @@ namespace YSJ
 {
     public class RightHand : Hand
     {
-        private void Awake()
+        private void OnEnable()
         {
             Managers.Input.OnLeftHandAction += TryArtifactNormalAttackTrigger;
             Managers.Input.OnRightHandAction += TryArtifactSkillAttackTrigger;
             Managers.Input.OnLeftHandActionEnd += TryArtifactNormalAttackCancle;
             Managers.Input.OnRightHandActionEnd += TryArtifactSkillAttackCancle;
+        }
+
+        private void OnDisable()
+        {
+            Managers.Input.OnLeftHandAction -= TryArtifactNormalAttackTrigger;
+            Managers.Input.OnRightHandAction -= TryArtifactSkillAttackTrigger;
+            Managers.Input.OnLeftHandActionEnd -= TryArtifactNormalAttackCancle;
+            Managers.Input.OnRightHandActionEnd -= TryArtifactSkillAttackCancle;
         }
 
         void TryArtifactNormalAttackTrigger()

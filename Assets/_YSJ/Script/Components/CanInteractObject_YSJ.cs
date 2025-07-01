@@ -3,7 +3,7 @@ using YSJ;
 
 public class CanInteractObject_YSJ : MonoBehaviour
 {
-    float interactDistance = 2f;
+    float interactDistance = 1f;
     Transform hand;
 
     private void Start()
