@@ -12,11 +12,13 @@ namespace BMC
     public class Scarecrow : MonoBehaviour, IDamagable
     {
         Animator _anim;
-        TextMeshPro _damageText;
+        ShowDamageText _showDamageText;
+
 
         void Awake()
         {
             _anim = GetComponent<Animator>();
+            _showDamageText = GetComponent<ShowDamageText>();
         }
 
         void Start()
@@ -27,49 +29,31 @@ namespace BMC
         public void TakeDamage(float damage)
         {
             _anim.Play("Hurt");
-            ShowDamageText(damage);
-        }
-
-        // Spawn 애니메이션 이벤트
-        void OnSpawnAnimationEvent()
-        {
-            SpawnReward();
+            _showDamageText.Show(damage);
         }
 
         void SpawnReward()
         {
+            // Hp, Mp 회복
+            PlayerManager.Instance.PlayerStatus.Health += PlayerManager.Instance.PlayerStatus.MaxHealth * 0.3f;
+            PlayerManager.Instance.PlayerStatus.Mana += PlayerManager.Instance.PlayerStatus.MaxMana * 0.3f;
+
+            // 보상 결정
             List<GameObject> artifactList = StageManager.Instance.RoomTypeRewardListDict[RoomType.ArtifactRoom];
             List<GameObject> magicList = StageManager.Instance.RoomTypeRewardListDict[RoomType.MagicRoom];
             GameObject rewardObject = artifactList[Random.Range(0, artifactList.Count)];
-            
+
+            // 보상 생성
             Vector3 dir = Vector3.down;
             Instantiate(rewardObject, transform.position + dir - transform.right, Quaternion.identity);
             rewardObject = magicList[Random.Range(0, magicList.Count)];
             Instantiate(rewardObject, transform.position + dir + transform.right, Quaternion.identity);
         }
 
-        // 데미지 텍스트 띄우기
-        void ShowDamageText(float damage)
+        // Spawn 애니메이션 이벤트
+        void OnSpawnAnimationEvent()
         {
-            /*TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-            damageText.transform.position = transform.position;
-            damageText.text = damage.ToString();*/
-
-            // 대미지 부여 텍스트
-            if (_damageText != null && _damageText.gameObject.activeInHierarchy)
-            {
-                _damageText.text = (float.Parse(_damageText.text) + damage).ToString();
-
-                Color color = _damageText.color;
-                color.a = 1;
-                _damageText.color = color;
-            }
-            else
-            {
-                _damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-                _damageText.text = damage.ToString("F0");
-            }
-            _damageText.transform.position = this.transform.position + this.transform.up;
+            SpawnReward();
         }
     }
 }
