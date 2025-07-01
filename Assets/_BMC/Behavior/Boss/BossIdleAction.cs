@@ -6,27 +6,19 @@ using Unity.Properties;
 using BMC;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "BossIdle", story: "[Self] Idle with looking at [Target]", category: "Action", id: "cd9a262eb69bd4eb3463e622b09ea720")]
+[NodeDescription(name: "BossIdle", story: "[BossFSM] Idle with looking at [Target]", category: "Action", id: "cd9a262eb69bd4eb3463e622b09ea720")]
 public partial class BossIdleAction : Action
 {
-    [SerializeReference] public BlackboardVariable<GameObject> Self;
+    [SerializeReference] public BlackboardVariable<BossFSM> BossFSM;
     [SerializeReference] public BlackboardVariable<GameObject> Target;
-    BossFSM _fsm;
-    RushAttackIndicator _enemyAttackIndicator;
     Vector2 _lookDirection;
 
     protected override Status OnStart()
     {
-        if(_fsm == null)
-        {
-            _fsm = Self.Value.GetComponent<BossFSM>();
-            _enemyAttackIndicator = Self.Value.GetComponentInChildren<RushAttackIndicator>();
-        }
-
-        AnimatorStateInfo animatorStateInfo = _fsm.Anim.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo animatorStateInfo = BossFSM.Value.Anim.GetCurrentAnimatorStateInfo(0);
         if(!animatorStateInfo.IsName("Idle"))
         {
-            _fsm.Anim.Play("Idle");
+            BossFSM.Value.Anim.Play("Idle");
         }
 
         return Status.Running;
@@ -34,8 +26,8 @@ public partial class BossIdleAction : Action
 
     protected override Status OnUpdate()
     {
-        _lookDirection = (Target.Value.transform.position - Self.Value.transform.position).normalized;
-        _fsm.FlipX(_lookDirection.x);
+        _lookDirection = (Target.Value.transform.position - BossFSM.Value.transform.position).normalized;
+        BossFSM.Value.FlipX(_lookDirection.x);
         return Status.Success;
     }
 

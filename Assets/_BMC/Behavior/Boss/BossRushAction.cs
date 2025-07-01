@@ -6,30 +6,23 @@ using Unity.Properties;
 using BMC;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "Rush", story: "[Self] rush towards [Target] in a [RushDirection] with [IsCollisionWithObstacle]", category: "Action", id: "05761265047ab4ff5c4f4a0a8d2489b1")]
+[NodeDescription(name: "BossRush", story: "[BossFSM] rush towards [Target] in a [RushDirection] with [IsCollisionWithObstacle]", category: "Action", id: "05761265047ab4ff5c4f4a0a8d2489b1")]
 public partial class BossRushAction : Action
 {
-    [SerializeReference] public BlackboardVariable<GameObject> Self;
+    [SerializeReference] public BlackboardVariable<BossFSM> BossFSM;
     [SerializeReference] public BlackboardVariable<GameObject> Target;
     [SerializeReference] public BlackboardVariable<Vector2> RushDirection;
     [SerializeReference] public BlackboardVariable<bool> IsCollisionWithObstacle;
-
-    BossFSM _fsm;
     float _rushForce = 12000f;
 
     protected override Status OnStart()
     {
-        if (_fsm == null)
-        {
-            _fsm = Self.Value.GetComponent<BossFSM>();
-        }
-
-        _fsm.HitBox.OnOff(true);
-        if (Target.Value != null && Self.Value != null)
+        BossFSM.Value.HitBox.OnOff(true);
+        if (Target.Value != null && BossFSM.Value != null)
         {
             Debug.Log("돌진 방향 계산");
-            _fsm.Anim.Play("Rush");
-            _fsm.FlipX(RushDirection.Value.x);
+            BossFSM.Value.Anim.Play("Rush");
+            BossFSM.Value.FlipX(RushDirection.Value.x);
         }
         return Status.Running;
     }
@@ -44,12 +37,12 @@ public partial class BossRushAction : Action
             IsCollisionWithObstacle.Value = false;
             //float force = _rb.linearVelocity.magnitude;
             //_rb.linearVelocity = RushDirection.Value * force;
-            _fsm.RB.AddForce(RushDirection.Value * _rushForce * Time.deltaTime, ForceMode2D.Force);
+            BossFSM.Value.RB.AddForce(RushDirection.Value * _rushForce * Time.deltaTime, ForceMode2D.Force);
         }
         else
         {
             // 해당 방향으로 직진
-            _fsm.RB.AddForce(RushDirection.Value * _rushForce * Time.deltaTime, ForceMode2D.Force);
+            BossFSM.Value.RB.AddForce(RushDirection.Value * _rushForce * Time.deltaTime, ForceMode2D.Force);
         }
 
         return Status.Running;
@@ -57,6 +50,6 @@ public partial class BossRushAction : Action
 
     protected override void OnEnd()
     {
-        _fsm.HitBox.OnOff(false);
+        BossFSM.Value.HitBox.OnOff(false);
     }
 }

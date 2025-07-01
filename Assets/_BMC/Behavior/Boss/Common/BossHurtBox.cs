@@ -6,16 +6,18 @@ namespace BMC
     public class BossHurtBox : MonoBehaviour, IDamagable
     {
         BossFSM _fsm;
+        IDamagable _damagable;
 
         public void Init(BossFSM fsm)
         {
             _fsm = fsm;
+            _damagable = _fsm.GetComponent<IDamagable>();
         }
 
         public void TakeDamage(float damage)
         {
             Debug.Log("보스 데미지 주기");
-            _fsm.Status.TakeDamage(damage);
+            _damagable.TakeDamage(damage);
         }
     }
 }

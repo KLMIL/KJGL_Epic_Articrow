@@ -13,13 +13,24 @@ public class MagicRoot_YSJ : MonoBehaviour
     public Action<Artifact_YSJ, GameObject> FlyingAction;
     public Action<Artifact_YSJ, GameObject, GameObject> OnHitAction;
 
-    public void BulletInitialize(Artifact_YSJ ownerArtifact)
+    public void NormalAttackInitialize(Artifact_YSJ ownerArtifact)
     {
         this.ownerArtifact = ownerArtifact;
 
         Speed = ownerArtifact.Current_NormalBulletSpeed;
         LifeTime = ownerArtifact.Current_NormalAttackLifeTime;
         AttackPower = ownerArtifact.Current_NormalAttackPower;
+
+        FlyingAction += CountLifeTime;
+    }
+
+    public void SkillAttackInitialize(Artifact_YSJ ownerArtifact) 
+    {
+        this.ownerArtifact = ownerArtifact;
+
+        Speed = ownerArtifact.Current_SkillBulletSpeed;
+        LifeTime = ownerArtifact.Current_SkillAttackLifeTime;
+        AttackPower = ownerArtifact.Current_SkillAttackPower;
 
         FlyingAction += CountLifeTime;
     }

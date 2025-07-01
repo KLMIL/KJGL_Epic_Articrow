@@ -5,7 +5,6 @@ public class TestArtifact_YSJ : Artifact_YSJ
 {
     private void Start()
     {
-        SlotRefresh();
-        ResetArtifact();
+        ArtifactInitialize();
     }
 }
