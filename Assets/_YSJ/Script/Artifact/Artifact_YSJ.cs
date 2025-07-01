@@ -7,6 +7,9 @@ using YSJ;
 
 public class Artifact_YSJ : MonoBehaviour
 {
+    // 플레이어 스테이터스
+    public PlayerStatus playerStatus { get; set; }
+
     // 아티팩트의 기본 능력치
     #region [기본 능력치 변수들]
     [Header("기본 공격 기본 세팅값")]
@@ -41,6 +44,10 @@ public class Artifact_YSJ : MonoBehaviour
     #region [추가 능력치 변수들]
     // 아티팩트 파츠에 의한 추가 능력치
     [Header("파츠에 의한 추가 능력치")]
+    // 플레이어 강화
+    public float Added_MaxHealth { get; set; }
+    public float Added_MaxMana { get; set; }
+
     // 일반공격
     public float Added_NormalAttackPower { get; set; } // 일반 공격 추가 공격력
     public float Added_NormalAttackCoolTime { get; set; } // 일반 공격 추가 쿨타임
@@ -85,6 +92,9 @@ public class Artifact_YSJ : MonoBehaviour
     // 쿨타임 타이머
     protected float elapsedNormalCoolTime;
     protected float elapsedSkillCoolTime;
+
+    // 손 찾기
+    public PlayerHand currentHand;
 
     // 쏠 방향
     public Vector2 Direction { get; protected set; }
@@ -157,15 +167,26 @@ public class Artifact_YSJ : MonoBehaviour
                 // 발사 가능하면 발사시도
                 if (true)
                 {
+                    // 방향 계산
+                    Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
+
+                    // 발사 전 액션 실행
+                    BeforeFireNormalAttack?.Invoke(this);
+
+                    if (currentHand)
+                    {
+                        currentHand.CanHandling = false;
+                    }
                     // 선딜 타이머 시작
                     yield return new WaitForSeconds(Current_NormalAttackStartDelay);
+                    if (currentHand)
+                    {
+                        currentHand.CanHandling = true;
+                    }
 
                     // 공격 생성
                     if (NormalAttackPrefab)
                     {
-                        // 방향 계산
-                        Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
-
                         float angle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg; // 방향 각도 계산
                         float firstAngle = angle - ( ( Current_NormalAttackSpreadAngle * (Current_NormalAttackCount - 1) ) / 2f );
 
@@ -254,16 +275,26 @@ public class Artifact_YSJ : MonoBehaviour
                 // 발사 가능하면 발사시도(여기서 마나체크를 해야함)
                 if (true)
                 {
+                    // 방향 계산    
+                    Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
+
+                    // 발사 전 액션 실행
+                    BeforeFireSkillAttack?.Invoke(this);
+
+                    if (currentHand)
+                    {
+                        currentHand.CanHandling = false;
+                    }
                     // 선딜 타이머 시작
-                    
                     yield return new WaitForSeconds(Current_SkillAttackStartDelay);
+                    if (currentHand) 
+                    {
+                        currentHand.CanHandling = true;
+                    }
 
                     // 공격 생성
                     if (SkillAttackPrefab)
                     {
-                        // 방향 계산    
-                        Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
-
                         float angle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg; // 방향 각도 계산
                         float firstAngle = angle - ((Current_SkillAttackSpreadAngle * (Current_SkillAttackCount - 1)) / 2f);
 
@@ -357,6 +388,7 @@ public class Artifact_YSJ : MonoBehaviour
     // Init
     protected void ArtifactInitialize() 
     {
+        playerStatus = GetComponentInParent<PlayerStatus>();
         DevideStatPoint(); // 스탯 포인트 나눠갖기
         SlotRefresh(); // 슬롯 초기화
     }
@@ -391,6 +423,12 @@ public class Artifact_YSJ : MonoBehaviour
         AfterFireSkillAttack = null; // 기존 발사 후 액션 초기화
     }
 
+    protected void ResetEnhance() 
+    {
+        Added_MaxHealth = 0.0f;
+        Added_MaxMana = 0.0f;
+    }
+
     // current = default + added 계산
     protected virtual void NormalAttackCountCurrentStatus()
     {
@@ -421,6 +459,8 @@ public class Artifact_YSJ : MonoBehaviour
         //print("파츠 추가: " + imageParts.name);
         GameObject clone = Instantiate(imageParts.gameObject, SlotTransform);
         clone.transform.SetParent(SlotTransform.GetChild(index));
+
+        UpdateEnhance();
     }
     public void RemoveParts(int index)
     {
@@ -439,5 +479,27 @@ public class Artifact_YSJ : MonoBehaviour
         }
 
         Destroy(SlotTransform.GetChild(index).GetChild(0).gameObject);
+
+        UpdateEnhance();
+    }
+
+    public void UpdateEnhance() 
+    {
+        ResetEnhance();
+
+        for (int i = 0; i < MaxSlotCount; i++)
+        {
+            IImagePartsToEnhance_YSJ imageParts = SlotTransform.GetChild(i).GetComponentInChildren<IImagePartsToEnhance_YSJ>();
+            if (imageParts != null)
+            {
+                imageParts.Equip(this);
+            }
+        }
+
+        ApplicationEnhance();
+    }
+
+    void ApplicationEnhance()
+    {
     }
 }

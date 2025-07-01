@@ -8,7 +8,7 @@ namespace CKT
         {
             base.Init();
 
-            BMC.PlayerManager.Instance.Inventory.SkillManager.OnUpdateSlotListActionT1.Register((list) => base.UpdateItemSlotList(list));
+            //BMC.PlayerManager.Instance.Inventory.SkillManager.OnUpdateSlotListActionT1.Register((list) => base.UpdateItemSlotList(list));
         }
     }
 }

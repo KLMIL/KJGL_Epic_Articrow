@@ -16,7 +16,11 @@ public class CanDragItem_YSJ : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        transform.SetParent(transform.root);
+        Canvas parentCanvas = GetComponentInParent<Canvas>();
+        if (parentCanvas) 
+        {
+            transform.SetParent(parentCanvas.transform);
+        }
         image.raycastTarget = false;
     }
 

@@ -6,7 +6,7 @@ using BMC;
 
 namespace YSJ
 {
-    public class PlayerStatus : MonoBehaviour, IDamagable
+    public class PlayerStatus : MonoBehaviour
     {
         public enum PlayerState
         {
@@ -20,20 +20,9 @@ namespace YSJ
 
         public PlayerState CurrentState { get; set; }
 
-        Rigidbody2D _rb;
 
         [Header("피격")]
-        SpriteRenderer _spriteRenderer;
         [field: SerializeField] public bool IsStop { get; private set; }
-        public bool IsHurt { get; private set; } // 피격 여부
-        float _cameraShakeIntensity = 0.5f;
-        float _cameraShakeTime = 0.25f;
-        float _invincibleTime = 1f;
-        int _colorChangeLoopCount = 20; // 색상 변경 루프 횟수
-
-        [Header("사망")]
-        public static Action OnDeadAction;
-        public bool IsDead { get; private set; } = false;
 
         #region 기준 스테이터스
         [Header("기준 스테이터스")]
@@ -147,19 +136,15 @@ namespace YSJ
             if (Input.GetKeyDown(KeyCode.T))
             {
                 //StartDebuffCoroutine(PlayerState.Stun, 1f);
-                TakeDamage(1f);
+                //TakeDamage(1f);
                 //OffsetMaxHealth += 2f;
                 //OffsetDashCoolTime += 0.1f;
-                //SpendMana(1f);
+                SpendMana(1f);
             }
         }
 
         public void Init()
         {
-            _rb = GetComponent<Rigidbody2D>();
-            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            OnDeadAction += Die;
-
             Health = MaxHealth;
             Mana = MaxMana;
         }
@@ -183,107 +168,5 @@ namespace YSJ
             return true;
         }
         #endregion
-
-        #region 피해 및 사망 관련
-
-        public void StartDebuffCoroutine(PlayerState playerState, float time)
-        {
-            if (IsDead || PlayerManager.Instance.PlayerDash.IsDash)
-            {
-                return;
-            }
-
-            Debug.LogError($"{playerState} 걸림");
-
-            if(_stunCoroutine == null)
-            {
-                _stunCoroutine = StartCoroutine(StunCoroutine(time));
-            }
-        }
-
-        IEnumerator StunCoroutine(float time)
-        {
-            IsStop = true;
-            yield return new WaitForSeconds(time);
-            CurrentState &= ~PlayerState.Stun;
-            IsStop = false;
-            _stunCoroutine = null;
-            Debug.LogError("스턴해제");
-        }
-
-        // 피해 받기
-        public void TakeDamage(float damage)
-        {
-            if (IsDead || IsHurt || PlayerManager.Instance.PlayerDash.IsDash)
-            {
-                return;
-            }
-
-            CurrentState |= PlayerState.Hurt;
-            
-            Health -= damage;
-            StartCoroutine(InvincibleCoroutine(_invincibleTime));
-            GameManager.Instance.CameraController.ShakeCamera(_cameraShakeIntensity, _cameraShakeTime);
-
-            if (Health <= 0)
-            {
-                OnDeadAction.Invoke();
-                UI_InGameEventBus.OnShowGameOverCanvas?.Invoke(); // 게임 오버 화면 표시
-            }
-        }
-
-        // 무적 코루틴
-        IEnumerator InvincibleCoroutine(float second)
-        {
-            IsHurt = true;
-
-            Color damagedColor = Color.gray;
-
-            float loopCount = 0f;
-            float alphaChange = 0.1f;
-
-            while (IsHurt)
-            {
-                // WaitForFixedUpdate()로 0.02초 대기
-                //_colorChangeLoopCount(20)번 반복하여 0.4초 동안 색상 변경
-                for (int i = 0; i < _colorChangeLoopCount; i++)
-                {
-                    damagedColor.a += (i <_colorChangeLoopCount * 0.5) ? -alphaChange : alphaChange;
-                    _spriteRenderer.color = damagedColor;
-
-                    // 0.02초 대기
-                    yield return new WaitForFixedUpdate();
-                    loopCount += 0.02f;
-
-                    if (loopCount >= second)
-                    {
-                        IsHurt = false;
-                        break;
-                    }
-                }
-            }
-            _spriteRenderer.color = Color.white; // 색상 복구
-        }
-
-        // 사망
-        void Die()
-        {
-            IsDead = true;
-            CurrentState |= PlayerState.Die;
-
-            // 피격 색상 변경 중지
-            StopAllCoroutines();
-            _spriteRenderer.color = Color.gray; // 시체 색상
-
-            // 물리 효과 적용 x
-            _rb.linearVelocity = Vector2.zero;
-            _rb.bodyType = RigidbodyType2D.Kinematic;
-        }
-        #endregion
-
-        void OnDestroy()
-        {
-            OnDeadAction = null;
-        }
     }
 }
