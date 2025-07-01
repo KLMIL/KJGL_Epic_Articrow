@@ -4,6 +4,10 @@ public class ImageParts_HitNormal_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImag
 {
     public override string partsName => "HitNormal_SkillAttackPower_1";
 
+    public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void NormalAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
     }
@@ -17,7 +21,7 @@ public class ImageParts_HitNormal_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImag
         //TODO : 일반 공격 적중 시 스킬 피해 증가 (스택형, 지속시간)
         //fireArtifact.Added_SkillAttackPower += 0.15f * fireArtifact.Default_SkillAttackPower;
 
-        Debug.Log($"[ckt] HitNormal_SkillAttackPower_1 {""}");
+        Debug.Log($"[ckt] {partsName} {""}");
     }
 
     public void NormalAttackPessive(Artifact_YSJ fireArtifact)

@@ -5,6 +5,10 @@ public class ImageParts_FireSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIma
 {
     public override string partsName => "FireSkill_NormalAttackPower_1";
 
+    public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
         StopBuff();
@@ -49,13 +53,13 @@ public class ImageParts_FireSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIma
     void StartBuff()
     {
         _fireArtifact.Added_NormalAttackPower += 0.15f * _fireArtifact.Default_NormalAttackPower;
-        Debug.Log($"[ckt] FireSkill_NormalAttackPower_1 StartBuff {_fireArtifact.Added_NormalAttackPower}");
+        Debug.Log($"[ckt] {partsName} StartBuff {_fireArtifact.Added_NormalAttackPower}");
     }
 
     void EndBuff()
     {
         _fireArtifact.Added_NormalAttackPower -= 0.15f * _fireArtifact.Default_NormalAttackPower;
-        Debug.Log($"[ckt] FireSkill_NormalAttackPower_1 EndBuff {_fireArtifact.Added_NormalAttackPower}");
+        Debug.Log($"[ckt] {partsName} EndBuff {_fireArtifact.Added_NormalAttackPower}");
     }
 
     void StopBuff()

@@ -4,6 +4,10 @@ public class ImageParts_HitSkill_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImage
 {
     public override string partsName => "HitSkill_SkillAttackPower_1";
 
+    public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
     }
@@ -21,7 +25,7 @@ public class ImageParts_HitSkill_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImage
             MagicRoot_YSJ magicRoot = spawnedAttack.GetComponent<MagicRoot_YSJ>();
             magicRoot.AttackPower *= 1.15f;
 
-            Debug.Log($"[ckt] HitSkill_SkillAttackPower_1 {magicRoot.AttackPower}");
+            Debug.Log($"[ckt] {partsName} {magicRoot.AttackPower}");
         }
     }
 

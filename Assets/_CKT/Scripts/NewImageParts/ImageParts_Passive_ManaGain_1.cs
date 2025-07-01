@@ -4,6 +4,10 @@ public class ImageParts_Passive_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNo
 {
     public override string partsName => "Passive_ManaGain_1";
 
+    public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void NormalAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
     }
@@ -24,6 +28,6 @@ public class ImageParts_Passive_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNo
         //TODO : ImageParts_IncreaseManaGain 마나 획득량 증가
 
 
-        Debug.Log($"[ckt] Passive_ManaGain_1 {fireArtifact.Added_NormalAttackCoolTime}_{""}");
+        Debug.Log($"[ckt] {partsName} {fireArtifact.Added_NormalAttackCoolTime}_{""}");
     }
 }

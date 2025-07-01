@@ -4,6 +4,10 @@ public class ImageParts_Passive_NormalAttackCoolTime_1 : ImagePartsRoot_YSJ, IIm
 {
     public override string partsName => "Passive_NormalAttackCoolTime_1";
 
+    public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void NormalAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
     }
@@ -20,6 +24,6 @@ public class ImageParts_Passive_NormalAttackCoolTime_1 : ImagePartsRoot_YSJ, IIm
     {
         fireArtifact.Added_NormalAttackCoolTime += -0.15f * fireArtifact.Default_NormalAttackCoolTime;
 
-        Debug.Log($"[ckt] Passive_NormalAttackCoolTime_1 {fireArtifact.Added_NormalAttackCoolTime}");
+        Debug.Log($"[ckt] {partsName} {fireArtifact.Added_NormalAttackCoolTime}");
     }
 }

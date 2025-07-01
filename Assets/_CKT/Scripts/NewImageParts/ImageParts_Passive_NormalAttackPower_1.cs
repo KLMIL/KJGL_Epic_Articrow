@@ -4,6 +4,10 @@ public class ImageParts_Passive_NormalAttackPower_1 : ImagePartsRoot_YSJ, IImage
 {
     public override string partsName => "Passive_NormalAttackPower_1";
 
+    public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void NormalAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
     }
@@ -20,6 +24,6 @@ public class ImageParts_Passive_NormalAttackPower_1 : ImagePartsRoot_YSJ, IImage
     {
         fireArtifact.Added_NormalAttackPower += 0.15f * fireArtifact.Default_NormalAttackPower;
 
-        Debug.Log($"[ckt] Passive_NormalAttackPower_1 {fireArtifact.Added_NormalAttackPower}");
+        Debug.Log($"[ckt] {partsName} {fireArtifact.Added_NormalAttackPower}");
     }
 }

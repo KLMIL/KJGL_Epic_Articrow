@@ -4,6 +4,10 @@ public class ImageParts_Passive_SkillAttackpower_1 : ImagePartsRoot_YSJ, IImageP
 {
     public override string partsName => "Passive_SkillAttackpower_1";
 
+    public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
     }
@@ -24,6 +28,6 @@ public class ImageParts_Passive_SkillAttackpower_1 : ImagePartsRoot_YSJ, IImageP
         //스킬 공격 피해 증가
         fireArtifact.Added_SkillAttackPower += 0.15f * fireArtifact.Default_NormalAttackPower;
 
-        Debug.Log($"[ckt] Passive_SkillAttackpower_1 {fireArtifact.Added_SkillAttackStartDelay}_{fireArtifact.Added_SkillAttackPower}");
+        Debug.Log($"[ckt] {partsName} {fireArtifact.Added_SkillAttackStartDelay}_{fireArtifact.Added_SkillAttackPower}");
     }
 }

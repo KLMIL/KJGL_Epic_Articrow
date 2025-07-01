@@ -5,6 +5,10 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
 {
     public override string partsName => "HitSkill_AttackPower_1";
 
+    public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
     }
@@ -51,7 +55,7 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
         _fireArtifact.Added_NormalAttackPower += 0.15f * _fireArtifact.Default_NormalAttackPower;
         _fireArtifact.Added_SkillAttackPower += 0.15f * _fireArtifact.Default_SkillAttackPower;
 
-        Debug.Log($"[ckt] HitSkill_AttackPower_1 StartBuff {_fireArtifact.Added_NormalAttackPower}_{_fireArtifact.Added_SkillAttackPower}");
+        Debug.Log($"[ckt] {partsName} StartBuff {_fireArtifact.Added_NormalAttackPower}_{_fireArtifact.Added_SkillAttackPower}");
     }
 
     void EndBuff()
@@ -59,7 +63,7 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
         _fireArtifact.Added_NormalAttackPower -= 0.15f * _fireArtifact.Default_NormalAttackPower;
         _fireArtifact.Added_SkillAttackPower -= 0.15f * _fireArtifact.Default_SkillAttackPower;
 
-        Debug.Log($"[ckt] HitSkill_AttackPower_1 EndBuff {_fireArtifact.Added_NormalAttackPower}_{_fireArtifact.Added_SkillAttackPower}");
+        Debug.Log($"[ckt] {partsName} EndBuff {_fireArtifact.Added_NormalAttackPower}_{_fireArtifact.Added_SkillAttackPower}");
     }
 
     void StopBuff()

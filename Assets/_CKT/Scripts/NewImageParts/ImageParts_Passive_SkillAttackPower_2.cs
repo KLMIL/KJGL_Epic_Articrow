@@ -5,6 +5,10 @@ public class ImageParts_Passive_SkillAttackPower_2 : ImagePartsRoot_YSJ, IImageP
 {
     public override string partsName => "Passive_SkillAttackPower_2";
 
+    public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
     }
@@ -29,7 +33,7 @@ public class ImageParts_Passive_SkillAttackPower_2 : ImagePartsRoot_YSJ, IImageP
 
         //최종 스킬 시전 시간의 30%만큼 스킬 공격 피해 증가
         fireArtifact.Added_SkillAttackPower += 0.3f * fireArtifact.Current_SkillAttackStartDelay;
-        Debug.Log($"[ckt] Passive_SkillAttackPower_2 {fireArtifact.Added_SkillAttackPower}");
+        Debug.Log($"[ckt] {partsName} {fireArtifact.Added_SkillAttackPower}");
     }
     #endregion
 }
