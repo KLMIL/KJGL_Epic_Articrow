@@ -31,7 +31,7 @@ namespace CKT
             _animator = GetComponentInChildren<Animator>();
             _firePoint = GetComponentInChildren<FirePoint>().transform;
 
-            _skillManager = BMC.PlayerManager.Instance.Inventory.SkillManager;
+            //_skillManager = BMC.PlayerManager.Instance.Inventory.SkillManager;
             _skillManager.GetArtifactSOFuncT0.SingleRegister(() => { return _artifactSO; });
             YSJ.Managers.Input.OnRightHandAction += Attack;
             YSJ.Managers.Input.OnRightHandActionEnd += AttackCancel;

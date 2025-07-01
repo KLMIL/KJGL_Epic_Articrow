@@ -4,14 +4,22 @@ using UnityEngine;
 public class BreakableObject : MonoBehaviour, IDamagable
 {
     bool _isBreak;                             // 파편이 많이 생기는 것을 막기 위함
-
     [SerializeField] GameObject _partsPrefab;  // 파편 오브젝트 모음
+    LayerMask _playerMask;
+
+    void Awake()
+    {
+        _playerMask = LayerMask.GetMask("Player");
+    }
 
     // 충돌 시, 파편 생성
     void Break(Collider2D collision) 
     {
         _isBreak = true;
-        RandomManaRegenerate();
+
+        // 플레이어가 부신 경우, 랜덤으로 마나 회복
+        if ((_playerMask.value & (1 << collision.gameObject.layer)) != 0)
+            RandomManaRegenerate();
 
         GameObject spawnedParts = Instantiate(_partsPrefab, transform.position, transform.rotation);
         spawnedParts.transform.SetParent(transform.parent, true);
@@ -49,7 +57,7 @@ public class BreakableObject : MonoBehaviour, IDamagable
     // 랜덤 마나 회복
     void RandomManaRegenerate()
     {
-        float randomAmount = Random.Range(0f, 10f);
+        float randomAmount = Random.Range(0f, 1f);
         PlayerManager.Instance.PlayerStatus.RegenerateMana(randomAmount);
     }
 

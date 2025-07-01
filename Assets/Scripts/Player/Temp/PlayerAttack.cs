@@ -39,7 +39,7 @@ namespace BMC
         void Attack()
         {
             // 게임 일시 정지 시, 공격 불가
-            if (GameManager.Instance.IsPaused || PlayerManager.Instance.PlayerStatus.IsDead)
+            if (GameManager.Instance.IsPaused || PlayerManager.Instance.PlayerHurt.IsDead)
                 return;
 
             if (IsAttack)
@@ -58,7 +58,7 @@ namespace BMC
         public void StartAttackCoroutine()
         {
             // 해당 부분 없으면 꾹 누른 채로 공격 시, 계속 공격하며 죽는 모션 반복되는 현상 방지
-            if (PlayerManager.Instance.PlayerStatus.IsDead)
+            if (PlayerManager.Instance.PlayerHurt.IsDead)
                 return;
 
             StartCoroutine(AttackCoroutine());
