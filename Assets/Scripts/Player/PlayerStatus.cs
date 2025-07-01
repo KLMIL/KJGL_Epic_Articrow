@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using BMC;
@@ -9,13 +8,25 @@ namespace YSJ
 {
     public class PlayerStatus : MonoBehaviour, IDamagable
     {
-        PlayerAnimator _playerAnimator;
+        public enum PlayerState
+        {
+            Idle = 0,
+            Move = 1 << 1,
+            Attack = 1 << 2,
+            Hurt = 1 << 3,
+            Die = 1 << 4,
+            Stun = 1 << 5,
+        }
+
+        public PlayerState CurrentState { get; set; }
+
         Rigidbody2D _rb;
 
         [Header("피격")]
         SpriteRenderer _spriteRenderer;
         TextMeshPro _damageText;
-        public bool IsHurt { get; private set; } = false; // 피격 여부
+        [field: SerializeField] public bool IsStop { get; private set; }
+        public bool IsHurt { get; private set; } // 피격 여부
         float _cameraShakeIntensity = 0.5f;
         float _cameraShakeTime = 0.25f;
         float _invincibleTime = 1f;
@@ -117,12 +128,16 @@ namespace YSJ
             }
         }
         #endregion
-    
+
+        // 테스트용
+        Coroutine _stunCoroutine;
+
         void Update()
         {
             // 테스트용
             if (Input.GetKeyDown(KeyCode.T))
             {
+                StartDebuffCoroutine(PlayerState.Stun, 1f);
                 TakeDamage(1f);
                 //SpendMana(25f);
             }
@@ -132,7 +147,6 @@ namespace YSJ
         {
             _rb = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            _playerAnimator = GetComponent<PlayerAnimator>();
             OnDeadAction += Die;
 
             Health = MaxHealth;
@@ -164,6 +178,32 @@ namespace YSJ
         #endregion
 
         #region 피해 및 사망 관련
+
+        public void StartDebuffCoroutine(PlayerState playerState, float time)
+        {
+            if (IsDead || PlayerManager.Instance.PlayerDash.IsDash)
+            {
+                return;
+            }
+
+            Debug.LogError($"{playerState} 걸림");
+
+            if(_stunCoroutine == null)
+            {
+                _stunCoroutine = StartCoroutine(StunCoroutine(time));
+            }
+        }
+
+        IEnumerator StunCoroutine(float time)
+        {
+            IsStop = true;
+            yield return new WaitForSeconds(time);
+            CurrentState &= ~PlayerState.Stun;
+            IsStop = false;
+            _stunCoroutine = null;
+            Debug.LogError("스턴해제");
+        }
+
         // 피해 받기
         public void TakeDamage(float damage)
         {
@@ -172,30 +212,12 @@ namespace YSJ
                 return;
             }
 
-            if (!IsHurt)
-            {
-                //YSJ : 베리어가 있는 지 확인
-                List<Collider2D> colliders = new();
-                ContactFilter2D filter = new ContactFilter2D();
-                filter.SetLayerMask(LayerMask.GetMask("Player"));
-                filter.useTriggers = true;
-                Physics2D.OverlapCollider(GetComponent<Collider2D>(), filter, colliders);
-                foreach (Collider2D col in colliders)
-                {
-                    if (col.TryGetComponent<Barrier>(out Barrier barrier))
-                    {
-                        barrier.TakeDamage(damage); // 베리어가 있으면 베리어가 대신받음
-                        return;
-                    }
-                }
-
-                UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
-                ShowDamageText(damage);
-                Health -= damage;
-                StartCoroutine(InvincibleCoroutine(_invincibleTime));
-                GameManager.Instance.CameraController.ShakeCamera(_cameraShakeIntensity, _cameraShakeTime);
-                _playerAnimator.CurrentState |= PlayerAnimator.State.Hurt;
-            }
+            CurrentState |= PlayerState.Hurt;
+            UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
+            //ShowDamageText(damage);
+            Health -= damage;
+            StartCoroutine(InvincibleCoroutine(_invincibleTime));
+            GameManager.Instance.CameraController.ShakeCamera(_cameraShakeIntensity, _cameraShakeTime);
 
             if (Health <= 0)
             {
@@ -265,6 +287,7 @@ namespace YSJ
         void Die()
         {
             IsDead = true;
+            CurrentState |= PlayerState.Die;
 
             // 피격 색상 변경 중지
             StopAllCoroutines();
