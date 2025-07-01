@@ -7,13 +7,14 @@ public class MagicRoot_YSJ : MonoBehaviour
 
     public float Speed;
     public float LifeTime;
+    protected float elapsedTime;
     public float AttackPower;
     public int DestroyCount = 0;
 
     public Action<Artifact_YSJ, GameObject> FlyingAction;
     public Action<Artifact_YSJ, GameObject, GameObject> OnHitAction;
 
-    public void NormalAttackInitialize(Artifact_YSJ ownerArtifact)
+    public virtual void NormalAttackInitialize(Artifact_YSJ ownerArtifact)
     {
         this.ownerArtifact = ownerArtifact;
 
@@ -47,9 +48,9 @@ public class MagicRoot_YSJ : MonoBehaviour
 
     public void CountLifeTime(Artifact_YSJ ownerArtifact, GameObject Attack) 
     {
-        if (LifeTime > 0)
+        if (elapsedTime < LifeTime)
         {
-            LifeTime -= Time.deltaTime;
+            elapsedTime += Time.deltaTime;
         }
         else 
         {

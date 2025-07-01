@@ -8,10 +8,6 @@ namespace BMC
         public Animator Anim { get; private set; }
         PlayerAnimator _playerAnimator;
 
-        [Header("히트 스탑")]
-        Coroutine _hitStopCoroutine;
-        WaitForSeconds _hitStopTime = new WaitForSeconds(0.5f);
-
         void Start()
         {
             _playerAnimator = GetComponentInParent<PlayerAnimator>();
@@ -61,22 +57,12 @@ namespace BMC
                     //spirit.Init();
                     //spirit.MoveToSlider();
 
-                    float damage = PlayerManager.Instance.PlayerAttack.CurrentAttackStep == 1 ? 8f : 12f;
-                    damagable.TakeDamage(damage);
-                    Managers.Sound.PlaySFX(Define.SFX.Slash);
-                    PlayerManager.Instance.PlayerStatus.RegenerateMana(damage);
+                    //float damage = PlayerManager.Instance.PlayerAttack.CurrentAttackStep == 1 ? 8f : 12f;
+                    //damagable.TakeDamage(damage);
+                    //Managers.Sound.PlaySFX(Define.SFX.Slash);
+                    //PlayerManager.Instance.PlayerStatus.RegenerateMana(damage);
                 }
             }
         }
-
-        //// 히트 스탑
-        //IEnumerator HitStop()
-        //{
-        //    //Debug.Log("히트스탑");
-        //    Time.timeScale = 0.75f;
-        //    yield return _hitStopTime;
-        //    _hitStopCoroutine = null;
-        //    Time.timeScale = 1f;
-        //}
     }
 }

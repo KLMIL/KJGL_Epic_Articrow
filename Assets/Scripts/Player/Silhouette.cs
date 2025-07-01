@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using YSJ;
 
 // 대시 실루엣
@@ -40,8 +39,10 @@ public class Silhouette : MonoBehaviour
         if (!SilhouetteParent)
         {
             // 하이어라키 정리를 위해 따로 정리용 오브젝트를 두고, 밑에 위치시키기
+            // 씬 전환 시에도 유지되도록 설정
             SilhouetteParent = new GameObject(gameObject.name + " SilhouetteList");
-            DontDestroyOnLoad(SilhouetteParent); // 씬 전환 시에도 유지되도록 설정
+            DontDestroyOnLoad(SilhouetteParent);
+            
             for (int i = 0; i < _silhouetteCount; i++)
             {
                 // 빈 게임오브젝트 생성

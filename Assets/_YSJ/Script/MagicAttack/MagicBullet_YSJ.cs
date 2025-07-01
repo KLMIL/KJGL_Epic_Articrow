@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TestBullet : MagicRoot_YSJ
+public class MagicBullet_YSJ : MagicRoot_YSJ
 {
     Rigidbody2D rb2d;
 
@@ -11,9 +11,9 @@ public class TestBullet : MagicRoot_YSJ
 
     private void Update()
     {
-        rb2d.linearVelocity = transform.right * Speed;
-
         FlyingAction?.Invoke(ownerArtifact, gameObject);
+
+        rb2d.linearVelocity = transform.right * Speed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

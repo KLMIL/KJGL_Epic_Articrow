@@ -4,32 +4,17 @@ namespace YSJ
 {
     public class PlayerAnimator : MonoBehaviour
     {
-        public enum State
-        {
-            Idle = 0,
-            Move = 1 << 1,
-            Attack = 1 << 2,
-            Stun = 1 << 3,
-            Hurt = 1 << 4,
-            Dead = 1 << 5,
-        }
-
-        public State CurrentState { get; set; }
-        CheckPlayerDirection _checkPlayerDirection;
         Animator _anim;
         SpriteRenderer _spriteRenderer;
+        CheckPlayerDirection _checkPlayerDirection;
+        PlayerStatus _playerStatus;
 
         void Awake()
         {
+            _playerStatus = GetComponent<PlayerStatus>();
             _checkPlayerDirection = GetComponent<CheckPlayerDirection>();
             _anim = GetComponent<Animator>();
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        }
-
-        void Start()
-        {
-            // 스테이터스에 액션 연결
-            PlayerStatus.OnDeadAction += PlayDead;
         }
 
         void Update()
@@ -45,21 +30,21 @@ namespace YSJ
             }
 
             // Dead 상태
-            if ((CurrentState & State.Dead) == State.Dead)
+            if ((_playerStatus.CurrentState & PlayerStatus.PlayerState.Die) == PlayerStatus.PlayerState.Die)
             {
                 FlipX();
                 _anim.Play("Dead");
                 return;
             }
 
-            if ((CurrentState & State.Attack) == State.Attack)
+            if ((_playerStatus.CurrentState & PlayerStatus.PlayerState.Attack) == PlayerStatus.PlayerState.Attack)
             {
                 OnHurtAnimationEndEvent();
                 return;
             }
 
             //Hurt 상태
-            if ((CurrentState & State.Hurt) == State.Hurt)
+            if ((_playerStatus.CurrentState & PlayerStatus.PlayerState.Hurt) == PlayerStatus.PlayerState.Hurt)
             {
                 FlipX();
                 _anim.Play("Hurt");
@@ -67,14 +52,14 @@ namespace YSJ
             }
 
             // Move 상태
-            if ((CurrentState & State.Move) == State.Move)
+            if ((_playerStatus.CurrentState & PlayerStatus.PlayerState.Move) == PlayerStatus.PlayerState.Move)
             {
                 _anim.Play($"Move_{_checkPlayerDirection.CurrentDirection}");
                 return;
             }
 
             // Idle 상태
-            if ((CurrentState & State.Idle) == State.Idle)
+            if ((_playerStatus.CurrentState & PlayerStatus.PlayerState.Idle) == PlayerStatus.PlayerState.Idle)
             {
                 _anim.Play($"Idle_{_checkPlayerDirection.CurrentDirection}");
                 return;
@@ -94,12 +79,7 @@ namespace YSJ
         // Hurt 애니메이션이 끝났을 때 호출되는 애니메이션 이벤트
         void OnHurtAnimationEndEvent() 
         {
-            CurrentState &= ~State.Hurt; // Hurt 상태 해제
-        }
-
-        void PlayDead()
-        {
-            CurrentState |= State.Dead; // Dead상태 추가
+            _playerStatus.CurrentState &= ~PlayerStatus.PlayerState.Hurt; // Hurt 상태 해제
         }
     }
 }

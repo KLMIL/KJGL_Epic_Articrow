@@ -20,4 +20,8 @@ public class TestImageParts_YSJ : MonoBehaviour, IImagePartsToNormalAttack_YSJ
     {
         print("맞음");
     }
+
+    public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
 }

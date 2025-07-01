@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace YSJ
 {
+    /// <summary>
+    /// 플레이어 방향을 체크하는 클래스
+    /// </summary>
     public class CheckPlayerDirection : MonoBehaviour
     {
         public enum Direction
@@ -28,19 +31,19 @@ namespace YSJ
             Angle = angle;
             Direction result = 0;
 
-            if (angle >= -45 && angle < 45)
+            if (-45 <= angle && angle < 45)
             {
                 result |= Direction.Right;
             }
-            if (angle >= 45 && angle < 135)
+            if (45 <= angle && angle < 135)
             {
                 result |= Direction.Up;
             }
-            if ((angle >= 135 && angle < 180) || (angle >= -180 && angle < -135))
+            if ((135 <= angle && angle < 180) || (-180 <= angle && angle < -135))
             {
                 result |= Direction.Left;
             }
-            if (angle >= -135 && angle < -45)
+            if (-135 <= angle && angle < -45)
             {
                 result |= Direction.Down;
             }

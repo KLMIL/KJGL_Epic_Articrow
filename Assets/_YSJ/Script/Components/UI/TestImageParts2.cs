@@ -8,6 +8,10 @@ public class TestImageParts2 : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ
     {
     }
 
+    public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void NormalAttackFlying(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
     }
@@ -24,6 +28,10 @@ public class TestImageParts2 : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ
     public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
         print("스킬발사 후 액션2");
+    }
+
+    public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
     }
 
     public void SkillAttackFlying(Artifact_YSJ fireArtifact, GameObject spawnedAttack)

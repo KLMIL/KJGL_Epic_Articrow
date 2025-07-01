@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Drawing;
 using UnityEngine;
 
 public class TestParts : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ
@@ -8,7 +10,14 @@ public class TestParts : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ
     {
         //print("발사 후 액션");
         //spawnedAttack.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        spawnedAttack.GetComponentInChildren<SpriteRenderer>().color = Color.blue;
+        if (spawnedAttack.TryGetComponent<SpriteRenderer>(out SpriteRenderer sprite))
+        {
+            sprite.color = UnityEngine.Color.blue;
+        }
+    }
+
+    public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
     }
 
     public void NormalAttackFlying(Artifact_YSJ fireArtifact, GameObject spawnedAttack)

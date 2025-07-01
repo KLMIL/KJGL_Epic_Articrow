@@ -13,7 +13,7 @@ namespace BMC
         public IEnumerator SkillCoroutine(Vector3 position, Vector3 directoin, int level, SkillManager skillManager)
         {
             Debug.Log($"{SkillName}, Level+{level}");
-            PlayerManager.Instance.PlayerDash.DashSkill(directoin);
+            //PlayerManager.Instance.PlayerDash.DashSkill(directoin);
             Debug.Log("대시 스킬");
             yield return null;
         }
