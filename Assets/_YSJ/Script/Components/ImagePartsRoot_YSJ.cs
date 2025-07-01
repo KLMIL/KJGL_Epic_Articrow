@@ -5,4 +5,5 @@ using UnityEngine.EventSystems;
 public abstract class ImagePartsRoot_YSJ : MonoBehaviour
 {
     public abstract string partsName { get; }
+    public bool WillDestroy = false;
 }

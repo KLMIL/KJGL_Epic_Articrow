@@ -1,3 +1,4 @@
+using BMC;
 using CKT;
 using System;
 using System.Collections;
@@ -47,6 +48,8 @@ public class Artifact_YSJ : MonoBehaviour
     // 플레이어 강화
     public float Added_MaxHealth { get; set; }
     public float Added_MaxMana { get; set; }
+    public float Added_DeahCoolTime { get; set; }
+    public float Added_MoveSpeed { get; set; }
 
     // 일반공격
     public float Added_NormalAttackPower { get; set; } // 일반 공격 추가 공격력
@@ -427,6 +430,8 @@ public class Artifact_YSJ : MonoBehaviour
     {
         Added_MaxHealth = 0.0f;
         Added_MaxMana = 0.0f;
+        Added_DeahCoolTime = 0.0f;
+        Added_MoveSpeed = 0.0f;
     }
 
     // current = default + added 계산
@@ -478,6 +483,7 @@ public class Artifact_YSJ : MonoBehaviour
             //print("해당 슬롯에 파츠가 여러개 있음. 첫번째 파츠만 제거");
         }
 
+        SlotTransform.GetChild(index).GetChild(0).GetComponent<ImagePartsRoot_YSJ>().WillDestroy = true;
         Destroy(SlotTransform.GetChild(index).GetChild(0).gameObject);
 
         UpdateEnhance();
@@ -489,17 +495,26 @@ public class Artifact_YSJ : MonoBehaviour
 
         for (int i = 0; i < MaxSlotCount; i++)
         {
-            IImagePartsToEnhance_YSJ imageParts = SlotTransform.GetChild(i).GetComponentInChildren<IImagePartsToEnhance_YSJ>();
-            if (imageParts != null)
+            ImagePartsRoot_YSJ imagepartsRoot = SlotTransform.GetChild(i).GetComponentInChildren<ImagePartsRoot_YSJ>();
+            if (imagepartsRoot) 
             {
-                imageParts.Equip(this);
+                IImagePartsToEnhance_YSJ imageParts = imagepartsRoot.GetComponentInChildren<IImagePartsToEnhance_YSJ>();
+                if (imageParts != null && !imagepartsRoot.WillDestroy)
+                {
+                    imageParts.Equip(this);
+                }
             }
         }
 
-        ApplicationEnhance();
+        ApplyEnhance();
     }
 
-    void ApplicationEnhance()
+    void ApplyEnhance()
     {
+        playerStatus = PlayerManager.Instance.PlayerStatus;
+        playerStatus.OffsetMaxHealth = Added_MaxHealth;
+        playerStatus.OffsetMaxMana = Added_MaxMana;
+        playerStatus.OffsetDashCoolTime = Added_DeahCoolTime;
+        playerStatus.OffsetMoveSpeed = Added_MoveSpeed;
     }
 }

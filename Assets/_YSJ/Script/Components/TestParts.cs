@@ -2,9 +2,14 @@ using System.Collections;
 using System.Drawing;
 using UnityEngine;
 
-public class TestParts : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ
+public class TestParts : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ, IImagePartsToEnhance_YSJ
 {
     public override string partsName => "TestParts";
+
+    public void Equip(Artifact_YSJ currentArtifact)
+    {
+        currentArtifact.Added_MaxMana += 1;
+    }
 
     public void NormalAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
