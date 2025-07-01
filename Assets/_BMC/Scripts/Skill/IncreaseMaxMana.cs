@@ -12,13 +12,13 @@ namespace BMC
 
         public override void Apply()
         {
-            PlayerManager.Instance.PlayerStatus.MaxMana += _amount;
+            //PlayerManager.Instance.PlayerStatus.MaxMana += _amount;
             Debug.LogWarning("최대 마나 증가");
         }
 
         public override void Remove()
         {
-            PlayerManager.Instance.PlayerStatus.MaxMana -= _amount;
+            //PlayerManager.Instance.PlayerStatus.MaxMana -= _amount;
             Debug.LogWarning("최대 마나 감소");
         }
     }

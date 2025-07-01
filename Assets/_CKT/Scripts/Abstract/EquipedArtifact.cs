@@ -61,17 +61,17 @@ namespace CKT
             Debug.Log("[ckt] EquipedArtifact Attack");
 
             float curMana = BMC.PlayerManager.Instance.PlayerStatus.Mana;
-            float totalManaCost = _artifactSO.ManaCost - BMC.PlayerManager.Instance.PlayerStatus.SpendManaOffsetAmount;
-            if (curMana < totalManaCost)
-            {
-                _manaLackCoroutine = _manaLackCoroutine ?? StartCoroutine(ManaLackCoroutine());
-                return;
-            }
-            else
-            {
-                BMC.PlayerManager.Instance.PlayerStatus.SpendMana(totalManaCost);
-                _attackCoroutine = StartCoroutine(AttackCoroutine(_skillManager.SlotList));
-            }
+            //float totalManaCost = _artifactSO.ManaCost - BMC.PlayerManager.Instance.PlayerStatus.SpendManaOffsetAmount;
+            //if (curMana < totalManaCost)
+            //{
+            //    _manaLackCoroutine = _manaLackCoroutine ?? StartCoroutine(ManaLackCoroutine());
+            //    return;
+            //}
+            //else
+            //{
+            //    BMC.PlayerManager.Instance.PlayerStatus.SpendMana(totalManaCost);
+            //    _attackCoroutine = StartCoroutine(AttackCoroutine(_skillManager.SlotList));
+            //}
         }
 
         protected virtual IEnumerator AttackCoroutine(List<GameObject> list)

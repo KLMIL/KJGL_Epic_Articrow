@@ -12,13 +12,13 @@ namespace BMC
 
         public override void Apply()
         {
-            PlayerManager.Instance.PlayerStatus.SpendManaOffsetAmount += _amount;
+            //PlayerManager.Instance.PlayerStatus.SpendManaOffsetAmount += _amount;
             Debug.LogWarning($"마나 소모량 감소 {_amount}");
         }
 
         public override void Remove()
         {
-            PlayerManager.Instance.PlayerStatus.SpendManaOffsetAmount -= _amount;
+            //PlayerManager.Instance.PlayerStatus.SpendManaOffsetAmount -= _amount;
             Debug.LogWarning($"마나 소모량 증가 {_amount}");
         }
     }
