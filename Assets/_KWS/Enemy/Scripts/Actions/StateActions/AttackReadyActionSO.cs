@@ -93,13 +93,15 @@ namespace Game.Enemy
 
                 case AttackType.Projectile_ScatterLinearAttack:
                     {
-                        float spreadAngle = angle;
+                        float spreadAngle = 0;
                         float halfCount = (count - 1) * 0.5f;
 
                         dirs.Add(standardDir);
                         lens.Add(scale);
                         for (int i = 0; i < halfCount; i++)
                         {
+                            spreadAngle += angle;
+
                             Vector2 newDir = Quaternion.Euler(0, 0, spreadAngle) * standardDir;
                             dirs.Add(newDir);
                             lens.Add(scale);

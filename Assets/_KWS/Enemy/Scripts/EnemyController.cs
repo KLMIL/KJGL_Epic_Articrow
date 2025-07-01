@@ -11,7 +11,7 @@ namespace Game.Enemy
         [SerializeField] EnemyStatusSO _statusOrigin;
         [HideInInspector] public EnemyStatusSO Status;
 
-        public EnemyStatusSO StatusOrigin { get; private set; }
+        public EnemyStatusSO StatusOrigin => _statusOrigin;
 
         [Header("Components")]
         public SpriteRenderer SpriteRenderer;
@@ -176,6 +176,16 @@ namespace Game.Enemy
         public bool IsGravitySurgeCoroutineGO()
         {
             return gravitySurgeCoroutine != null;
+        }
+
+        public bool IsPatternReady(string patternName, float cooldown)
+        {
+            float lastUsed = 0f;
+            if (lastAttackTimes.TryGetValue(patternName, out var v))
+            {
+                lastUsed = v;
+            }
+            return (Time.time - lastUsed) >= cooldown;
         }
         #endregion
 

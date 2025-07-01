@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /*
@@ -17,7 +18,7 @@ namespace Game.Enemy
         public float cooldown = 1.0f;
 
         [Header("Summon")]
-        public GameObject summoningPrefab;
+        public List<GameObject> summoningPrefab;
         public int spawnCount = 3;
         public float spawnRadius = 1f;
 
@@ -75,7 +76,9 @@ namespace Game.Enemy
             {
                 Vector2 rand = Random.insideUnitCircle * spawnRadius;
                 Vector3 spawnPos = controller.transform.position + new Vector3(rand.x, 0, rand.y);
-                Instantiate(summoningPrefab, spawnPos, Quaternion.identity);
+
+                int randomIdx = Random.Range(0, summoningPrefab.Count);
+                Instantiate(summoningPrefab[randomIdx], spawnPos, Quaternion.identity);
             }
         }
 

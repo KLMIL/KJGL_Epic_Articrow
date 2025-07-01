@@ -75,7 +75,7 @@ namespace Game.Enemy
 
             // 쿨타임 부여
             controller.lastAttackTimes[key] = Time.time;
-            Debug.LogError("물리공격 쿨타임 부여");
+            //Debug.LogError("물리공격 쿨타임 부여");
         }
 
         public override void OnEnter(EnemyController controller)

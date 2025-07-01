@@ -26,7 +26,7 @@ namespace Game.Enemy
             // 후보 필터링
             var candidates = patternCandidates
                 .Where(p =>
-                    Time.time - p.lastUsedTime >= p.cooldown &&
+                    controller.IsPatternReady(p.patternStateName, p.cooldown) &&
                     currentHpRatio <= p.hpUnlockRatio &&
                     (p.canRepeat || lastPattern == null || p.patternStateName != lastPattern)
                 ).ToList();
@@ -40,7 +40,7 @@ namespace Game.Enemy
 
             // 패턴 가중치 랜덤 선택
             float totalWeight = candidates.Sum(p => p.probability);
-            float r = UnityEngine.Random.value * totalWeight;
+            float r = Random.value * totalWeight;
             float acc = 0f;
 
             foreach (var p in candidates)
@@ -49,7 +49,7 @@ namespace Game.Enemy
                 if (r <= acc)
                 {
                     lastPattern = p.patternStateName;
-                    p.lastUsedTime = Time.time;
+                    controller.lastAttackTimes[p.patternStateName] = Time.time;
 
                     controller.FSM.ChangeState(p.patternStateName);
                     return;
