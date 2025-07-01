@@ -1,5 +1,4 @@
 using UnityEngine;
-using CKT;
 using YSJ;
 using UnityEngine.SceneManagement;
 
@@ -12,11 +11,9 @@ namespace BMC
 
         public PlayerMove PlayerMove { get; private set; }
         public PlayerDash PlayerDash { get; private set; }
-        public PlayerInteract PplayerInteract { get; private set; }
         public PlayerStatus PlayerStatus { get; private set; }
-        //public PlayerAttack PlayerAttack { get; private set; }
+        public PlayerHurt PlayerHurt { get; private set; }
         public CheckPlayerDirection CheckPlayerDirection { get; private set; }
-        public Inventory Inventory { get; private set; }
 
         void Awake()
         {
@@ -32,35 +29,28 @@ namespace BMC
                 Destroy(gameObject);
             }
 
-            PlayerStatus = this.gameObject.GetComponent<PlayerStatus>();
-            CheckPlayerDirection = this.gameObject.GetComponent<CheckPlayerDirection>();
-            PlayerMove = this.gameObject.GetComponent<PlayerMove>();
-            PlayerDash = this.gameObject.GetComponent<PlayerDash>();
-            PplayerInteract = this.gameObject.GetComponent<PlayerInteract>();
-            //PlayerAttack = this.gameObject.GetComponent<PlayerAttack>();
-            Inventory = this.gameObject.GetComponentInChildren<Inventory>();
+            PlayerStatus = GetComponent<PlayerStatus>();
+            PlayerMove = GetComponent<PlayerMove>();
+            PlayerDash = GetComponent<PlayerDash>();
+            PlayerHurt = GetComponent<PlayerHurt>();
+            CheckPlayerDirection = GetComponent<CheckPlayerDirection>();
 
             PlayerStatus.Init();
+            PlayerHurt.Init();
             PlayerDash.DashCoolTime = PlayerStatus.DashCoolTime;
         }
 
         void Update()
         {
-            if(PlayerStatus.IsDead || PlayerStatus.IsStop)
+            if(PlayerHurt.IsDead || PlayerStatus.IsStop)
                 return;
 
             CheckPlayerDirection.CheckCurrentDirection();
-
-            if (Input.GetMouseButtonDown(2)) // 마우스 휠 클릭
-            {
-                Room room = FindAnyObjectByType<Room>();
-                room.RoomClearComplete();
-            }
         }
 
         void FixedUpdate()
         {
-            if (PlayerStatus.IsDead || PlayerStatus.IsStop)
+            if (PlayerHurt.IsDead || PlayerStatus.IsStop)
             {
                 PlayerMove.Stop();
                 return;
@@ -73,13 +63,13 @@ namespace BMC
             }
         }
 
-        // Awake -> OnEnable -> SceneManager.sceneLoaded -> Start 순서로 실행
         void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnPlayerLoadedScene;
             s_instance = null;
         }
 
+        // Awake -> OnEnable -> SceneManager.sceneLoaded -> Start 순서로 실행
         // 씬 로드될 때 플레이어 오브젝트에게 해줘야할 작업
         void OnPlayerLoadedScene(Scene scene, LoadSceneMode mode)
         {
@@ -97,5 +87,16 @@ namespace BMC
         {
             Destroy(gameObject);
         }
+
+        #region 테스트 코드
+        public void TestRoomClear()
+        {
+            if (Input.GetMouseButtonDown(2)) // 마우스 휠 클릭
+            {
+                Room room = FindAnyObjectByType<Room>();
+                room.RoomClearComplete();
+            }
+        }
+        #endregion
     }
 }

@@ -24,7 +24,7 @@ namespace BMC
 
         public void TryDash(Vector2 dashDir)
         {
-            if(PlayerManager.Instance.PlayerStatus.IsDead)
+            if(PlayerManager.Instance.PlayerHurt.IsDead)
                 return;
 
             _dashCoroutine = _dashCoroutine ?? StartCoroutine(DashCoroutine(dashDir));
