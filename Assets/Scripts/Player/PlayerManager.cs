@@ -39,6 +39,8 @@ namespace BMC
             PlayerAttack = this.gameObject.GetComponent<PlayerAttack>();
             CheckPlayerDirection = this.gameObject.GetComponent<CheckPlayerDirection>();
             Inventory = this.gameObject.GetComponentInChildren<Inventory>();
+
+            PlayerStatus.Init();
         }
 
         void Update()

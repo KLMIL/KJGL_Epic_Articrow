@@ -27,7 +27,7 @@ namespace YSJ
 
         #region 기준 스테이터스
         [Header("기준 스테이터스")]
-        float _maxHealth = 100f;        // 최대 체력
+        float _maxHealth = 7f;        // 최대 체력
         float _maxMana = 100f;          // 최대 마나
         float _minRightCoolTime = 0.1f; // 오른손 최소 쿨타임
         float _minRightDamage = 10f;    // 최소 데미지
@@ -68,7 +68,8 @@ namespace YSJ
             {
                 _health = value;
                 _health = Mathf.Clamp(_health, 0, MaxHealth);
-                UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(_health);
+                //UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(_health);
+                UI_InGameEventBus.OnPlayerHeartUpdate?.Invoke();
             }
         }
 
@@ -117,27 +118,23 @@ namespace YSJ
         }
         #endregion
     
-        void Awake()
+        void Update()
+        {
+            // 테스트용
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                TakeDamage(1f);
+                //SpendMana(25f);
+            }
+        }
+
+        public void Init()
         {
             _rb = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             _playerAnimator = GetComponent<PlayerAnimator>();
             OnDeadAction += Die;
-            Init();
-        }
 
-        void Update()
-        {
-            //// 테스트용
-            //if(Input.GetKeyDown(KeyCode.T))
-            //{
-            //    TakeDamage(25f);
-            //    SpendMana(25f);
-            //}
-        }
-
-        public void Init()
-        {
             Health = MaxHealth;
             Mana = MaxMana;
         }
