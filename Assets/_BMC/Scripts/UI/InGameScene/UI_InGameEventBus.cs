@@ -13,6 +13,7 @@ public class UI_InGameEventBus : MonoBehaviour
     public static Action OnShowGameOverCanvas;                  // 게임 오버 화면 표시
 
     // 플레이어, 보스 HP 슬라이더
+    public static Action OnPlayerHeartUpdate;                // 플레이어 하트 업데이트
     public static Action<float> OnPlayerHpSliderValueUpdate;            // 플레이어 HP 슬라이더 값 업데이트
     public static Action<float> OnPlayerHpSliderMaxValueUpdate;         // 플레이어 HP 슬라이더 최대값 업데이트
     public static Action<float> OnPlayerDashCoolTimeSliderValueUpdate;  // 플레이어 대시 쿨타임 슬라이더 값 업데이트
