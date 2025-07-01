@@ -27,7 +27,7 @@ namespace Game.Enemy
         [HideInInspector] public Transform Player;
         [HideInInspector] public Transform Attacker = null;
 
-        [HideInInspector] public EnemyAttackIndicator _attackIndicator;
+        [HideInInspector] public EnemyAttackIndicator AttackIndicator;
 
         Coroutine markingCoroutine;
         Coroutine gravitySurgeCoroutine;
@@ -59,8 +59,8 @@ namespace Game.Enemy
 
             // FSM 생성
             FSM = new EnemyFSMCore(this, Behaviours);
-            _attackIndicator = GetComponentInChildren<EnemyAttackIndicator>(true);
-            if (_attackIndicator == null)
+            AttackIndicator = GetComponentInChildren<EnemyAttackIndicator>(true);
+            if (AttackIndicator == null)
             {
                 Debug.Log($"{gameObject.name}: No AttackIndicator assigned");
             }
@@ -82,22 +82,22 @@ namespace Game.Enemy
                 {
                     if (meleeAttack.meleeAttackMode == MeleeAttackMode.Basic)
                     {
-                        FSM.indicatorLength = meleeAttack.attackRange;
+                        //FSM.indicatorLength = meleeAttack.attackRange;
                     }
                     if (meleeAttack.meleeAttackMode == MeleeAttackMode.Rush)
                     {
-                        FSM.indicatorLength = meleeAttack.rushSpeedMultiply * meleeAttack.rushDuration * Status.moveSpeed;
+                        //FSM.indicatorLength = meleeAttack.rushSpeedMultiply * meleeAttack.rushDuration * Status.moveSpeed;
                     }
                 }
 
                 if (behaviour.action is ProjectileAttackActionSO projectileAttack)
                 {
-                    FSM.indicatorLength = projectileAttack.projectileSpeed * projectileAttack.lifetime;
+                    //FSM.indicatorLength = projectileAttack.projectileSpeed * projectileAttack.lifetime;
                 }
 
                 if (behaviour.action is SpecialAttackActionSO specialAttack)
                 {
-                    FSM.indicatorLength = specialAttack.spawnRadius;
+                    //FSM.indicatorLength = specialAttack.spawnRadius;
                 }
             }
 

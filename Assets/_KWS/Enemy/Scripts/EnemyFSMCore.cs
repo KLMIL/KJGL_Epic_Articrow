@@ -53,12 +53,16 @@ namespace Game.Enemy
 
         // 인디케이터를 위한 공통 변수
         public float indicatorLength = 1f;
+        public Vector2 IndicatorScale = Vector2.one;
 
         // TODO: 블랙홀 파츠를 위한 임시 필드
         public bool isGravitySurge = false;
 
         // AttackReady Action에서 저장할 플레이어(공격할) 위치
         public Vector2 AttackTargetPosition;
+
+        // 인디케이터 위치 조정을 위한 피벗
+        public Vector2 IndicatorPivot = Vector2.zero;
         #endregion
 
 
