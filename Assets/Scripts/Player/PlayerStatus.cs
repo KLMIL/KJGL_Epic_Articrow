@@ -24,7 +24,6 @@ namespace YSJ
 
         [Header("피격")]
         SpriteRenderer _spriteRenderer;
-        TextMeshPro _damageText;
         [field: SerializeField] public bool IsStop { get; private set; }
         public bool IsHurt { get; private set; } // 피격 여부
         float _cameraShakeIntensity = 0.5f;
@@ -38,39 +37,34 @@ namespace YSJ
 
         #region 기준 스테이터스
         [Header("기준 스테이터스")]
-        float _maxHealth = 7f;        // 최대 체력
-        float _maxMana = 100f;          // 최대 마나
-        float _minRightCoolTime = 0.1f; // 오른손 최소 쿨타임
-        float _minRightDamage = 10f;    // 최소 데미지
+        float _defaultMaxHealth = 7f;       // 기본 최대 체력
+        float _defaultMaxMana = 5f;         // 기본 최대 마나
+        float _defaultDashCoolTime = 1f;    // 기본 대시 쿨타임
+        float _defaultMoveSpeed = 6f;       // 기본 이동 속도
 
         public float MaxHealth
         {
-            get => _maxHealth;
-            set
-            {
-                _maxHealth = value;
-            }
+            get => _defaultMaxHealth + OffsetMaxHealth;
         }
-
         public float MaxMana
         {
-            get => _maxMana;
-            set
-            {
-                _maxMana = value;
-                UI_InGameEventBus.OnPlayerMpSliderMaxValueUpdate?.Invoke(_maxMana);
-                UI_InGameEventBus.OnPlayerMpSliderValueUpdate?.Invoke(Mana);
-            }
+            get => _defaultMaxMana + OffsetMaxMana;
+        }
+        public float DashCoolTime
+        {
+            get => _defaultDashCoolTime - OffsetDashCoolTime;
+        }
+        
+        public float MoveSpeed
+        {
+            get => _defaultMoveSpeed + OffsetMoveSpeed;
         }
         #endregion
 
         #region 스테이터스
         [Header("스테이터스")]
-        float _health;                      // 체력
-        float _mana;                        // 마나
-        float _rightCoolTime = 0f;          // 오른손 추가 쿨타임
-        float _rightDamage = 0f;           // 오른손 추가 데미지
-        float _spendManaOffsetAmount = 0f;  // 마나 소모량 감소
+        float _health;              // 체력
+        float _mana;                // 마나
 
         public float Health
         {
@@ -79,11 +73,10 @@ namespace YSJ
             {
                 _health = value;
                 _health = Mathf.Clamp(_health, 0, MaxHealth);
-                //UI_InGameEventBus.OnPlayerHpSliderValueUpdate?.Invoke(_health);
+                UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
                 UI_InGameEventBus.OnPlayerHeartUpdate?.Invoke();
             }
         }
-
         public float Mana
         {
             get
@@ -94,39 +87,55 @@ namespace YSJ
             {
                 _mana = value;
                 _mana = Mathf.Clamp(_mana, 0, MaxMana);
-                UI_InGameEventBus.OnPlayerMpSliderValueUpdate?.Invoke(_mana);
+                UI_InGameEventBus.OnPlayerManaUpdate?.Invoke();
+            }
+        }
+        #endregion
+
+        #region 추가량
+        float _offsetMaxHealth;
+        float _offsetMaxMana;
+        float _offsetDashCoolTime;
+        float _offsetMoveSpeed;
+
+        public float OffsetMaxHealth 
+        {
+            get => _offsetMaxHealth;
+            set
+            {
+                _offsetMaxHealth = value;
+                UI_InGameEventBus.OnPlayerHeartUpdate?.Invoke();
+            }
+        }
+        public float OffsetMaxMana 
+        {
+            get => _offsetMaxMana; 
+            set
+            {
+                _offsetMaxMana = value;
+                UI_InGameEventBus.OnPlayerManaUpdate?.Invoke();
+            }
+        }
+        public float OffsetDashCoolTime 
+        { 
+            get => _offsetDashCoolTime;
+            set
+            {
+                _offsetDashCoolTime = value;
+                PlayerManager.Instance.PlayerDash.DashCoolTime = DashCoolTime;
+                UI_InGameEventBus.OnPlayerDashCoolTimeMaxValueUpdate?.Invoke(DashCoolTime);
+                UI_InGameEventBus.OnPlayerDashCoolTimeSliderValueUpdate?.Invoke(DashCoolTime);
+            }
+        }
+        public float OffsetMoveSpeed
+        {
+            get => _offsetMoveSpeed;
+            set
+            {
+                _offsetMoveSpeed = value;
             }
         }
 
-        public float RightCoolTime
-        {
-            get => _rightCoolTime;
-            set
-            {
-                _rightCoolTime = value;
-                _rightCoolTime = Mathf.Clamp(_rightCoolTime, _minRightCoolTime, _rightCoolTime);
-            }
-        }
-
-        public float RightDamage
-        {
-            get => _rightDamage;
-            set
-            {
-                _rightDamage = value;
-                _rightDamage = Mathf.Clamp(_rightDamage, _minRightDamage, _rightDamage);
-            }
-        }
-
-        public float SpendManaOffsetAmount
-        {
-            get => _spendManaOffsetAmount;
-            set
-            {
-                _spendManaOffsetAmount = value;
-                _spendManaOffsetAmount = Mathf.Clamp(_spendManaOffsetAmount, 0f, float.MaxValue);
-            }
-        }
         #endregion
 
         // 테스트용
@@ -137,9 +146,11 @@ namespace YSJ
             // 테스트용
             if (Input.GetKeyDown(KeyCode.T))
             {
-                StartDebuffCoroutine(PlayerState.Stun, 1f);
+                //StartDebuffCoroutine(PlayerState.Stun, 1f);
                 TakeDamage(1f);
-                //SpendMana(25f);
+                //OffsetMaxHealth += 2f;
+                //OffsetDashCoolTime += 0.1f;
+                //SpendMana(1f);
             }
         }
 
@@ -165,14 +176,10 @@ namespace YSJ
         // 마나 소비
         public bool SpendMana(float amount)
         {
-            // 마나 소비량 줄여주는 오프셋 적용
-            float spendAmount = Mathf.Max(amount - _spendManaOffsetAmount, 0f);
-
-            if (Mana < spendAmount)
+            if (Mana < amount)
                 return false;
 
-            Mana += -spendAmount;
-            //UpdateMana(-amount);
+            Mana += -amount;
             return true;
         }
         #endregion
@@ -213,8 +220,7 @@ namespace YSJ
             }
 
             CurrentState |= PlayerState.Hurt;
-            UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
-            //ShowDamageText(damage);
+            
             Health -= damage;
             StartCoroutine(InvincibleCoroutine(_invincibleTime));
             GameManager.Instance.CameraController.ShakeCamera(_cameraShakeIntensity, _cameraShakeTime);
@@ -257,30 +263,6 @@ namespace YSJ
                 }
             }
             _spriteRenderer.color = Color.white; // 색상 복구
-        }
-
-        // 데미지 텍스트 띄우기
-        void ShowDamageText(float damage)
-        {
-            /*TextMeshPro damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-            damageText.transform.position = transform.position;
-            damageText.text = damage.ToString();*/
-
-            // 대미지 부여 텍스트
-            if (_damageText != null && _damageText.gameObject.activeInHierarchy)
-            {
-                _damageText.text = (float.Parse(_damageText.text) + damage).ToString();
-
-                Color color = _damageText.color;
-                color.a = 1;
-                _damageText.color = color;
-            }
-            else
-            {
-                _damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-                _damageText.text = damage.ToString("F0");
-            }
-            _damageText.transform.position = this.transform.position + this.transform.up;
         }
 
         // 사망

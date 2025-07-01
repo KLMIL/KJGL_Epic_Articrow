@@ -12,13 +12,13 @@ namespace BMC
 
         public override void Apply()
         {
-            PlayerManager.Instance.PlayerStatus.RightDamage += _amount;
+            //PlayerManager.Instance.PlayerStatus.RightDamage += _amount;
             Debug.LogWarning($"추가 데미지 {_amount} 적용");
         }
 
         public override void Remove()
         {
-            PlayerManager.Instance.PlayerStatus.RightDamage -= _amount;
+            //PlayerManager.Instance.PlayerStatus.RightDamage -= _amount;
             Debug.LogWarning($"추가 데미지 {_amount} 해제");
         }
     }

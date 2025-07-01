@@ -12,7 +12,7 @@ namespace BMC
         Coroutine _dashCoroutine;
         float _dashSpeed = 14f;
         float _dashTime = 0.15f;
-        public float DashCoolTime { get; private set; } = 1f;
+        public float DashCoolTime { get; set; }
         [field: SerializeField] public bool IsDash { get; private set; } = false;
 
         void Start()

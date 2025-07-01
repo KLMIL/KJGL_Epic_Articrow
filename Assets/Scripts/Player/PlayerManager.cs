@@ -32,15 +32,16 @@ namespace BMC
                 Destroy(gameObject);
             }
 
+            PlayerStatus = this.gameObject.GetComponent<PlayerStatus>();
+            CheckPlayerDirection = this.gameObject.GetComponent<CheckPlayerDirection>();
             PlayerMove = this.gameObject.GetComponent<PlayerMove>();
             PlayerDash = this.gameObject.GetComponent<PlayerDash>();
             PplayerInteract = this.gameObject.GetComponent<PlayerInteract>();
-            PlayerStatus = this.gameObject.GetComponent<PlayerStatus>();
             //PlayerAttack = this.gameObject.GetComponent<PlayerAttack>();
-            CheckPlayerDirection = this.gameObject.GetComponent<CheckPlayerDirection>();
             Inventory = this.gameObject.GetComponentInChildren<Inventory>();
 
             PlayerStatus.Init();
+            PlayerDash.DashCoolTime = PlayerStatus.DashCoolTime;
         }
 
         void Update()
