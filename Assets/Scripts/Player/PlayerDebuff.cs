@@ -84,10 +84,10 @@ namespace BMC
         // 화상(Burn) 디버프 효과: 1초마다 5 데미지
         private IEnumerator BurnEffectCoroutine()
         {
-            var status = GetComponent<PlayerStatus>();
+            var hurt = GetComponent<PlayerHurt>();
             while (true)
             {
-                status?.TakeDamage(5);
+                hurt?.TakeDamage(5);
                 yield return new WaitForSeconds(1f);
             }
         }

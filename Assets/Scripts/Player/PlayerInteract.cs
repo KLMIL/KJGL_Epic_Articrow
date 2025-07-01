@@ -41,11 +41,11 @@ namespace CKT
                 if (iInteractable.ItemType == ItemType.Parts)
                 {
                     //Debug.Log("4");
-                    if (!BMC.PlayerManager.Instance.Inventory.CheckInventorySlotFull())
-                    {
-                        //Debug.Log("5");
-                        iInteractable.Interact(null);
-                    }
+                    //if (!BMC.PlayerManager.Instance.Inventory.CheckInventorySlotFull())
+                    //{
+                    //    //Debug.Log("5");
+                    //    iInteractable.Interact(null);
+                    //}
                 }
                 else if (iInteractable.ItemType == ItemType.Artifact)
                 {

@@ -8,8 +8,8 @@ namespace CKT
         {
             base.Init();
 
-            BMC.PlayerManager.Instance.Inventory.OnUpdateInventoryListActionT1.SingleRegister((list) => base.UpdateItemSlotList(list));
-            BMC.PlayerManager.Instance.Inventory.GetSlotCountInt.SingleRegister(() => base._dropAreas.Length);
+            //BMC.PlayerManager.Instance.Inventory.OnUpdateInventoryListActionT1.SingleRegister((list) => base.UpdateItemSlotList(list));
+            //BMC.PlayerManager.Instance.Inventory.GetSlotCountInt.SingleRegister(() => base._dropAreas.Length);
             YSJ.Managers.UI.OnAddInventorySlotActionT1.SingleRegister((obj) => AddInventorySlot(base._dropAreas, obj));
         }
 
@@ -41,7 +41,7 @@ namespace CKT
                 item.transform.SetParent(newParent);
                 item.GetComponent<RectTransform>().position = newParent.GetComponent<RectTransform>().position;
 
-                BMC.PlayerManager.Instance.Inventory.InvokeUpdateList();
+                //BMC.PlayerManager.Instance.Inventory.InvokeUpdateList();
             }
             else
             {

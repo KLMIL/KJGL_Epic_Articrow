@@ -12,7 +12,7 @@ namespace BMC
         Coroutine _dashCoroutine;
         float _dashSpeed = 14f;
         float _dashTime = 0.15f;
-        public float DashCoolTime { get; private set; } = 1f;
+        public float DashCoolTime { get; set; }
         [field: SerializeField] public bool IsDash { get; private set; } = false;
 
         void Start()
@@ -24,7 +24,7 @@ namespace BMC
 
         public void TryDash(Vector2 dashDir)
         {
-            if(PlayerManager.Instance.PlayerStatus.IsDead)
+            if(PlayerManager.Instance.PlayerHurt.IsDead)
                 return;
 
             _dashCoroutine = _dashCoroutine ?? StartCoroutine(DashCoroutine(dashDir));

@@ -38,7 +38,7 @@ namespace CKT
             {
                 Debug.Log("아이템 버리기");
                 GetComponent<ImageParts>().ThrowAway();
-                BMC.PlayerManager.Instance.Inventory.InvokeUpdateList();
+                //BMC.PlayerManager.Instance.Inventory.InvokeUpdateList();
             }
 
             _image.raycastTarget = true;

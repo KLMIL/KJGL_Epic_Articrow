@@ -27,7 +27,7 @@ namespace BMC
 
         void OnDestroy()
         {
-            UI_InGameEventBus.OnPlayerHpSliderValueUpdate = null;
+            //UI_InGameEventBus.OnPlayerHpSliderValueUpdate = null;
         }
     }
 }

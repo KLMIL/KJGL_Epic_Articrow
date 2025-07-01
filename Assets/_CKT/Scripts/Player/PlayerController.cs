@@ -111,10 +111,10 @@ namespace CKT
             {
                 if (iInteractable.ItemType == ItemType.Parts)
                 {
-                    if (!BMC.PlayerManager.Instance.Inventory.CheckInventorySlotFull())
-                    {
-                        iInteractable.Interact(null);
-                    }
+                    //if (!BMC.PlayerManager.Instance.Inventory.CheckInventorySlotFull())
+                    //{
+                    //    iInteractable.Interact(null);
+                    //}
                 }
                 else if (iInteractable.ItemType == ItemType.Artifact)
                 {

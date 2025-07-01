@@ -130,7 +130,7 @@ namespace CKT
             _img.raycastTarget = true;
             _previousParent = null;
 
-            BMC.PlayerManager.Instance.Inventory.InvokeUpdateList();
+            //BMC.PlayerManager.Instance.Inventory.InvokeUpdateList();
         }
         #endregion
     }

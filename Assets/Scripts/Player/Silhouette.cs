@@ -1,3 +1,4 @@
+using BMC;
 using System.Collections.Generic;
 using UnityEngine;
 using YSJ;
@@ -27,7 +28,7 @@ public class Silhouette : MonoBehaviour
     void Start()
     {
         CreateSilhouette();
-        PlayerStatus.OnDeadAction += Clear; // 플레이어가 죽으면 실루엣 정리
+        PlayerHurt.OnDeadAction += Clear; // 플레이어가 죽으면 실루엣 정리
     }
 
     // 실루엣 생성

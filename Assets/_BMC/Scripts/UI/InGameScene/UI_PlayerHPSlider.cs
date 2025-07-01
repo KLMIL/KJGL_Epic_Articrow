@@ -6,8 +6,8 @@ namespace BMC
     {
         void Start()
         {
-            UI_InGameEventBus.OnPlayerHpSliderMaxValueUpdate = base.SetMaxValue;
-            UI_InGameEventBus.OnPlayerHpSliderValueUpdate = base.UpdateSlider;
+            //UI_InGameEventBus.OnPlayerHpSliderMaxValueUpdate = base.SetMaxValue;
+            //UI_InGameEventBus.OnPlayerHpSliderValueUpdate = base.UpdateSlider;
             PlayerStatus playerStatus = PlayerManager.Instance.PlayerStatus;
             base.Init(playerStatus.MaxHealth);
         }

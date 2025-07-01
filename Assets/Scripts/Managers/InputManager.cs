@@ -226,7 +226,7 @@ public class InputManager
         OnInteractAction = null;
         //OnInventoryAction = null;
         //OnLeftHandAction = null;
-        OnRightHandAction = null;
+        //OnRightHandAction = null;
         OnPauseAction = null;
     }
 
