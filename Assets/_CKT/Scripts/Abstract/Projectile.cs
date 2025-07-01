@@ -19,9 +19,9 @@ namespace CKT
 
             _penetration = (isCreateFromPlayer) ? _artifactSO.Penetration : _artifactSO.Penetration + 1;
 
-            float existTime = _artifactSO.ExistTime - BMC.PlayerManager.Instance.PlayerStatus.RightCoolTime;
-            existTime = Mathf.Clamp(existTime, 0, float.MaxValue);
-            _disableCoroutine = StartCoroutine(DisableCoroutine(existTime));
+            //float existTime = _artifactSO.ExistTime - BMC.PlayerManager.Instance.PlayerStatus.RightCoolTime;
+            //existTime = Mathf.Clamp(existTime, 0, float.MaxValue);
+            //_disableCoroutine = StartCoroutine(DisableCoroutine(existTime));
 
             _moveCoroutine = StartCoroutine(MoveCoroutine(_artifactSO.MoveSpeed));
         }
@@ -56,9 +56,9 @@ namespace CKT
             IDamagable iDamageable = _target.GetComponent<IDamagable>();
             if (iDamageable != null)
             {
-                float totalDamage = _artifactSO.Damage + BMC.PlayerManager.Instance.PlayerStatus.RightDamage;
+                //float totalDamage = _artifactSO.Damage + BMC.PlayerManager.Instance.PlayerStatus.RightDamage;
                 float damageRate = BMC.PlayerManager.Instance.Inventory.SkillManager.DamageRate;
-                iDamageable.TakeDamage(totalDamage * damageRate);
+                //iDamageable.TakeDamage(totalDamage * damageRate);
 
                 //true면 플레이가 호출한 Projectile,  false면 HitSkill에서 생성된 Projectile
                 if (_isCreateFromPlayer)

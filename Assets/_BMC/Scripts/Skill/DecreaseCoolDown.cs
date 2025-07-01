@@ -12,13 +12,13 @@ namespace BMC
 
         public override void Apply()
         {
-            PlayerManager.Instance.PlayerStatus.RightCoolTime += -_amount;
+            //PlayerManager.Instance.PlayerStatus.RightCoolTime += -_amount;
             Debug.LogWarning("쿨타임 감소");
         }
 
         public override void Remove()
         {
-            PlayerManager.Instance.PlayerStatus.RightCoolTime += _amount;
+            //PlayerManager.Instance.PlayerStatus.RightCoolTime += _amount;
             Debug.LogWarning("쿨타임 증가");
         }
     }

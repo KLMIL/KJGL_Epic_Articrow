@@ -7,7 +7,7 @@ namespace YSJ
         Rigidbody2D _rb;
         PlayerStatus _playerStatus;
 
-        float _moveSpeed = 6f;
+        float _moveSpeed;
         float _dampScale = 0.5f;
 
         void Start ()
@@ -18,6 +18,7 @@ namespace YSJ
 
         public void Move()
         {
+            _moveSpeed = _playerStatus.MoveSpeed;
             if (Managers.Input.MoveInput == Vector2.zero)
             {
                 _rb.linearVelocity *= _dampScale;
