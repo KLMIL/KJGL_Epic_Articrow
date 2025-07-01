@@ -52,14 +52,14 @@ public class Artifact_YSJ : MonoBehaviour
     public float Added_NormalAttackSpreadAngle { get; set; } // 일반 공격 추가 발사 각도
 
     // 스킬공격
-    public float Added_SkillAttackPower { protected get; set; }
-    public float Added_SkillAttackCoolTime { protected get; set; }
-    public float Added_SkillAttackLife { protected get; set; }
-    public float Added_SkillBulletSpeed { protected get; set; }
-    public float Added_SkillAttackStartDelay { protected get; set; }
-    public float Added_SkillAttackScale { protected get; set; }
-    public float Added_SkillAttackCount { protected get; set; }
-    public float Added_SkillAttackSpreadAngle { protected get; set; }
+    public float Added_SkillAttackPower { get; set; }
+    public float Added_SkillAttackCoolTime { get; set; }
+    public float Added_SkillAttackLife { get; set; }
+    public float Added_SkillBulletSpeed { get; set; }
+    public float Added_SkillAttackStartDelay { get; set; }
+    public float Added_SkillAttackScale { get; set; }
+    public float Added_SkillAttackCount { get; set; }
+    public float Added_SkillAttackSpreadAngle { get; set; }
     #endregion
     #region [아티팩트 현재 능력치 변수들]
     // 아티팩트의 현재 능력치

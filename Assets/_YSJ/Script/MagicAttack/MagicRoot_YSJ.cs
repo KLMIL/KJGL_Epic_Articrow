@@ -13,7 +13,7 @@ public class MagicRoot_YSJ : MonoBehaviour
     public Action<Artifact_YSJ, GameObject> FlyingAction;
     public Action<Artifact_YSJ, GameObject, GameObject> OnHitAction;
 
-    public void NormalAttackInitialize(Artifact_YSJ ownerArtifact)
+    public virtual void NormalAttackInitialize(Artifact_YSJ ownerArtifact)
     {
         this.ownerArtifact = ownerArtifact;
 

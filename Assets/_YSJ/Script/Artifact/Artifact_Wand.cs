@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class TestArtifact_YSJ : Artifact_YSJ
+public class Artifact_Wand : Artifact_YSJ
 {
     private void Start()
     {

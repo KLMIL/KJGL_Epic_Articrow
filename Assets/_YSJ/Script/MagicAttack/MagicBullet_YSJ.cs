@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TestBullet : MagicRoot_YSJ
+public class MagicBullet_YSJ : MagicRoot_YSJ
 {
     Rigidbody2D rb2d;
 
