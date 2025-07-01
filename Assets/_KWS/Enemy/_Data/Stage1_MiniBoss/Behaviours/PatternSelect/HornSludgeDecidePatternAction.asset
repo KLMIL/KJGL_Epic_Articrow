@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18de3b4cd5210ae4a8e7b1e4bc5cb87c, type: 3}
+  m_Name: HornSludgeDecidePatternAction
+  m_EditorClassIdentifier: 
+  patternCandidates:
+  - patternStateName: SmashAttackReady
+    probability: 0.6
+    cooldown: 1.5
+    canRepeat: 1
+    hpUnlockRatio: 1
+    lastUsedTime: 0
+  - patternStateName: ProjectileAttackReady
+    probability: 0.3
+    cooldown: 2
+    canRepeat: 0
+    hpUnlockRatio: 1
+    lastUsedTime: 0
+  - patternStateName: SpawnUnderlingReady
+    probability: 0.1
+    cooldown: 4
+    canRepeat: 0
+    hpUnlockRatio: 0.3
+    lastUsedTime: 0

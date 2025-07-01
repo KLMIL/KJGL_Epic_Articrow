@@ -11,6 +11,8 @@ namespace Game.Enemy
         [SerializeField] EnemyStatusSO _statusOrigin;
         [HideInInspector] public EnemyStatusSO Status;
 
+        public EnemyStatusSO StatusOrigin { get; private set; }
+
         [Header("Components")]
         public SpriteRenderer SpriteRenderer;
         [HideInInspector] public EnemyFSMCore FSM;
