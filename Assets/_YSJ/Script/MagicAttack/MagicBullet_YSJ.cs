@@ -11,9 +11,9 @@ public class MagicBullet_YSJ : MagicRoot_YSJ
 
     private void Update()
     {
-        rb2d.linearVelocity = transform.right * Speed;
-
         FlyingAction?.Invoke(ownerArtifact, gameObject);
+
+        rb2d.linearVelocity = transform.right * Speed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

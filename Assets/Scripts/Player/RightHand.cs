@@ -11,7 +11,6 @@ namespace YSJ
             Managers.Input.OnLeftHandActionEnd += TryArtifactNormalAttackCancle;
             Managers.Input.OnRightHandActionEnd += TryArtifactSkillAttackCancle;
         }
-
         private void OnDisable()
         {
             Managers.Input.OnLeftHandAction -= TryArtifactNormalAttackTrigger;

@@ -97,12 +97,14 @@ public class Artifact_YSJ : MonoBehaviour
     public GameObject NormalAttackPrefab;
     public GameObject SkillAttackPrefab;
 
-    // (노말) 패시브, 발사 직후 액션
-    public Action<Artifact_YSJ> PessiveNormalAttack; //<발사를 한 아티팩트>
+    // (노말) 패시브, 발사 전, 발사 직후 액션
+    public Action<Artifact_YSJ> PessiveNormalAttack; //<발사하는 아티팩트>
+    public Action<Artifact_YSJ> BeforeFireNormalAttack; // <발사하는 아티팩트>
     public Action<Artifact_YSJ, GameObject> AfterFireNormalAttack; // <발사를 한 아티팩트, 생성된 공격 오브젝트>
 
-    // (스킬) 쏘기 전, 쏜 후, 적중 시 액션
+    // (스킬) 패시브, 발사 전, 발사 직후 액션
     public Action<Artifact_YSJ> PessiveSkillAttack;
+    public Action<Artifact_YSJ> BeforeFireSkillAttack;
     public Action<Artifact_YSJ, GameObject> AfterFireSkillAttack;
 
     // 코루틴 저장용
@@ -249,10 +251,11 @@ public class Artifact_YSJ : MonoBehaviour
                 // 스탯 계산
                 SkillAttackCountCurrentStatus();
 
-                // 발사 가능하면 발사시도
+                // 발사 가능하면 발사시도(여기서 마나체크를 해야함)
                 if (true)
                 {
                     // 선딜 타이머 시작
+                    
                     yield return new WaitForSeconds(Current_SkillAttackStartDelay);
 
                     // 공격 생성

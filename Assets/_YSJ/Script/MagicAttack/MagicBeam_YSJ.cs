@@ -8,6 +8,9 @@ public class MagicBeam_YSJ : MagicRoot_YSJ
     {
         lineRenderer = GetComponent<LineRenderer>();
         layerMask = LayerMask.GetMask("EnemyHurtBox", "Obstacle");
+
+        lineRenderer.startWidth = 0.2f;
+        lineRenderer.endWidth = 0.2f;
     }
 
     private void Start()
@@ -21,6 +24,10 @@ public class MagicBeam_YSJ : MagicRoot_YSJ
         {
             Vector2 hitpoint = hit.point;
             lineRenderer.SetPosition(1, hitpoint);
+            if (hit.collider.TryGetComponent<IDamagable>(out IDamagable damagable)) 
+            {
+                damagable.TakeDamage(AttackPower);
+            }
         }
         else 
         {
@@ -30,6 +37,16 @@ public class MagicBeam_YSJ : MagicRoot_YSJ
 
     private void Update()
     {
-        
+        FlyingAction?.Invoke(ownerArtifact, gameObject);
+
+        Color startColor = lineRenderer.startColor;
+
+        startColor.a = Mathf.Lerp(1, 0, elapsedTime / LifeTime);
+
+        lineRenderer.startColor = startColor;
+        lineRenderer.endColor = startColor;
+
+        lineRenderer.startWidth = Mathf.Lerp(transform.localScale.x, 0f, elapsedTime / LifeTime);
+        lineRenderer.endWidth = Mathf.Lerp(transform.localScale.x, 0f, elapsedTime / LifeTime);
     }
 }
