@@ -1,9 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-public class ImageParts_FireSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
+
+public class ImageParts_HitSkill_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
 {
-    public override string partsName => "FireSkill_NormalAttackPower_1";
+    public override string partsName => "HitSkill_MoveSpeed_1";
 
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
@@ -11,8 +12,6 @@ public class ImageParts_FireSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIma
 
     public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
-        StopBuff();
-        _normalAttackPowerCoroutine = StartCoroutine(AttackPowerCoroutine(fireArtifact));
     }
 
     public void SkillAttackFlying(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
@@ -21,23 +20,25 @@ public class ImageParts_FireSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIma
 
     public void SKillAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
+        StopBuff();
+        _moveSpeedUpCoroutine = StartCoroutine(MoveSpeedUpCoroutine(fireArtifact));
     }
 
     public void SkillAttackPessive(Artifact_YSJ fireArtifact)
     {
     }
 
-    #region [5초 동안 일반 공격 피해량 증가]
+    #region [스킬 공격 적중 시 5초간 이동 속도 15% 증가]
     void OnDisable()
     {
         StopBuff();
     }
 
     Artifact_YSJ _fireArtifact = null;
-    Coroutine _normalAttackPowerCoroutine = null;
+    Coroutine _moveSpeedUpCoroutine = null;
     float _duration = 5f;
 
-    IEnumerator AttackPowerCoroutine(Artifact_YSJ fireArtifact)
+    IEnumerator MoveSpeedUpCoroutine(Artifact_YSJ fireArtifact)
     {
         _fireArtifact = fireArtifact;
         StartBuff();
@@ -47,33 +48,35 @@ public class ImageParts_FireSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIma
         EndBuff();
         _fireArtifact = null;
 
-        _normalAttackPowerCoroutine = null;
+        _moveSpeedUpCoroutine = null;
     }
 
     void StartBuff()
     {
-        float add = 0.15f * _fireArtifact.Default_NormalAttackPower;
+        YSJ.PlayerStatus playerStatus = BMC.PlayerManager.Instance.PlayerStatus;
+        float add = 0.15f * playerStatus.MoveSpeed;
 
-        _fireArtifact.Added_NormalAttackPower += add;
+        playerStatus.OffsetMoveSpeed += add;
         Debug.Log($"[ckt] {partsName} StartBuff {add}");
     }
 
     void EndBuff()
     {
-        float add = 0.15f * _fireArtifact.Default_NormalAttackPower;
+        YSJ.PlayerStatus playerStatus = BMC.PlayerManager.Instance.PlayerStatus;
+        float add = 0.15f * playerStatus.MoveSpeed;
 
-        _fireArtifact.Added_NormalAttackPower -= add;
+        playerStatus.OffsetMoveSpeed -= add;
         Debug.Log($"[ckt] {partsName} EndBuff {add}");
     }
 
     void StopBuff()
     {
-        if (_normalAttackPowerCoroutine != null)
+        if (_moveSpeedUpCoroutine != null)
         {
-            StopCoroutine(_normalAttackPowerCoroutine);
+            StopCoroutine(_moveSpeedUpCoroutine);
             EndBuff();
             _fireArtifact = null;
-            _normalAttackPowerCoroutine = null;
+            _moveSpeedUpCoroutine = null;
         }
     }
     #endregion

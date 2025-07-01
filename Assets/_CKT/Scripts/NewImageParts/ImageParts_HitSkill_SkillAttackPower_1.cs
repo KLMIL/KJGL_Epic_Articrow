@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ImageParts_HitSkill_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
@@ -23,9 +24,10 @@ public class ImageParts_HitSkill_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImage
         if (sqrDistance >= (_ThresholdDistance * _ThresholdDistance))
         {
             MagicRoot_YSJ magicRoot = spawnedAttack.GetComponent<MagicRoot_YSJ>();
-            magicRoot.AttackPower *= 1.15f;
+            float add = 0.15f * magicRoot.AttackPower;
 
-            Debug.Log($"[ckt] {partsName} {magicRoot.AttackPower}");
+            magicRoot.AttackPower += add;
+            Debug.Log($"[ckt] {partsName} {add}");
         }
     }
 

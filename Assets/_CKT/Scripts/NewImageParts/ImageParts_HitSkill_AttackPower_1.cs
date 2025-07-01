@@ -52,18 +52,22 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
 
     void StartBuff()
     {
-        _fireArtifact.Added_NormalAttackPower += 0.15f * _fireArtifact.Default_NormalAttackPower;
-        _fireArtifact.Added_SkillAttackPower += 0.15f * _fireArtifact.Default_SkillAttackPower;
-
-        Debug.Log($"[ckt] {partsName} StartBuff {_fireArtifact.Added_NormalAttackPower}_{_fireArtifact.Added_SkillAttackPower}");
+        float addNormal = 0.15f * _fireArtifact.Default_NormalAttackPower;
+        float addSkill = 0.15f * _fireArtifact.Default_SkillAttackPower;
+        
+        _fireArtifact.Added_NormalAttackPower += addNormal;
+        _fireArtifact.Added_SkillAttackPower += addSkill;
+        Debug.Log($"[ckt] {partsName} StartBuff {addNormal}_{addSkill}");
     }
 
     void EndBuff()
     {
-        _fireArtifact.Added_NormalAttackPower -= 0.15f * _fireArtifact.Default_NormalAttackPower;
-        _fireArtifact.Added_SkillAttackPower -= 0.15f * _fireArtifact.Default_SkillAttackPower;
-
-        Debug.Log($"[ckt] {partsName} EndBuff {_fireArtifact.Added_NormalAttackPower}_{_fireArtifact.Added_SkillAttackPower}");
+        float addNormal = 0.15f * _fireArtifact.Default_NormalAttackPower;
+        float addSkill = 0.15f * _fireArtifact.Default_SkillAttackPower;
+        
+        _fireArtifact.Added_NormalAttackPower -= addNormal;
+        _fireArtifact.Added_SkillAttackPower -= addSkill;
+        Debug.Log($"[ckt] {partsName} EndBuff {addNormal}_{addSkill}");
     }
 
     void StopBuff()

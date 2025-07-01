@@ -22,12 +22,10 @@ public class ImageParts_Passive_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNo
 
     public void NormalAttackPessive(Artifact_YSJ fireArtifact)
     {
-        //일반 공격 쿨타임 증가
-        fireArtifact.Added_NormalAttackCoolTime += 0.1f * fireArtifact.Default_NormalAttackCoolTime;
+        float addNormal = 0.1f * fireArtifact.Default_NormalAttackCoolTime;
 
+        fireArtifact.Added_NormalAttackCoolTime += addNormal;
         //TODO : ImageParts_IncreaseManaGain 마나 획득량 증가
-
-
         Debug.Log($"[ckt] {partsName} {fireArtifact.Added_NormalAttackCoolTime}_{""}");
     }
 }

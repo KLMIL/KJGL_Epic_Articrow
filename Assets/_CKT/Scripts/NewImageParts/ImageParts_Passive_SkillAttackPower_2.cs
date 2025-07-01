@@ -32,8 +32,10 @@ public class ImageParts_Passive_SkillAttackPower_2 : ImagePartsRoot_YSJ, IImageP
         yield return null;
 
         //최종 스킬 시전 시간의 30%만큼 스킬 공격 피해 증가
-        fireArtifact.Added_SkillAttackPower += 0.3f * fireArtifact.Current_SkillAttackStartDelay;
-        Debug.Log($"[ckt] {partsName} {fireArtifact.Added_SkillAttackPower}");
+        float add = 0.3f * fireArtifact.Current_SkillAttackStartDelay;
+
+        fireArtifact.Added_SkillAttackPower += add;
+        Debug.Log($"[ckt] {partsName} {add}");
     }
     #endregion
 }

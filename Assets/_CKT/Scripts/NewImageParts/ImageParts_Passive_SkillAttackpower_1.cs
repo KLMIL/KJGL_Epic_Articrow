@@ -22,12 +22,11 @@ public class ImageParts_Passive_SkillAttackpower_1 : ImagePartsRoot_YSJ, IImageP
 
     public void SkillAttackPessive(Artifact_YSJ fireArtifact)
     {
-        //스킬 시전 시간 증가
-        fireArtifact.Added_SkillAttackStartDelay += 0.15f;
-        
-        //스킬 공격 피해 증가
-        fireArtifact.Added_SkillAttackPower += 0.15f * fireArtifact.Default_NormalAttackPower;
+        float addDelay = 0.15f;
+        float addPower = 0.15f * fireArtifact.Default_NormalAttackPower;
 
-        Debug.Log($"[ckt] {partsName} {fireArtifact.Added_SkillAttackStartDelay}_{fireArtifact.Added_SkillAttackPower}");
+        fireArtifact.Added_SkillAttackStartDelay += addDelay;
+        fireArtifact.Added_SkillAttackPower += addPower;
+        Debug.Log($"[ckt] {partsName} {addDelay}_{addPower}");
     }
 }
