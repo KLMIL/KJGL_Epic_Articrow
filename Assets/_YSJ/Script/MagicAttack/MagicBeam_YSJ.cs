@@ -18,15 +18,31 @@ public class MagicBeam_YSJ : MagicRoot_YSJ
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, transform.position);
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, Speed, layerMask);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, transform.right, Speed, layerMask);
 
-        if (hit)
+        if (hits.Length != 0)
         {
-            Vector2 hitpoint = hit.point;
-            lineRenderer.SetPosition(1, hitpoint);
-            if (hit.collider.TryGetComponent<IDamagable>(out IDamagable damagable)) 
+            Vector2 hitpoint = Vector2.zero;
+
+            // DestroyCount만큼 적 때리기
+            for (int i = 0; i < hits.Length; i++)
             {
-                damagable.TakeDamage(AttackPower);
+                if (i == DestroyCount) break;
+
+                hitpoint = hits[i].point;
+                if (hits[i].collider.TryGetComponent<IDamagable>(out IDamagable damagable))
+                {
+                    damagable.TakeDamage(AttackPower);
+                }
+            }
+
+            if (hits.Length < DestroyCount) 
+            {
+                lineRenderer.SetPosition(1, transform.position + transform.right * Speed);
+            }
+            else 
+            {
+                lineRenderer.SetPosition(1, hitpoint);
             }
         }
         else 

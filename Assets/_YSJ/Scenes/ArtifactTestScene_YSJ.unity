@@ -163,37 +163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a82c429d4029c344b05289076d7f89f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &58525866
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 58525867}
-  m_Layer: 30
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &58525867
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 58525866}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 190394812}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &126633378
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,8 +368,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 58525867}
+  m_Children: []
   m_Father: {fileID: 1096786371}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &190394813
@@ -444,8 +412,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1364450335}
+  m_Children: []
   m_Father: {fileID: 1083160678}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &226756948
@@ -513,7 +480,8 @@ PrefabInstance:
       value: Artifact_Wand
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6818528668948391610, guid: e03e752ff60143946b204197e57c547f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e03e752ff60143946b204197e57c547f, type: 3}
@@ -731,6 +699,7 @@ MonoBehaviour:
   Default_SkillAttackSpreadAngle: 0
   MaxSlotCount: 3
   StatPoint: 15
+  currentHand: {fileID: 0}
   firePosition: {fileID: 685851369}
   NormalAttackPrefab: {fileID: 5213770336673385342, guid: b30c08121724d5b40badebf804a18220, type: 3}
   SkillAttackPrefab: {fileID: 5213770336673385342, guid: 5c531af23addf41428ad38ce43911d23, type: 3}
@@ -945,6 +914,7 @@ MonoBehaviour:
   Default_SkillAttackSpreadAngle: 0
   MaxSlotCount: 3
   StatPoint: 15
+  currentHand: {fileID: 0}
   firePosition: {fileID: 1821692157}
   NormalAttackPrefab: {fileID: 5213770336673385342, guid: b30c08121724d5b40badebf804a18220, type: 3}
   SkillAttackPrefab: {fileID: 5213770336673385342, guid: 5c531af23addf41428ad38ce43911d23, type: 3}
@@ -1089,8 +1059,8 @@ GameObject:
   - component: {fileID: 1083160678}
   - component: {fileID: 1083160677}
   - component: {fileID: 1083160676}
-  - component: {fileID: 1083160674}
   - component: {fileID: 1083160679}
+  - component: {fileID: 1083160680}
   m_Layer: 30
   m_Name: Artifact_Gauntlet
   m_TagString: Untagged
@@ -1098,39 +1068,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1083160674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1083160673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8692e188b10140047b61376f2ba7d2bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Default_NormalAttackPower: 1
-  Default_NormalAttackCoolTime: 1
-  Default_NormalAttackLife: 1
-  Default_NormalBulletSpeed: 10
-  Default_NormalAttackStartDelay: 0
-  Default_NormalAttackScale: 1
-  Default_NormalAttackCount: 1
-  Default_NormalAttackSpreadAngle: 0
-  Default_SkillAttackPower: 1
-  Default_SkillAttackCoolTime: 1
-  Default_SkillAttackLife: 1
-  Default_SkillBulletSpeed: 10
-  Default_SkillAttackStartDelay: 0
-  Default_SkillAttackScale: 1
-  Default_SkillAttackCount: 1
-  Default_SkillAttackSpreadAngle: 0
-  MaxSlotCount: 3
-  StatPoint: 15
-  firePosition: {fileID: 173446077}
-  NormalAttackPrefab: {fileID: 5213770336673385342, guid: b30c08121724d5b40badebf804a18220, type: 3}
-  SkillAttackPrefab: {fileID: 5213770336673385342, guid: 5c531af23addf41428ad38ce43911d23, type: 3}
 --- !u!114 &1083160676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1261,6 +1198,40 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.7}
   m_EdgeRadius: 0
+--- !u!114 &1083160680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083160673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d80a1111d0f8a349b121dee0055b1a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Default_NormalAttackPower: 1
+  Default_NormalAttackCoolTime: 0.2
+  Default_NormalAttackLife: 0.1
+  Default_NormalBulletSpeed: 30
+  Default_NormalAttackStartDelay: 0
+  Default_NormalAttackScale: 1
+  Default_NormalAttackCount: 1
+  Default_NormalAttackSpreadAngle: 0
+  Default_SkillAttackPower: 1
+  Default_SkillAttackCoolTime: 1
+  Default_SkillAttackLife: 1
+  Default_SkillBulletSpeed: 1
+  Default_SkillAttackStartDelay: 1
+  Default_SkillAttackScale: 1
+  Default_SkillAttackCount: 1
+  Default_SkillAttackSpreadAngle: 0
+  MaxSlotCount: 2
+  StatPoint: 0
+  currentHand: {fileID: 0}
+  firePosition: {fileID: 0}
+  NormalAttackPrefab: {fileID: 2057780239845692654, guid: f3d12751e381c794ca89dfc3beb05b54, type: 3}
+  SkillAttackPrefab: {fileID: 5213770336673385342, guid: 5c531af23addf41428ad38ce43911d23, type: 3}
 --- !u!1 &1096786366
 GameObject:
   m_ObjectHideFlags: 0
@@ -1431,19 +1402,21 @@ MonoBehaviour:
   Default_NormalAttackScale: 0.2
   Default_NormalAttackCount: 1
   Default_NormalAttackSpreadAngle: 0
-  Default_SkillAttackPower: 0
-  Default_SkillAttackCoolTime: 0
-  Default_SkillAttackLife: 0
-  Default_SkillBulletSpeed: 0
-  Default_SkillAttackStartDelay: 0
+  Default_SkillAttackPower: 1
+  Default_SkillAttackCoolTime: 1
+  Default_SkillAttackLife: 0.2
+  Default_SkillBulletSpeed: 10
+  Default_SkillAttackStartDelay: 1
   Default_SkillAttackScale: 1
   Default_SkillAttackCount: 1
   Default_SkillAttackSpreadAngle: 0
   MaxSlotCount: 3
   StatPoint: 0
+  currentHand: {fileID: 0}
   firePosition: {fileID: 0}
   NormalAttackPrefab: {fileID: 132759636820691613, guid: b6645640e0b50bb4bb6ca8e8c0a3e664, type: 3}
-  SkillAttackPrefab: {fileID: 0}
+  SkillAttackPrefab: {fileID: 132759636820691613, guid: d98ef536340d7f24b9110ae3cf300286, type: 3}
+  GuideLine: {fileID: 132759636820691613, guid: d0c1b811bdd121542b37b75bf546b53b, type: 3}
 --- !u!1 &1107475902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1635,37 +1608,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7e6b0f05cf06f4584e5c6f60d76b49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1364450334
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1364450335}
-  m_Layer: 30
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1364450335
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1364450334}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 226756947}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1428331704
 GameObject:
   m_ObjectHideFlags: 0
@@ -1716,6 +1658,7 @@ MonoBehaviour:
   Default_SkillAttackSpreadAngle: 0
   MaxSlotCount: 3
   StatPoint: 15
+  currentHand: {fileID: 0}
   firePosition: {fileID: 35271920}
   NormalAttackPrefab: {fileID: 5213770336673385342, guid: b30c08121724d5b40badebf804a18220, type: 3}
   SkillAttackPrefab: {fileID: 5213770336673385342, guid: 5c531af23addf41428ad38ce43911d23, type: 3}
@@ -2922,6 +2865,7 @@ MonoBehaviour:
   Default_SkillAttackSpreadAngle: 0
   MaxSlotCount: 3
   StatPoint: 15
+  currentHand: {fileID: 0}
   firePosition: {fileID: 1107475903}
   NormalAttackPrefab: {fileID: 5213770336673385342, guid: b30c08121724d5b40badebf804a18220, type: 3}
   SkillAttackPrefab: {fileID: 5213770336673385342, guid: 5c531af23addf41428ad38ce43911d23, type: 3}

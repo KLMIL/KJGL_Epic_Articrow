@@ -9,13 +9,22 @@ namespace YSJ
         Transform _body;
         SpriteRenderer _playerSprite;
 
+        PlayerHand _hand; // YSJ
+
         private void Awake()
         {
             _playerSprite = transform.root.GetComponentInChildren<SpriteRenderer>();
+
+            _hand = GetComponentInParent<PlayerHand>();
         }
 
         private void FixedUpdate()
         {
+            if (_hand && !_hand.CanHandling) 
+            {
+                return;
+            }
+
             SpriteSort();
             SpriteRotation();
         }
@@ -55,7 +64,7 @@ namespace YSJ
             Vector2 mouseDir = (mousePos - (Vector2)this.transform.position).normalized;
             float angleZ = Mathf.Atan2(mouseDir.y, mouseDir.x) * Mathf.Rad2Deg;
 
-            this.transform.rotation = Quaternion.Euler(0, 0, angleZ - 90f);
+            transform.rotation = Quaternion.Euler(0, 0, angleZ);
         }
     }
 }

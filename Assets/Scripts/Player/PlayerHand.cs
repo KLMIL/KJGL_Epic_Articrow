@@ -4,9 +4,13 @@ namespace YSJ
 {
     public class PlayerHand : MonoBehaviour
     {
+        public bool CanHandling = true;
         void Update()
         {
-            RotationHand();
+            if (CanHandling)
+            {
+                RotationHand();
+            }
         }
 
         void RotationHand()
