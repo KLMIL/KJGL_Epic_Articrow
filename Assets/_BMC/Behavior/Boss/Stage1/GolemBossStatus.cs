@@ -6,12 +6,12 @@ namespace BMC
 {
     public class GolemBossStatus : BossStatus, IDamagable
     {
-        CapsuleCollider2D _collider;
+        CircleCollider2D _collider;
         SpriteRenderer _core;
 
         void Awake()
         {
-            _collider = GetComponent<CapsuleCollider2D>();
+            _collider = GetComponent<CircleCollider2D>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             _visual = GetComponentInChildren<SpriteRenderer>();
             _core = _visual.GetComponentInChildren<SpriteRenderer>();
