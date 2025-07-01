@@ -51,6 +51,7 @@ namespace BMC
             _playerStatus.CurrentState |= PlayerState.Hurt;
 
             _playerStatus.Health -= damage;
+            UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
             StartCoroutine(InvincibleCoroutine(_invincibleTime));
             GameManager.Instance.CameraController.ShakeCamera(_cameraShakeIntensity, _cameraShakeTime);
 

@@ -62,7 +62,6 @@ namespace YSJ
             {
                 _health = value;
                 _health = Mathf.Clamp(_health, 0, MaxHealth);
-                UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
                 UI_InGameEventBus.OnPlayerHeartUpdate?.Invoke();
             }
         }
