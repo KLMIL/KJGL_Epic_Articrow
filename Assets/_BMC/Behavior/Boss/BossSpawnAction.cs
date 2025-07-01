@@ -6,17 +6,14 @@ using Unity.Properties;
 using BMC;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "BossSpawn", story: "[Self] Spawn", category: "Action", id: "f00d65e1d972568654d8c63514c97c51")]
+[NodeDescription(name: "BossSpawn", story: "[BossFSM] Spawn", category: "Action", id: "f00d65e1d972568654d8c63514c97c51")]
 public partial class BossSpawnAction : Action
 {
-    [SerializeReference] public BlackboardVariable<GameObject> Self;
-    BossFSM _fsm;
+    [SerializeReference] public BlackboardVariable<BossFSM> BossFSM;
 
     protected override Status OnStart()
     {
-        if(_fsm == null)
-            _fsm = Self.Value.GetComponent<BossFSM>();
-        _fsm.Anim.Play("Spawn");
+        BossFSM.Value.Anim.Play("Spawn");
         return Status.Running;
     }
 }

@@ -55,7 +55,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
         }
 
         // 아티팩트일때
-        else if (interactItem.TryGetComponent<Artifact_YSJ>(out Artifact_YSJ artifact)) 
+        else if (interactItem.TryGetComponent<Artifact_YSJ>(out Artifact_YSJ artifact))
         {
             if (!hand) return;
 
@@ -92,15 +92,27 @@ public class CanInteractObject_YSJ : MonoBehaviour
         artifactTransform.localRotation = Quaternion.identity;
 
         Managers.UI.InventoryCanvas.ArtifactWindow.RemoveAllSlotUI();
-        Managers.UI.InventoryCanvas.ArtifactWindow.CreateSlotUI(artifact);
+        Managers.UI.InventoryCanvas.ArtifactWindow.SendInfoToUI(artifact);
     }
 
     void Unequip() 
     {
-        Transform currentArtifact = hand.GetChild(0);
+        Transform currentArtifacttransform = hand.GetChild(0);
+        Artifact_YSJ currentArtifact = currentArtifacttransform.GetComponent<Artifact_YSJ>();
 
-        currentArtifact.GetComponent<InteractObject_YSJ>().enabled = true;
-        currentArtifact.GetComponent<Collider2D>().enabled = true;
-        currentArtifact.SetParent(null);
+        if (currentArtifact.normalAttackCoroutine != null)
+        {
+            currentArtifact.StopCoroutine(currentArtifact.normalAttackCoroutine);
+            currentArtifact.normalAttackCoroutine = null;
+        }
+        if (currentArtifact.skillAttackCoroutine != null)
+        {
+            currentArtifact.StopCoroutine(currentArtifact.skillAttackCoroutine);
+            currentArtifact.skillAttackCoroutine = null;
+        }
+
+        currentArtifacttransform.GetComponent<InteractObject_YSJ>().enabled = true;
+        currentArtifacttransform.GetComponent<Collider2D>().enabled = true;
+        currentArtifacttransform.SetParent(null);
     }
 }

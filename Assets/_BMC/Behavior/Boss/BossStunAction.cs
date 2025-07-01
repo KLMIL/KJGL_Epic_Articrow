@@ -6,19 +6,15 @@ using Unity.Properties;
 using BMC;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "BossStunAction", story: "[Self] Stun", category: "Action", id: "b26c4a10d14a11afd59da5b6649b236d")]
+[NodeDescription(name: "BossStunAction", story: "[BossFSM] Stun", category: "Action", id: "b26c4a10d14a11afd59da5b6649b236d")]
 public partial class BossStunAction : Action
 {
-    [SerializeReference] public BlackboardVariable<GameObject> Self;
-    BossFSM _fsm;
+    [SerializeReference] public BlackboardVariable<BossFSM> BossFSM;
 
     protected override Status OnStart()
     {
-        if (_fsm == null)
-            _fsm = Self.Value.GetComponent<BossFSM>();
-
-        _fsm.RB.linearVelocity = Vector2.zero; // 보스의 속도를 0으로 초기화
-        _fsm.Anim.Play("Stun");
+        BossFSM.Value.RB.linearVelocity = Vector2.zero; // 보스의 속도를 0으로 초기화
+        BossFSM.Value.Anim.Play("Stun");
 
         return Status.Running;
     }
