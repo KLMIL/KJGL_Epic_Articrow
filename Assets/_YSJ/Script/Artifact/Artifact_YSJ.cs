@@ -157,6 +157,9 @@ public class Artifact_YSJ : MonoBehaviour
                 // 발사 가능하면 발사시도
                 if (true)
                 {
+                    // 발사 전 액션 실행
+                    BeforeFireNormalAttack?.Invoke(this);
+
                     // 선딜 타이머 시작
                     yield return new WaitForSeconds(Current_NormalAttackStartDelay);
 
@@ -254,8 +257,10 @@ public class Artifact_YSJ : MonoBehaviour
                 // 발사 가능하면 발사시도(여기서 마나체크를 해야함)
                 if (true)
                 {
+                    // 발사 전 액션 실행
+                    BeforeFireSkillAttack?.Invoke(this);
+
                     // 선딜 타이머 시작
-                    
                     yield return new WaitForSeconds(Current_SkillAttackStartDelay);
 
                     // 공격 생성
