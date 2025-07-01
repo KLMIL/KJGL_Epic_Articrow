@@ -7,7 +7,7 @@ namespace BMC
     public class PlayerAttack : MonoBehaviour
     {
         Rigidbody2D _rb;
-        PlayerAnimator _playerAnimator;
+        PlayerStatus _playerStatus;
         PlayerHitBox _hitBox;
 
         [field: SerializeField] public int CurrentAttackStep { get; private set; }  // 현재 공격 단계
@@ -31,7 +31,7 @@ namespace BMC
 
         void Start()
         {
-            _playerAnimator = GetComponent<PlayerAnimator>();
+            _playerStatus = GetComponent<PlayerStatus>();
             _hitBox = GetComponentInChildren<PlayerHitBox>();
             Managers.Input.OnLeftHandAction += Attack;
         }
@@ -69,7 +69,7 @@ namespace BMC
             // 콤보 단계 증가 및 애니메이션 준비
             IsAttack = true;
             CurrentAttackStep++;
-            _playerAnimator.CurrentState |= PlayerAnimator.State.Attack;
+            _playerStatus.CurrentState |= PlayerStatus.PlayerState.Attack;
             _inputBuffered = false;
 
             // 공격 이동 & 이펙트(애니메이션) 실행
@@ -117,7 +117,7 @@ namespace BMC
             _canNextCombo = false;
 
             // 상태 해제
-            _playerAnimator.CurrentState &= ~PlayerAnimator.State.Attack;
+            _playerStatus.CurrentState &= ~PlayerStatus.PlayerState.Attack;
             IsAttack = false;
 
             // (임시) 리셋 후, 계속 누르고 있으면 다시 시작

@@ -14,7 +14,7 @@ namespace BMC
         public PlayerDash PlayerDash { get; private set; }
         public PlayerInteract PplayerInteract { get; private set; }
         public PlayerStatus PlayerStatus { get; private set; }
-        public PlayerAttack PlayerAttack { get; private set; }
+        //public PlayerAttack PlayerAttack { get; private set; }
         public CheckPlayerDirection CheckPlayerDirection { get; private set; }
         public Inventory Inventory { get; private set; }
 
@@ -36,7 +36,7 @@ namespace BMC
             PlayerDash = this.gameObject.GetComponent<PlayerDash>();
             PplayerInteract = this.gameObject.GetComponent<PlayerInteract>();
             PlayerStatus = this.gameObject.GetComponent<PlayerStatus>();
-            PlayerAttack = this.gameObject.GetComponent<PlayerAttack>();
+            //PlayerAttack = this.gameObject.GetComponent<PlayerAttack>();
             CheckPlayerDirection = this.gameObject.GetComponent<CheckPlayerDirection>();
             Inventory = this.gameObject.GetComponentInChildren<Inventory>();
 
@@ -45,7 +45,7 @@ namespace BMC
 
         void Update()
         {
-            if(PlayerStatus.IsDead)
+            if(PlayerStatus.IsDead || PlayerStatus.IsStop)
                 return;
 
             CheckPlayerDirection.CheckCurrentDirection();
@@ -59,16 +59,17 @@ namespace BMC
 
         void FixedUpdate()
         {
-            if(PlayerStatus.IsDead)
+            if (PlayerStatus.IsDead || PlayerStatus.IsStop)
+            {
+                PlayerMove.Stop();
                 return;
+            }
 
-            //_playerMove.enabled = !_playerDash.Silhouette.IsActive;
-            if (!PlayerDash.Silhouette.IsActive && !PlayerAttack.IsAttack)
+            //if (!PlayerDash.Silhouette.IsActive && !PlayerAttack.IsAttack)
+            if (!PlayerDash.Silhouette.IsActive)
+            {
                 PlayerMove.Move();
-            //else
-            //    _playerMove.Stop();
-
-
+            }
         }
 
         // Awake -> OnEnable -> SceneManager.sceneLoaded -> Start 순서로 실행
