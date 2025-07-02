@@ -33,8 +33,8 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
         StopBuff();
     }
 
-    Artifact_YSJ _fireArtifact;
     Coroutine _attackPowerCoroutine = null;
+    Artifact_YSJ _fireArtifact;
     float _duration = 5f;
 
     IEnumerator AttackPowerCoroutine(Artifact_YSJ fireArtifact)
@@ -46,7 +46,6 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
 
         EndBuff();
         _fireArtifact = null;
-
         _attackPowerCoroutine = null;
     }
 

@@ -1,4 +1,3 @@
-using CKT;
 using UnityEngine;
 
 public class ImageParts_Hit_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ, IImagePartsToSkillAttack_YSJ
@@ -23,7 +22,7 @@ public class ImageParts_Hit_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
         //폭발 생성
         GameObject explosion = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.CastExplosion);
         explosion.transform.position = hitObject.transform.position;
-        explosion.GetComponent<Explosion>().Init(1);
+        explosion.GetComponent<CKT.Explosion>().Init(1);
         Debug.Log($"[ckt] {partsName} explosion");
     }
 
@@ -50,7 +49,7 @@ public class ImageParts_Hit_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
         //폭발 생성
         GameObject explosion = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.CastExplosion);
         explosion.transform.position = hitObject.transform.position;
-        explosion.GetComponent<Explosion>().Init(1);
+        explosion.GetComponent<CKT.Explosion>().Init(1);
         Debug.Log($"[ckt] {partsName} explosion");
     }
 

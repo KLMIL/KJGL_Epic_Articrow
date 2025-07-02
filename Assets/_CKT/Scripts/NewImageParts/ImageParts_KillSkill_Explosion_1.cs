@@ -1,4 +1,3 @@
-using CKT;
 using Game.Enemy;
 using System.Collections;
 using UnityEngine;
@@ -39,7 +38,7 @@ public class ImageParts_KillSkill_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsT
             //폭발 생성
             GameObject hitExplosion = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.HitExplosion);
             hitExplosion.transform.position = hitObject.transform.position;
-            hitExplosion.GetComponent<Explosion>().Init(1);
+            hitExplosion.GetComponent<CKT.Explosion>().Init(1);
             Debug.Log($"[ckt] {partsName} explosion");
         }
     }

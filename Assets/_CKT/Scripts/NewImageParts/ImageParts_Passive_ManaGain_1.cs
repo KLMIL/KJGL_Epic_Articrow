@@ -1,15 +1,38 @@
 using UnityEngine;
 
-public class ImageParts_Passive_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToEnhance_YSJ
+public class ImageParts_Passive_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToEnhance_YSJ, IImagePartsToNormalAttack_YSJ
 {
     public override string partsName => "Passive_ManaGain_1";
 
     public void Equip(Artifact_YSJ currentArtifact)
     {
-        float addNormal = 0.1f * currentArtifact.Default_NormalAttackCoolTime;
+        float add = 0.1f * currentArtifact.Default_NormalAttackCoolTime;
 
-        currentArtifact.Added_NormalAttackCoolTime += addNormal;
-        //TODO : ImageParts_IncreaseManaGain 마나 획득량 증가
-        Debug.Log($"[ckt] {partsName} {currentArtifact.Added_NormalAttackCoolTime}_{""}");
+        currentArtifact.Added_NormalAttackCoolTime += add;
+        Debug.Log($"[ckt] {partsName} AddCoolTime({add})");
+    }
+
+    public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
+    public void NormalAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
+    {
+    }
+
+    public void NormalAttackFlying(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
+    {
+    }
+
+    public void NormalAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
+    {
+        int add = 1;
+
+        fireArtifact.playerStatus.RegenerateMana(add);
+        Debug.Log($"[ckt] {partsName} RegenerateMana({add})");
+    }
+
+    public void NormalAttackPessive(Artifact_YSJ fireArtifact)
+    {
     }
 }

@@ -54,18 +54,18 @@ public class ImageParts_HitSkill_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsTo
     void StartBuff()
     {
         YSJ.PlayerStatus playerStatus = _fireArtifact.playerStatus;
-        float add = 0.15f * playerStatus.MoveSpeed;
+        float add = 0.15f * playerStatus.DefaultMoveSpeed;
 
-        playerStatus.OffsetMoveSpeed += add;
+        _fireArtifact.Added_MoveSpeed += add;
         Debug.Log($"[ckt] {partsName} StartBuff {add}");
     }
 
     void EndBuff()
     {
         YSJ.PlayerStatus playerStatus = _fireArtifact.playerStatus;
-        float add = 0.15f * playerStatus.MoveSpeed;
+        float add = 0.15f * playerStatus.DefaultMoveSpeed;
 
-        playerStatus.OffsetMoveSpeed -= add;
+        _fireArtifact.Added_MoveSpeed -= add;
         Debug.Log($"[ckt] {partsName} EndBuff {add}");
     }
 
