@@ -87,9 +87,9 @@ GameObject:
   - component: {fileID: 2423773296850709601}
   - component: {fileID: 3503400425582492576}
   - component: {fileID: 2745124814787783423}
-  - component: {fileID: 5580681741962278031}
   - component: {fileID: 7021995687393698780}
   - component: {fileID: 5867776006855803289}
+  - component: {fileID: 64334678117631073}
   m_Layer: 30
   m_Name: Artifact_Flute
   m_TagString: Untagged
@@ -181,45 +181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6df5d955b71faa428bcc9ea8fe5daad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5580681741962278031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4456713770081805455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8692e188b10140047b61376f2ba7d2bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Default_NormalAttackPower: 1
-  Default_NormalAttackCoolTime: 0.3
-  Default_NormalAttackLife: 0.5
-  Default_NormalBulletSpeed: 3
-  Default_NormalAttackStartDelay: 0
-  Default_NormalAttackScale: 1
-  Default_NormalAttackCount: 1
-  Default_NormalAttackCountDeltaTime: 0.1
-  Default_NormalAttackSpreadCount: 1
-  Default_NormalAttackSpreadAngle: 0
-  Default_SkillAttackPower: 1
-  Default_SkillAttackCoolTime: 1
-  Default_SkillAttackLife: 1
-  Default_SkillBulletSpeed: 10
-  Default_SkillAttackStartDelay: 0
-  Default_SkillAttackScale: 1
-  Default_SkillAttackCount: 1
-  Default_SkillAttackCountDeltaTime: 0.1
-  Default_SkillAttackSpreadCount: 1
-  Default_SkillAttackSpreadAngle: 0
-  MaxSlotCount: 3
-  StatPoint: 0
-  currentHand: {fileID: 0}
-  firePosition: {fileID: 6415017536479105865}
-  NormalAttackPrefab: {fileID: 6071873824539340446, guid: a448847484cc9574fbc42ed1b888cf46, type: 3}
-  SkillAttackPrefab: {fileID: 5213770336673385342, guid: 5c531af23addf41428ad38ce43911d23, type: 3}
-  isCanAttack: 1
 --- !u!61 &7021995687393698780
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -278,6 +239,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14f366c0363b7843b6fd24d21db6333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &64334678117631073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456713770081805455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b0275a698abeb4899204274e5aeae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Default_NormalAttackPower: 1
+  Default_NormalAttackCoolTime: 1
+  Default_NormalAttackLife: 0.5
+  Default_NormalBulletSpeed: 5
+  Default_NormalAttackStartDelay: 0
+  Default_NormalAttackScale: 1
+  Default_NormalAttackCount: 1
+  Default_NormalAttackCountDeltaTime: 0.1
+  Default_NormalAttackSpreadCount: 1
+  Default_NormalAttackSpreadAngle: 0
+  Default_SkillAttackPower: 10
+  Default_SkillAttackCoolTime: 0.2
+  Default_SkillAttackLife: 1
+  Default_SkillBulletSpeed: 1
+  Default_SkillAttackStartDelay: 0
+  Default_SkillAttackScale: 1
+  Default_SkillAttackCount: 1
+  Default_SkillAttackCountDeltaTime: 0.1
+  Default_SkillAttackSpreadCount: 1
+  Default_SkillAttackSpreadAngle: 0
+  MaxSlotCount: 1
+  StatPoint: 0
+  currentHand: {fileID: 0}
+  firePosition: {fileID: 0}
+  NormalAttackPrefab: {fileID: 6071873824539340446, guid: a448847484cc9574fbc42ed1b888cf46, type: 3}
+  SkillAttackPrefab: {fileID: 8868992901345764369, guid: 3a5e1ceb78e20ca40bded04d2180dd84, type: 3}
+  isCanAttack: 1
 --- !u!1 &8666481264944155200
 GameObject:
   m_ObjectHideFlags: 0

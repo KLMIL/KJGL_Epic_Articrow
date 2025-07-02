@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MagicFluteSkillAttack_YSJ : MagicRoot_YSJ
@@ -8,6 +9,11 @@ public class MagicFluteSkillAttack_YSJ : MagicRoot_YSJ
 
     private void Start()
     {
+        foreach (Transform child in transform) 
+        {
+            child.GetOrAddComponent<MagicRoot_YSJ>().AttackPower = AttackPower;
+        }
+
         attackDeltaTime = LifeTime / transform.childCount;
     }
 
@@ -18,7 +24,6 @@ public class MagicFluteSkillAttack_YSJ : MagicRoot_YSJ
         // AttackDeltatime에 도달하고 공격할 자식이 남아있으면
         if (elapsedTime > attackDeltaTime && attackIndex < transform.childCount) 
         {
-            print(attackIndex);
             // 시간기록 초기화
             elapsedTime = 0;
             // 오브젝트 활성화 시켜서 공격

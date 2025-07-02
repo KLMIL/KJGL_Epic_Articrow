@@ -9,7 +9,6 @@ public class Artifact_Flute : Artifact_YSJ
 
     void SpawnedAttackSetChild(Artifact_YSJ me, GameObject spawnedAttack)
     {
-        print("asdf");
         spawnedAttack.transform.SetParent(transform);
     }
 
