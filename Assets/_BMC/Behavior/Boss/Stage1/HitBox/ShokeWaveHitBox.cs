@@ -4,7 +4,7 @@ namespace BMC
 {
     public class ShokeWaveHitBox : MonoBehaviour
     {
-        float _damage = 15f;
+        public float Damage { get; set; }
 
         void OnTriggerStay2D(Collider2D collision)
         {
@@ -12,7 +12,7 @@ namespace BMC
             {
                 if (collision.transform.parent.TryGetComponent<IDamagable>(out IDamagable damagable))
                 {
-                    damagable.TakeDamage(_damage);
+                    damagable.TakeDamage(Damage);
                 }
             }
         }
