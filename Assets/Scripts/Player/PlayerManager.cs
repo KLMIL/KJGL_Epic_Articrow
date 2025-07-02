@@ -1,6 +1,6 @@
 using UnityEngine;
-using YSJ;
 using UnityEngine.SceneManagement;
+using YSJ;
 
 namespace BMC
 {
@@ -13,6 +13,7 @@ namespace BMC
         public PlayerDash PlayerDash { get; private set; }
         public PlayerStatus PlayerStatus { get; private set; }
         public PlayerHurt PlayerHurt { get; private set; }
+        public PlayerDebuff PlayerDebuff { get; private set; }
         public CheckPlayerDirection CheckPlayerDirection { get; private set; }
 
         void Awake()
@@ -33,8 +34,10 @@ namespace BMC
             PlayerMove = GetComponent<PlayerMove>();
             PlayerDash = GetComponent<PlayerDash>();
             PlayerHurt = GetComponent<PlayerHurt>();
+            PlayerDebuff = GetComponent<PlayerDebuff>();
             CheckPlayerDirection = GetComponent<CheckPlayerDirection>();
 
+            // 초기화
             PlayerStatus.Init();
             PlayerHurt.Init();
             PlayerDash.DashCoolTime = PlayerStatus.DashCoolTime;
@@ -42,8 +45,10 @@ namespace BMC
 
         void Update()
         {
-            if(PlayerHurt.IsDead || PlayerStatus.IsStop)
+            if (IsStop())
+            {
                 return;
+            }
 
             CheckPlayerDirection.CheckCurrentDirection();
 
@@ -52,7 +57,7 @@ namespace BMC
 
         void FixedUpdate()
         {
-            if (PlayerHurt.IsDead || PlayerStatus.IsStop)
+            if (IsStop())
             {
                 PlayerMove.Stop();
                 return;
@@ -88,6 +93,13 @@ namespace BMC
         public void Clear()
         {
             Destroy(gameObject);
+        }
+
+        // 멈춘 상태 여부 확인
+        public bool IsStop()
+        {
+            // 멈춰야 하는 상황 여기에 추가하기
+            return (PlayerHurt.IsDead || PlayerDebuff.HasDebuff(DebuffType.Stun));
         }
 
         #region 테스트 코드

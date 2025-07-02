@@ -10,9 +10,6 @@ namespace BMC
 
         LayerMask _stopLayerMask;
 
-        Vector3 _inDirectStartPosition;
-        Vector3 _reflectStartPosition;
-
         void Awake()
         {
             _fsm = GetComponent<BossFSM>();
