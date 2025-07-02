@@ -25,9 +25,9 @@ namespace CKT
             }*/
 
             Managers.Sound.PlaySFX(Define.SFX.CastDamageArea);
-            GameObject castDamageArea = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.CastDamageArea);
-            castDamageArea.transform.position = startPos;
-            castDamageArea.GetComponent<DamageArea>().Init(level);
+            //GameObject castDamageArea = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.CastDamageArea);
+            //castDamageArea.transform.position = startPos;
+            //castDamageArea.GetComponent<DamageArea>().Init(level);
 
             yield return null;
         }

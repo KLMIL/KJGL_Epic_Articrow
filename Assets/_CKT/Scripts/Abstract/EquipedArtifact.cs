@@ -83,7 +83,7 @@ namespace CKT
             _animator.Play("Attack", -1, 0);
 
             //총알 생성
-            GameObject bullet = YSJ.Managers.TestPool.Get<GameObject>(_artifactSO.ProjectilePoolID);
+            GameObject bullet = YSJ.Managers.Pool.Get<GameObject>(_artifactSO.ProjectilePoolID);
 
             bullet.transform.position = _firePoint.position;
             bullet.transform.up = this.transform.up;
@@ -132,7 +132,7 @@ namespace CKT
         IEnumerator ManaLackCoroutine()
         {
             Debug.LogWarning("마나가 부족합니다");
-            TextMeshPro manaText = YSJ.Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            TextMeshPro manaText = YSJ.Managers.Pool.Get<TextMeshPro>(Define.PoolID.DamageText);
             manaText.text = "마나 부족";
             manaText.transform.position = transform.position;
 

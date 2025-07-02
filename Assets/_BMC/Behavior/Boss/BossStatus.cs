@@ -41,7 +41,7 @@ namespace BMC
             }
             else
             {
-                _damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+                _damageText = Managers.Pool.Get<TextMeshPro>(Define.PoolID.DamageText);
                 _damageText.text = damage.ToString();
             }
             _damageText.transform.position = this.transform.position + this.transform.up * 1.5f;

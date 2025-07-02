@@ -39,7 +39,7 @@ namespace CKT
                 _collider.enabled = false;
             }
 
-            YSJ.Managers.TestPool.Return(PoolID, this.gameObject);
+            YSJ.Managers.Pool.Return(PoolID, this.gameObject);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace YSJ
+namespace CKT
 {
     [System.Serializable]
     public class PoolManager

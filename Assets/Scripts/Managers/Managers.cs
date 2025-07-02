@@ -12,20 +12,16 @@ namespace YSJ
         SceneManagerEx _scene = new SceneManagerEx();
         InputManager _input = new InputManager();
         UIManager _ui = new UIManager();
-        //PoolManager _pool = new PoolManager();
         DataManager _data = new DataManager();
-
-        BMC.PoolManager _testPool = new BMC.PoolManager();
+        PoolManager _pool = new PoolManager();
 
         public static SoundManager Sound => Instance._sound;
         public static ResourceManager Resource => Instance._resource;
         public static SceneManagerEx Scene => Instance._scene;
         public static InputManager Input => Instance._input;
         public static UIManager UI => Instance._ui;
-        //public static PoolManager Pool => Instance._pool;
         public static DataManager Data => Instance._data;
-
-        public static BMC.PoolManager TestPool => Instance._testPool;
+        public static PoolManager Pool => Instance._pool;
 
         void Start()
         {
@@ -52,10 +48,9 @@ namespace YSJ
                 // 필요한 매니저 초기화
                 Data.Init();
                 Resource.Init();
-                TestPool.Init();
+                Pool.Init();
                 Sound.Init();
                 Input.Init();
-                //Pool.Init();
                 UI.InstantiateSettingsUI();
             }
         }
@@ -63,20 +58,23 @@ namespace YSJ
         // 게임 종료 시 매니저 정리
         public static void Clear()
         {
-            TestPool.Clear();
+            Debug.LogWarning("Managers 파괴");
+
+            UI_CommonEventBus.Clear();
+            UI_TitleEventBus.Clear();
+            UI_InGameEventBus.Clear();
+
+            Pool.Clear();
             Scene.Clear();
             Sound.Clear();
             Input.Clear();
+
+            s_instance = null;
         }
 
         void OnDisable()
         {
-            Debug.LogWarning("Managers 파괴");
-            UI_CommonEventBus.Clear();
-            UI_TitleEventBus.Clear();
-            UI_InGameEventBus.Clear();
             Clear();
-            s_instance = null;
         }
     }
 }
