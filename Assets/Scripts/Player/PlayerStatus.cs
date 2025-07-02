@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using UnityEngine;
-using TMPro;
 using BMC;
 
 namespace YSJ
@@ -83,6 +80,7 @@ namespace YSJ
         #region 추가량
         float _offsetMaxHealth;
         float _offsetMaxMana;
+        float _offsetBarrier;
         float _offsetDashCoolTime;
         float _offsetMoveSpeed;
 
@@ -102,6 +100,14 @@ namespace YSJ
             {
                 _offsetMaxMana = value;
                 UI_InGameEventBus.OnPlayerManaUpdate?.Invoke();
+            }
+        }
+        public float OffsetBarrier
+        {
+            get => _offsetBarrier;
+            set
+            {
+                _offsetBarrier = value;
             }
         }
         public float OffsetDashCoolTime 
@@ -125,9 +131,6 @@ namespace YSJ
         }
 
         #endregion
-
-        // 테스트용
-        Coroutine _stunCoroutine;
 
         void Update()
         {
