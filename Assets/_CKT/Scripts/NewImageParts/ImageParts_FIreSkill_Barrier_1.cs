@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class ImageParts_FIreSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
+public class ImageParts_FireSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
 {
-    public override string partsName => "FIreSkill_Barrier_1";
+    public override string partsName => "FireSkill_Barrier_1";
 
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {

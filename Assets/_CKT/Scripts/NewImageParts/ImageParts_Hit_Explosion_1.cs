@@ -20,7 +20,7 @@ public class ImageParts_Hit_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
     public void NormalAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
         //폭발 생성
-        GameObject explosion = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.CastExplosion);
+        GameObject explosion = YSJ.Managers.Pool.Get<GameObject>(Define.PoolID.CastExplosion);
         explosion.transform.position = hitObject.transform.position;
         explosion.GetComponent<CKT.Explosion>().Init(1);
         Debug.Log($"[ckt] {partsName} explosion");
@@ -47,7 +47,7 @@ public class ImageParts_Hit_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
     public void SKillAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
         //폭발 생성
-        GameObject explosion = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.CastExplosion);
+        GameObject explosion = YSJ.Managers.Pool.Get<GameObject>(Define.PoolID.CastExplosion);
         explosion.transform.position = hitObject.transform.position;
         explosion.GetComponent<CKT.Explosion>().Init(1);
         Debug.Log($"[ckt] {partsName} explosion");

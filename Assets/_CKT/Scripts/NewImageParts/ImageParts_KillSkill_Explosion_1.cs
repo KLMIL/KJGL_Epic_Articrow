@@ -36,7 +36,7 @@ public class ImageParts_KillSkill_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsT
         if (enemyHealth <= 0)
         {
             //폭발 생성
-            GameObject hitExplosion = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.HitExplosion);
+            GameObject hitExplosion = YSJ.Managers.Pool.Get<GameObject>(Define.PoolID.HitExplosion);
             hitExplosion.transform.position = hitObject.transform.position;
             hitExplosion.GetComponent<CKT.Explosion>().Init(1);
             Debug.Log($"[ckt] {partsName} explosion");

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class ImageParts_Passive_SkillAttackpower_1 : ImagePartsRoot_YSJ, IImagePartsToEnhance_YSJ
+public class ImageParts_Passive_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToEnhance_YSJ
 {
-    public override string partsName => "Passive_SkillAttackpower_1";
+    public override string partsName => "Passive_SkillAttackPower_1";
 
     public void Equip(Artifact_YSJ currentArtifact)
     {
