@@ -120,43 +120,51 @@ namespace Game.Enemy
                 );
             }
 
-            // 왼쪽 발사
-            velocity = Quaternion.Euler(0, 0, -spreadAngle) * baseDir * projectileSpeed;
-            currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity);
-            proj = currProj.GetComponent<EnemyProjectile>();
-
-            if (proj != null)
+            int scatterAmount = (projectileAmount - 1) / 2;
+            float currAngle = 0;
+            for (int i = 0; i < scatterAmount; i++)
             {
-                proj.InitProjecitle(
-                    controller,
-                    controller.Status.attack * damageMultiply,
-                    velocity,
-                    0.0f,
-                    isSpawn ? projectilePrefab : null,
-                    isSpawn,
-                    lifetime,
-                    projectileDebuff
-                );
+                currAngle += spreadAngle;
+
+                // 왼쪽 발사
+                velocity = Quaternion.Euler(0, 0, -currAngle) * baseDir * projectileSpeed;
+                currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity);
+                proj = currProj.GetComponent<EnemyProjectile>();
+
+                if (proj != null)
+                {
+                    proj.InitProjecitle(
+                        controller,
+                        controller.Status.attack * damageMultiply,
+                        velocity,
+                        0.0f,
+                        isSpawn ? projectilePrefab : null,
+                        isSpawn,
+                        lifetime,
+                        projectileDebuff
+                    );
+                }
+
+                // 오른쪽 발사
+                velocity = Quaternion.Euler(0, 0, currAngle) * baseDir * projectileSpeed;
+                currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity);
+                proj = currProj.GetComponent<EnemyProjectile>();
+
+                if (proj != null)
+                {
+                    proj.InitProjecitle(
+                        controller,
+                        controller.Status.attack * damageMultiply,
+                        velocity,
+                        0.0f,
+                        isSpawn ? projectilePrefab : null,
+                        isSpawn,
+                        lifetime,
+                        projectileDebuff
+                    );
+                }
             }
 
-            // 오른쪽 발사
-            velocity = Quaternion.Euler(0, 0, spreadAngle) * baseDir * projectileSpeed;
-            currProj = Instantiate(projectilePrefab, firePos, Quaternion.identity);
-            proj = currProj.GetComponent<EnemyProjectile>();
-
-            if (proj != null)
-            {
-                proj.InitProjecitle(
-                    controller,
-                    controller.Status.attack * damageMultiply,
-                    velocity,
-                    0.0f,
-                    isSpawn ? projectilePrefab : null,
-                    isSpawn,
-                    lifetime,
-                    projectileDebuff
-                );
-            }
 
             yield return null;
         }
