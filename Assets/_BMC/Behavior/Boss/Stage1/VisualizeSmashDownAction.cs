@@ -6,18 +6,18 @@ using Unity.Properties;
 using BMC;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "VisualizeSmashAction", story: "[BossFSM] visualize smash during [WaitSmashTime]", category: "Action", id: "8f984819e0bf61743e5d6ffd7c59f96e")]
-public partial class VisualizeSmashAction : Action
+[NodeDescription(name: "VisualizeSmashDownAction", story: "[BossFSM] visualize smash down during [WaitSmashTime]", category: "Action", id: "8f984819e0bf61743e5d6ffd7c59f96e")]
+public partial class VisualizeSmashDownAction : Action
 {
     [SerializeReference] public BlackboardVariable<BossFSM> BossFSM;
     [SerializeReference] public BlackboardVariable<float> WaitSmashTime;
-    ShokeWaveIndicator _enemyAttackIndicator;
+    ShokeWaveAttackIndicator _enemyAttackIndicator;
 
     protected override Status OnStart()
     {
         if (_enemyAttackIndicator == null)
         {
-            _enemyAttackIndicator = BossFSM.Value.GetComponentInChildren<ShokeWaveIndicator>();
+            _enemyAttackIndicator = BossFSM.Value.GetComponentInChildren<ShokeWaveAttackIndicator>();
         }
 
         _enemyAttackIndicator.Init(WaitSmashTime.Value);
@@ -27,13 +27,12 @@ public partial class VisualizeSmashAction : Action
         return Status.Running;
     }
 
-    protected override Status OnUpdate()
-    {
-        return Status.Success;
-    }
+    //protected override Status OnUpdate()
+    //{
+    //    return Status.Success;
+    //}
 
-    protected override void OnEnd()
-    {
-    }
+    //protected override void OnEnd()
+    //{
+    //}
 }
-
