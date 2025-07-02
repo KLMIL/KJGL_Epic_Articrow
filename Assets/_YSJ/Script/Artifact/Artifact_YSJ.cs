@@ -76,6 +76,7 @@ public class Artifact_YSJ : MonoBehaviour
     public int Added_SkillAttackCount { get; set; } = 1;
     public int Added_SkillAttackSpreadCount { get; set; } = 1;
     public float Added_SkillAttackSpreadAngle { get; set; }
+
     #endregion
     #region [아티팩트 현재 능력치 변수들]
     // 아티팩트의 현재 능력치
@@ -488,7 +489,7 @@ public class Artifact_YSJ : MonoBehaviour
     }
 
     // 어택 전 added변수들 초기화
-    protected void ResetNormalAttack()
+    protected virtual void ResetNormalAttack()
     {
         Added_NormalAttackPower = 0.0f;
         Added_NormalAttackCoolTime = 0.0f;
@@ -505,7 +506,7 @@ public class Artifact_YSJ : MonoBehaviour
         PessiveNormalAttack = null; // 기존 패시브 액션 초기화
         AfterFireNormalAttack = null; // 기존 발사 후 액션 초기화
     }
-    protected void ResetSkillAttack()
+    protected virtual void ResetSkillAttack()
     {
         Added_SkillAttackPower = 0.0f;
         Added_SkillAttackCoolTime = 0.0f;

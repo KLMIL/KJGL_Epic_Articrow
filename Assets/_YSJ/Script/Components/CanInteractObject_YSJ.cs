@@ -52,7 +52,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
     void interact(InteractObject_YSJ interactItem) 
     {
         // 파츠일때
-        if (interactItem.TryGetComponent<Parts_YSJ>(out Parts_YSJ parts))
+        if (interactItem.TryGetComponent<FieldParts_YSJ>(out FieldParts_YSJ parts))
         {
             if (Managers.UI.InventoryCanvas.inventory.TryAddItem(parts.ImageParts))
             {

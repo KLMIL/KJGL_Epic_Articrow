@@ -25,9 +25,8 @@ public class MagicRoot_YSJ : MonoBehaviour
         FlyingAction += CountLifeTime;
     }
 
-    public void SkillAttackInitialize(Artifact_YSJ ownerArtifact) 
+    public virtual void SkillAttackInitialize(Artifact_YSJ ownerArtifact) 
     {
-        print("asdf");
         this.ownerArtifact = ownerArtifact;
 
         Speed = ownerArtifact.Current_SkillBulletSpeed;
@@ -43,7 +42,7 @@ public class MagicRoot_YSJ : MonoBehaviour
         DestroyCount--;
     }
 
-    public void CountLifeTime(Artifact_YSJ ownerArtifact, GameObject Attack) 
+    public virtual void CountLifeTime(Artifact_YSJ ownerArtifact, GameObject Attack) 
     {
         if (elapsedTime < LifeTime)
         {
