@@ -20,10 +20,6 @@ namespace YSJ
 
         public PlayerState CurrentState { get; set; }
 
-
-        [Header("피격")]
-        [field: SerializeField] public bool IsStop { get; private set; }
-
         #region 기준 스테이터스
         [Header("기준 스테이터스")]
         float _defaultMaxHealth = 7f;       // 기본 최대 체력
@@ -43,7 +39,6 @@ namespace YSJ
         {
             get => _defaultDashCoolTime - OffsetDashCoolTime;
         }
-        
         public float MoveSpeed
         {
             get => _defaultMoveSpeed + OffsetMoveSpeed;
@@ -131,15 +126,7 @@ namespace YSJ
 
         void Update()
         {
-            // 테스트용
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                //StartDebuffCoroutine(PlayerState.Stun, 1f);
-                //TakeDamage(1f);
-                //OffsetMaxHealth += 2f;
-                //OffsetDashCoolTime += 0.1f;
-                SpendMana(1f);
-            }
+            Test();
         }
 
         public void Init()
@@ -166,6 +153,22 @@ namespace YSJ
             Mana += -amount;
             return true;
         }
+        #endregion
+
+        #region 테스트 코드
+        public void Test()
+        {
+            // 테스트용
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                //StartDebuffCoroutine(PlayerState.Stun, 1f);
+                //TakeDamage(1f);
+                //OffsetMaxHealth += 2f;
+                //OffsetDashCoolTime += 0.1f;
+                //SpendMana(1f);
+            }
+        }
+
         #endregion
     }
 }
