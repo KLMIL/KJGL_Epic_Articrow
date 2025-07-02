@@ -223,7 +223,7 @@ public class InputManager
     public void ClearAction()
     {
         //OnDashAction = null;
-        OnInteractAction = null;
+        //OnInteractAction = null;
         //OnInventoryAction = null;
         //OnLeftHandAction = null;
         //OnRightHandAction = null;
