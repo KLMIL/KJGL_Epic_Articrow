@@ -107,6 +107,7 @@ namespace Game.Enemy
             SpriteRenderer = _animation.SpriteRenderer;
             
             _movement = GetComponent<EnemyMovement>();
+            _movement.Init(SpriteRenderer);
             _dealDamage = GetComponent<EnemyDealDamage>();
 
             Player = GameObject.FindWithTag("Player")?.transform;
@@ -186,6 +187,11 @@ namespace Game.Enemy
                 lastUsed = v;
             }
             return (Time.time - lastUsed) >= cooldown;
+        }
+
+        public void ChangeMoveSpeedMultiply(float multiplier)
+        {
+            _movement.moveSpeedMultiply = multiplier;
         }
         #endregion
 

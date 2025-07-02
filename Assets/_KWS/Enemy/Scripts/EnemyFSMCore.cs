@@ -63,6 +63,9 @@ namespace Game.Enemy
 
         // 인디케이터 위치 조정을 위한 피벗
         public Vector2 IndicatorPivot = Vector2.zero;
+
+        // Move State 중 Orbit에서 사용하는 변수
+        public float orbitChagneTime = -Mathf.Infinity;
         #endregion
 
 

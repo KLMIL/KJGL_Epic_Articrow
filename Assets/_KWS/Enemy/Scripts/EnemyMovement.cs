@@ -7,7 +7,7 @@ namespace Game.Enemy
     {
         EnemyController ownerController;
         Rigidbody2D rb;
-        SpriteRenderer _spriteRenderer;
+        public SpriteRenderer _spriteRenderer;
 
         public float moveSpeedMultiply = 1.0f;
         Vector2 _currentDirection = Vector2.zero;
@@ -28,7 +28,16 @@ namespace Game.Enemy
 
         private void Start()
         {
-            _spriteRenderer = ownerController.SpriteRenderer;
+            //_spriteRenderer = ownerController.SpriteRenderer;
+            //if (_spriteRenderer == null)
+            //{
+            //    Debug.LogError($"{gameObject.name} Sprite renderer 할당 오류");
+            //}
+        }
+
+        public void Init(SpriteRenderer renderer)
+        {
+            _spriteRenderer = renderer;
         }
 
         private void FixedUpdate()
@@ -110,10 +119,42 @@ namespace Game.Enemy
                 FlipSpirte();
                 rb.MovePosition(nextPos);
             }
+            else if (moveType == "Orbit")
+            {
+                Vector2 origin = rb.position + _currentDirection * 0.1f; // 자기 자신 피함
+                RaycastHit2D hit = Physics2D.Raycast(origin, _currentDirection, wallCheckDistance, wallLayerMask);
+                Debug.DrawRay(origin, _currentDirection * wallCheckDistance, Color.red);
+
+                if (hit.collider != null)
+                {
+                    Stop();
+                    return;
+                }
+
+                // 이동에 상관없이 플레이어 방향 바라보도록 flipX 변경
+                if (ownerController.Player != null)
+                {
+                    float dx = ownerController.Player.position.x - rb.position.x;
+                    _spriteRenderer.flipX = dx > 0;
+                }
+                //FlipSpirte();
+
+                // 이동할 위치 계산
+                if (elapsedTime < duration)
+                {
+                    Vector2 nextPos = rb.position + _currentDirection * ownerController.Status.moveSpeed * moveSpeedMultiply * Time.fixedDeltaTime;
+                    FlipSpirte();
+                    rb.MovePosition(nextPos);
+                }
+                else
+                {
+                    Stop();
+                }
+            }
         }
 
 
-        // 임시로, 이동 전에 방향에 따라 회전시킬 함수
+        // 이동 전에 방향에 따라 스프라이트 좌우반전
         private void FlipSpirte()
         {
             if (_spriteRenderer != null && _currentDirection.x != 0)
