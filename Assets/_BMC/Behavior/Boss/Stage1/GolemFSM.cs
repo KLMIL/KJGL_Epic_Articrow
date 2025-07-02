@@ -8,7 +8,8 @@ namespace BMC
     /// </summary>
     public class GolemFSM : BossFSM
     {
-        public NavMeshAgent NavMeshAgent { get; private set; }  // NavMesh 에이전트
+        public NavMeshAgent NavMeshAgent { get; private set; }        // NavMesh 에이전트
+        public ShokeWaveHitBox ShokeWaveHitBox { get; private set; }  // 쇼크 웨이브 히트 박스
 
         public override void Awake()
         {
@@ -22,6 +23,8 @@ namespace BMC
             NavMeshAgent = GetComponent<NavMeshAgent>();
             NavMeshAgent.updateRotation = false;
             NavMeshAgent.updateUpAxis = false;
+
+            ShokeWaveHitBox = GetComponentInChildren<ShokeWaveHitBox>();
         }
 
         void Start()

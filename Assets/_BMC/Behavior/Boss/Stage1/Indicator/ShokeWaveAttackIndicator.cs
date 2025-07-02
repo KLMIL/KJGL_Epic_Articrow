@@ -2,13 +2,15 @@ using System.Collections;
 using UnityEngine;
 namespace BMC
 {
-    public class ShokeWaveIndicator : MonoBehaviour
+    public class ShokeWaveAttackIndicator : MonoBehaviour
     {
         Transform _target;                     // 공격 목표
         SpriteRenderer _indicator;             // 인디케이터
         SpriteRenderer _background;            // 배경
         Coroutine _coroutine;
         CircleCollider2D _circleCollider;
+
+        ShokeWaveHitBox _shokeWaveHitBox; // 히트박스 컴포넌트
 
         [Header("시간")]
         float _fillDuration = 1f;   // 두께 확장 시간
@@ -27,17 +29,19 @@ namespace BMC
             _background.enabled = false;
 
             _circleCollider = GetComponentInChildren<CircleCollider2D>();
+            _shokeWaveHitBox = GetComponentInChildren<ShokeWaveHitBox>();
         }
 
         void Start()
         {
+            _shokeWaveHitBox.Damage = 2f;
             _target = PlayerManager.Instance.transform;
         }
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.T))
-                PlayChargeAndAttack();
+            //if (Input.GetKeyDown(KeyCode.T))
+            //    PlayChargeAndAttack();
         }
 
         public void Init(float time)

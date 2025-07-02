@@ -11,6 +11,8 @@ namespace BMC
         Coroutine _coroutine;
         BoxCollider2D _boxCollider;
 
+        LaserHitBox _laserHitBox;
+
         [Header("길이")]
         float _dist = 30f;
 
@@ -32,10 +34,12 @@ namespace BMC
             _background.enabled = false;
 
             _boxCollider = GetComponentInChildren<BoxCollider2D>();
+            _laserHitBox = GetComponentInChildren<LaserHitBox>();
         }
 
         void Start()
         {
+            _laserHitBox.Damage = 1f;
             _target = PlayerManager.Instance.transform;
         }
 
