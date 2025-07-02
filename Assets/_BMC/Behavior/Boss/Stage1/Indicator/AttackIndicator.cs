@@ -17,11 +17,6 @@ namespace BMC
         protected float _startScale = 0.5f;         // 시작 크기
         protected float _endScale = 1.5f;           // 최종 크기
 
-        void Start()
-        {
-            _target = PlayerManager.Instance.transform;
-        }
-
         public virtual void Init(float fillDuration)
         {
             _fillDuration = fillDuration;

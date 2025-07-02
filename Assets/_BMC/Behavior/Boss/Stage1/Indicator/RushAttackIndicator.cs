@@ -28,7 +28,7 @@ namespace BMC
 
         protected override IEnumerator ChargeCoroutine()
         {
-            // 방향을 목표로 회전
+            // 목표를 바라보게 회전
             Vector3 dir = (_target.position - transform.position).normalized;
             transform.right = dir;
 

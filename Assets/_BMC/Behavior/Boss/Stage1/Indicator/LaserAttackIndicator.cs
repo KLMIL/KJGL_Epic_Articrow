@@ -6,7 +6,6 @@ namespace BMC
     public class LaserAttackIndicator : AttackIndicator
     {
         BoxCollider2D _boxCollider;
-
         LaserHitBox _laserHitBox;
 
         [Header("길이")]
@@ -25,6 +24,7 @@ namespace BMC
 
         void Start()
         {
+            _target = PlayerManager.Instance.transform;
             _startScale = 0.5f;
             _endScale = 1f;
             _laserHitBox.Damage = 1f;
@@ -37,7 +37,7 @@ namespace BMC
 
             for (int i = 0; i < _loopCount; i++)
             {
-                // 방향을 목표로 회전
+                // 목표를 바라보게 회전
                 Vector3 dir = (_target.position - transform.position).normalized;
                 transform.right = dir;
 
