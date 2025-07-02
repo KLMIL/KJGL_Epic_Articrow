@@ -20,7 +20,9 @@ public class Artifact_YSJ : MonoBehaviour
     public float Default_NormalBulletSpeed;
     public float Default_NormalAttackStartDelay;
     public float Default_NormalAttackScale = 1.0f; // 일반 공격 기본 크기
-    public float Default_NormalAttackCount = 1; // 일반 공격 기본 발사 횟수
+    public int Default_NormalAttackCount = 1; // 일반 공격 기본 발사 횟수
+    public float Default_NormalAttackCountDeltaTime = 0.1f; // 일반 공격 발사 횟수가 여러번이라면 발사 간격 시간
+    public int Default_NormalAttackSpreadCount = 1; // 일반 공격 기본 산탄 횟수
     public float Default_NormalAttackSpreadAngle = 0.0f; // 일반 공격 퍼짐 각도
 
     [Header("스킬 공격 기본 세팅값")]
@@ -30,8 +32,10 @@ public class Artifact_YSJ : MonoBehaviour
     public float Default_SkillBulletSpeed;
     public float Default_SkillAttackStartDelay;
     public float Default_SkillAttackScale = 1.0f; // 스킬 공격 기본 크기
-    public float Default_SkillAttackCount = 1; // 스킬 공격 기본 발사 횟수
-    public float Default_SkillAttackSpreadAngle = 0.0f; // 스킬 공격 기본 발사 각도
+    public int Default_SkillAttackCount = 1; // 스킬 공격 기본 발사 횟수
+    public float Default_SkillAttackCountDeltaTime = 0.1f; // 스킬 발사 횟수가 여러번이라면 발사 간격 시간
+    public int Default_SkillAttackSpreadCount = 1; // 스킬 기본 산탄 횟수
+    public float Default_SkillAttackSpreadAngle = 0.0f; // 스킬 공격 기본 퍼짐 각도
 
     // 아티팩트가 가진 슬롯개수, 슬롯에 들어있는 파츠정보
     [Header("슬롯 수")]
@@ -58,8 +62,9 @@ public class Artifact_YSJ : MonoBehaviour
     public float Added_NormalBulletSpeed { get; set; } // 일반 공격 추가 속도
     public float Added_NormalAttackStartDelay { get; set; } // 일반 공격 추가 선딜레이
     public float Added_NormalAttackScale { get; set; } // 일반 공격 추가 크기
-    public float Added_NormalAttackCount { get; set; } // 일반 공격 추가 발사 횟수
-    public float Added_NormalAttackSpreadAngle { get; set; } // 일반 공격 추가 발사 각도
+    public int Added_NormalAttackCount { get; set; } = 1; // 일반 공격 추가 발사 횟수
+    public int Added_NormalAttackSpreadCount { get; set; } = 1; // 일반 공격 추가 산탄 횟수
+    public float Added_NormalAttackSpreadAngle { get; set; } // 일반 공격 추가 산탄 퍼짐 각도
 
     // 스킬공격
     public float Added_SkillAttackPower { get; set; }
@@ -68,7 +73,8 @@ public class Artifact_YSJ : MonoBehaviour
     public float Added_SkillBulletSpeed { get; set; }
     public float Added_SkillAttackStartDelay { get; set; }
     public float Added_SkillAttackScale { get; set; }
-    public float Added_SkillAttackCount { get; set; }
+    public int Added_SkillAttackCount { get; set; } = 1;
+    public int Added_SkillAttackSpreadCount { get; set; } = 1;
     public float Added_SkillAttackSpreadAngle { get; set; }
     #endregion
     #region [아티팩트 현재 능력치 변수들]
@@ -124,6 +130,9 @@ public class Artifact_YSJ : MonoBehaviour
     public Coroutine normalAttackCoroutine = null;
     public Coroutine skillAttackCoroutine = null;
 
+    // 조정간
+    public bool isCanAttack = true;
+
     #region [일반공격]
     public virtual void NormalAttackClicked()
     {
@@ -138,8 +147,8 @@ public class Artifact_YSJ : MonoBehaviour
         // 클릭이 들어와있거나 쿨타임이 남아있으면 계속 실행
         while (Managers.Input.IsPressLeftHandAttack || elapsedNormalCoolTime > 0) 
         {
-            // 쿨타임이 남아있으면 대기
-            if (elapsedNormalCoolTime > 0)
+            // 쿨타임이 남아있으면 대기 || 공격 불가능한 상황
+            if (elapsedNormalCoolTime > 0 || !isCanAttack)
             {
                 elapsedNormalCoolTime -= Time.deltaTime;
                 yield return null; // 다음 프레임까지 대기
@@ -148,18 +157,7 @@ public class Artifact_YSJ : MonoBehaviour
             {
                 // 초기화
                 ResetNormalAttack();
-
-                // 파츠슬롯 한바퀴 돌면서 등록
-                for (int i = 0; i < MaxSlotCount; i++)
-                {
-                    IImagePartsToNormalAttack_YSJ imageParts = SlotTransform.GetChild(i).GetComponentInChildren<IImagePartsToNormalAttack_YSJ>();
-                    if (imageParts != null)
-                    {
-                        PessiveNormalAttack += imageParts.NormalAttackPessive; // 패시브 액션 등록
-                        AfterFireNormalAttack += imageParts.NormalAttackAfterFire; // 발사 후 액션 등록
-
-                    }
-                }
+                ReadNormalAttackParts();
 
                 // 패시브 액션 실행
                 PessiveNormalAttack?.Invoke(this);
@@ -176,12 +174,14 @@ public class Artifact_YSJ : MonoBehaviour
                     // 발사 전 액션 실행
                     BeforeFireNormalAttack?.Invoke(this);
 
-                    if (currentHand)
+                    if (currentHand && Current_NormalAttackStartDelay > 0)
                     {
                         currentHand.CanHandling = false;
                     }
+                    isCanAttack = false;
                     // 선딜 타이머 시작
                     yield return new WaitForSeconds(Current_NormalAttackStartDelay);
+                    isCanAttack = true;
                     if (currentHand)
                     {
                         currentHand.CanHandling = true;
@@ -190,29 +190,51 @@ public class Artifact_YSJ : MonoBehaviour
                     // 공격 생성
                     if (NormalAttackPrefab)
                     {
-                        float angle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg; // 방향 각도 계산
-                        float firstAngle = angle - ( ( Current_NormalAttackSpreadAngle * (Current_NormalAttackCount - 1) ) / 2f );
-
-                        // 발사 개수만큼 발사
-                        for (int SpawnCount = 0; SpawnCount < Current_NormalAttackCount; SpawnCount++) 
+                        // 추가 발사 개수만큼 반복
+                        for (int addedSpawnCount = 0; addedSpawnCount < Added_NormalAttackCount; addedSpawnCount++)
                         {
-                            GameObject SpawnedBullet = Instantiate(NormalAttackPrefab, firePosition.position, Quaternion.Euler( 0 , 0, firstAngle + Current_NormalAttackSpreadAngle * SpawnCount )); // 첫 각도부터 시작해서 퍼지는 각도 더하면서 탄 생성
-                            SpawnedBullet.transform.localScale = Vector3.one * Current_NormalAttackScale; // 공격 크기 설정
-                            SpawnedBullet.GetComponent<MagicRoot_YSJ>().NormalAttackInitialize(this); // 마법에 정보 주입(데미지, 스피드, 탄 지속시간 등)
-
-                            // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
-                            for (int partsIndex = 0; partsIndex < MaxSlotCount; partsIndex++)
+                            // 디폴트 발사 개수만큼 반복
+                            for (int SpawnCount = 0; SpawnCount < Default_NormalAttackCount; SpawnCount++)
                             {
-                                IImagePartsToNormalAttack_YSJ imageParts = SlotTransform.GetChild(partsIndex).GetComponentInChildren<IImagePartsToNormalAttack_YSJ>();
-                                if (imageParts != null)
+                                // Add 산탄만큼 산탄 반복
+                                for (int addedSpreadCount = 0; addedSpreadCount < Added_NormalAttackSpreadCount; addedSpreadCount++)
                                 {
-                                    SpawnedBullet.GetComponent<MagicRoot_YSJ>().FlyingAction += imageParts.NormalAttackFlying; // 공격 날아가는 중 액션 등록
-                                    SpawnedBullet.GetComponent<MagicRoot_YSJ>().OnHitAction += imageParts.NormalAttackOnHit; // 공격 맞았을 때 액션 등록
+                                    // 발사하기 전에 방향 다시계산
+                                    Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
+                                    float originalAngle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg; // 방향 각도 계산
+                                                                                                                 // 추가 산탄의 각도 = (바라보는 각도 - (추가탄의 퍼짐각도 * 추가탄 산탄개수) / 2) + (추가탄의 퍼짐각도 * 추가탄의 산탄횟수 n번째)
+                                    float addedSpreadAngle = (originalAngle - (Added_NormalAttackSpreadAngle * (Added_NormalAttackSpreadCount - 1) / 2f)) + (Added_NormalAttackSpreadAngle * addedSpreadCount);
+
+                                    // Default 산탄만큼 산탄 반복
+                                    for (int defaultSpreadCount = 0; defaultSpreadCount < Default_NormalAttackSpreadCount; defaultSpreadCount++)
+                                    {
+                                        // 기본 산탄의 각도 = (추가 산탄의 각도 - (기본탄의 퍼짐 각도 * 기본탄 산탄개수) / 2) + (기본탄의 퍼짐각도 * 기본탄의 산탄횟수 n번째)
+                                        float defaultSpreadAngle = (addedSpreadAngle - (Default_NormalAttackSpreadAngle * (Default_NormalAttackSpreadCount - 1) / 2f)) + (Default_NormalAttackSpreadAngle * defaultSpreadCount);
+
+                                        GameObject SpawnedBullet = Instantiate(NormalAttackPrefab, firePosition.position, Quaternion.Euler(0, 0, defaultSpreadAngle)); // 각도에 맞게 탄 생성
+
+                                        SpawnedBullet.transform.localScale = Vector3.one * Current_NormalAttackScale; // 공격 크기 설정
+                                        SpawnedBullet.GetComponent<MagicRoot_YSJ>().NormalAttackInitialize(this); // 마법에 정보 주입(데미지, 스피드, 탄 지속시간 등)
+
+                                        // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
+                                        ReadNormalAttackParts(SpawnedBullet.GetComponent<MagicRoot_YSJ>());
+
+                                        // 일반 공격 생성 한 직후 액션 실행
+                                        AfterFireNormalAttack?.Invoke(this, SpawnedBullet);
+                                    }
+                                }
+                                // 마지막 공격이 아니라면 공격 간격만큼 기다리기
+                                if (SpawnCount + 1 < Default_NormalAttackCount)
+                                {
+                                    yield return new WaitForSeconds(Default_NormalAttackCountDeltaTime);
                                 }
                             }
 
-                            // 일반 공격 생성 한 직후 액션 실행
-                            AfterFireNormalAttack?.Invoke(this, SpawnedBullet);
+                            // 마지막 추가공격이 아니라면 공격 간격만큼 기다리기
+                            if (addedSpawnCount + 1 < Added_NormalAttackCount)
+                            {
+                                yield return new WaitForSeconds(Default_NormalAttackCountDeltaTime);
+                            }
                         }
 
                         // 쿨타임 적용
@@ -227,6 +249,59 @@ public class Artifact_YSJ : MonoBehaviour
         }
 
         normalAttackCoroutine = null; // 저장된 코루틴 초기화
+    }
+    protected void ReadNormalAttackParts() 
+    {
+        // 파츠슬롯 한바퀴 돌면서 등록
+        for (int i = 0; i < MaxSlotCount; i++)
+        {
+            IImagePartsToNormalAttack_YSJ imageParts = SlotTransform.GetChild(i).GetComponentInChildren<IImagePartsToNormalAttack_YSJ>();
+            if (imageParts != null)
+            {
+                PessiveNormalAttack += imageParts.NormalAttackPessive; // 패시브 액션 등록
+                AfterFireNormalAttack += imageParts.NormalAttackAfterFire; // 발사 후 액션 등록
+
+            }
+        }
+    }
+    protected void ReadSkillAttackParts()
+    {
+        // 파츠슬롯 한바퀴 돌면서 등록
+        for (int i = 0; i < MaxSlotCount; i++)
+        {
+            IImagePartsToSkillAttack_YSJ imageParts = SlotTransform.GetChild(i).GetComponentInChildren<IImagePartsToSkillAttack_YSJ>();
+            if (imageParts != null)
+            {
+                PessiveSkillAttack += imageParts.SkillAttackPessive; // 패시브 액션 등록
+                AfterFireSkillAttack += imageParts.SkillAttackAfterFire; // 발사 후 액션 등록
+            }
+        }
+    }
+    protected void ReadNormalAttackParts(MagicRoot_YSJ magicAttack)
+    {
+        // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
+        for (int partsIndex = 0; partsIndex < MaxSlotCount; partsIndex++)
+        {
+            IImagePartsToNormalAttack_YSJ imageParts = SlotTransform.GetChild(partsIndex).GetComponentInChildren<IImagePartsToNormalAttack_YSJ>();
+            if (imageParts != null)
+            {
+                magicAttack.FlyingAction += imageParts.NormalAttackFlying; // 공격 날아가는 중 액션 등록
+                magicAttack.OnHitAction += imageParts.NormalAttackOnHit; // 공격 맞았을 때 액션 등록
+            }
+        }
+    }
+    protected void ReadSkillAttackParts(MagicRoot_YSJ magicAttack)
+    {
+        // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
+        for (int partsIndex = 0; partsIndex < MaxSlotCount; partsIndex++)
+        {
+            IImagePartsToSkillAttack_YSJ imageParts = SlotTransform.GetChild(partsIndex).GetComponentInChildren<IImagePartsToSkillAttack_YSJ>();
+            if (imageParts != null)
+            {
+                magicAttack.FlyingAction += imageParts.SkillAttackFlying; // 공격 날아가는 중 액션 등록
+                magicAttack.OnHitAction += imageParts.SKillAttackOnHit; // 공격 맞았을 때 액션 등록
+            }
+        }
     }
 
     public virtual void NormalAttackCancled()
@@ -247,8 +322,8 @@ public class Artifact_YSJ : MonoBehaviour
         // 클릭이 들어와있거나 쿨타임이 남아있으면 계속 실행
         while (Managers.Input.IsPressRightHandAttack || elapsedSkillCoolTime > 0)
         {
-            // 쿨타임이 남아있으면 대기
-            if (elapsedSkillCoolTime > 0)
+            // 쿨타임이 남아있으면 대기 || 공격 불가능한 상황
+            if (elapsedSkillCoolTime > 0 || !isCanAttack)
             {
                 elapsedSkillCoolTime -= Time.deltaTime;
                 yield return null; // 다음 프레임까지 대기
@@ -259,15 +334,7 @@ public class Artifact_YSJ : MonoBehaviour
                 ResetSkillAttack();
 
                 // 파츠슬롯 한바퀴 돌면서 등록
-                for (int i = 0; i < MaxSlotCount; i++)
-                {
-                    IImagePartsToSkillAttack_YSJ imageParts = SlotTransform.GetChild(i).GetComponentInChildren<IImagePartsToSkillAttack_YSJ>();
-                    if (imageParts != null)
-                    {
-                        PessiveSkillAttack += imageParts.SkillAttackPessive; // 패시브 액션 등록
-                        AfterFireSkillAttack += imageParts.SkillAttackAfterFire; // 발사 후 액션 등록
-                    }
-                }
+                ReadSkillAttackParts();
 
                 // 패시브 액션 실행
                 PessiveSkillAttack?.Invoke(this);
@@ -278,7 +345,7 @@ public class Artifact_YSJ : MonoBehaviour
                 // 발사 가능하면 발사시도(여기서 마나체크를 해야함)
                 if (true)
                 {
-                    // 방향 계산    
+                    // 방향 계산
                     Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
 
                     // 발사 전 액션 실행
@@ -288,8 +355,10 @@ public class Artifact_YSJ : MonoBehaviour
                     {
                         currentHand.CanHandling = false;
                     }
+                    isCanAttack = false;
                     // 선딜 타이머 시작
                     yield return new WaitForSeconds(Current_SkillAttackStartDelay);
+                    isCanAttack = true;
                     if (currentHand) 
                     {
                         currentHand.CanHandling = true;
@@ -298,31 +367,53 @@ public class Artifact_YSJ : MonoBehaviour
                     // 공격 생성
                     if (SkillAttackPrefab)
                     {
-                        float angle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg; // 방향 각도 계산
-                        float firstAngle = angle - ((Current_SkillAttackSpreadAngle * (Current_SkillAttackCount - 1)) / 2f);
-
-                        // 발사 개수만큼 발사
-                        for (int SpawnCount = 0; SpawnCount < Current_SkillAttackCount; SpawnCount++)
+                        // 추가 발사 개수만큼 반복
+                        for (int addedSpawnCount = 0; addedSpawnCount < Added_SkillAttackCount; addedSpawnCount++) 
                         {
-                            GameObject SpawnedBullet = Instantiate(SkillAttackPrefab, firePosition.position, Quaternion.Euler(0, 0, firstAngle + Current_SkillAttackSpreadAngle * SpawnCount)); // 첫 각도부터 시작해서 퍼지는 각도 더하면서 탄 생성
-                            SpawnedBullet.transform.localScale = Vector3.one * Current_SkillAttackScale; // 공격 크기 설정
-                            SpawnedBullet.GetComponent<MagicRoot_YSJ>().SkillAttackInitialize(this); // 마법에 정보 주입(데미지, 스피드, 탄 지속시간 등)
-
-                            // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
-                            for (int partsIndex = 0; partsIndex < MaxSlotCount; partsIndex++)
+                            // 디폴트 발사 개수만큼 반복
+                            for (int SpawnCount = 0; SpawnCount < Default_SkillAttackCount; SpawnCount++)
                             {
-                                IImagePartsToSkillAttack_YSJ imageParts = SlotTransform.GetChild(partsIndex).GetComponentInChildren<IImagePartsToSkillAttack_YSJ>();
-                                if (imageParts != null)
+                                // 발사하기 전에 방향 다시계산
+                                Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
+                                // Add 산탄만큼 산탄 반복
+                                for (int addedSpreadCount = 0; addedSpreadCount < Added_SkillAttackSpreadCount; addedSpreadCount++)
                                 {
-                                    SpawnedBullet.GetComponent<MagicRoot_YSJ>().FlyingAction += imageParts.SkillAttackFlying; // 공격 날아가는 중 액션 등록
-                                    SpawnedBullet.GetComponent<MagicRoot_YSJ>().OnHitAction += imageParts.SKillAttackOnHit; // 공격 맞았을 때 액션 등록
+
+                                    float originalAngle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg; // 방향 각도 계산
+                                                                                                                 // 추가 산탄의 각도 = (바라보는 각도 - (추가탄의 퍼짐각도 * 추가탄 산탄개수) / 2) + (추가탄의 퍼짐각도 * 추가탄의 산탄횟수 n번째)
+                                    float addedSpreadAngle = (originalAngle - (Added_SkillAttackSpreadAngle * (Added_SkillAttackSpreadCount - 1) / 2f)) + (Added_SkillAttackSpreadAngle * addedSpreadCount);
+
+                                    // Default 산탄만큼 산탄 반복
+                                    for (int defaultSpreadCount = 0; defaultSpreadCount < Default_SkillAttackSpreadCount; defaultSpreadCount++)
+                                    {
+                                        // 기본 산탄의 각도 = (추가 산탄의 각도 - (기본탄의 퍼짐 각도 * 기본탄 산탄개수) / 2) + (기본탄의 퍼짐각도 * 기본탄의 산탄횟수 n번째)
+                                        float defaultSpreadAngle = (addedSpreadAngle - (Default_SkillAttackSpreadAngle * (Default_SkillAttackSpreadCount - 1) / 2f)) + (Default_SkillAttackSpreadAngle * defaultSpreadCount);
+
+                                        GameObject SpawnedBullet = Instantiate(SkillAttackPrefab, firePosition.position, Quaternion.Euler(0, 0, defaultSpreadAngle)); // 각도에 맞게 탄 생성
+
+                                        SpawnedBullet.transform.localScale = Vector3.one * Current_SkillAttackScale; // 공격 크기 설정
+                                        SpawnedBullet.GetComponent<MagicRoot_YSJ>().SkillAttackInitialize(this); // 마법에 정보 주입(데미지, 스피드, 탄 지속시간 등)
+
+                                        // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
+                                        ReadSkillAttackParts(SpawnedBullet.GetComponent<MagicRoot_YSJ>());
+
+                                        // 일반 공격 생성 한 직후 액션 실행
+                                        AfterFireSkillAttack?.Invoke(this, SpawnedBullet);
+                                    }
+                                }
+                                // 마지막 공격이 아니라면 공격 간격만큼 기다리기
+                                if (SpawnCount + 1 < Default_SkillAttackCount)
+                                {
+                                    yield return new WaitForSeconds(Default_SkillAttackCountDeltaTime);
                                 }
                             }
 
-                            // 일반 공격 생성 한 직후 액션 실행
-                            AfterFireSkillAttack?.Invoke(this, SpawnedBullet);
+                            // 마지막 추가공격이 아니라면 공격 간격만큼 기다리기
+                            if (addedSpawnCount + 1 < Added_SkillAttackCount)
+                            {
+                                yield return new WaitForSeconds(Default_SkillAttackCountDeltaTime);
+                            }
                         }
-
                         // 쿨타임 적용
                         elapsedSkillCoolTime = Current_SkillAttackCoolTime;
                     }
@@ -405,7 +496,10 @@ public class Artifact_YSJ : MonoBehaviour
         Added_NormalBulletSpeed = 0.0f;
         Added_NormalAttackStartDelay = 0.0f;
         Added_NormalAttackScale = 0.0f;
-        Added_NormalAttackCount = 0;
+
+        Added_NormalAttackCount = 1;
+
+        Added_NormalAttackSpreadCount = 1;
         Added_NormalAttackSpreadAngle = 0.0f;
 
         PessiveNormalAttack = null; // 기존 패시브 액션 초기화
@@ -419,7 +513,10 @@ public class Artifact_YSJ : MonoBehaviour
         Added_SkillBulletSpeed = 0.0f;
         Added_SkillAttackStartDelay = 0.0f;
         Added_SkillAttackScale = 0.0f;
-        Added_SkillAttackCount = 0;
+
+        Added_SkillAttackCount = 1;
+
+        Added_SkillAttackSpreadCount = 1;
         Added_SkillAttackSpreadAngle = 0.0f;
 
         PessiveSkillAttack = null; // 기존 패시브 액션 초기화
@@ -444,7 +541,6 @@ public class Artifact_YSJ : MonoBehaviour
         Current_NormalAttackStartDelay = Default_NormalAttackStartDelay + Added_NormalAttackStartDelay;
         Current_NormalAttackScale = Default_NormalAttackScale + Added_NormalAttackScale;
         Current_NormalAttackCount = Default_NormalAttackCount + Added_NormalAttackCount;
-        Current_NormalAttackSpreadAngle = Default_NormalAttackSpreadAngle + Added_NormalAttackSpreadAngle;
     }
     protected virtual void SkillAttackCountCurrentStatus()
     {
@@ -455,7 +551,6 @@ public class Artifact_YSJ : MonoBehaviour
         Current_SkillAttackStartDelay = Default_SkillAttackStartDelay + Added_SkillAttackStartDelay;
         Current_SkillAttackScale = Default_SkillAttackScale + Added_SkillAttackScale;
         Current_SkillAttackCount = Default_SkillAttackCount + Added_SkillAttackCount;
-        Current_SkillAttackSpreadAngle = Default_SkillAttackSpreadAngle + Added_SkillAttackSpreadAngle;
     }
 
     // 파츠 추가, 제거

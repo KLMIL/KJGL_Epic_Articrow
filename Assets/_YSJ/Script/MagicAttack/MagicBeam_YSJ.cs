@@ -27,20 +27,24 @@ public class MagicBeam_YSJ : MagicRoot_YSJ
             // DestroyCount만큼 적 때리기
             for (int i = 0; i < hits.Length; i++)
             {
-                if (i == DestroyCount) break;
-
                 hitpoint = hits[i].point;
                 if (hits[i].collider.TryGetComponent<IDamagable>(out IDamagable damagable))
                 {
+                    OnHit(hits[i].collider);
                     damagable.TakeDamage(AttackPower);
                 }
+                if (DestroyCount < 0)
+                {
+                    break; 
+                }
             }
-
-            if (hits.Length < DestroyCount) 
+            // 관통 조건
+            if (DestroyCount >= 0)
             {
                 lineRenderer.SetPosition(1, transform.position + transform.right * Speed);
             }
-            else 
+            // 관통 못했으면 마지막 충돌지점에 선 그리기
+            else
             {
                 lineRenderer.SetPosition(1, hitpoint);
             }

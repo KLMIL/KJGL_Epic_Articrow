@@ -27,6 +27,7 @@ public class MagicRoot_YSJ : MonoBehaviour
 
     public void SkillAttackInitialize(Artifact_YSJ ownerArtifact) 
     {
+        print("asdf");
         this.ownerArtifact = ownerArtifact;
 
         Speed = ownerArtifact.Current_SkillBulletSpeed;
@@ -40,10 +41,6 @@ public class MagicRoot_YSJ : MonoBehaviour
     {
         OnHitAction?.Invoke(ownerArtifact, gameObject, hitObject.gameObject);
         DestroyCount--;
-        if (DestroyCount < 0)
-        {
-            Destroy(gameObject);
-        }
     }
 
     public void CountLifeTime(Artifact_YSJ ownerArtifact, GameObject Attack) 
@@ -53,6 +50,14 @@ public class MagicRoot_YSJ : MonoBehaviour
             elapsedTime += Time.deltaTime;
         }
         else 
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void CheckDestroy() 
+    {
+        if (DestroyCount < 0)
         {
             Destroy(gameObject);
         }
