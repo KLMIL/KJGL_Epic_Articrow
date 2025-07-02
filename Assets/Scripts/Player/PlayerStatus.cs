@@ -108,6 +108,9 @@ namespace YSJ
             set
             {
                 _offsetBarrier = value;
+
+                // 배리어는 체력에 영향을 주지 않으면서 보호막 UI 업데이트를 같이 하기 위함
+                Health += 0;
             }
         }
         public float OffsetDashCoolTime 
@@ -169,9 +172,10 @@ namespace YSJ
             // 테스트용
             if (Input.GetKeyDown(KeyCode.T))
             {
+                OffsetBarrier += 1f;
                 //StartDebuffCoroutine(PlayerState.Stun, 1f);
                 //TakeDamage(1f);
-                //OffsetMaxHealth += 2f;
+                OffsetMaxHealth += 2f;
                 //OffsetDashCoolTime += 0.1f;
                 //SpendMana(1f);
             }

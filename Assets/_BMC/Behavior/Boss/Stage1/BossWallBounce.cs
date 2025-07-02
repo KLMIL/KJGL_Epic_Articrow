@@ -14,7 +14,7 @@ namespace BMC
         {
             _fsm = GetComponent<BossFSM>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
-            _stopLayerMask = LayerMask.GetMask("Obstacle");
+            _stopLayerMask = LayerMask.GetMask("Obstacle") | LayerMask.GetMask("Corner");
         }
 
         bool IsInLayerMask(int layer, LayerMask mask)

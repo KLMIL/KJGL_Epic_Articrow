@@ -35,4 +35,9 @@ public class HealthHeart : MonoBehaviour
                 break;
         }
     }
+
+    public void SetColor(Color color)
+    {
+        heartImage.color = color;
+    }
 }
