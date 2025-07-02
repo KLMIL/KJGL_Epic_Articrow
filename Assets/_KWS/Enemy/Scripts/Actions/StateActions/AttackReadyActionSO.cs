@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -41,8 +42,10 @@ namespace Game.Enemy
         public Vector2 IndicatorScale;
         public bool AlwaysMaxScale = false;
 
-        public float angle;
-        public int count;
+        public float angle = 0;
+        public int count = 1;
+
+        public float duration = 0.7f;
 
         public override void OnEnter(EnemyController controller)
         {
@@ -73,7 +76,8 @@ namespace Game.Enemy
             controller.FSM.IndicatorScale = scale;
 
             // 기준 방향 계산
-            Vector2 standardDir = (controller.FSM.AttackTargetPosition - (Vector2)controller.transform.position).normalized;
+            //Vector2 standardDir = (controller.FSM.AttackTargetPosition - (Vector2)controller.transform.position).normalized;
+            Vector2 standardDir = (controller.FSM.AttackTargetPosition - (Vector2)controller.AttackIndicator.transform.position).normalized;
 
             List<Vector2> dirs = new();
             List<Vector2> lens = new();
@@ -128,16 +132,20 @@ namespace Game.Enemy
             }
 
             controller.AttackIndicator.SetIndicators(dirs, lens, IndicatorPrefab);
+
+            controller.StartCoroutine(BlinkAndHideCoroutine(controller, duration - 0.1f));
+        }
+
+        private IEnumerator BlinkAndHideCoroutine(EnemyController controller, float duration)
+        {
+            yield return new WaitForSeconds(duration);
+
+            controller.AttackIndicator.BlinkAndHide();
         }
 
         public override void Act(EnemyController controller)
         {
             /* Do Nothing */
-        }
-
-        public override void OnExit(EnemyController controller)
-        {
-            controller.AttackIndicator.BlinkAndHide();
         }
     }
 }

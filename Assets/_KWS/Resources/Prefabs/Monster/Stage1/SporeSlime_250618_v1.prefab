@@ -80,14 +80,6 @@ MonoBehaviour:
     duration: 0.3
     nextStateName: Idle
     elapsedTime: 0
-  - stateName: MoveAway
-    interruptType: 1
-    condition: {fileID: 11400000, guid: b63c75e5b3be8204fa9fc368b3adf42b, type: 2}
-    action: {fileID: 11400000, guid: 876928a8d89b24747a56fe0391e4fb7f, type: 2}
-    animationName: Walk
-    duration: 0.4
-    nextStateName: Idle
-    elapsedTime: 0
   - stateName: ProjectileCheck
     interruptType: 1
     condition: {fileID: 11400000, guid: 80cfa604699ef2446b8d3b4e5032b48e, type: 2}
@@ -110,6 +102,22 @@ MonoBehaviour:
     action: {fileID: 11400000, guid: a006efbc428a29a4aa997015006bab34, type: 2}
     animationName: Attack
     duration: 0.3
+    nextStateName: Idle
+    elapsedTime: 0
+  - stateName: Orbit
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 9fa2ac8dfb26e704490c39a3c6b4a093, type: 2}
+    action: {fileID: 11400000, guid: 9a6779a21454c934a87256682bb6b5f4, type: 2}
+    animationName: Walk
+    duration: 0.3
+    nextStateName: Idle
+    elapsedTime: 0
+  - stateName: MoveAway
+    interruptType: 1
+    condition: {fileID: 11400000, guid: b63c75e5b3be8204fa9fc368b3adf42b, type: 2}
+    action: {fileID: 11400000, guid: 876928a8d89b24747a56fe0391e4fb7f, type: 2}
+    animationName: Walk
+    duration: 0.4
     nextStateName: Idle
     elapsedTime: 0
   - stateName: Idle
@@ -143,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f262f1b822313c24589e57fee54e7c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 0}
   moveSpeedMultiply: 1
   wallCheckDistance: 0.5
   wallLayerMask:
@@ -491,7 +500,7 @@ Transform:
   m_GameObject: {fileID: 8881936826893661866}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6, z: 0}
+  m_LocalPosition: {x: -0.1, y: 0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

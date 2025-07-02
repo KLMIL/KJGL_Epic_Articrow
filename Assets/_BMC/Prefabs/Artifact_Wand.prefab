@@ -29,8 +29,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2628103402670562705}
+  m_Children: []
   m_Father: {fileID: 3958367790181213776}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1170649688273259226
@@ -168,6 +167,8 @@ MonoBehaviour:
   Default_NormalAttackStartDelay: 0
   Default_NormalAttackScale: 1
   Default_NormalAttackCount: 1
+  Default_NormalAttackCountDeltaTime: 0.1
+  Default_NormalAttackSpreadCount: 1
   Default_NormalAttackSpreadAngle: 0
   Default_SkillAttackPower: 1
   Default_SkillAttackCoolTime: 2
@@ -176,12 +177,16 @@ MonoBehaviour:
   Default_SkillAttackStartDelay: 0
   Default_SkillAttackScale: 1
   Default_SkillAttackCount: 1
+  Default_SkillAttackCountDeltaTime: 0.1
+  Default_SkillAttackSpreadCount: 1
   Default_SkillAttackSpreadAngle: 0
   MaxSlotCount: 3
   StatPoint: 15
+  currentHand: {fileID: 0}
   firePosition: {fileID: 1928012290517508733}
   NormalAttackPrefab: {fileID: 5213770336673385342, guid: b30c08121724d5b40badebf804a18220, type: 3}
   SkillAttackPrefab: {fileID: 5213770336673385342, guid: 5c531af23addf41428ad38ce43911d23, type: 3}
+  isCanAttack: 1
 --- !u!61 &4421286672773717605
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -228,37 +233,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
---- !u!1 &6818528668948391610
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2628103402670562705}
-  m_Layer: 30
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2628103402670562705
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6818528668948391610}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 776787864542041015}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7776981891508176572
 GameObject:
   m_ObjectHideFlags: 0

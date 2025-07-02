@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 206884370226977896}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -164,6 +164,14 @@ MonoBehaviour:
     duration: 0.2
     nextStateName: Idle
     elapsedTime: 0
+  - stateName: Orbit
+    interruptType: 1
+    condition: {fileID: 11400000, guid: c29124dc27b09ee44a2b66293858788d, type: 2}
+    action: {fileID: 11400000, guid: 5b22e11f15ab3c94498b657ec4cb393d, type: 2}
+    animationName: Walk
+    duration: 0.3
+    nextStateName: Idle
+    elapsedTime: 0
   - stateName: Approach
     interruptType: 1
     condition: {fileID: 11400000, guid: 50c9cd9cd56174143851021d61db8205, type: 2}
@@ -203,6 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f262f1b822313c24589e57fee54e7c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 0}
   moveSpeedMultiply: 1
   wallCheckDistance: 0.5
   wallLayerMask:

@@ -58,7 +58,7 @@ namespace Game.Enemy
         {
 
             Vector3 dir = (controller.Player.position - controller.transform.position).normalized;
-            controller.MoveTo(dir, Time.deltaTime, "SimpleChase", inverse);
+            controller.MoveTo(dir, Time.fixedDeltaTime, "SimpleChase", inverse);
         }
 
         private void SmartChase(EnemyController controller)

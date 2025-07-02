@@ -32,6 +32,7 @@ public class MagicPunch_YSJ : MagicRoot_YSJ
         {
             OnHit(collision);
             collision.GetComponent<IDamagable>().TakeDamage(AttackPower);
+            CheckDestroy();
         }
     }
 }

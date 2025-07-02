@@ -1,3 +1,4 @@
+using BMC;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -67,6 +68,7 @@ namespace Game.Enemy
 
                 if (_debuff == ProjectileDebuff.Immobilize)
                 {
+                    collision.gameObject.GetComponentInParent<PlayerDebuff>().ApplyDebuff(DebuffType.Stun, 1f);
                     // TODO: 이동불가 디버프 효과 부여
                 }
             }
