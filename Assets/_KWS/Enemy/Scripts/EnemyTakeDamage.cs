@@ -1,13 +1,20 @@
 using TMPro;
 using UnityEngine;
-using YSJ;
+using BMC;
 
 namespace Game.Enemy
 {
     public class EnemyTakeDamage : MonoBehaviour, IDamagable
     {
         EnemyController ownerController;
-        TextMeshPro damageText;
+        ShowDamageText showDamageText;
+
+        //TextMeshPro damageText;
+
+        private void Awake()
+        {
+            showDamageText = GetComponent<ShowDamageText>();
+        }
 
         private void Start()
         {
@@ -18,7 +25,7 @@ namespace Game.Enemy
         private void OnDisable()
         {
             //damageText.text = "0";
-            damageText = null;
+            //damageText = null;
         }
 
         public void TakeDamage(float damage)
@@ -38,24 +45,25 @@ namespace Game.Enemy
                 currDamage *= ownerController.FSM.enemyDamagedMultiply;
             }
 
-            // 대미지 부여 텍스트
-            if (damageText != null)
-            {
-                if (damageText.gameObject.activeInHierarchy)
-                {
-                    damageText.text = (float.Parse(damageText.text) + currDamage).ToString("F0");
+            //// 대미지 부여 텍스트
+            //if (damageText != null)
+            //{
+            //    if (damageText.gameObject.activeInHierarchy)
+            //    {
+            //        damageText.text = (float.Parse(damageText.text) + currDamage).ToString("F0");
 
-                    Color color = damageText.color;
-                    color.a = 1;
-                    damageText.color = color;
-                }
-            }
-            else
-            {
-                damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
-                damageText.text = currDamage.ToString("F0");
-            }
-            damageText.transform.position = this.transform.position + this.transform.up;
+            //        Color color = damageText.color;
+            //        color.a = 1;
+            //        damageText.color = color;
+            //    }
+            //}
+            //else
+            //{
+            //    damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            //    damageText.text = currDamage.ToString("F0");
+            //}
+            //damageText.transform.position = this.transform.position + this.transform.up;
+            showDamageText.Show(currDamage);
 
 
             ownerController.Status.healthPoint -= currDamage;

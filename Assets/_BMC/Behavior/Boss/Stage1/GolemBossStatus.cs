@@ -21,7 +21,7 @@ namespace BMC
         public override void Init()
         {
             Health = 5000;
-            Damage = 10f;
+            Damage = 1f;
         }
 
         void Update()
@@ -39,7 +39,6 @@ namespace BMC
 
             Health -= damage;
 
-            Debug.Log($"보스 체력: {Health}");
             ShowTakeDamageText(damage);
 
             Debug.LogError("데미지 받아서 색변경됨");
