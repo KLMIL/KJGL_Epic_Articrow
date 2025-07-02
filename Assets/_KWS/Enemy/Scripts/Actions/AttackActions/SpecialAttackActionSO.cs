@@ -16,12 +16,14 @@ namespace Game.Enemy
     {
         public SpecialAttackMode specialAttackMode = SpecialAttackMode.Summon;
         public float cooldown = 1.0f;
+        public float damageMultiply;
 
         [Header("Summon")]
         public List<GameObject> summoningPrefab;
         public int spawnCount = 3;
         public float spawnRadius = 1f;
 
+       
 
         public override void Act(EnemyController controller)
         {
@@ -84,6 +86,8 @@ namespace Game.Enemy
 
         private void Boom(EnemyController controller)
         {
+            controller.FSM.currentActionDamageMultiply = 2f;
+
             LayerMask playerMask = LayerMask.GetMask("PlayerHurtBox");
             Collider2D[] hitTargets = Physics2D.OverlapCircleAll(controller.transform.position, spawnRadius, playerMask);
 
