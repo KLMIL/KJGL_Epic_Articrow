@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class ImageParts_FireSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
+public class ImageParts_BeforeSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
 {
-    public override string partsName => "FireSkill_Barrier_1";
+    public override string partsName => "BeforeSkill_Barrier_1";
 
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
@@ -51,18 +51,18 @@ public class ImageParts_FireSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsToS
 
     void StartBuff()
     {
-        //int add = fireArtifact.playerStatus.Defualt_;
+        int add = 1;
 
-        //fireArtifact. += add;
-        //Debug.Log($"[ckt] {partsName} StartBuff {add}");
+        _fireArtifact.playerStatus.OffsetBarrier += add;
+        Debug.Log($"[ckt] {partsName} StartBuff {add}");
     }
 
     void EndBuff()
     {
-        //int add = fireArtifact.playerStatus.Defualt_;
+        int add = 1;
 
-        //fireArtifact. -= add;
-        //Debug.Log($"[ckt] {partsName} EndBuff {add}");
+        _fireArtifact.playerStatus.OffsetBarrier -= add;
+        Debug.Log($"[ckt] {partsName} StartBuff {add}");
     }
 
     void StopBuff()
