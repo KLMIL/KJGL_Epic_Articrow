@@ -10,7 +10,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
     private void Start()
     {
         Managers.Input.OnInteractAction += TryInteract;
-        hand = transform.GetComponentInChildren<RightHand>().transform;
+        hand = transform.GetComponentInChildren<RightHand>().transform; 
     }
 
     // 주변에 먹을 것 좀 있나 탐색
@@ -24,8 +24,17 @@ public class CanInteractObject_YSJ : MonoBehaviour
         {
             if (collider.TryGetComponent<InteractObject_YSJ>(out InteractObject_YSJ item) && item.enabled)
             {
-                interactObj = item;
-                break;
+                if (interactObj)
+                {
+                    if (Vector2.Distance(transform.position, interactObj.transform.position) > Vector2.Distance(transform.position, item.transform.position))
+                    {
+                        interactObj = item;
+                    }
+                }
+                else 
+                {
+                    interactObj = item;
+                }
             }
         }
 
