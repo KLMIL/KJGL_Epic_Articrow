@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
  */
 namespace Game.Enemy
 {
-    public enum MeleeAttackMode { Basic, Rush }
+    public enum MeleeAttackMode { Basic, Rush, Smash }
     [CreateAssetMenu(
         fileName = "MeleeAttackAction",
         menuName = "Enemy/Action/Attack/Melee Attack"
@@ -33,6 +33,10 @@ namespace Game.Enemy
         public bool trackingRush = false;
         public float rushDuration = 0;
         public bool inverse = false;
+
+        [Header("Cone Attack Only")]
+        public float coneRadius = 3f;
+        public float coneAngle = 120f;
 
         public override void Act(EnemyController controller)
         {
@@ -63,12 +67,15 @@ namespace Game.Enemy
                 case MeleeAttackMode.Rush:
                     RushAttack(controller);
                     break;
+                case MeleeAttackMode.Smash:
+                    SmashAttack(controller);
+                    break;
             }
 
 
             // 쿨타임 부여
             controller.lastAttackTimes[key] = Time.time;
-            Debug.LogError("물리공격 쿨타임 부여");
+            //Debug.LogError("물리공격 쿨타임 부여");
         }
 
         public override void OnEnter(EnemyController controller)
@@ -166,6 +173,32 @@ namespace Game.Enemy
             controller.MoveTo(controller.FSM.rushDirection, rushDuration, "RushAttack");
 
             //controller.transform.Translate(controller.rushDirection * controller.Status.moveSpeed * rushSpeedMultiply * Time.deltaTime);
+        }
+
+        private void SmashAttack(EnemyController controller)
+        {
+            Vector2 attackOrigin = (Vector2)controller.transform.position + attackOffset;
+            float radius = coneRadius;
+            float maxAngle = coneAngle * 0.5f;
+            LayerMask playerMask = LayerMask.GetMask("PlayerHurtBox");
+
+            Vector2 forward = (controller.FSM.AttackTargetPosition - (Vector2)controller.transform.position).normalized;
+
+            Collider2D[] hits = Physics2D.OverlapCircleAll(attackOrigin, radius, playerMask);
+
+            foreach (var hit in hits)
+            {
+                Vector2 toTarget = ((Vector2)hit.transform.position - attackOrigin).normalized;
+                float angle = Vector2.Angle(forward, toTarget);
+
+                if (angle <= maxAngle)
+                {
+                    float damage = controller.Status.attack * damageMultiply;
+                    Transform target = hit.transform;
+                    controller.DealDamageToPlayer(damage, target, false);
+                    break;
+                }
+            }
         }
     }
 }

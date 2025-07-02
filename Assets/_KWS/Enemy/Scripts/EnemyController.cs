@@ -11,6 +11,8 @@ namespace Game.Enemy
         [SerializeField] EnemyStatusSO _statusOrigin;
         [HideInInspector] public EnemyStatusSO Status;
 
+        public EnemyStatusSO StatusOrigin => _statusOrigin;
+
         [Header("Components")]
         public SpriteRenderer SpriteRenderer;
         [HideInInspector] public EnemyFSMCore FSM;
@@ -25,7 +27,7 @@ namespace Game.Enemy
         [HideInInspector] public Transform Player;
         [HideInInspector] public Transform Attacker = null;
 
-        [HideInInspector] public EnemyAttackIndicator _attackIndicator;
+        [HideInInspector] public EnemyAttackIndicator AttackIndicator;
 
         Coroutine markingCoroutine;
         Coroutine gravitySurgeCoroutine;
@@ -57,8 +59,8 @@ namespace Game.Enemy
 
             // FSM 생성
             FSM = new EnemyFSMCore(this, Behaviours);
-            _attackIndicator = GetComponentInChildren<EnemyAttackIndicator>(true);
-            if (_attackIndicator == null)
+            AttackIndicator = GetComponentInChildren<EnemyAttackIndicator>(true);
+            if (AttackIndicator == null)
             {
                 Debug.Log($"{gameObject.name}: No AttackIndicator assigned");
             }
@@ -80,22 +82,22 @@ namespace Game.Enemy
                 {
                     if (meleeAttack.meleeAttackMode == MeleeAttackMode.Basic)
                     {
-                        FSM.indicatorLength = meleeAttack.attackRange;
+                        //FSM.indicatorLength = meleeAttack.attackRange;
                     }
                     if (meleeAttack.meleeAttackMode == MeleeAttackMode.Rush)
                     {
-                        FSM.indicatorLength = meleeAttack.rushSpeedMultiply * meleeAttack.rushDuration * Status.moveSpeed;
+                        //FSM.indicatorLength = meleeAttack.rushSpeedMultiply * meleeAttack.rushDuration * Status.moveSpeed;
                     }
                 }
 
                 if (behaviour.action is ProjectileAttackActionSO projectileAttack)
                 {
-                    FSM.indicatorLength = projectileAttack.projectileSpeed * projectileAttack.lifetime;
+                    //FSM.indicatorLength = projectileAttack.projectileSpeed * projectileAttack.lifetime;
                 }
 
                 if (behaviour.action is SpecialAttackActionSO specialAttack)
                 {
-                    FSM.indicatorLength = specialAttack.spawnRadius;
+                    //FSM.indicatorLength = specialAttack.spawnRadius;
                 }
             }
 
@@ -174,6 +176,16 @@ namespace Game.Enemy
         public bool IsGravitySurgeCoroutineGO()
         {
             return gravitySurgeCoroutine != null;
+        }
+
+        public bool IsPatternReady(string patternName, float cooldown)
+        {
+            float lastUsed = 0f;
+            if (lastAttackTimes.TryGetValue(patternName, out var v))
+            {
+                lastUsed = v;
+            }
+            return (Time.time - lastUsed) >= cooldown;
         }
         #endregion
 

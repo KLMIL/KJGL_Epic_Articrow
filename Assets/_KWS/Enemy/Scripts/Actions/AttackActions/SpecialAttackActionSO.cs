@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /*
@@ -15,12 +16,14 @@ namespace Game.Enemy
     {
         public SpecialAttackMode specialAttackMode = SpecialAttackMode.Summon;
         public float cooldown = 1.0f;
+        public float damageMultiply;
 
         [Header("Summon")]
-        public GameObject summoningPrefab;
+        public List<GameObject> summoningPrefab;
         public int spawnCount = 3;
         public float spawnRadius = 1f;
 
+       
 
         public override void Act(EnemyController controller)
         {
@@ -75,12 +78,16 @@ namespace Game.Enemy
             {
                 Vector2 rand = Random.insideUnitCircle * spawnRadius;
                 Vector3 spawnPos = controller.transform.position + new Vector3(rand.x, 0, rand.y);
-                Instantiate(summoningPrefab, spawnPos, Quaternion.identity);
+
+                int randomIdx = Random.Range(0, summoningPrefab.Count);
+                Instantiate(summoningPrefab[randomIdx], spawnPos, Quaternion.identity);
             }
         }
 
         private void Boom(EnemyController controller)
         {
+            controller.FSM.currentActionDamageMultiply = 2f;
+
             LayerMask playerMask = LayerMask.GetMask("PlayerHurtBox");
             Collider2D[] hitTargets = Physics2D.OverlapCircleAll(controller.transform.position, spawnRadius, playerMask);
 

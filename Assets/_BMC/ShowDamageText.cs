@@ -14,6 +14,10 @@ namespace BMC
         void Awake()
         {
             _damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            
+            Color color = _damageText.color;
+            color.a = 0;
+            _damageText.color = color;
         }
 
         // 데미지 텍스트 띄우기
