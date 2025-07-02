@@ -237,7 +237,7 @@ Transform:
   m_GameObject: {fileID: 4326112609714871761}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.343, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -335,9 +335,17 @@ MonoBehaviour:
     duration: 0.3
     nextStateName: AttackReady
     elapsedTime: 0
+  - stateName: AttackCheck
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 011fb0bb0f50f8e4e806e334e7050405, type: 2}
+    action: {fileID: 11400000, guid: a3af7cbafe99e3d4d98b5fd585bcf154, type: 2}
+    animationName: Idle
+    duration: 0.2
+    nextStateName: AttackReady
+    elapsedTime: 0
   - stateName: AttackReady
     interruptType: 1
-    condition: {fileID: 11400000, guid: 0453ecb231bc65d4db27ebdd83a5f233, type: 2}
+    condition: {fileID: 11400000, guid: 8b5a379af5bf8fa4b9d314a752a22b7f, type: 2}
     action: {fileID: 11400000, guid: dd29f45c77857ec469ad54d631182917, type: 2}
     animationName: AttackReady
     duration: 0.5

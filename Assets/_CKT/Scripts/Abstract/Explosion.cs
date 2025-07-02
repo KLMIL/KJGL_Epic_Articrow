@@ -35,7 +35,7 @@ namespace CKT
 
             yield return (DisableTime <= 0) ? null : new WaitForSeconds(DisableTime);
             _collider.enabled = false;
-            YSJ.Managers.TestPool.Return(PoolID, this.gameObject);
+            YSJ.Managers.Pool.Return(PoolID, this.gameObject);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

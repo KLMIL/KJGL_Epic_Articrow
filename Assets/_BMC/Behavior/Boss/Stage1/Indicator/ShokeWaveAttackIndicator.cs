@@ -2,64 +2,37 @@ using System.Collections;
 using UnityEngine;
 namespace BMC
 {
-    public class ShokeWaveAttackIndicator : MonoBehaviour
+    public class ShokeWaveAttackIndicator : AttackIndicator
     {
-        Transform _target;                     // 공격 목표
-        SpriteRenderer _indicator;             // 인디케이터
-        SpriteRenderer _background;            // 배경
-        Coroutine _coroutine;
         CircleCollider2D _circleCollider;
 
         ShokeWaveHitBox _shokeWaveHitBox; // 히트박스 컴포넌트
 
-        [Header("시간")]
-        float _fillDuration = 1f;   // 두께 확장 시간
-
-        [Header("두께")]
-        float _startThickness = 0.5f;   // 시작 두께
-        float _endThickness = 5f;       // 최종 두께
-
-
         void Awake()
         {
-            SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-            _indicator = spriteRenderers[0];
-            _background = spriteRenderers[1];
-            _indicator.enabled = false;
-            _background.enabled = false;
-
+            SetSprite();
             _circleCollider = GetComponentInChildren<CircleCollider2D>();
             _shokeWaveHitBox = GetComponentInChildren<ShokeWaveHitBox>();
         }
 
         void Start()
         {
+            _startScale = 1f;
+            _endScale = 5f;
             _shokeWaveHitBox.Damage = 2f;
-            _target = PlayerManager.Instance.transform;
         }
 
         void Update()
         {
-            //if (Input.GetKeyDown(KeyCode.T))
-            //    PlayChargeAndAttack();
+            if (Input.GetKeyDown(KeyCode.V))
+                PlayChargeAndAttack();
         }
 
-        public void Init(float time)
-        {
-            _fillDuration = time;
-        }
-
-        public void PlayChargeAndAttack()
-        {
-            if (_coroutine == null)
-                _coroutine = StartCoroutine(ChargeCoroutine());
-        }
-
-        private IEnumerator ChargeCoroutine()
+        protected override IEnumerator ChargeCoroutine()
         {
             // 원래 스케일 초기화
-            _indicator.transform.localScale = new Vector3(_startThickness, _startThickness, 1);
-            _background.transform.localScale = new Vector3(_endThickness, _endThickness, 1);
+            _indicator.transform.localScale = new Vector3(_startScale, _startScale, 1);
+            _background.transform.localScale = new Vector3(_endScale, _endScale, 1);
             _indicator.enabled = true;
             _background.enabled = true;
 
@@ -69,12 +42,12 @@ namespace BMC
             {
                 timer += Time.deltaTime;
                 float r = timer / _fillDuration;
-                float localScaleX = Mathf.Lerp(_startThickness, _endThickness, r);
-                float localScaleY = Mathf.Lerp(_startThickness, _endThickness, r);
+                float localScaleX = Mathf.Lerp(_startScale, _endScale, r);
+                float localScaleY = Mathf.Lerp(_startScale, _endScale, r);
                 _indicator.transform.localScale = new Vector3(localScaleX, localScaleY, 1);
                 yield return null;
             }
-            _indicator.transform.localScale = new Vector3(_endThickness, _endThickness, 1);
+            _indicator.transform.localScale = new Vector3(_endScale, _endScale, 1);
 
             _background.enabled = false;
             _indicator.enabled = true;

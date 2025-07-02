@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using YSJ;
 
 public class CanInteractObject_YSJ : MonoBehaviour
@@ -86,6 +87,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
     {
         artifact.currentHand = GetComponentInChildren<PlayerHand>();
         artifact.UpdateEnhance();
+        artifact.isCanAttack = true;
 
         Transform artifactTransform = artifact.transform;
         artifactTransform.GetComponent<InteractObject_YSJ>().enabled = false;
@@ -93,6 +95,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
 
         artifactTransform.SetParent(hand.transform, false);
         artifactTransform.localPosition = Vector3.zero;
+        artifactTransform.localRotation = Quaternion.identity;
 
         Managers.UI.InventoryCanvas.ArtifactWindow.RemoveAllSlotUI();
         Managers.UI.InventoryCanvas.ArtifactWindow.SendInfoToUI(artifact);
@@ -119,5 +122,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
         currentArtifacttransform.GetComponent<InteractObject_YSJ>().enabled = true;
         currentArtifacttransform.GetComponent<Collider2D>().enabled = true;
         currentArtifacttransform.SetParent(null);
+        currentArtifact.transform.rotation = Quaternion.identity;
+        SceneManager.MoveGameObjectToScene(currentArtifacttransform.gameObject, SceneManager.GetActiveScene());
     }
 }

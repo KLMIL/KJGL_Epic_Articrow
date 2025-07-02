@@ -82,13 +82,13 @@ namespace CKT
                 children[i].SetParent(null);
             }
 
-            YSJ.Managers.TestPool.Return(Define.PoolID.GrabObject, this.gameObject);
+            //YSJ.Managers.TestPool.Return(Define.PoolID.GrabObject, this.gameObject);
         }
 
         IEnumerator DisableCoroutine(float waitTime)
         {
             yield return (waitTime <= 0) ? null : new WaitForSeconds(waitTime);
-            YSJ.Managers.TestPool.Return(Define.PoolID.GrabObject, this.gameObject);
+            //YSJ.Managers.TestPool.Return(Define.PoolID.GrabObject, this.gameObject);
         }
     }
 }

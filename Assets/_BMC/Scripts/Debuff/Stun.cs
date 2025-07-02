@@ -12,7 +12,7 @@ public class Stun : Debuff
         _playerDebuff = PlayerManager.Instance.transform.GetComponent<PlayerDebuff>();
     }
 
-    public override void Do(float time)
+    public override void Apply(float duration, float damage = 0f, float interval = 0f)
     {
         // 이미 스턴 중인 경우, 기존 코루틴을 중지하고 새로 시작
         if (_coroutine != null)
@@ -20,16 +20,15 @@ public class Stun : Debuff
             StopCoroutine(_coroutine);
         }
 
-        _coroutine = StartCoroutine(StunCoroutine(time));
+        _coroutine = StartCoroutine(StunCoroutine(duration));
     }
 
-    IEnumerator StunCoroutine(float time)
+    IEnumerator StunCoroutine(float duration)
     {
+        Debug.Log("스턴 적용");
         _playerDebuff.CurrentDebuff |= DebuffType.Stun;
-        _playerDebuff.IsStun = true;
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(duration);
         _playerDebuff.CurrentDebuff &= ~DebuffType.Stun;
-        _playerDebuff.IsStun = false;
         _coroutine = null;
         Debug.Log("스턴 해제");
     }

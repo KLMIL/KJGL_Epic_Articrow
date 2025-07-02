@@ -22,6 +22,7 @@ public class MagicBullet_YSJ : MagicRoot_YSJ
         {
             OnHit(collision);
             collision.GetComponent<IDamagable>().TakeDamage(AttackPower);
+            CheckDestroy();
         }
     }
 }

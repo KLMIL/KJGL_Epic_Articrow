@@ -29,7 +29,7 @@ namespace YSJ
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _descriptionPanel = Managers.TestPool.Get<RectTransform>(Define.PoolID.Description);
+            _descriptionPanel = Managers.Pool.Get<RectTransform>(Define.PoolID.Description);
             _descriptionPanel.transform.SetParent(this.transform);
             _descriptionPanel.position = this.transform.GetComponent<RectTransform>().position;
 
@@ -41,7 +41,7 @@ namespace YSJ
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            Managers.TestPool.Return(Define.PoolID.Description, _descriptionPanel.gameObject);
+            Managers.Pool.Return(Define.PoolID.Description, _descriptionPanel.gameObject);
             //SetDescription(false, "");
         }
 

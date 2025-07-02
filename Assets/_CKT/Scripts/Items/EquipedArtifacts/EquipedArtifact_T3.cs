@@ -96,7 +96,7 @@ namespace CKT
             base._animator.Play("Attack", -1, 0);
 
             //총알 생성
-            GameObject bullet = YSJ.Managers.TestPool.Get<GameObject>(base._artifactSO.ProjectilePoolID);
+            GameObject bullet = YSJ.Managers.Pool.Get<GameObject>(base._artifactSO.ProjectilePoolID);
 
             bullet.transform.position = base._firePoint.position;
             bullet.transform.up = this.transform.up;
