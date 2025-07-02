@@ -76,7 +76,8 @@ namespace Game.Enemy
             controller.FSM.IndicatorScale = scale;
 
             // 기준 방향 계산
-            Vector2 standardDir = (controller.FSM.AttackTargetPosition - (Vector2)controller.transform.position).normalized;
+            //Vector2 standardDir = (controller.FSM.AttackTargetPosition - (Vector2)controller.transform.position).normalized;
+            Vector2 standardDir = (controller.FSM.AttackTargetPosition - (Vector2)controller.AttackIndicator.transform.position).normalized;
 
             List<Vector2> dirs = new();
             List<Vector2> lens = new();

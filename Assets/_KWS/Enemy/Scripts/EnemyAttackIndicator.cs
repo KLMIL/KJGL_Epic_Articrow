@@ -23,6 +23,8 @@ namespace Game.Enemy
                 Vector2 dir = dirs[i];
                 Vector2 scale = lens[i];
 
+                //Debug.LogError($"인디케이터 생성 {i}번째: ({dirs[i].x}, {dirs[i].y})");
+
                 indicator.transform.right = dir;
                 indicator.transform.localScale = new Vector3(scale.x, scale.y, 1f);
 

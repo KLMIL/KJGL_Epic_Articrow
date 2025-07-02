@@ -175,9 +175,10 @@ namespace Game.Enemy
 
             // 같은 방향으로 발사하기 위해 방향 함수를 while문 밖으로 뺌
             Vector2 firePos = controller.transform.position + firePointOffset;
-            //Vector3 dir = (controller.Player.position - firePos).normalized;
             Vector2 dir = (controller.FSM.AttackTargetPosition - firePos).normalized;
             Vector2 velocity = dir * projectileSpeed;
+
+            //Debug.LogError($"FireLinear에서 발사 방향: ({dir.x}, {dir.y})");
 
             if (dir.x != 0)
             {
