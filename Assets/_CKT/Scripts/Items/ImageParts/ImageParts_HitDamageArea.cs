@@ -25,9 +25,9 @@ namespace CKT
             }*/
 
             YSJ.Managers.Sound.PlaySFX(Define.SFX.HitDamageArea);
-            GameObject hitDamageArea = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.HitDamageArea);
-            hitDamageArea.transform.position = startPos;
-            hitDamageArea.GetComponent<DamageArea>().Init(level);
+            //GameObject hitDamageArea = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.HitDamageArea);
+            //hitDamageArea.transform.position = startPos;
+            //hitDamageArea.GetComponent<DamageArea>().Init(level);
 
             yield return null;
         }

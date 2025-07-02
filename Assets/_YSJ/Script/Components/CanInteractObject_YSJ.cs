@@ -122,6 +122,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
         currentArtifacttransform.GetComponent<InteractObject_YSJ>().enabled = true;
         currentArtifacttransform.GetComponent<Collider2D>().enabled = true;
         currentArtifacttransform.SetParent(null);
+        currentArtifact.transform.rotation = Quaternion.identity;
         SceneManager.MoveGameObjectToScene(currentArtifacttransform.gameObject, SceneManager.GetActiveScene());
     }
 }
