@@ -27,7 +27,7 @@ public class ImageParts_FireSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIma
     {
     }
 
-    #region [5초 동안 일반 공격 피해량 증가]
+    #region [스킬 시전 시 5초 동안 일반 공격 피해량 증가 (현재 스킬에는 미적용)]
     void OnDisable()
     {
         StopBuff();

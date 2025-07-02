@@ -1,30 +1,14 @@
 using UnityEngine;
 
-public class ImageParts_Passive_NormalAttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ
+public class ImageParts_Passive_NormalAttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToEnhance_YSJ
 {
     public override string partsName => "Passive_NormalAttackPower_1";
 
-    public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
+    public void Equip(Artifact_YSJ currentArtifact)
     {
-    }
+        float add = 0.15f * currentArtifact.Default_NormalAttackPower;
 
-    public void NormalAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
-    {
-    }
-
-    public void NormalAttackFlying(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
-    {
-    }
-
-    public void NormalAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
-    {
-    }
-
-    public void NormalAttackPessive(Artifact_YSJ fireArtifact)
-    {
-        float add = 0.15f * fireArtifact.Default_NormalAttackPower;
-
-        fireArtifact.Added_NormalAttackPower += add;
+        currentArtifact.Added_NormalAttackPower += add;
         Debug.Log($"[ckt] {partsName} {add}");
     }
 }
