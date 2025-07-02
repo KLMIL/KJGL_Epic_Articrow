@@ -13,7 +13,7 @@ namespace BMC
 
         void Awake()
         {
-            _damageText = Managers.TestPool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            _damageText = Managers.Pool.Get<TextMeshPro>(Define.PoolID.DamageText);
             
             Color color = _damageText.color;
             color.a = 0;
@@ -40,7 +40,7 @@ namespace BMC
         {
             if (_damageText != null)
             {
-                Managers.TestPool.Return(Define.PoolID.DamageText, _damageText.gameObject);
+                Managers.Pool.Return(Define.PoolID.DamageText, _damageText.gameObject);
                 _damageText = null;
             }
         }

@@ -87,9 +87,12 @@ namespace YSJ
 
         public void Clear()
         {
-            _bgmDict.Clear();
-            _sfxDict.Clear();
-            Object.Destroy(_root);
+            if (_root != null)
+            {
+                _bgmDict.Clear();
+                _sfxDict.Clear();
+                Object.Destroy(_root);
+            }
         }
     }
 }

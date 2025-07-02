@@ -27,7 +27,7 @@ namespace CKT
                 yield return null;
             }
 
-            YSJ.Managers.TestPool.Return(base._artifactSO.ProjectilePoolID, this.gameObject);
+            YSJ.Managers.Pool.Return(base._artifactSO.ProjectilePoolID, this.gameObject);
             _disableCoroutine = null;
         }
     }

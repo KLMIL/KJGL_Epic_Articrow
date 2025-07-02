@@ -61,7 +61,7 @@ namespace BMC
                 yield return null;
             }
             transform.position = _destinationPos;
-            Managers.TestPool.Return(Define.PoolID.ManaEnergy, gameObject);
+            //Managers.TestPool.Return(Define.PoolID.ManaEnergy, gameObject);
         }
     }
 }
