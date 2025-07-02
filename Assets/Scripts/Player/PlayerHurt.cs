@@ -33,10 +33,7 @@ namespace BMC
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                TakeDamage(1f);
-            }
+            TestCode();
         }
 
         #region 피해 및 사망 관련
@@ -44,6 +41,11 @@ namespace BMC
         public void TakeDamage(float damage)
         {
             if (IsDead || IsHurt || PlayerManager.Instance.PlayerDash.IsDash)
+            {
+                return;
+            }
+
+            if(IsCanUseBarrier(ref damage))
             {
                 return;
             }
@@ -111,9 +113,36 @@ namespace BMC
         }
         #endregion
 
-        private void OnDestroy()
+        bool IsCanUseBarrier(ref float damage)
+        {
+            // 배리어 수치가 있으면, 베리어 수치로 데미지 감소시킴
+            if (_playerStatus.OffsetBarrier > 0)
+            {
+                if (damage <= _playerStatus.OffsetBarrier)
+                {
+                    _playerStatus.OffsetBarrier -= damage;
+                    return true;
+                }
+                else
+                {
+                    damage -= _playerStatus.OffsetBarrier; // 배리어가 남아있지 않으므로 배리어를 제거하고 나머지 데미지를 적용
+                    _playerStatus.OffsetBarrier = 0;
+                }
+            }
+            return false;
+        }
+
+        void OnDestroy()
         {
             OnDeadAction = null;
+        }
+
+        void TestCode()
+        {
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                TakeDamage(1f);
+            }
         }
     }
 }
