@@ -4,7 +4,6 @@ using YSJ;
 public class ShowInteractableWindow_YSJ : MonoBehaviour
 {
     GameObject window;
-    float distance = 2f;
 
     void Start()
     {
