@@ -21,15 +21,16 @@ public class ManaHeartBar : MonoBehaviour
     {
         ClearManas();
 
-        int manasToMake = (int)PlayerManager.Instance.PlayerStatus.MaxMana;
+        float maxManaRemainder = PlayerManager.Instance.PlayerStatus.MaxMana % 2;
+        int manasToMake = (int)((PlayerManager.Instance.PlayerStatus.MaxMana / 2) + maxManaRemainder);
         for (int i = 0; i < manasToMake; i++)
         {
             CreateEmptyMana();
         }
 
-        for (int i = 0; i < manas.Count; i++)
+        for (int i = 0; i < manasToMake; i++)
         {
-            int manaStatusRemainder = (int)Mathf.Clamp(PlayerManager.Instance.PlayerStatus.Mana - (i), 0, 1);
+            int manaStatusRemainder = (int)Mathf.Clamp(PlayerManager.Instance.PlayerStatus.Mana - (i * 2), 0, 2);
             manas[i].SetHeartImage((ManaStatus)manaStatusRemainder);
         }
     }

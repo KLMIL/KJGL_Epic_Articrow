@@ -2,7 +2,7 @@ using static Define;
 
 namespace BMC
 {
-    public class TestRoom : Room
+    public class NormalRoom : Room
     {
         public override void Init()
         {
