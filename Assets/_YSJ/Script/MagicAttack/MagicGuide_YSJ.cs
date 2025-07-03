@@ -3,6 +3,7 @@ using UnityEngine;
 public class MagicGuide_YSJ : MagicRoot_YSJ
 {
     LineRenderer lineRenderer;
+    public GameObject SkillAttackPrefab;
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -17,5 +18,19 @@ public class MagicGuide_YSJ : MagicRoot_YSJ
     private void Update()
     {
         CountLifeTime(ownerArtifact, gameObject);
+    }
+
+    public override void CountLifeTime(Artifact_YSJ ownerArtifact, GameObject Attack)
+    {
+        if (elapsedTime < LifeTime)
+        {
+            elapsedTime += Time.deltaTime;
+        }
+        else
+        {
+            GameObject spawnedAttack = Instantiate(SkillAttackPrefab, transform.position, transform.rotation);
+            spawnedAttack.GetComponent<MagicRoot_YSJ>().SkillAttackInitialize(ownerArtifact);
+            Destroy(gameObject);
+        }
     }
 }

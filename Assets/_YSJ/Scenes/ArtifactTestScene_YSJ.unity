@@ -1638,6 +1638,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1898273610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1550398233 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6875469778406786919, guid: 5ed63a5efbeabf244b278cccf1227535, type: 3}
+  m_PrefabInstance: {fileID: 380165231111333439}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1550398240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550398233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2001279285d7d3e4cafb968fc86a934d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Default_NormalAttackPower: 1
+  Default_NormalAttackCoolTime: 1
+  Default_NormalAttackLife: 1
+  Default_NormalBulletSpeed: 15
+  Default_NormalAttackStartDelay: 0
+  Default_NormalAttackScale: 1
+  Default_NormalAttackCount: 3
+  Default_NormalAttackCountDeltaTime: 0.07
+  Default_NormalAttackSpreadCount: 1
+  Default_NormalAttackSpreadAngle: 0
+  Default_SkillAttackPower: 1
+  Default_SkillAttackCoolTime: 0.1
+  Default_SkillAttackLife: 0.2
+  Default_SkillBulletSpeed: 50
+  Default_SkillAttackStartDelay: 0
+  Default_SkillAttackScale: 0.2
+  Default_SkillAttackCount: 1
+  Default_SkillAttackCountDeltaTime: 0.1
+  Default_SkillAttackSpreadCount: 1
+  Default_SkillAttackSpreadAngle: 0
+  MaxSlotCount: 2
+  StatPoint: 0
+  currentHand: {fileID: 0}
+  firePosition: {fileID: 0}
+  NormalAttackPrefab: {fileID: 5213770336673385342, guid: b30c08121724d5b40badebf804a18220, type: 3}
+  SkillAttackPrefab: {fileID: 132759636820691613, guid: b6645640e0b50bb4bb6ca8e8c0a3e664, type: 3}
+  isCanAttack: 1
 --- !u!1 &1551467230
 GameObject:
   m_ObjectHideFlags: 0
@@ -2250,10 +2294,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Artifact_AssultRifle
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3280333189093925289, guid: 5ed63a5efbeabf244b278cccf1227535, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6875469778406786919, guid: 5ed63a5efbeabf244b278cccf1227535, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1550398240}
   m_SourcePrefab: {fileID: 100100000, guid: 5ed63a5efbeabf244b278cccf1227535, type: 3}
 --- !u!1001 &2051589808837647464
 PrefabInstance:
