@@ -76,10 +76,24 @@ public class ArtifactWindow_YSJ : MonoBehaviour
         ;
     }
 
+    void ResetArtifactInfomationText() 
+    {
+        normalStatText.text = "";
+        skillStatText.text = "";
+        otherStatText.text = "";
+    }
+
     public void SendInfoToUI(Artifact_YSJ equipedArtifact)
     {
         ArtifactIMGChange(equipedArtifact);
         CreateSlotUI(equipedArtifact);
         ArtifactInfomationTextUpdate(equipedArtifact);
+    }
+
+    public void ResetWindow()
+    {
+        RemoveAllSlotUI();
+        ResetArtifactInfomationText();
+        ArtifactIMG.GetComponent<Image>().sprite = null;
     }
 }
