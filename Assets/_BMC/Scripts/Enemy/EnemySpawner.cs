@@ -74,15 +74,15 @@ namespace BMC
         // 웨이브 시작
         public void StartWave()
         {
+            // 마지막 웨이브가 끝났고, 모든 적이 죽은 경우 클리어
             if(_currentWaveIndex == _enemyWaveList.Count && EnemyCount == _enemyDieCount && !_isAllWaveClear)
             {
-                // 클리어
                 _isAllWaveClear = true;
                 StageManager.Instance.CurrentRoom.RoomClearComplete();
                 return;
             }
 
-            // 죽은 적 수와 현재 웨이브의 적 수가 불일치 or 웨이브 리스트가 비어있음 or 모든 웨이브 클리어
+            // 죽은 적 수와 현재 웨이브의 적 수가 불일치 or 웨이브 리스트가 비어있음 or 모든 웨이브 클리어인 경우 종료
             if (_enemyDieCount != EnemyCount || _enemyWaveList.Count == 0 || _isAllWaveClear)
                 return;
 
@@ -90,6 +90,7 @@ namespace BMC
             EnemyCount = _enemyWaveList[_currentWaveIndex].enemySpawnInfoList.Count;
             _enemyDieCount = 0;
 
+            // 현재 웨이브의 적 소환
             if (_currentWaveIndex < _enemyWaveList.Count)
             {
                 for(int i=0; i< _enemyWaveList[_currentWaveIndex].enemySpawnInfoList.Count; i++)
@@ -103,7 +104,7 @@ namespace BMC
                     int idx = Random.Range(0, _possibleSpawnPositionList.Count);
                     Instantiate(
                         _enemyWaveList[_currentWaveIndex].enemySpawnInfoList[i].EnemyPrefab,
-                        _possibleSpawnPositionList[idx],
+                        _enemyWaveList[_currentWaveIndex].enemySpawnInfoList[i].SpawnPosition,
                         Quaternion.identity,
                         transform
                     );
@@ -111,28 +112,6 @@ namespace BMC
                 _currentWaveIndex++;
             }
         }
-
-        //// 적 소환
-        //public void SpawnEnemy()
-        //{
-        //    // 임의의 타일에 enemyCount 숫자만큼 적 생성
-        //    for (_currentSpawnCount = 0; _currentSpawnCount < _spawnCount; _currentSpawnCount++)
-        //    {
-        //        int index = Random.Range(0, _possibleSpawnPositionList.Count);
-        //        GameObject enemyPrefab = _enemyPrefabs[Random.Range(0, _enemyPrefabs.Length)];
-        //        GameObject enemyInstance = Instantiate(enemyPrefab, _possibleSpawnPositionList[index], Quaternion.identity, transform);
-        //        _spawnedEnemyList.Add(enemyInstance);
-        //    }
-        //}
-
-        //public void SpawnBoss()
-        //{
-        //    _currentSpawnCount = 0;
-        //    GameObject bossGO = StageManager.Instance.CurrentRoom.GetComponentInChildren<BossFSM>(true).gameObject;
-        //    _spawnedEnemyList.Add(bossGO);
-        //    _currentSpawnCount++;
-        //    bossGO.SetActive(true);
-        //}
 
         // 소환 가능한 타일 계산
         void CalculateSpawnPossibleTiles()
