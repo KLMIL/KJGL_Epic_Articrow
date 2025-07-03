@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>9</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>72</x>
+      <y>234</y>
+      <w>171</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>layer=2
+&lt;&lt;MonoBehaviour&gt;&gt;
+StageController
+--
+RoomPrefabs: GameObject[]
+StageIndex: int
+RoomIndex: int
+--
+GotoNextRoom(): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>63</x>
+      <y>126</y>
+      <w>657</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>bg=white
+layer=1
+
+namespace Game.Dungeon
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>315</x>
+      <y>234</y>
+      <w>162</w>
+      <h>171</h>
+    </coordinates>
+    <panel_attributes>layer=2
+&lt;&lt;MonoBehaviour&gt;&gt;
+RoomController
+--
+EnemyWave: GameObject[]
+WaveCount: int
+EnemyCount: int
+--
+SpawnNextWave(): void
+OpenDoor(): void
+PlacePlayer(): void
+MakeReward(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>540</x>
+      <y>234</y>
+      <w>162</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>layer=2
+&lt;&lt;MonoBehaviour&gt;&gt;
+Door
+--
+
+--
+OnTriggerEnter(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>468</x>
+      <y>234</y>
+      <w>90</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=-
+
+m2=2</panel_attributes>
+    <additional_attributes>10.0;20.0;80.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>234</x>
+      <y>234</y>
+      <w>99</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=-
+
+m2=n</panel_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
+  </element>
+</diagram>
