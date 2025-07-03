@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +35,8 @@ namespace Game.Enemy
 
         public string CurrentStateName => FSM.CurrentStateName;
         public string CurrentAnimation => _animation.CurrentAnimation;
+
+        public event Action OnDeath;
 
 
         #region Initialization
@@ -193,6 +196,8 @@ namespace Game.Enemy
         {
             _movement.moveSpeedMultiply = multiplier;
         }
+
+        public void OnEnemyDieAction() => OnDeath?.Invoke();
         #endregion
 
 

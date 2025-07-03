@@ -25,7 +25,8 @@ namespace Game.Enemy
                 controller.FSM.isDied = true;
 
                 // TODO: 몬스터가 죽을 때마다 Wave 진행해야하는지 확인
-                BMC.EnemySpawner.OnEnemyDie?.Invoke();
+                //BMC.EnemySpawner.OnEnemyDie?.Invoke();
+                controller.OnEnemyDieAction();
 
                 // 죽는 소리 재생
                 YSJ.Managers.Sound.PlaySFX(Define.SFX.sfx_slime_die);
