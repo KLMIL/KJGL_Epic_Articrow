@@ -20,12 +20,6 @@ namespace BMC
 
         void Start()
         {
-            if (StageManager.Instance.CurrentRoom == null ||
-                StageManager.Instance.CurrentRoom.RoomData.RoomType == RoomType.TutorialRoom)
-            {
-                return;
-            }
-
             _anim.Play("Spawn");
         }
 
@@ -61,7 +55,7 @@ namespace BMC
             // 보상 생성
             Vector3 dir = Vector3.down;
             Instantiate(rewardObject, transform.position + dir - transform.right, Quaternion.identity);
-            rewardObject = magicList[Random.Range(0, magicList.Count)];
+            rewardObject = StageManager.Instance.PartPrefab;
             Instantiate(rewardObject, transform.position + dir + transform.right, Quaternion.identity);
         }
 

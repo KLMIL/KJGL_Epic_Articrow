@@ -1036,18 +1036,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4795161233121261209, guid: 2105085bcf652174aa4871a0946d33ca, type: 3}
   m_PrefabInstance: {fileID: 1463520137}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1483217584 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7633670410456707297, guid: 998147a06f38b4f4f97ef6d0af490f70, type: 3}
-  m_PrefabInstance: {fileID: 1513617375}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1513617375
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 3277391554544543617}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3365501405066225729, guid: 998147a06f38b4f4f97ef6d0af490f70, type: 3}
       propertyPath: m_Name
@@ -6260,7 +6255,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1483217584}
   - {fileID: 8834185803048467108}
   - {fileID: 5776638713584539469}
   m_Father: {fileID: 6631922921673009937}
@@ -11507,7 +11501,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14601b38a8bd61b42b2efe535ca660d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <IsEquipParts>k__BackingField: 0
   _isUsedRightHand: 0
+  _artifact: {fileID: 0}
+  _part: {fileID: 0}
+  _artifactWindow: {fileID: 0}
 --- !u!483693784 &8420492673916437460
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -11948,3 +11946,4 @@ SceneRoots:
   - {fileID: 4882147538385783316}
   - {fileID: 8384408571963872566}
   - {fileID: 6631922921673009937}
+  - {fileID: 1513617375}

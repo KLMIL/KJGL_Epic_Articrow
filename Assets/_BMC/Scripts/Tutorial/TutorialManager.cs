@@ -124,6 +124,16 @@ namespace BMC
             {
                 //문 열림
                 StageManager.Instance.CurrentRoom.OpenAllValidDoor();
+
+                // 튜토리얼 클리어 여부 저장 시도
+                TrySaveTutorialClear();
+            }
+        }
+        public void TrySaveTutorialClear()
+        {
+            if (Managers.Data.IsClearTutorial == false)
+            {
+                Managers.Data.IsClearTutorial = true;
             }
         }
         #endregion
