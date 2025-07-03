@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using YSJ;
 using static Define;
 
 namespace BMC
@@ -14,7 +12,6 @@ namespace BMC
         Animator _anim;
         ShowDamageText _showDamageText;
 
-
         void Awake()
         {
             _anim = GetComponent<Animator>();
@@ -23,6 +20,12 @@ namespace BMC
 
         void Start()
         {
+            if (StageManager.Instance.CurrentRoom == null ||
+                StageManager.Instance.CurrentRoom.RoomData.RoomType == RoomType.TutorialRoom)
+            {
+                return;
+            }
+
             _anim.Play("Spawn");
         }
 

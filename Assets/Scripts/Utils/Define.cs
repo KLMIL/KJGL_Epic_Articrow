@@ -62,6 +62,7 @@ public class Define
         MagicRoom,      // 마법
         ArtifactRoom,   // 아티팩트
         HealRoom,       // 회복
+        TutorialRoom,   // 튜토리얼
     }
 
     // 문 방향
