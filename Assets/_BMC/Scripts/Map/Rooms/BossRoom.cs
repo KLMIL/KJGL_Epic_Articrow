@@ -13,10 +13,6 @@ namespace BMC
                 RoomType = RoomType.BossRoom,
                 IsCleared = false,
             };
-
-            //DisposeInvalidDoor();
-            //OpenAllValidDoor();
-            //GetComponentInChildren<EnemySpawner>().SpawnBoss();
         }
 
         void Start()
@@ -25,23 +21,5 @@ namespace BMC
             PlacePlayer();
             Init();
         }
-
-        //public void SpawnBoss()
-        //{
-        //    GetComponentInChildren<EnemySpawner>().SpawnBoss();
-        //}
-
-        //private void OnTriggerEnter2D(Collider2D collision)
-        //{
-        //    if (collision.CompareTag("Player"))
-        //    {
-        //        if (!_roomData.IsCleared)
-        //        {
-        //            Debug.Log("보스 소환 가자고~");
-        //            // 보스 소환
-        //            SpawnBoss();
-        //        }
-        //    }
-        //}
     }
 }
