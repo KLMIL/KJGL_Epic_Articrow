@@ -1,6 +1,5 @@
 using UnityEngine;
 using YSJ;
-using static Define;
 
 namespace BMC
 {
@@ -24,16 +23,6 @@ namespace BMC
         {
             FindDoor();
             _startPosition = GetComponentInChildren<StartPosition>();
-        }
-
-        void Update()
-        {
-            //// (임시 코드) -> 나중에 Action으로 변경 필요
-            //if (_roomData.RoomType != RoomType.StartRoom &&
-            //    _roomData.RoomType != RoomType.BossRoom)
-            //{
-            //    _enemySpawner.IsClear();
-            //}
         }
 
         public virtual void Init() { }
@@ -79,7 +68,6 @@ namespace BMC
             {
                 GameObject scarecrowPrefab = Managers.Resource.Instantiate("ScarecrowPrefab");
                 scarecrowPrefab.name = "Scarecrow";
-                //Debug.LogError("허수아비 소환");
             }
             else
             {

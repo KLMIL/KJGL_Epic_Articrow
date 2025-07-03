@@ -36,8 +36,6 @@ namespace BMC
         public void Open()
         {
             IsOpen = true;
-            //_boxCollider.enabled = false;
-            //_collision.isTrigger = true;
             _anim.Play("Open");
         }
 
@@ -46,7 +44,6 @@ namespace BMC
         {
             IsOpen = false;
             _boxCollider.enabled = true;
-            //_boxCollider2D.isTrigger = false;
         }
 
         // 폐기(아예 벽으로 만들고 문 기능 못하게 하기)

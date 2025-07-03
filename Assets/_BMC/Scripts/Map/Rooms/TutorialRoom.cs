@@ -1,16 +1,17 @@
+using CKT;
 using UnityEngine;
 using static Define;
 
 namespace BMC
 {
-    public class BossRoom : Room
+    public class TutorialRoom : Room
     {
         public override void Init()
         {
             // 방 데이터 초기화
             _roomData = new RoomData
             {
-                RoomType = RoomType.BossRoom,
+                RoomType = RoomType.TutorialRoom,
                 IsCleared = false,
             };
         }
@@ -20,6 +21,8 @@ namespace BMC
             StageManager.Instance.CurrentRoom = this; // 현재 방 설정
             PlacePlayer();
             Init();
+
+            TutorialManager.Instance.OnOpenDoorActionT0.SingleRegister(() => OpenAllValidDoor());
         }
     }
 }
