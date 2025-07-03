@@ -31,8 +31,20 @@ namespace BMC
 
         public void TakeDamage(float damage)
         {
+            AnimatorStateInfo stateInfo = _anim.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsName("Spawn"))
+            {
+                return;
+            }
+
             _anim.Play("Hurt");
             _showDamageText.Show(damage);
+
+            if(StageManager.Instance.CurrentRoom == null ||
+                StageManager.Instance.CurrentRoom.RoomData.RoomType == RoomType.TutorialRoom)
+            {
+                TutorialManager.Instance.TutorialClear();
+            }
         }
 
         void SpawnReward()
