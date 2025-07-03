@@ -134,4 +134,9 @@ public class CanInteractObject_YSJ : MonoBehaviour
         currentArtifact.transform.rotation = Quaternion.identity;
         SceneManager.MoveGameObjectToScene(currentArtifacttransform.gameObject, SceneManager.GetActiveScene());
     }
+
+    void OnDestroy()
+    {
+        Managers.Input.OnInteractAction -= TryInteract;
+    }
 }

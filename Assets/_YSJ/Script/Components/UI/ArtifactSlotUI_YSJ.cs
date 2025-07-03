@@ -1,5 +1,7 @@
+using BMC;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using YSJ;
 
 public class ArtifactSlotUI_YSJ : ItemSlot_YSJ
 {
@@ -21,10 +23,21 @@ public class ArtifactSlotUI_YSJ : ItemSlot_YSJ
         if (imageParts)
         {
             CurrentArtifact.AddParts(imageParts, SlotIndex); // 현재 슬롯의 파츠 아티팩트에 등록
+            TutorialNotifier();
         }
         else 
         {
             print("이거 파츠 아닌디?");
         }
     }
+
+    #region 튜토리얼 전용 코드
+    public void TutorialNotifier()
+    {
+        if (Managers.Scene.CurrentScene.SceneType == Define.SceneType.TutorialScene)
+        {
+            TutorialManager.Instance.IsEquipParts = true; // 파츠를 장착했음을 알림
+        }
+    }
+    #endregion
 }

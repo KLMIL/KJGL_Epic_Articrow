@@ -1,5 +1,3 @@
-using CKT;
-using UnityEngine;
 using static Define;
 
 namespace BMC
@@ -21,8 +19,6 @@ namespace BMC
             StageManager.Instance.CurrentRoom = this; // 현재 방 설정
             PlacePlayer();
             Init();
-
-            TutorialManager.Instance.OnOpenDoorActionT0.SingleRegister(() => OpenAllValidDoor());
         }
     }
 }
