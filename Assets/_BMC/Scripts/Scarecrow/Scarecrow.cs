@@ -20,12 +20,6 @@ namespace BMC
 
         void Start()
         {
-            if (StageManager.Instance.CurrentRoom == null ||
-                StageManager.Instance.CurrentRoom.RoomData.RoomType == RoomType.TutorialRoom)
-            {
-                return;
-            }
-
             _anim.Play("Spawn");
         }
 
