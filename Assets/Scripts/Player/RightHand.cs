@@ -21,6 +21,9 @@ namespace YSJ
 
         void TryArtifactNormalAttackTrigger()
         {
+            if (GameManager.Instance.IsPaused)
+                return;
+
             Transform artifact = getArtifact();
 
             if (artifact && artifact.TryGetComponent<Artifact_YSJ>(out Artifact_YSJ equipedArtifact))
@@ -31,6 +34,9 @@ namespace YSJ
 
         void TryArtifactNormalAttackCancle() 
         {
+            if (GameManager.Instance.IsPaused)
+                return;
+
             Transform artifact = getArtifact();
 
             if (artifact)
@@ -44,6 +50,9 @@ namespace YSJ
 
         void TryArtifactSkillAttackTrigger() 
         {
+            if (GameManager.Instance.IsPaused)
+                return;
+
             Transform artifact = getArtifact();
 
             if (artifact)
@@ -57,6 +66,9 @@ namespace YSJ
 
         void TryArtifactSkillAttackCancle() 
         {
+            if (GameManager.Instance.IsPaused)
+                return;
+
             Transform artifact = getArtifact();
             if (artifact)
             {

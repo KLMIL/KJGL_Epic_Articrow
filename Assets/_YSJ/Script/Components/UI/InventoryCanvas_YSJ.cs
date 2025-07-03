@@ -1,5 +1,6 @@
 using UnityEngine;
 using YSJ;
+using BMC;
 
 public class InventoryCanvas_YSJ : MonoBehaviour
 {
@@ -18,12 +19,23 @@ public class InventoryCanvas_YSJ : MonoBehaviour
     {
         Managers.Input.OnInventoryAction += CanvasOnOff;
         Managers.UI.InventoryCanvas = this;
+
+        if(TutorialManager.Instance != null)
+            TutorialManager.Instance.OnEquipPartsAction = CanvasEnable;
+
     }
 
     #region 캔버스 기능들
     void CanvasOnOff() 
     {
         canvas.enabled = canvas.enabled ? false : true; 
+    }
+
+    public void CanvasEnable(bool value)
+    {
+        canvas.enabled = value;
+        GameManager.Instance.TogglePauseGame(value);
+        Debug.Log("인벤토리 캔버스 enable: " + value);
     }
 
     #endregion
