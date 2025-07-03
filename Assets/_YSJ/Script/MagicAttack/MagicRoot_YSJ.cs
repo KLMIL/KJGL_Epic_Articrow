@@ -36,7 +36,7 @@ public class MagicRoot_YSJ : MonoBehaviour
         FlyingAction += CountLifeTime;
     }
 
-    public void OnHit(Collider2D hitObject)
+    public virtual void OnHit(Collider2D hitObject)
     {
         OnHitAction?.Invoke(ownerArtifact, gameObject, hitObject.gameObject);
         DestroyCount--;
@@ -54,7 +54,7 @@ public class MagicRoot_YSJ : MonoBehaviour
         }
     }
 
-    public void CheckDestroy() 
+    public virtual void CheckDestroy() 
     {
         if (DestroyCount < 0)
         {

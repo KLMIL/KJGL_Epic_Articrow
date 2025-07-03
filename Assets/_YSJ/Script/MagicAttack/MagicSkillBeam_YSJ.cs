@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public class MagicBeam_YSJ : MagicRoot_YSJ
+public class MagicSkillBeam_YSJ : MagicRoot_YSJ
 {
     LineRenderer lineRenderer;
     LayerMask layerMask;
+
+    public float LightLifeTime = 0.2f;
+
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -35,7 +38,7 @@ public class MagicBeam_YSJ : MagicRoot_YSJ
                 }
                 if (DestroyCount < 0)
                 {
-                    break; 
+                    break;
                 }
             }
             // 관통 조건
@@ -49,7 +52,7 @@ public class MagicBeam_YSJ : MagicRoot_YSJ
                 lineRenderer.SetPosition(1, hitpoint);
             }
         }
-        else 
+        else
         {
             lineRenderer.SetPosition(1, transform.position + transform.right * Speed);
         }
@@ -68,5 +71,23 @@ public class MagicBeam_YSJ : MagicRoot_YSJ
 
         lineRenderer.startWidth = Mathf.Lerp(transform.localScale.x, 0f, elapsedTime / LifeTime);
         lineRenderer.endWidth = Mathf.Lerp(transform.localScale.x, 0f, elapsedTime / LifeTime);
+    }
+
+    public override void SkillAttackInitialize(Artifact_YSJ ownerArtifact)
+    {
+        base.SkillAttackInitialize(ownerArtifact);
+
+        LifeTime = LightLifeTime;
+
+        // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
+        for (int partsIndex = 0; partsIndex < ownerArtifact.MaxSlotCount; partsIndex++)
+        {
+            IImagePartsToSkillAttack_YSJ imageParts = ownerArtifact.SlotTransform.GetChild(partsIndex).GetComponentInChildren<IImagePartsToSkillAttack_YSJ>();
+            if (imageParts != null)
+            {
+                FlyingAction += imageParts.SkillAttackFlying;
+                OnHitAction += imageParts.SKillAttackOnHit;
+            }
+        }
     }
 }

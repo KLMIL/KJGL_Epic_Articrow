@@ -133,6 +133,8 @@ public class Artifact_YSJ : MonoBehaviour
 
     // 조정간
     public bool isCanAttack = true;
+    public bool isCanLeftClick = true;
+    public bool isCanRightClick = true;
 
     #region [일반공격]
     public virtual void NormalAttackClicked()
@@ -154,7 +156,7 @@ public class Artifact_YSJ : MonoBehaviour
                 elapsedNormalCoolTime -= Time.deltaTime;
                 yield return null; // 다음 프레임까지 대기
             }
-            else
+            else if (isCanLeftClick)
             {
                 // 초기화
                 ResetNormalAttack();
@@ -247,10 +249,15 @@ public class Artifact_YSJ : MonoBehaviour
                     }
                 }
             }
+            else 
+            {
+                yield return null;
+            }
         }
 
         normalAttackCoroutine = null; // 저장된 코루틴 초기화
     }
+
     protected void ReadNormalAttackParts() 
     {
         // 파츠슬롯 한바퀴 돌면서 등록
@@ -329,7 +336,7 @@ public class Artifact_YSJ : MonoBehaviour
                 elapsedSkillCoolTime -= Time.deltaTime;
                 yield return null; // 다음 프레임까지 대기
             }
-            else
+            else if (isCanRightClick)
             {
                 // 초기화
                 ResetSkillAttack();
@@ -358,9 +365,12 @@ public class Artifact_YSJ : MonoBehaviour
                     }
                     isCanAttack = false;
                     // 선딜 타이머 시작
-                    yield return new WaitForSeconds(Current_SkillAttackStartDelay);
+                    if (Current_SkillAttackStartDelay > 0)
+                    {
+                        yield return new WaitForSeconds(Current_SkillAttackStartDelay);
+                    }
                     isCanAttack = true;
-                    if (currentHand) 
+                    if (currentHand)
                     {
                         currentHand.CanHandling = true;
                     }
@@ -369,7 +379,7 @@ public class Artifact_YSJ : MonoBehaviour
                     if (SkillAttackPrefab)
                     {
                         // 추가 발사 개수만큼 반복
-                        for (int addedSpawnCount = 0; addedSpawnCount < Added_SkillAttackCount; addedSpawnCount++) 
+                        for (int addedSpawnCount = 0; addedSpawnCount < Added_SkillAttackCount; addedSpawnCount++)
                         {
                             // 디폴트 발사 개수만큼 반복
                             for (int SpawnCount = 0; SpawnCount < Default_SkillAttackCount; SpawnCount++)
@@ -418,11 +428,15 @@ public class Artifact_YSJ : MonoBehaviour
                         // 쿨타임 적용
                         elapsedSkillCoolTime = Current_SkillAttackCoolTime;
                     }
-                    else 
+                    else
                     {
                         print("스킬 공격 프리팹 설정안됌!");
                     }
                 }
+            }
+            else 
+            {
+                yield return null;
             }
         }
 
@@ -504,6 +518,7 @@ public class Artifact_YSJ : MonoBehaviour
         Added_NormalAttackSpreadAngle = 0.0f;
 
         PessiveNormalAttack = null; // 기존 패시브 액션 초기화
+        BeforeFireNormalAttack = null;
         AfterFireNormalAttack = null; // 기존 발사 후 액션 초기화
     }
     protected virtual void ResetSkillAttack()
@@ -521,6 +536,7 @@ public class Artifact_YSJ : MonoBehaviour
         Added_SkillAttackSpreadAngle = 0.0f;
 
         PessiveSkillAttack = null; // 기존 패시브 액션 초기화
+        BeforeFireSkillAttack = null;
         AfterFireSkillAttack = null; // 기존 발사 후 액션 초기화
     }
 
