@@ -1,4 +1,5 @@
 using UnityEngine;
+using YSJ;
 
 namespace BMC
 {
