@@ -14,6 +14,7 @@ namespace BMC
         public PlayerStatus PlayerStatus { get; private set; }
         public PlayerHurt PlayerHurt { get; private set; }
         public PlayerDebuff PlayerDebuff { get; private set; }
+        public PlayerTextWindow PlayerTextWindow { get; private set; }
         public CheckPlayerDirection CheckPlayerDirection { get; private set; }
 
         void Awake()
@@ -36,11 +37,13 @@ namespace BMC
             PlayerHurt = GetComponent<PlayerHurt>();
             PlayerDebuff = GetComponent<PlayerDebuff>();
             CheckPlayerDirection = GetComponent<CheckPlayerDirection>();
+            PlayerTextWindow = GetComponentInChildren<PlayerTextWindow>(true);
 
             // 초기화
             PlayerStatus.Init();
             PlayerHurt.Init();
             PlayerDash.DashCoolTime = PlayerStatus.DashCoolTime;
+            PlayerTextWindow.Init();
         }
 
         void Update()
