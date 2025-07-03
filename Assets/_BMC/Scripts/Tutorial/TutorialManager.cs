@@ -19,6 +19,7 @@ namespace BMC
 
         [SerializeField] Artifact_YSJ _artifact;
         [SerializeField] CanDragItem_YSJ _part;
+        [SerializeField] ArtifactWindow_YSJ _artifactWindow;
 
         [Header("입력 관련")]
         InputManager _input;
@@ -43,6 +44,7 @@ namespace BMC
         void OnDisable()
         {
             Destroy(_artifact.gameObject);
+            _artifactWindow.ResetWindow();
 
             OnEquipPartsAction = null;
 
@@ -64,6 +66,7 @@ namespace BMC
             yield return null;
             _artifact = BMC.PlayerManager.Instance.transform.Find("Hand").GetComponentInChildren<Artifact_YSJ>();
             _part = BMC.PlayerManager.Instance.GetComponentInChildren<Inventory_YSJ>().GetComponentInChildren<CanDragItem_YSJ>();
+            _artifactWindow = Managers.UI.InventoryCanvas.ArtifactWindow;
 
             // 아티팩트 + 파츠 장착한 경우
             if (_artifact != null && _part != null)
