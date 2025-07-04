@@ -9,8 +9,8 @@ public class ImageParts_Passive_AttackPower_1 : ImagePartsRoot_YSJ, IImagePartsT
         YSJ.PlayerStatus playerStatus = currentArtifact.playerStatus;
         float add = 0.01f * playerStatus.OffsetMoveSpeed;
 
-        currentArtifact.Added_NormalAttackPower += add;
-        currentArtifact.Added_SkillAttackPower += add;
+        currentArtifact.artifactStatus.Added_NormalAttackPower += add;
+        currentArtifact.artifactStatus.Added_SkillAttackPower += add;
         Debug.Log($"[ckt] {partsName} {add}");
     }
 }

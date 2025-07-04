@@ -32,14 +32,14 @@ public class ArtifactWindow_YSJ : MonoBehaviour
 
     void CreateSlotUI(Artifact_YSJ equipedArtifact)
     {
-        for (int i = 0; i < equipedArtifact.SlotTransform.childCount; i++) 
+        for (int i = 0; i < equipedArtifact.artifactStatus.SlotTransform.childCount; i++) 
         {
             GameObject SpawnedSlot = Instantiate(ArtifactSlotUIPrefab, ArtifactSlotWindow);
             SpawnedSlot.name = "ArtifactSlot";
             // 아티팩트 슬롯칸에 파츠가 이미 들어있었으면 복사해서 UI에도 띄워주기
-            if (equipedArtifact.SlotTransform.GetChild(i).childCount != 0)
+            if (equipedArtifact.artifactStatus.SlotTransform.GetChild(i).childCount != 0)
             {
-                GameObject partsClone = Instantiate(equipedArtifact.SlotTransform.GetChild(i).GetChild(0).gameObject, SpawnedSlot.transform);
+                GameObject partsClone = Instantiate(equipedArtifact.artifactStatus.SlotTransform.GetChild(i).GetChild(0).gameObject, SpawnedSlot.transform);
                 partsClone.GetComponent<Image>().raycastTarget = true;
             }
 
@@ -63,13 +63,13 @@ public class ArtifactWindow_YSJ : MonoBehaviour
         // 기본공격 정보
         normalStatText.text =
         "기본공격" + "\n" +
-        "데미지 : " + equipedArtifact.Default_NormalAttackPower + "\n" +
-        "쿨타임 : " + equipedArtifact.Default_NormalAttackCoolTime + "\n" +
-        "지속시간 : " + equipedArtifact.Default_NormalAttackLife + "\n" +
-        "날아가는 속도 : " + equipedArtifact.Default_NormalBulletSpeed + "\n" +
-        "선딜레이 : " + equipedArtifact.Default_NormalAttackStartDelay + "\n" +
-        "발사 수 : " + equipedArtifact.Default_NormalAttackCount + "\n" +
-        "탄퍼짐 각도 : " + equipedArtifact.Default_NormalAttackSpreadAngle + "\n"
+        "데미지 : " + equipedArtifact.artifactStatus.Default_NormalAttackPower + "\n" +
+        "쿨타임 : " + equipedArtifact.artifactStatus.Default_NormalAttackCoolTime + "\n" +
+        "지속시간 : " + equipedArtifact.artifactStatus.Default_NormalAttackLife + "\n" +
+        "날아가는 속도 : " + equipedArtifact.artifactStatus.Default_NormalBulletSpeed + "\n" +
+        "선딜레이 : " + equipedArtifact.artifactStatus.Default_NormalAttackStartDelay + "\n" +
+        "발사 수 : " + equipedArtifact.artifactStatus.Default_NormalAttackCount + "\n" +
+        "탄퍼짐 각도 : " + equipedArtifact.artifactStatus.Default_NormalAttackSpreadAngle + "\n"
         ;
     }
 

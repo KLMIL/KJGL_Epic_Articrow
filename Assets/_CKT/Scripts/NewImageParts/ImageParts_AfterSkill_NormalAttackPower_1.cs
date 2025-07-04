@@ -52,17 +52,17 @@ public class ImageParts_AfterSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIm
 
     void StartBuff()
     {
-        float add = 0.15f * _fireArtifact.Default_NormalAttackPower;
+        float add = 0.15f * _fireArtifact.artifactStatus.Default_NormalAttackPower;
 
-        _fireArtifact.Added_NormalAttackPower += add;
+        _fireArtifact.artifactStatus.Added_NormalAttackPower += add;
         Debug.Log($"[ckt] {partsName} StartBuff {add}");
     }
 
     void EndBuff()
     {
-        float add = 0.15f * _fireArtifact.Default_NormalAttackPower;
+        float add = 0.15f * _fireArtifact.artifactStatus.Default_NormalAttackPower;
 
-        _fireArtifact.Added_NormalAttackPower -= add;
+        _fireArtifact.artifactStatus.Added_NormalAttackPower -= add;
         Debug.Log($"[ckt] {partsName} EndBuff {add}");
     }
 

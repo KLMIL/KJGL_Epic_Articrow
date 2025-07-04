@@ -8,7 +8,7 @@ public class ImageParts_Passive_MaxMana_1 : ImagePartsRoot_YSJ, IImagePartsToEnh
     {
         int add = 1;
         
-        currentArtifact.Added_MaxMana += add;
+        currentArtifact.artifactStatus.Added_MaxMana += add;
         Debug.Log($"[ckt] {partsName} AddMaxMana({add})");
     }
 }

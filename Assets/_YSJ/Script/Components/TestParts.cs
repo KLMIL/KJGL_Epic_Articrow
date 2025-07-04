@@ -8,7 +8,7 @@ public class TestParts : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ, IIma
 
     public void Equip(Artifact_YSJ currentArtifact)
     {
-        currentArtifact.Added_MaxMana += 1;
+        currentArtifact.artifactStatus.Added_MaxMana += 1;
     }
 
     public void NormalAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
@@ -40,8 +40,8 @@ public class TestParts : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ, IIma
     public void NormalAttackPessive(Artifact_YSJ fireArtifact)
     {
         //print("발사 전 패시브 액션");
-        fireArtifact.Added_NormalAttackPower += 10f;
-        fireArtifact.Added_NormalAttackCount += 1;
-        fireArtifact.Added_NormalAttackSpreadAngle += 10f;
+        fireArtifact.artifactStatus.Added_NormalAttackPower += 10f;
+        fireArtifact.artifactStatus.Added_NormalAttackCount += 1;
+        fireArtifact.artifactStatus.Added_NormalAttackSpreadAngle += 10f;
     }
 }

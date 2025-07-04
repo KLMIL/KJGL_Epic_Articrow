@@ -6,9 +6,9 @@ public class ImageParts_Passive_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToEn
 
     public void Equip(Artifact_YSJ currentArtifact)
     {
-        float add = 0.1f * currentArtifact.Default_NormalAttackCoolTime;
+        float add = 0.1f * currentArtifact.artifactStatus.Default_NormalAttackCoolTime;
 
-        currentArtifact.Added_NormalAttackCoolTime += add;
+        currentArtifact.artifactStatus.Added_NormalAttackCoolTime += add;
         Debug.Log($"[ckt] {partsName} AddCoolTime({add})");
     }
 

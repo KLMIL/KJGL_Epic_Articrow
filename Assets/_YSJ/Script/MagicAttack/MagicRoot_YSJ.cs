@@ -18,9 +18,9 @@ public class MagicRoot_YSJ : MonoBehaviour
     {
         this.ownerArtifact = ownerArtifact;
 
-        Speed = ownerArtifact.Current_NormalBulletSpeed;
-        LifeTime = ownerArtifact.Current_NormalAttackLifeTime;
-        AttackPower = ownerArtifact.Current_NormalAttackPower;
+        Speed = ownerArtifact.artifactStatus.Current_NormalBulletSpeed;
+        LifeTime = ownerArtifact.artifactStatus.Current_NormalAttackLifeTime;
+        AttackPower = ownerArtifact.artifactStatus.Current_NormalAttackPower;
 
         FlyingAction += CountLifeTime;
     }
@@ -29,9 +29,9 @@ public class MagicRoot_YSJ : MonoBehaviour
     {
         this.ownerArtifact = ownerArtifact;
 
-        Speed = ownerArtifact.Current_SkillBulletSpeed;
-        LifeTime = ownerArtifact.Current_SkillAttackLifeTime;
-        AttackPower = ownerArtifact.Current_SkillAttackPower;
+        Speed = ownerArtifact.artifactStatus.Current_SkillBulletSpeed;
+        LifeTime = ownerArtifact.artifactStatus.Current_SkillAttackLifeTime;
+        AttackPower = ownerArtifact.artifactStatus.Current_SkillAttackPower;
 
         FlyingAction += CountLifeTime;
     }

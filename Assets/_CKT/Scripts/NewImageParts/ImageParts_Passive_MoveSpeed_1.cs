@@ -10,7 +10,7 @@ public class ImageParts_Passive_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsToE
         float addMoveSpeed = 0.2f * playerStatus.DefaultMoveSpeed;
         float addDashCoolTime = 0.1f * playerStatus.DefaultDashCoolTime;
 
-        currentArtifact.Added_MoveSpeed += addMoveSpeed;
-        currentArtifact.Added_DeahCoolTime += addDashCoolTime;
+        currentArtifact.artifactStatus.Added_MoveSpeed += addMoveSpeed;
+        currentArtifact.artifactStatus.Added_DeahCoolTime += addDashCoolTime;
     }
 }

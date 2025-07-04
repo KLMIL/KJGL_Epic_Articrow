@@ -80,9 +80,9 @@ public class MagicSkillBeam_YSJ : MagicRoot_YSJ
         LifeTime = LightLifeTime;
 
         // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
-        for (int partsIndex = 0; partsIndex < ownerArtifact.MaxSlotCount; partsIndex++)
+        for (int partsIndex = 0; partsIndex < ownerArtifact.artifactStatus.MaxSlotCount; partsIndex++)
         {
-            IImagePartsToSkillAttack_YSJ imageParts = ownerArtifact.SlotTransform.GetChild(partsIndex).GetComponentInChildren<IImagePartsToSkillAttack_YSJ>();
+            IImagePartsToSkillAttack_YSJ imageParts = ownerArtifact.artifactStatus.SlotTransform.GetChild(partsIndex).GetComponentInChildren<IImagePartsToSkillAttack_YSJ>();
             if (imageParts != null)
             {
                 FlyingAction += imageParts.SkillAttackFlying;
