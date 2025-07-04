@@ -251,33 +251,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b0275a698abeb4899204274e5aeae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  artifactStatus:
-    Default_NormalAttackPower: 1
-    Default_NormalAttackCoolTime: 1
-    Default_NormalAttackLife: 0.5
-    Default_NormalBulletSpeed: 5
-    Default_NormalAttackStartDelay: 0
-    Default_NormalAttackScale: 1
-    Default_NormalAttackCount: 1
-    Default_NormalAttackCountDeltaTime: 0.1
-    Default_NormalAttackSpreadCount: 1
-    Default_NormalAttackSpreadAngle: 0
-    Default_SkillAttackPower: 10
-    Default_SkillAttackCoolTime: 0.2
-    Default_SkillAttackLife: 1
-    Default_SkillBulletSpeed: 1
-    Default_SkillAttackStartDelay: 0
-    Default_SkillAttackScale: 1
-    Default_SkillAttackCount: 1
-    Default_SkillAttackCountDeltaTime: 0.1
-    Default_SkillAttackSpreadCount: 1
-    Default_SkillAttackSpreadAngle: 0
-    MaxSlotCount: 1
-    StatPoint: 0
-  currentHand: {fileID: 0}
+  normalStatus:
+    Default_AttackPower: 1
+    Default_AttackCoolTime: 1
+    Default_AttackLife: 0.5
+    Default_BulletSpeed: 5
+    Default_AttackStartDelay: 0
+    Default_AttackScale: 1
+    Default_AttackCount: 1
+    Default_AttackCountDeltaTime: 0.1
+    Default_AttackSpreadCount: 1
+    Default_AttackSpreadAngle: 0
+    elapsedCoolTime: 0
+    AttackPrefab: {fileID: 0}
+  skillStatus:
+    Default_AttackPower: 10
+    Default_AttackCoolTime: 0.2
+    Default_AttackLife: 1
+    Default_BulletSpeed: 1
+    Default_AttackStartDelay: 0
+    Default_AttackScale: 1
+    Default_AttackCount: 1
+    Default_AttackCountDeltaTime: 0.1
+    Default_AttackSpreadCount: 1
+    Default_AttackSpreadAngle: 0
+    elapsedCoolTime: 0
+    AttackPrefab: {fileID: 0}
+  MaxSlotCount: 1
+  StatPoint: 0
+  CurrentHand: {fileID: 0}
   firePosition: {fileID: 0}
-  NormalAttackPrefab: {fileID: 6071873824539340446, guid: a448847484cc9574fbc42ed1b888cf46, type: 3}
-  SkillAttackPrefab: {fileID: 8868992901345764369, guid: 3a5e1ceb78e20ca40bded04d2180dd84, type: 3}
   isCanAttack: 1
   isCanLeftClick: 1
   isCanRightClick: 1

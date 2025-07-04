@@ -8,9 +8,9 @@ public class ImageParts_BeforeSkill_SkillAttackPower_1 : ImagePartsRoot_YSJ, IIm
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
         //최종 스킬 시전 시간의 30%만큼 스킬 공격 피해 증가
-        float add = 0.3f * fireArtifact.artifactStatus.Current_SkillAttackStartDelay;
+        float add = 0.3f * fireArtifact.skillStatus.Current_AttackStartDelay;
 
-        fireArtifact.artifactStatus.Added_SkillAttackPower += add;
+        fireArtifact.skillStatus.Added_AttackPower += add;
         Debug.Log($"[ckt] {partsName} {add}");
     }
 

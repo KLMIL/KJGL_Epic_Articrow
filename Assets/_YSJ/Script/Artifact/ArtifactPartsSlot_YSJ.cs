@@ -7,7 +7,7 @@ public class ArtifactPartsSlot_YSJ : MonoBehaviour
         Artifact_YSJ parentArtifact = GetComponentInParent<Artifact_YSJ>();
         if (parentArtifact)
         {
-            parentArtifact.artifactStatus.SlotTransform = transform;
+            parentArtifact.SlotTransform = transform;
         }
     }
 }

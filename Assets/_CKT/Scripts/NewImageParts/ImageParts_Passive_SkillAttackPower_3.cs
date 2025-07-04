@@ -9,7 +9,7 @@ public class ImageParts_Passive_SkillAttackPower_3 : ImagePartsRoot_YSJ, IImageP
         float add = 25f * currentArtifact.playerStatus.OffsetMaxMana;
         add = Mathf.Clamp(add, 0, 75f);
 
-        currentArtifact.artifactStatus.Added_SkillAttackPower += add;
+        currentArtifact.skillStatus.Added_AttackPower += add;
         Debug.Log($"[ckt] {partsName} {add}");
     }
 }

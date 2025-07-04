@@ -1,153 +1,92 @@
+using System;
 using UnityEngine;
 
-[System.Serializable]
-public class ArtifactStatus
+namespace YSJ
 {
-    #region [기본 능력치 변수들]
-    [Header("기본 공격 기본 세팅값")]
-    public float Default_NormalAttackPower;
-    public float Default_NormalAttackCoolTime;
-    public float Default_NormalAttackLife;
-    public float Default_NormalBulletSpeed;
-    public float Default_NormalAttackStartDelay;
-    public float Default_NormalAttackScale = 1.0f;          // 일반 공격 기본 크기
-    public int Default_NormalAttackCount = 1;               // 일반 공격 기본 발사 횟수
-    public float Default_NormalAttackCountDeltaTime = 0.1f; // 일반 공격 발사 횟수가 여러번이라면 발사 간격 시간
-    public int Default_NormalAttackSpreadCount = 1;         // 일반 공격 기본 산탄 횟수
-    public float Default_NormalAttackSpreadAngle = 0.0f;    // 일반 공격 퍼짐 각도
-
-    [Header("스킬 공격 기본 세팅값")]
-    public float Default_SkillAttackPower;
-    public float Default_SkillAttackCoolTime;
-    public float Default_SkillAttackLife;
-    public float Default_SkillBulletSpeed;
-    public float Default_SkillAttackStartDelay;
-    public float Default_SkillAttackScale = 1.0f;           // 스킬 공격 기본 크기
-    public int Default_SkillAttackCount = 1;                // 스킬 공격 기본 발사 횟수
-    public float Default_SkillAttackCountDeltaTime = 0.1f;  // 스킬 발사 횟수가 여러번이라면 발사 간격 시간
-    public int Default_SkillAttackSpreadCount = 1;          // 스킬 기본 산탄 횟수
-    public float Default_SkillAttackSpreadAngle = 0.0f;     // 스킬 공격 기본 퍼짐 각도
-
-    // 아티팩트가 가진 슬롯개수, 슬롯에 들어있는 파츠정보
-    [Header("슬롯 수")]
-    public int MaxSlotCount;
-    public Transform SlotTransform { get; set; }
-
-    // 아티팩트가 가지는 스탯포인트
-    [Header("스탯포인트")]
-    public int StatPoint;
-    #endregion
-
-    #region [추가 능력치 변수들]
-    // 아티팩트 파츠에 의한 추가 능력치
-    [Header("파츠에 의한 추가 능력치")]
-    // 플레이어 강화
-    public float Added_MaxHealth { get; set; }
-    public float Added_MaxMana { get; set; }
-    public float Added_DeahCoolTime { get; set; }
-    public float Added_MoveSpeed { get; set; }
-
-    // 일반공격
-    public float Added_NormalAttackPower { get; set; }          // 일반 공격 추가 공격력
-    public float Added_NormalAttackCoolTime { get; set; }       // 일반 공격 추가 쿨타임
-    public float Added_NormalAttackLife { get; set; }           // 일반 공격 추가 지속시간
-    public float Added_NormalBulletSpeed { get; set; }          // 일반 공격 추가 속도
-    public float Added_NormalAttackStartDelay { get; set; }     // 일반 공격 추가 선딜레이
-    public float Added_NormalAttackScale { get; set; }          // 일반 공격 추가 크기
-    public int Added_NormalAttackCount { get; set; } = 1;       // 일반 공격 추가 발사 횟수
-    public int Added_NormalAttackSpreadCount { get; set; } = 1; // 일반 공격 추가 산탄 횟수
-    public float Added_NormalAttackSpreadAngle { get; set; }    // 일반 공격 추가 산탄 퍼짐 각도
-
-    // 스킬공격
-    public float Added_SkillAttackPower { get; set; }
-    public float Added_SkillAttackCoolTime { get; set; }
-    public float Added_SkillAttackLife { get; set; }
-    public float Added_SkillBulletSpeed { get; set; }
-    public float Added_SkillAttackStartDelay { get; set; }
-    public float Added_SkillAttackScale { get; set; }
-    public int Added_SkillAttackCount { get; set; } = 1;
-    public int Added_SkillAttackSpreadCount { get; set; } = 1;
-    public float Added_SkillAttackSpreadAngle { get; set; }
-    #endregion
-
-    #region [아티팩트 현재 능력치 변수들]
-    [Header("현재 능력치")]
-    public float Current_NormalAttackPower { get; protected set; }
-    public float Current_NormalAttackCoolTime { get; protected set; }
-    public float Current_NormalAttackLifeTime { get; protected set; }
-    public float Current_NormalBulletSpeed { get; protected set; }
-    public float Current_NormalAttackStartDelay { get; protected set; }
-    public float Current_NormalAttackScale { get; protected set; }
-    public float Current_NormalAttackCount { get; protected set; }
-    public float Current_NormalAttackSpreadAngle { get; protected set; }
-
-    public float Current_SkillAttackPower { get; protected set; }
-    public float Current_SkillAttackCoolTime { get; protected set; }
-    public float Current_SkillAttackLifeTime { get; protected set; }
-    public float Current_SkillBulletSpeed { get; protected set; }
-    public float Current_SkillAttackStartDelay { get; protected set; }
-    public float Current_SkillAttackScale { get; protected set; }
-    public float Current_SkillAttackCount { get; protected set; }
-    public float Current_SkillAttackSpreadAngle { get; protected set; }
-    #endregion
-
-    public void ResetNormalAddedStatus()
+    [Serializable]
+    public class ArtifactStatus
     {
-        Added_NormalAttackPower = 0.0f;
-        Added_NormalAttackCoolTime = 0.0f;
-        Added_NormalAttackLife = 0.0f;
-        Added_NormalBulletSpeed = 0.0f;
-        Added_NormalAttackStartDelay = 0.0f;
-        Added_NormalAttackScale = 0.0f;
+        #region [기본 능력치 변수들]
+        public float Default_AttackPower;
+        public float Default_AttackCoolTime;
+        public float Default_AttackLife;
+        public float Default_BulletSpeed;
+        public float Default_AttackStartDelay;
+        public float Default_AttackScale = 1.0f;          // 일반 공격 기본 크기
+        public int Default_AttackCount = 1;               // 일반 공격 기본 발사 횟수
+        public float Default_AttackCountDeltaTime = 0.1f; // 일반 공격 발사 횟수가 여러번이라면 발사 간격 시간
+        public int Default_AttackSpreadCount = 1;         // 일반 공격 기본 산탄 횟수
+        public float Default_AttackSpreadAngle = 0.0f;    // 일반 공격 퍼짐 각도
+        #endregion
 
-        Added_NormalAttackCount = 1;
+        #region [추가 능력치 변수들]
+        // 아티팩트 파츠에 의한 추가 능력치
+        [Header("파츠에 의한 추가 능력치")]
+        public float Added_AttackPower { get; set; }          // 일반 공격 추가 공격력
+        public float Added_AttackCoolTime { get; set; }       // 일반 공격 추가 쿨타임
+        public float Added_AttackLife { get; set; }           // 일반 공격 추가 지속시간
+        public float Added_BulletSpeed { get; set; }          // 일반 공격 추가 속도
+        public float Added_AttackStartDelay { get; set; }     // 일반 공격 추가 선딜레이
+        public float Added_AttackScale { get; set; }          // 일반 공격 추가 크기
+        public int Added_AttackCount { get; set; } = 1;       // 일반 공격 추가 발사 횟수
+        public int Added_AttackSpreadCount { get; set; } = 1; // 일반 공격 추가 산탄 횟수
+        public float Added_AttackSpreadAngle { get; set; }    // 일반 공격 추가 산탄 퍼짐 각도
+        #endregion
 
-        Added_NormalAttackSpreadCount = 1;
-        Added_NormalAttackSpreadAngle = 0.0f;
-    }
+        #region [아티팩트 현재 능력치 변수들]
+        [Header("현재 능력치")]
+        public float Current_AttackPower { get; protected set; }
+        public float Current_AttackCoolTime { get; protected set; }
+        public float Current_AttackLifeTime { get; protected set; }
+        public float Current_BulletSpeed { get; protected set; }
+        public float Current_AttackStartDelay { get; protected set; }
+        public float Current_AttackScale { get; protected set; }
+        public float Current_AttackCount { get; protected set; }
+        public float Current_AttackSpreadAngle { get; protected set; }
+        #endregion
 
-    public void ResetSkillAddedStatus()
-    {
-        Added_SkillAttackPower = 0.0f;
-        Added_SkillAttackCoolTime = 0.0f;
-        Added_SkillAttackLife = 0.0f;
-        Added_SkillBulletSpeed = 0.0f;
-        Added_SkillAttackStartDelay = 0.0f;
-        Added_SkillAttackScale = 0.0f;
+        [Header("쿨타임 타이머")]
+        public float elapsedCoolTime;
 
-        Added_SkillAttackCount = 1;
+        // 코루틴 저장용
+        public Coroutine attackCoroutine;
 
-        Added_SkillAttackSpreadCount = 1;
-        Added_SkillAttackSpreadAngle = 0.0f;
-    }
+        // 마법 프리팹
+        [Header("발사체")]
+        public GameObject AttackPrefab;
 
-    public void ResetPlayerEnhance()
-    {
-        Added_MaxHealth = 0.0f;
-        Added_MaxMana = 0.0f;
-        Added_DeahCoolTime = 0.0f;
-        Added_MoveSpeed = 0.0f;
-    }
+        // 패시브, 발사 전, 발사 직후 액션
+        public Action<Artifact_YSJ> Pessive; //<발사하는 아티팩트>
+        public Action<Artifact_YSJ> BeforeFire; // <발사하는 아티팩트>
+        public Action<Artifact_YSJ, GameObject> AfterFire; // <발사를 한 아티팩트, 생성된 공격 오브젝트>
 
-    // current = default + added 계산
-    public void NormalAttackCountCurrentStatus()
-    {
-        Current_NormalAttackPower = Default_NormalAttackPower + Added_NormalAttackPower;
-        Current_NormalAttackCoolTime = Default_NormalAttackCoolTime + Added_NormalAttackCoolTime;
-        Current_NormalAttackLifeTime = Default_NormalAttackLife + Added_NormalAttackLife;
-        Current_NormalBulletSpeed = Default_NormalBulletSpeed + Added_NormalBulletSpeed;
-        Current_NormalAttackStartDelay = Default_NormalAttackStartDelay + Added_NormalAttackStartDelay;
-        Current_NormalAttackScale = Default_NormalAttackScale + Added_NormalAttackScale;
-        Current_NormalAttackCount = Default_NormalAttackCount + Added_NormalAttackCount;
-    }
-    public void SkillAttackCountCurrentStatus()
-    {
-        Current_SkillAttackPower = Default_SkillAttackPower + Added_SkillAttackPower;
-        Current_SkillAttackCoolTime = Default_SkillAttackCoolTime + Added_SkillAttackCoolTime;
-        Current_SkillAttackLifeTime = Default_SkillAttackLife + Added_SkillAttackLife;
-        Current_SkillBulletSpeed = Default_SkillBulletSpeed + Added_SkillBulletSpeed;
-        Current_SkillAttackStartDelay = Default_SkillAttackStartDelay + Added_SkillAttackStartDelay;
-        Current_SkillAttackScale = Default_SkillAttackScale + Added_SkillAttackScale;
-        Current_SkillAttackCount = Default_SkillAttackCount + Added_SkillAttackCount;
+        public void ResetAddedStatus()
+        {
+            Added_AttackPower = 0.0f;
+            Added_AttackCoolTime = 0.0f;
+            Added_AttackLife = 0.0f;
+            Added_BulletSpeed = 0.0f;
+            Added_AttackStartDelay = 0.0f;
+            Added_AttackScale = 0.0f;
+            Added_AttackCount = 1;
+            Added_AttackSpreadCount = 1;
+            Added_AttackSpreadAngle = 0.0f;
+
+            Pessive = null; // 기존 패시브 액션 초기화
+            BeforeFire = null;
+            AfterFire = null; // 기존 발사 후 액션 초기화
+        }
+
+        // current = default + added 계산
+        public void CountCurrentStatus()
+        {
+            Current_AttackPower = Default_AttackPower + Added_AttackPower;
+            Current_AttackCoolTime = Default_AttackCoolTime + Added_AttackCoolTime;
+            Current_AttackLifeTime = Default_AttackLife + Added_AttackLife;
+            Current_BulletSpeed = Default_BulletSpeed + Added_BulletSpeed;
+            Current_AttackStartDelay = Default_AttackStartDelay + Added_AttackStartDelay;
+            Current_AttackScale = Default_AttackScale + Added_AttackScale;
+            Current_AttackCount = Default_AttackCount + Added_AttackCount;
+        }
     }
 }
