@@ -102,6 +102,7 @@ public class InputManager
     {
         _inputSystemActions.Player.Disable();
         _inputSystemActions.UI.Enable();
+        _inputSystemActions.Tutorial.Disable();
     }
 
     #region 키 리바인드 관련
@@ -209,7 +210,8 @@ public class InputManager
     {
         if (context.performed)
         {
-            if (Managers.Scene.CurrentScene.SceneType != SceneType.TitleScene)
+            if (Managers.Scene.CurrentScene.SceneType != SceneType.TitleScene
+                && Managers.Scene.CurrentScene.SceneType != SceneType.TutorialScene)
             {
                 if (_inputSystemActions.Player.enabled)
                 {
@@ -251,7 +253,7 @@ public class InputManager
         //OnInventoryAction = null;
         //OnLeftHandAction = null;
         //OnRightHandAction = null;
-        OnPauseAction = null;
+        OnPauseAction = null;       // 일시 정지 메뉴는 인게임 씬마다 존재하므로 null로 초기화 필요
     }
 
     public void Clear()
