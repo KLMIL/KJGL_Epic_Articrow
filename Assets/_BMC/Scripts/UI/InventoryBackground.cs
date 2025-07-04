@@ -16,29 +16,29 @@ public class InventoryBackground : MonoBehaviour, IDropHandler
         {
             Debug.LogError($"OnDrop: {draggedItem.name} on {gameObject.name}");
 
-            string partName = draggedItem.GetComponent<ImagePartsRoot_YSJ>().partsName;
+            GameObject ConnectedFieldParts = draggedItem.GetComponent<ConnectFieldParts_YSJ>().ConnectedFieldParts;
 
             // TODO: 인벤토리에서 버린 파츠를 플레이어 주변에 소환시키기
-            SpawnPart(partName);
+            SpawnPart(ConnectedFieldParts);
 
             Destroy(draggedItem.gameObject); // 드래그한 아이템을 제거
         }
     }
 
-    void SpawnPart(string partName)
+    void SpawnPart(GameObject fieldParts)
     {
         // 플레이어 주변에 랜덤한 방향으로 해당하는 파츠 소환
 
         // 테스트 코드
-        GameObject partPrefab = Managers.Resource.Load<GameObject>($"NewImageParts/ImageParts_{partName}");
+        //GameObject partPrefab = Managers.Resource.Load<GameObject>($"NewImageParts/ImageParts_{partName}");
 
-        if (partPrefab == null)
+        if (fieldParts == null)
         {
-            Debug.LogError($"못찾음: {partName}");
+            Debug.LogError("필드파츠 못찾음");
             return;
         }
 
-        GameObject partInstance = Instantiate(partPrefab, PlayerManager.Instance.transform.position + Random.insideUnitSphere, Quaternion.identity);
+        GameObject partInstance = Instantiate(fieldParts, PlayerManager.Instance.transform.position + Random.insideUnitSphere, Quaternion.identity);
         Debug.LogError($"{partInstance} 버림");
     }
 }
