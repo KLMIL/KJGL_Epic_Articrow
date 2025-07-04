@@ -32,14 +32,14 @@ namespace CKT
             _firePoint = GetComponentInChildren<FirePoint>().transform;
 
             //_skillManager = BMC.PlayerManager.Instance.Inventory.SkillManager;
-            _skillManager.GetArtifactSOFuncT0.SingleSubscribe(() => { return _artifactSO; });
+            _skillManager.GetArtifactSOFuncT0.SingleRegister(() => { return _artifactSO; });
             YSJ.Managers.Input.OnRightHandAction += Attack;
             YSJ.Managers.Input.OnRightHandActionEnd += AttackCancel;
             //_skillManager.OnHandPerformActionT1.SingleRegister((list) => Attack(list));
             //_skillManager.OnHandCancelActionT0.SingleRegister(() => AttackCancel());
             //_skillManager.OnThrowAwayActionT0.SingleRegister(() => ThrowAway());
 
-            YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.Publish(_artifactSO.ArtifactSprite);
+            //YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.Trigger(_artifactSO.ArtifactSprite);
         }
 
         private void OnDisable()
@@ -51,7 +51,7 @@ namespace CKT
             //_skillManager.OnHandCancelActionT0.Unregister(() => AttackCancel());
             //_skillManager.OnThrowAwayActionT0.Unregister(() => ThrowAway());
 
-            YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.Publish(null);
+            //YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.Trigger(null);
         }
 
         protected void Attack()
@@ -124,7 +124,7 @@ namespace CKT
             //_skillManager.OnHandCancelActionT0.Unregister(() => AttackCancel());
             //_skillManager.OnThrowAwayActionT0.Unregister(() => ThrowAway());
 
-            YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.Publish(null);
+            //YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.Trigger(null);
 
             Destroy(this.gameObject);
         }

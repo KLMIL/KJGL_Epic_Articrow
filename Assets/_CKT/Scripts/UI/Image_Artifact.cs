@@ -10,7 +10,7 @@ namespace CKT
         private void Start()
         {
             _img_Artifact = GetComponent<Image>();
-            YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.SingleSubscribe((sprite) => UpdateImage_Artifact(sprite));
+            //YSJ.Managers.UI.OnUpdateImage_ArtifactActionT1.SingleRegister((sprite) => UpdateImage_Artifact(sprite));
 
             UpdateImage_Artifact(null);
         }

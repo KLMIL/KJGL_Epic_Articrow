@@ -10,7 +10,7 @@ namespace CKT
 
             //BMC.PlayerManager.Instance.Inventory.OnUpdateInventoryListActionT1.SingleRegister((list) => base.UpdateItemSlotList(list));
             //BMC.PlayerManager.Instance.Inventory.GetSlotCountInt.SingleRegister(() => base._dropAreas.Length);
-            YSJ.Managers.UI.OnAddInventorySlotActionT1.SingleSubscribe((obj) => AddInventorySlot(base._dropAreas, obj));
+            //YSJ.Managers.UI.OnAddInventorySlotActionT1.SingleRegister((obj) => AddInventorySlot(base._dropAreas, obj));
         }
 
         /// <summary>

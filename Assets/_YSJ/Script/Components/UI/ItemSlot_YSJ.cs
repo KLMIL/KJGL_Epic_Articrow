@@ -48,8 +48,6 @@ public class ItemSlot_YSJ : MonoBehaviour, IDropHandler
         // 드래그한 파츠가 아티팩트 슬롯에서 왔으면
         if (draggedItem.currentParent.TryGetComponent<ArtifactSlotUI_YSJ>(out ArtifactSlotUI_YSJ artifactslot))
         {
-
-
             // 원래 슬롯에 있던 파츠 아티팩트에서 등록해제
             artifactslot.CurrentArtifact.RemoveParts(artifactslot.SlotIndex);
             artifactslot.CurrentArtifact.UpdateEnhance();

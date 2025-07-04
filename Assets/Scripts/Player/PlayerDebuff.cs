@@ -30,11 +30,7 @@ namespace BMC
 
         void Update()
         {
-            if(Input.GetKeyDown(KeyCode.Z))
-            {
-                //ApplyDebuff(DebuffType.Stun, 2f);
-                //ApplyDebuff(DebuffType.Burn, 6f, 1f, 1f);
-            }
+            TestCode();
         }
 
         // 디버프 적용
@@ -56,6 +52,15 @@ namespace BMC
         public bool HasDebuff(DebuffType debuffType)
         {
             return (CurrentDebuff & debuffType) != 0;
+        }
+
+        public void TestCode()
+        {
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                //ApplyDebuff(DebuffType.Stun, 2f);
+                //ApplyDebuff(DebuffType.Burn, 6f, 1f, 1f);
+            }
         }
     }
 }

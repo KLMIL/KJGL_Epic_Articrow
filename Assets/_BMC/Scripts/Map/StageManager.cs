@@ -39,6 +39,8 @@ namespace BMC
                 GameObject[] rewards = Managers.Resource.LoadAll<GameObject>($"Prefabs/Rewards/{roomType}");
                 RoomTypeRewardListDict.Add(roomType, rewards.ToList());
             }
+
+            // TODO: 승준님 쪽에서 파츠 정보 수정하면 마저 바꾸기
             PartPrefab = Managers.Resource.Load<GameObject>("Prefabs/Rewards/FieldPart");
         }
     }

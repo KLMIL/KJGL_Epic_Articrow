@@ -54,7 +54,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
         // 파츠일때
         if (interactItem.TryGetComponent<FieldParts_YSJ>(out FieldParts_YSJ parts))
         {
-            if (Managers.UI.InventoryCanvas.inventory.TryAddItem(parts.ImageParts))
+            if (Managers.UI.InventoryCanvas.inventory.TryAddItem(parts.ConnectedImageParts))
             {
                 Destroy(interactItem.gameObject);
             }
