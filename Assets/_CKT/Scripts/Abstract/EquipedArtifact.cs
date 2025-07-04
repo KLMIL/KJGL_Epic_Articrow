@@ -32,7 +32,7 @@ namespace CKT
             _firePoint = GetComponentInChildren<FirePoint>().transform;
 
             //_skillManager = BMC.PlayerManager.Instance.Inventory.SkillManager;
-            _skillManager.GetArtifactSOFuncT0.SingleRegister(() => { return _artifactSO; });
+            _skillManager.GetArtifactSOFuncT0.SingleSubscribe(() => { return _artifactSO; });
             YSJ.Managers.Input.OnRightHandAction += Attack;
             YSJ.Managers.Input.OnRightHandActionEnd += AttackCancel;
             //_skillManager.OnHandPerformActionT1.SingleRegister((list) => Attack(list));
