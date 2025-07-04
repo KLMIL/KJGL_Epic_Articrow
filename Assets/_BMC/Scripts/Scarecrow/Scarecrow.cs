@@ -33,12 +33,6 @@ namespace BMC
 
             _anim.Play("Hurt");
             _showDamageText.Show(damage);
-
-            if(StageManager.Instance.CurrentRoom == null ||
-                StageManager.Instance.CurrentRoom.RoomData.RoomType == RoomType.TutorialRoom)
-            {
-                TutorialManager.Instance.TutorialClear();
-            }
         }
 
         void SpawnReward()
