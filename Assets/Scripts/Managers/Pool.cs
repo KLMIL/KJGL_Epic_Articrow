@@ -23,12 +23,6 @@ public class Pool : MonoBehaviour
     // 준비
     void Prepare()
     {
-        //for (int i = 0; i < _addCount; i++)
-        //{
-        //    GameObject poolingObject = Instantiate(Prefab, transform);
-        //    poolingObject.SetActive(false);
-        //    Push(poolingObject);
-        //}
         StartCoroutine(Spawn()); // 코루틴으로 생성
     }
 

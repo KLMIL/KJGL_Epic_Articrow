@@ -1,4 +1,5 @@
 using UnityEngine;
+using YSJ;
 
 namespace BMC
 {
@@ -7,6 +8,8 @@ namespace BMC
     /// </summary>
     public class DoorDetectionPlayer : MonoBehaviour
     {
+        bool _isPlayerInTrigger;
+        bool _isTransferPlayer;
         Door _door;
 
         public void Init(Door door)
@@ -17,10 +20,32 @@ namespace BMC
         #region OnTrigger
         void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Player") && _door.IsOpen)
+            if (!_isPlayerInTrigger && collision.CompareTag("Player") && _door.IsOpen)
             {
                 Debug.Log("문 닿음");
+                _isPlayerInTrigger = true;
+                PlayerManager.Instance.PlayerTextWindow.SetText("F");
+            }
+        }
+
+        void OnTriggerStay2D(Collider2D collision)
+        {
+            if(_isPlayerInTrigger && !_isTransferPlayer && _door.IsOpen && Managers.Input.IsPressInteract)
+            {
+                Debug.Log("다음 씬으로 이동");
                 _door.NextStage();
+                _isTransferPlayer = true;
+                PlayerManager.Instance.PlayerTextWindow.SetText();
+            }
+        }
+
+        void OnTriggerExit2D(Collider2D collision)
+        {
+            if (_isPlayerInTrigger && collision.CompareTag("Player") && _door.IsOpen)
+            {
+                Debug.Log("문 떠남");
+                _isPlayerInTrigger = false;
+                PlayerManager.Instance.PlayerTextWindow.SetText();
             }
         }
         #endregion

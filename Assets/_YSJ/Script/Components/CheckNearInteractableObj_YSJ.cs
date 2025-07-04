@@ -29,9 +29,12 @@ public class CheckNearInteractableObj_YSJ : MonoBehaviour
         List<Collider2D> toRemove = new();
         foreach (Collider2D obj in nearInteractableColliders)
         {
-            if (!cols.Contains(obj))
+            if (!cols.Contains(obj) )
             {
-                obj.GetComponent<ShowInteractableWindow_YSJ>().HideWindow();
+                if (obj)
+                {
+                    obj.GetComponent<ShowInteractableWindow_YSJ>().HideWindow();
+                }
                 toRemove.Add(obj);
             }
         }

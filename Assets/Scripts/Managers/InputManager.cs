@@ -87,6 +87,14 @@ public class InputManager
     {
         _inputSystemActions.Player.Enable();
         _inputSystemActions.UI.Disable();
+        _inputSystemActions.Tutorial.Disable();
+    }
+
+    public void SetTutorialMode()
+    {
+        _inputSystemActions.Player.Disable();
+        _inputSystemActions.UI.Disable();
+        _inputSystemActions.Tutorial.Enable();
     }
 
     // UI 모드로 전한
@@ -94,6 +102,7 @@ public class InputManager
     {
         _inputSystemActions.Player.Disable();
         _inputSystemActions.UI.Enable();
+        _inputSystemActions.Tutorial.Disable();
     }
 
     #region 키 리바인드 관련
@@ -117,20 +126,20 @@ public class InputManager
     #endregion
 
     #region GamePlay
-    void OnMove(InputAction.CallbackContext context)
+    public void OnMove(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>().normalized;
         //Debug.Log("MoveInput: " + MoveInput);
     }
 
-    void OnMousePos(InputAction.CallbackContext context)
+    public void OnMousePos(InputAction.CallbackContext context)
     {
         Vector2 mouseInput = context.ReadValue<Vector2>();
         MouseWorldPos = Camera.main.ScreenToWorldPoint(mouseInput);
         //Debug.Log(MouseWorldPos);
     }
 
-    void OnDash(InputAction.CallbackContext context)
+    public void OnDash(InputAction.CallbackContext context)
     {
         IsPressDash = context.ReadValueAsButton();
         if (context.performed)
@@ -142,7 +151,7 @@ public class InputManager
         //Debug.Log("IsPressDash: " + IsPressDash);
     }
 
-    void OnInteract(InputAction.CallbackContext context)
+    public void OnInteract(InputAction.CallbackContext context)
     {
         IsPressInteract = context.ReadValueAsButton();
         if (context.performed)
@@ -152,7 +161,7 @@ public class InputManager
         }
     }
 
-    void OnInventory(InputAction.CallbackContext context)
+    public void OnInventory(InputAction.CallbackContext context)
     {
         IsPressInventory = context.ReadValueAsButton();
         if (context.performed)
@@ -162,7 +171,7 @@ public class InputManager
         }
     }
 
-    void OnLeftHand(InputAction.CallbackContext context)
+    public void OnLeftHand(InputAction.CallbackContext context)
     {
         IsPressLeftHandAttack = context.ReadValueAsButton();
         if (context.performed)
@@ -177,7 +186,7 @@ public class InputManager
         }
     }
 
-    void OnRightHand(InputAction.CallbackContext context)
+    public void OnRightHand(InputAction.CallbackContext context)
     {
         IsPressRightHandAttack = context.ReadValueAsButton();
         if (context.performed)
@@ -197,11 +206,12 @@ public class InputManager
     }
     #endregion
 
-    void OnPause(InputAction.CallbackContext context)
+    public void OnPause(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            if (Managers.Scene.CurrentScene.SceneType == SceneType.InGameScene)
+            if (Managers.Scene.CurrentScene.SceneType != SceneType.TitleScene
+                && Managers.Scene.CurrentScene.SceneType != SceneType.TutorialScene)
             {
                 if (_inputSystemActions.Player.enabled)
                 {
@@ -217,6 +227,22 @@ public class InputManager
                 }
                 OnPauseAction?.Invoke();
             }
+            else if(Managers.Scene.CurrentScene.SceneType == SceneType.TutorialScene)
+            {
+                if (_inputSystemActions.Tutorial.enabled)
+                {
+                    _inputSystemActions.Tutorial.Disable();
+                    _inputSystemActions.UI.Enable();
+                    Debug.Log("튜토리얼 -> UI 모드로 전환");
+                }
+                else if (_inputSystemActions.UI.enabled)
+                {
+                    _inputSystemActions.UI.Disable();
+                    _inputSystemActions.Tutorial.Enable();
+                    Debug.Log("UI -> 튜토리얼 모드로 전환");
+                }
+                OnPauseAction?.Invoke();
+            }
         }
     }
 
@@ -227,7 +253,7 @@ public class InputManager
         //OnInventoryAction = null;
         //OnLeftHandAction = null;
         //OnRightHandAction = null;
-        OnPauseAction = null;
+        OnPauseAction = null;       // 일시 정지 메뉴는 인게임 씬마다 존재하므로 null로 초기화 필요
     }
 
     public void Clear()

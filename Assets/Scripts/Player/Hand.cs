@@ -5,20 +5,19 @@ namespace YSJ
 {
     public class Hand : MonoBehaviour
     {
-        Camera _camera;
         Transform _body;
         SpriteRenderer _playerSprite;
 
         PlayerHand _hand; // YSJ
 
-        private void Awake()
+        void Awake()
         {
             _playerSprite = transform.root.GetComponentInChildren<SpriteRenderer>();
 
             _hand = GetComponentInParent<PlayerHand>();
         }
 
-        private void FixedUpdate()
+        void FixedUpdate()
         {
             if (_hand && !_hand.CanHandling) 
             {
@@ -63,7 +62,6 @@ namespace YSJ
             Vector2 mousePos = Managers.Input.MouseWorldPos;
             Vector2 mouseDir = (mousePos - (Vector2)this.transform.position).normalized;
             float angleZ = Mathf.Atan2(mouseDir.y, mouseDir.x) * Mathf.Rad2Deg;
-
             transform.rotation = Quaternion.Euler(0, 0, angleZ);
         }
     }

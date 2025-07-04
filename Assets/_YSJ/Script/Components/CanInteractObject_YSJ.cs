@@ -54,7 +54,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
         // 파츠일때
         if (interactItem.TryGetComponent<FieldParts_YSJ>(out FieldParts_YSJ parts))
         {
-            if (Managers.UI.InventoryCanvas.inventory.TryAddItem(parts.ImageParts))
+            if (Managers.UI.InventoryCanvas.inventory.TryAddItem(parts.ConnectedImageParts))
             {
                 Destroy(interactItem.gameObject);
             }
@@ -69,12 +69,12 @@ public class CanInteractObject_YSJ : MonoBehaviour
         {
             if (!hand) return;
 
+            // 상호작용 비활성화
+            interactItem.enabled = false;
+
             // 빈손이면
             if (hand.childCount == 0)
             {
-                // 상호작용 비활성화
-                interactItem.enabled = false;
-
                 //장착
                 Equip(artifact);
             }
@@ -133,5 +133,10 @@ public class CanInteractObject_YSJ : MonoBehaviour
         currentArtifacttransform.SetParent(null);
         currentArtifact.transform.rotation = Quaternion.identity;
         SceneManager.MoveGameObjectToScene(currentArtifacttransform.gameObject, SceneManager.GetActiveScene());
+    }
+
+    void OnDestroy()
+    {
+        Managers.Input.OnInteractAction -= TryInteract;
     }
 }

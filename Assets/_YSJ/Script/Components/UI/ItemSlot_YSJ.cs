@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using YSJ;
 
 public class ItemSlot_YSJ : MonoBehaviour, IDropHandler
 {

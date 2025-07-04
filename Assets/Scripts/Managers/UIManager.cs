@@ -4,12 +4,6 @@ namespace YSJ
 {
     public class UIManager
     {
-        public ActionT1<GameObject> OnAddInventorySlotActionT1 = new();
-        public ActionT1<Sprite> OnUpdateImage_ArtifactActionT1 = new();
-
-        public Transform LeftHand;
-        public Transform RightHand;
-
         public InventoryCanvas_YSJ InventoryCanvas;
 
         public void InstantiateSettingsUI()
