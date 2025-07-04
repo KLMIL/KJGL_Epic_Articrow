@@ -40,8 +40,8 @@ public class TestParts : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ, IIma
     public void NormalAttackPessive(Artifact_YSJ fireArtifact)
     {
         //print("발사 전 패시브 액션");
-        fireArtifact.Added_NormalAttackPower += 10f;
-        fireArtifact.Added_NormalAttackCount += 1;
-        fireArtifact.Added_NormalAttackSpreadAngle += 10f;
+        fireArtifact.normalStatus.Added_AttackPower += 10f;
+        fireArtifact.normalStatus.Added_AttackCount += 1;
+        fireArtifact.normalStatus.Added_AttackSpreadAngle += 10f;
     }
 }

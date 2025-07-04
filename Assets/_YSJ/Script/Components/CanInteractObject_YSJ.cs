@@ -94,7 +94,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
 
     void Equip(Artifact_YSJ artifact)
     {
-        artifact.currentHand = GetComponentInChildren<PlayerHand>();
+        artifact.CurrentHand = GetComponentInChildren<PlayerHand>();
         artifact.UpdateEnhance();
         artifact.isCanAttack = true;
 
@@ -115,17 +115,17 @@ public class CanInteractObject_YSJ : MonoBehaviour
         Transform currentArtifacttransform = hand.GetChild(0);
         Artifact_YSJ currentArtifact = currentArtifacttransform.GetComponent<Artifact_YSJ>();
 
-        currentArtifact.currentHand.CanHandling = true;
+        currentArtifact.CurrentHand.CanHandling = true;
 
-        if (currentArtifact.normalAttackCoroutine != null)
+        if (currentArtifact.normalStatus.attackCoroutine != null)
         {
-            currentArtifact.StopCoroutine(currentArtifact.normalAttackCoroutine);
-            currentArtifact.normalAttackCoroutine = null;
+            currentArtifact.StopCoroutine(currentArtifact.normalStatus.attackCoroutine);
+            currentArtifact.normalStatus.attackCoroutine = null;
         }
-        if (currentArtifact.skillAttackCoroutine != null)
+        if (currentArtifact.skillStatus.attackCoroutine != null)
         {
-            currentArtifact.StopCoroutine(currentArtifact.skillAttackCoroutine);
-            currentArtifact.skillAttackCoroutine = null;
+            currentArtifact.StopCoroutine(currentArtifact.skillStatus.attackCoroutine);
+            currentArtifact.skillStatus.attackCoroutine = null;
         }
 
         currentArtifacttransform.GetComponent<InteractObject_YSJ>().enabled = true;
