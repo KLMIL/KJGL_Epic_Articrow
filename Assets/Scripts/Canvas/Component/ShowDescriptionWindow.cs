@@ -4,6 +4,9 @@ using UnityEngine.EventSystems;
 
 namespace YSJ
 {
+    /// <summary>
+    /// UI 슬롯에서의 아이템 설명을 보여주는 클래스
+    /// </summary>
     public class ShowDescriptionWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [TextArea(5, 10)]
@@ -12,6 +15,14 @@ namespace YSJ
         RectTransform _descriptionPanel;
         //Image _img_Panel;
         //TextMeshProUGUI _tmp_Description;
+
+        Inventory_YSJ _inventory;   // 인벤토리
+
+        void Awake()
+        {
+            _inventory = transform.GetComponentInParent<Inventory_YSJ>();
+        }
+
 
         private void Start()
         {
@@ -29,10 +40,19 @@ namespace YSJ
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            // 0. Window 준비
             _descriptionPanel = Managers.Pool.Get<RectTransform>(Define.PoolID.Description);
-            _descriptionPanel.transform.SetParent(this.transform);
-            _descriptionPanel.position = this.transform.GetComponent<RectTransform>().position;
 
+            // 1. Window 배치
+            // 1-1) 인벤토리 다음에 위치해서 슬롯을 가리지 않음
+            int hierarchyIdx = _inventory.transform.GetSiblingIndex();
+            _descriptionPanel.transform.SetParent(_inventory.transform.parent);
+            _descriptionPanel.transform.SetSiblingIndex(hierarchyIdx + 1); // 인벤토리 뒤에 위치
+
+            // 1-2) 슬롯의 RectTransform을 가져와서 위치 설정
+            _descriptionPanel.position = this.transform.parent.GetComponent<RectTransform>().position;
+
+            // 2. Window 문구 설정
             TextMeshProUGUI tmp_Description = _descriptionPanel.GetComponentInChildren<TextMeshProUGUI>();
             tmp_Description.text = Description;
 
