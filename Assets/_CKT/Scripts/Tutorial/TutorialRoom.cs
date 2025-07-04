@@ -22,7 +22,7 @@ namespace CKT
             PlacePlayer();
             Init();
 
-            TutorialManager.Instance.OnOpenDoorActionT0.SingleRegister(() => OpenAllValidDoor());
+            TutorialManager.Instance.OnOpenDoorActionT0.SingleSubscribe(() => OpenAllValidDoor());
         }
     }
 }

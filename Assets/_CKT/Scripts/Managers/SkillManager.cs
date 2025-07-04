@@ -17,7 +17,7 @@ namespace CKT
         public ActionT1<List<GameObject>> OnHandPerformActionT1 = new();
         public void TriggerHand()
         {
-            OnHandPerformActionT1.Trigger(_slotList);
+            OnHandPerformActionT1.Publish(_slotList);
         }
         #endregion
 
@@ -57,7 +57,7 @@ namespace CKT
         public void CheckSkill()
         {
             //슬롯 확인
-            OnUpdateSlotListActionT1?.Trigger(_slotList);
+            OnUpdateSlotListActionT1?.Publish(_slotList);
 
             //스킬 적용
             CastSkillDict.Clear();

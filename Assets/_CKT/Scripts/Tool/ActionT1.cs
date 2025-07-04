@@ -1,55 +1,76 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ActionT1<T1>
 {
-    Action<T1> _action = null;
+    Dictionary<Action<T1>, (WeakReference weak, string name)> _targetDict = new();
 
     public void Init()
     {
-        _action = null;
+        _targetDict.Clear();
     }
 
-    public void Unregister(Action<T1> callback)
+    public void Unsubscribe(Action<T1> callback)
     {
-        _action -= callback;
-    }
-
-    public void Register(Action<T1> callback)
-    {
-        _action += callback;
-    }
-
-    public void SingleRegister(Action<T1> callback)
-    {
-        _action = null;
-        _action += callback;
-    }
-
-    public void Trigger(T1 param)
-    {
-        //safeInvoke(param);
-        if (_action == null)
+        if (_targetDict.ContainsKey(callback))
         {
-            Debug.Log("[ckt] ActionT1 is null");
+            _targetDict.Remove(callback);
         }
-        _action?.Invoke(param);
+        /*else
+        {
+            string name = (callback.Target is MonoBehaviour mono && (mono != null)) ? mono.gameObject.name : "UnKnown";
+            Debug.LogWarning($"{name}'s Action does not contain");
+        }*/
     }
 
-    void safeInvoke(T1 param)
+    public void Subscribe(Action<T1> callback)
     {
-        if (_action == null) return;
-
-        Delegate[] delegates = _action.GetInvocationList();
-        _action = null;
-        foreach (Delegate del in delegates)
+        if (callback.Target is MonoBehaviour mono && (mono != null))
         {
-            if (del.Target != null || del.Method.IsStatic)
+            _targetDict[callback] = (new WeakReference(mono), mono.gameObject.name);
+        }
+        /*else if (name == null)
+        {
+            Debug.LogError("Subscriber is null");
+        }
+        else if (_targetDict.ContainsValue(name))
+        {
+            Debug.LogError("Subscriber already contains");
+        }*/
+    }
+
+    public void SingleSubscribe(Action<T1> callback)
+    {
+        Init();
+        Subscribe(callback);
+    }
+
+    public void Publish(T1 param1)
+    {
+        if (_targetDict.Count == 0)
+        {
+            //Debug.LogWarning($"{this} subscriber is null");
+            return;
+        }
+
+        List<Action<T1>> removeList = new();
+        foreach (Action<T1> action in _targetDict.Keys)
+        {
+            WeakReference weak = _targetDict[action].weak;
+            if (weak.IsAlive && weak.Target is MonoBehaviour mono && (mono != null))
             {
-                _action += (Action<T1>)del;
+                action?.Invoke(param1);
+            }
+            else
+            {
+                //Debug.LogError($"{_targetDict[action]} invoke action try failed");
+                removeList.Add(action);
             }
         }
-
-        _action?.Invoke(param);
+        for (int i = 0; i < removeList.Count; i++)
+        {
+            Unsubscribe(removeList[i]);
+        }
     }
 }

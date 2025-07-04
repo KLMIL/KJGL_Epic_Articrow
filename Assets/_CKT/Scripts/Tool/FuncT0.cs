@@ -14,18 +14,18 @@ public class FuncT0<TResult>
         _func = null;
     }
 
-    public void SingleRegister(Func<TResult> callback)
+    public void SingleSubscribe(Func<TResult> callback)
     {
         _func = null;
         _func += callback;
     }
 
-    public TResult Trigger()
+    public TResult Publish()
     {
         if (_func == null)
         {
             Debug.LogError("_func is null. Check class FuncT0<TResult>");
-            return default(TResult);
+            return default;
         }
         else
         {
