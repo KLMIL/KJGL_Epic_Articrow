@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class ArtifactWindow_YSJ : MonoBehaviour
 {
-    Transform ArtifactIMG;
-    Transform ArtifactSlotWindow;
+    public Image ArtifactIMG;
+    public Transform ArtifactSlotWindow;
 
     TextMeshProUGUI normalStatText;
     TextMeshProUGUI skillStatText;
@@ -16,9 +16,6 @@ public class ArtifactWindow_YSJ : MonoBehaviour
     void Awake()
     {
         GetComponentInParent<InventoryCanvas_YSJ>().ArtifactWindow = this;
-
-        ArtifactIMG = transform.GetChild(0);
-        ArtifactSlotWindow = transform.GetChild(1);
 
         normalStatText = GetComponentInChildren<NormalStatText_YSJ>().GetComponent<TextMeshProUGUI>();
         skillStatText = GetComponentInChildren<SkillStatText_YSJ>().GetComponent<TextMeshProUGUI>();
@@ -56,8 +53,8 @@ public class ArtifactWindow_YSJ : MonoBehaviour
     {
         if (equipedArtifact.TryGetComponent<SpriteRenderer>(out SpriteRenderer artifactSpriteRenderer)) 
         {
-            ArtifactIMG.GetComponent<Image>().sprite = artifactSpriteRenderer.sprite;
-            ArtifactIMG.GetComponent<Image>().color = artifactSpriteRenderer.color;
+            ArtifactIMG.sprite = artifactSpriteRenderer.sprite;
+            ArtifactIMG.color = artifactSpriteRenderer.color;
         }
     }
 
@@ -94,6 +91,6 @@ public class ArtifactWindow_YSJ : MonoBehaviour
     {
         RemoveAllSlotUI();
         ResetArtifactInfomationText();
-        ArtifactIMG.GetComponent<Image>().sprite = null;
+        ArtifactIMG.sprite = null;
     }
 }
