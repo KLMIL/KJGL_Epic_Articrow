@@ -69,12 +69,12 @@ public class CanInteractObject_YSJ : MonoBehaviour
         {
             if (!hand) return;
 
+            // 상호작용 비활성화
+            interactItem.enabled = false;
+
             // 빈손이면
             if (hand.childCount == 0)
             {
-                // 상호작용 비활성화
-                interactItem.enabled = false;
-
                 //장착
                 Equip(artifact);
             }
