@@ -49,7 +49,7 @@ namespace BMC
             // 보상 생성
             Vector3 dir = Vector3.down;
             Instantiate(rewardObject, transform.position + dir - transform.right, Quaternion.identity);
-            rewardObject = StageManager.Instance.PartPrefab;
+            rewardObject = StageManager.Instance.FieldParts[Random.Range(0, StageManager.Instance.FieldParts.Length)];
             Instantiate(rewardObject, transform.position + dir + transform.right, Quaternion.identity);
         }
 
