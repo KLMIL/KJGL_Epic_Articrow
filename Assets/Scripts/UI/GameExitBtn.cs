@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameQuitBtn : MonoBehaviour
+public class GameExitBtn : MonoBehaviour
 {
     Button _btn;
     void Start()
