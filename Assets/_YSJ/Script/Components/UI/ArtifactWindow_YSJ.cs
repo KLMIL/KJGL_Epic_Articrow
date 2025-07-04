@@ -92,5 +92,6 @@ public class ArtifactWindow_YSJ : MonoBehaviour
         RemoveAllSlotUI();
         ResetArtifactInfomationText();
         ArtifactIMG.sprite = null;
+        ArtifactIMG.color = new Color(1, 1, 1, 0); // 투명하게 설정
     }
 }
