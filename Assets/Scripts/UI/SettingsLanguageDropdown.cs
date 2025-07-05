@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 using TMPro;
+using YSJ;
 
 public class SettingsLanguageDropdown : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class SettingsLanguageDropdown : MonoBehaviour
     public void Init()
     {
         // 언어 설정 불러오기
-        int localeIndex = PlayerPrefs.GetInt("LocaleIndex", 0); // 기본값은 0 (첫 번째 언어)
+        int localeIndex = Managers.Data.LocaleIndex;
 
         // 불러온 언어 인덱스 적용
         if (localeIndex < LocalizationSettings.AvailableLocales.Locales.Count)
@@ -56,7 +57,6 @@ public class SettingsLanguageDropdown : MonoBehaviour
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
 
         // 언어 설정 저장
-        PlayerPrefs.SetInt("LocaleIndex", index);
-        PlayerPrefs.Save();
+        Managers.Data.SaveLocaleIndex(index);
     }
 }
