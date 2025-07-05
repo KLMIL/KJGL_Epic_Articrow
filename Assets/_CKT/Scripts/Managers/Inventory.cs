@@ -34,7 +34,7 @@ namespace CKT
 
         public bool CheckInventorySlotFull()
         {
-            return _inventoryList.Count >= GetSlotCountInt.Trigger();
+            return _inventoryList.Count >= GetSlotCountInt.Publish();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace CKT
         public void InvokeUpdateList()
         {
             //인벤토리 내용물 확인
-            OnUpdateInventoryListActionT1.Trigger(_inventoryList);
+            OnUpdateInventoryListActionT1.Publish(_inventoryList);
             SkillManager.CheckSkill();
         }
     }

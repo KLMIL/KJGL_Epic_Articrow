@@ -47,7 +47,7 @@ namespace CKT
             ImageParts imageParts = BMC.PlayerManager.Instance.GetComponentInChildren<InventorySlot>().GetComponentInChildren<ImageParts>();
             if (imageParts != null)
             {
-                OnEquipPartsActionT1.Trigger(true);
+                OnEquipPartsActionT1.Publish(true);
                 YSJ.Managers.Input.OnInteractAction -= CheckInteraction;
             }
         }
@@ -65,7 +65,7 @@ namespace CKT
             ImageParts imageParts = BMC.PlayerManager.Instance.GetComponentInChildren<RightSlot>().GetComponentInChildren<ImageParts>();
             if (imageParts != null)
             {
-                OnEquipPartsActionT1.Trigger(false);
+                OnEquipPartsActionT1.Publish(false);
                 YSJ.Managers.Input.OnLeftHandActionEnd -= CheckLeftHandEnd;
             }
         }
@@ -97,7 +97,7 @@ namespace CKT
             if (_isRightHand)
             {
                 //문 열림
-                OnOpenDoorActionT0.Trigger();
+                OnOpenDoorActionT0.Publish();
             }
         }
         #endregion

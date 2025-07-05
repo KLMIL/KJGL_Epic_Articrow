@@ -11,7 +11,7 @@ namespace CKT
             _canvas = GetComponent<Canvas>();
             _canvas.enabled = false;
 
-            TutorialManager.Instance.OnEquipPartsActionT1.SingleRegister((value) => CanvasEnable(value));
+            TutorialManager.Instance.OnEquipPartsActionT1.SingleSubscribe((value) => CanvasEnable(value));
             Debug.Log("[ckt] UI_EquipParts Start");
         }
 
