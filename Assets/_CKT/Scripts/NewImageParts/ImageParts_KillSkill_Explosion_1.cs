@@ -2,10 +2,16 @@ using Game.Enemy;
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// 스킬로 대상을 처치했을 때 현재 공격의 50%에 해당하는 광역 공격 생성
+/// </summary>
 public class ImageParts_KillSkill_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
 {
+    float _damagePercent = 50f;
+
     public override string partsName => "KillSkill_Explosion_1";
 
+    #region [Skill]
     public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
     }
@@ -26,8 +32,9 @@ public class ImageParts_KillSkill_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsT
     public void SkillAttackPessive(Artifact_YSJ fireArtifact)
     {
     }
+    #endregion
 
-    #region [스킬에 적중 된 대상이 처치되면 주변에 광역 피해]
+    #region [상세]
     IEnumerator KillExplosionCoroutine(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
         yield return null;
@@ -36,10 +43,12 @@ public class ImageParts_KillSkill_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsT
         if (enemyHealth <= 0)
         {
             //폭발 생성
-            GameObject hitExplosion = YSJ.Managers.Pool.Get<GameObject>(Define.PoolID.HitExplosion);
-            hitExplosion.transform.position = hitObject.transform.position;
-            hitExplosion.GetComponent<CKT.Explosion>().Init(1);
-            Debug.Log($"[ckt] {partsName} explosion");
+            GameObject explosion = YSJ.Managers.Pool.Get<GameObject>(Define.PoolID.HitExplosion);
+            explosion.transform.position = hitObject.transform.position;
+
+            float damage = (_damagePercent * 0.01f) * spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower;
+            explosion.GetComponent<CKT.Explosion>().Init(damage);
+            Debug.Log($"[ckt] {partsName} KillExplosion {damage}");
         }
     }
     #endregion

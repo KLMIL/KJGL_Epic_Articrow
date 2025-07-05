@@ -1,10 +1,21 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// 일반 공격 적중 시 스킬 공격 피해량 5% 증가 (최대 6중첩, 5초 지속, 효과 발동 시 지속 시간 갱신)
+/// </summary>
 public class ImageParts_HitNormal_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ
 {
+    Artifact_YSJ _fireArtifact = null;
+    Coroutine _stackCoroutine = null;
+    float _increasePercent = 5f;
+    int _curStack = 0;
+    int _maxStack = 6;
+    float _duration = 5f;
+    
     public override string partsName => "HitNormal_SkillAttackPower_1";
 
+    #region [Normal]
     public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
     }
@@ -26,19 +37,13 @@ public class ImageParts_HitNormal_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImag
     public void NormalAttackPessive(Artifact_YSJ fireArtifact)
     {
     }
+    #endregion
 
-    #region [일반 공격 적중 시 스킬 공격 피해 증가 (5%, 최대 6스택, 5초 지속)]
+    #region [상세]
     void OnDisable()
     {
         StopBuff();
     }
-
-    Artifact_YSJ _fireArtifact = null;
-    Coroutine _stackCoroutine = null;
-    float _power = 5f;
-    int _curStack = 0;
-    int _maxStack = 6;
-    float _duration = 5f;
 
     IEnumerator StackCoroutine(Artifact_YSJ fireArtifact)
     {
@@ -56,7 +61,7 @@ public class ImageParts_HitNormal_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImag
     {
         _curStack++;
         _curStack = Mathf.Clamp(_curStack, 0, _maxStack);
-        float add = _power * _curStack * _fireArtifact.skillStatus.Default_AttackPower;
+        float add = (_increasePercent * 0.01f) * _curStack * _fireArtifact.skillStatus.Default_AttackPower;
 
         _fireArtifact.skillStatus.Added_AttackPower += add;
         Debug.Log($"[ckt] {partsName} StartBuff {_curStack}_{add}");
@@ -64,7 +69,7 @@ public class ImageParts_HitNormal_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImag
 
     void EndBuff()
     {
-        float add = _power * _curStack * _fireArtifact.skillStatus.Default_AttackPower;
+        float add = (_increasePercent * 0.01f) * _curStack * _fireArtifact.skillStatus.Default_AttackPower;
 
         _fireArtifact.skillStatus.Added_AttackPower -= add;
         _curStack = 0;

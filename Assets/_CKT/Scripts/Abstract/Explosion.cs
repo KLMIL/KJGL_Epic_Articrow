@@ -8,7 +8,6 @@ namespace CKT
         CircleCollider2D _collider;
 
         float _totalDamage;
-        protected abstract float BaseDamage { get; }
         protected abstract float DisableTime { get; }
         protected abstract Define.PoolID PoolID { get; }
 
@@ -22,9 +21,9 @@ namespace CKT
             StartCoroutine(DisableCoroutine());
         }
 
-        public void Init(int level)
+        public void Init(float damage)
         {
-            _totalDamage = BaseDamage * level;
+            _totalDamage = damage;
         }
 
         IEnumerator DisableCoroutine()

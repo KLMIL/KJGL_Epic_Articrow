@@ -1,10 +1,19 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// 스킬 시전 시 보호막 1 획득 (3초 지속)
+/// </summary>
 public class ImageParts_BeforeSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
 {
+    Coroutine _barrierCoroutine = null;
+    Artifact_YSJ _fireArtifact = null;
+    int increaseValue = 1;
+    float _duration = 3f;
+
     public override string partsName => "BeforeSkill_Barrier_1";
 
+    #region [Skill]
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
         StopBuff();
@@ -26,16 +35,13 @@ public class ImageParts_BeforeSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsT
     public void SkillAttackPessive(Artifact_YSJ fireArtifact)
     {
     }
+    #endregion
 
-    #region [스킬 공격 시전 시 3초간 보호막 획득]
+    #region [상세]
     void OnDisable()
     {
         StopBuff();
     }
-
-    Coroutine _barrierCoroutine = null;
-    Artifact_YSJ _fireArtifact = null;
-    float _duration = 3f;
 
     IEnumerator BarrierCoroutine(Artifact_YSJ fireArtifact)
     {
@@ -51,7 +57,7 @@ public class ImageParts_BeforeSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsT
 
     void StartBuff()
     {
-        int add = 1;
+        int add = increaseValue;
 
         _fireArtifact.playerStatus.OffsetBarrier += add;
         Debug.Log($"[ckt] {partsName} StartBuff {add}");
@@ -59,7 +65,7 @@ public class ImageParts_BeforeSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsT
 
     void EndBuff()
     {
-        int add = 1;
+        int add = increaseValue;
 
         _fireArtifact.playerStatus.OffsetBarrier -= add;
         Debug.Log($"[ckt] {partsName} StartBuff {add}");

@@ -2,8 +2,13 @@ using Game.Enemy;
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// 대상을 처치했을 때 마나 1 회복
+/// </summary>
 public class ImageParts_Kill_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ, IImagePartsToSkillAttack_YSJ
 {
+    int _increaseValue = 1;
+
     public override string partsName => "Kill_ManaGain_1";
 
     #region [Normal]
@@ -52,6 +57,7 @@ public class ImageParts_Kill_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
     }
     #endregion
 
+    #region [상세]
     IEnumerator ManaGainCoroutine(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
         yield return null;
@@ -59,10 +65,11 @@ public class ImageParts_Kill_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
         float enemyHealth = hitObject.GetComponent<EnemyController>().Status.healthPoint;
         if (enemyHealth <= 0)
         {
-            int add = 2;
+            int add = _increaseValue * 2;
             
             fireArtifact.playerStatus.RegenerateMana(add);
             Debug.Log($"[ckt] {partsName} RegenerateMana({add})");
         }
     }
+    #endregion
 }
