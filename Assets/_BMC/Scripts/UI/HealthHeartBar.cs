@@ -79,7 +79,7 @@ public class HealthHeartBar : MonoBehaviour
         // 하트 상태를 빈 상태로 설정
         HealthHeart heartComponent = newHeart.GetComponent<HealthHeart>();
         heartComponent.SetHeartImage(HeartStatus.Empty);
-        heartComponent.SetColor(Color.gray); // 배리어 하트는 회색으로 표시
+        heartComponent.SetColor(Color.white); // 배리어 하트는 회색으로 표시
         hearts.Add(heartComponent);
     }
 

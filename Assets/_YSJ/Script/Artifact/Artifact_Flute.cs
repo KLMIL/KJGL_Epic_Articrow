@@ -15,6 +15,6 @@ public class Artifact_Flute : Artifact_YSJ
     protected override void ResetSkillAttack()
     {
         base.ResetSkillAttack();
-        AfterFireSkillAttack += SpawnedAttackSetChild;
+        skillStatus.AfterFire += SpawnedAttackSetChild;
     }
 }

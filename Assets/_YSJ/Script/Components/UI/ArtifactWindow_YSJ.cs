@@ -63,13 +63,13 @@ public class ArtifactWindow_YSJ : MonoBehaviour
         // 기본공격 정보
         normalStatText.text =
         "기본공격" + "\n" +
-        "데미지 : " + equipedArtifact.Default_NormalAttackPower + "\n" +
-        "쿨타임 : " + equipedArtifact.Default_NormalAttackCoolTime + "\n" +
-        "지속시간 : " + equipedArtifact.Default_NormalAttackLife + "\n" +
-        "날아가는 속도 : " + equipedArtifact.Default_NormalBulletSpeed + "\n" +
-        "선딜레이 : " + equipedArtifact.Default_NormalAttackStartDelay + "\n" +
-        "발사 수 : " + equipedArtifact.Default_NormalAttackCount + "\n" +
-        "탄퍼짐 각도 : " + equipedArtifact.Default_NormalAttackSpreadAngle + "\n"
+        "데미지 : " + equipedArtifact.normalStatus.Default_AttackPower + "\n" +
+        "쿨타임 : " + equipedArtifact.normalStatus.Default_AttackCoolTime + "\n" +
+        "지속시간 : " + equipedArtifact.normalStatus.Default_AttackLife + "\n" +
+        "날아가는 속도 : " + equipedArtifact.normalStatus.Default_BulletSpeed + "\n" +
+        "선딜레이 : " + equipedArtifact.normalStatus.Default_AttackStartDelay + "\n" +
+        "발사 수 : " + equipedArtifact.normalStatus.Default_AttackCount + "\n" +
+        "탄퍼짐 각도 : " + equipedArtifact.normalStatus.Default_AttackSpreadAngle + "\n"
         ;
     }
 

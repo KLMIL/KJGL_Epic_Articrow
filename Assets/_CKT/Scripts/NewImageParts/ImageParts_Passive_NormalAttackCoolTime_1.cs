@@ -6,9 +6,9 @@ public class ImageParts_Passive_NormalAttackCoolTime_1 : ImagePartsRoot_YSJ, IIm
 
     public void Equip(Artifact_YSJ currentArtifact)
     {
-        float add = 0.15f * currentArtifact.Default_NormalAttackCoolTime;
+        float add = 0.15f * currentArtifact.normalStatus.Default_AttackCoolTime;
 
-        currentArtifact.Added_NormalAttackCoolTime -= add;
+        currentArtifact.normalStatus.Added_AttackCoolTime -= add;
         Debug.Log($"[ckt] {partsName} {add}");
     }
 }
