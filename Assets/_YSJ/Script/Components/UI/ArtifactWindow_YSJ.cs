@@ -7,9 +7,8 @@ public class ArtifactWindow_YSJ : MonoBehaviour
     public Image ArtifactIMG;
     public Transform ArtifactSlotWindow;
 
-    TextMeshProUGUI normalStatText;
-    TextMeshProUGUI skillStatText;
-    TextMeshProUGUI otherStatText;
+    NormalStatText_YSJ normalStatText;
+    SkillStatText_YSJ skillStatText;
 
     public GameObject ArtifactSlotUIPrefab;
 
@@ -17,9 +16,8 @@ public class ArtifactWindow_YSJ : MonoBehaviour
     {
         GetComponentInParent<InventoryCanvas_YSJ>().ArtifactWindow = this;
 
-        normalStatText = GetComponentInChildren<NormalStatText_YSJ>().GetComponent<TextMeshProUGUI>();
-        skillStatText = GetComponentInChildren<SkillStatText_YSJ>().GetComponent<TextMeshProUGUI>();
-        otherStatText = GetComponentInChildren<OtherStatText_YSJ>().GetComponent<TextMeshProUGUI>();
+        normalStatText = GetComponentInChildren<NormalStatText_YSJ>();
+        skillStatText = GetComponentInChildren<SkillStatText_YSJ>();
     }
 
     public void RemoveAllSlotUI() 
@@ -61,23 +59,15 @@ public class ArtifactWindow_YSJ : MonoBehaviour
     void ArtifactInfomationTextUpdate(Artifact_YSJ equipedArtifact)
     {
         // 기본공격 정보
-        normalStatText.text =
-        "기본공격" + "\n" +
-        "데미지 : " + equipedArtifact.normalStatus.Default_AttackPower + "\n" +
-        "쿨타임 : " + equipedArtifact.normalStatus.Default_AttackCoolTime + "\n" +
-        "지속시간 : " + equipedArtifact.normalStatus.Default_AttackLife + "\n" +
-        "날아가는 속도 : " + equipedArtifact.normalStatus.Default_BulletSpeed + "\n" +
-        "선딜레이 : " + equipedArtifact.normalStatus.Default_AttackStartDelay + "\n" +
-        "발사 수 : " + equipedArtifact.normalStatus.Default_AttackCount + "\n" +
-        "탄퍼짐 각도 : " + equipedArtifact.normalStatus.Default_AttackSpreadAngle + "\n"
-        ;
+        normalStatText.SetText(equipedArtifact);
+        // 스킬공격 정보
+        skillStatText.SetText(equipedArtifact);
     }
 
     void ResetArtifactInfomationText() 
     {
-        normalStatText.text = "";
-        skillStatText.text = "";
-        otherStatText.text = "";
+        normalStatText.Reset();
+        skillStatText.Reset();
     }
 
     public void SendInfoToUI(Artifact_YSJ equipedArtifact)
