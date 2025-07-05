@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,8 +6,7 @@ public class ArtifactWindow_YSJ : MonoBehaviour
     public Image ArtifactIMG;
     public Transform ArtifactSlotWindow;
 
-    NormalStatText_YSJ normalStatText;
-    SkillStatText_YSJ skillStatText;
+    BMC.ArtifactStatusText[] _artifactStatusTests;
 
     public GameObject ArtifactSlotUIPrefab;
 
@@ -16,8 +14,7 @@ public class ArtifactWindow_YSJ : MonoBehaviour
     {
         GetComponentInParent<InventoryCanvas_YSJ>().ArtifactWindow = this;
 
-        normalStatText = GetComponentInChildren<NormalStatText_YSJ>();
-        skillStatText = GetComponentInChildren<SkillStatText_YSJ>();
+        _artifactStatusTests = GetComponentsInChildren<BMC.ArtifactStatusText>();
     }
 
     public void RemoveAllSlotUI() 
@@ -59,15 +56,15 @@ public class ArtifactWindow_YSJ : MonoBehaviour
     void ArtifactInfomationTextUpdate(Artifact_YSJ equipedArtifact)
     {
         // 기본공격 정보
-        normalStatText.SetText(equipedArtifact);
+        _artifactStatusTests[0].SetText(equipedArtifact.normalStatus);
         // 스킬공격 정보
-        skillStatText.SetText(equipedArtifact);
+        _artifactStatusTests[1].SetText(equipedArtifact.skillStatus);
     }
 
     void ResetArtifactInfomationText() 
     {
-        normalStatText.Reset();
-        skillStatText.Reset();
+        _artifactStatusTests[0].Reset();
+        _artifactStatusTests[1].Reset();
     }
 
     public void SendInfoToUI(Artifact_YSJ equipedArtifact)
