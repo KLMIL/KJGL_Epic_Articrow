@@ -123,7 +123,13 @@ namespace Game.Test
                 case 1: currDiff = "Normal"; break;
                 case 2: currDiff = "Hard"; break;
             }
-            currDiffText.text = currDiff;
+
+            switch (currDiff)
+            {
+                case "Easy": currDiffText.text = "쉬움"; break;
+                case "Normal": currDiffText.text = "보통"; break;
+                case "Hard": currDiffText.text = "어려움"; break;
+            }
         }
 
         public void OnRandomRoomButtonClicked()
