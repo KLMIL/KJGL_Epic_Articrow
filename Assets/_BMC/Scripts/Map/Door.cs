@@ -83,11 +83,15 @@ namespace BMC
         {
             int sceneIdx = SceneManager.GetActiveScene().buildIndex;
             int sceneCount = SceneManager.sceneCountInBuildSettings;
-            sceneIdx = (sceneIdx + 1) % sceneCount;
+            //sceneIdx = (sceneIdx + 1) % sceneCount;
+            
+            // TODO: 테스트를 위해 무조건 1번 씬(시작 씬)으로 이동
+            sceneIdx = 1;
             //Managers.Scene.LoadScene(sceneIdx);
             if(_nextStageCoroutine == null)
             {
                 _nextStageCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine(sceneIdx));
+
             }
         }
     }
