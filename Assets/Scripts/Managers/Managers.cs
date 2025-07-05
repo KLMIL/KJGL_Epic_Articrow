@@ -56,7 +56,7 @@ namespace YSJ
         }
 
         // 게임 종료 시 매니저 정리
-        public static void Clear()
+        public void Clear()
         {
             Debug.LogWarning("Managers 파괴");
 
@@ -64,15 +64,15 @@ namespace YSJ
             UI_TitleEventBus.Clear();
             UI_InGameEventBus.Clear();
 
-            Pool.Clear();
-            Scene.Clear();
-            Sound.Clear();
-            Input.Clear();
+            _pool.Clear();
+            _scene.Clear();
+            _sound.Clear();
+            _input.Clear();
 
             s_instance = null;
         }
 
-        void OnDisable()
+        void OnDestroy()
         {
             Clear();
         }
