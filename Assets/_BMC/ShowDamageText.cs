@@ -26,7 +26,7 @@ namespace BMC
             // 대미지 부여 텍스트
             if (_damageText != null && _damageText.gameObject.activeInHierarchy)
             {
-                _damageText.text = (float.Parse(_damageText.text) + damage).ToString();
+                _damageText.text = $"{damage}";
 
                 Color color = _damageText.color;
                 color.a = 1;
