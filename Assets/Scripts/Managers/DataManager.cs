@@ -18,6 +18,8 @@ namespace YSJ
             }
         }
 
+        public int LocaleIndex { get; set; }
+
         public void Init()
         {
             _isClearTutorial = PlayerPrefs.GetInt("IsClearTutorial", 0) == 1;
@@ -41,6 +43,18 @@ namespace YSJ
             // 설정 파일에서 데이터를 불러오는 로직
             // 예: PlayerPrefs, JSON 파일 등에서 설정을 읽어오기
             Debug.Log("Settings loaded.");
+
+
+            // 설정된 로컬라이제이션 인덱스 로드
+            LocaleIndex = PlayerPrefs.GetInt("LocaleIndex", 0);
+        }
+
+        // 언어 설정 저장
+        public void SaveLocaleIndex(int index)
+        {
+            // 언어 설정 저장
+            PlayerPrefs.SetInt("LocaleIndex", index);
+            PlayerPrefs.Save();
         }
         #endregion
     }
