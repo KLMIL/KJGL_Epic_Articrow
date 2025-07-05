@@ -87,7 +87,9 @@ public class Artifact_YSJ : MonoBehaviour
                     {
                         CurrentHand.CanHandling = false;
                     }
+
                     isCanAttack = false;
+
                     // 선딜 타이머 시작
                     yield return new WaitForSeconds(normalStatus.Current_AttackStartDelay);
                     isCanAttack = true;
@@ -232,8 +234,6 @@ public class Artifact_YSJ : MonoBehaviour
             yield break;
         }
 
-        bool hasAttack = false;
-
         // 클릭이 들어와있거나 쿨타임이 남아있으면 계속 실행
         while (Managers.Input.IsPressRightHandAttack || skillStatus.elapsedCoolTime > 0)
         {
@@ -245,11 +245,6 @@ public class Artifact_YSJ : MonoBehaviour
             }
             else if (isCanRightClick)
             {
-                if (skillStatus.Current_AttackCoolTime <= 0 && hasAttack)
-                    break;
-
-                hasAttack = true; // 스킬 공격이 한번이라도 실행되면 true로 변경
-
                 // 초기화
                 ResetSkillAttack();
 
@@ -276,11 +271,10 @@ public class Artifact_YSJ : MonoBehaviour
                         CurrentHand.CanHandling = false;
                     }
                     isCanAttack = false;
+                    
                     // 선딜 타이머 시작
-                    if (skillStatus.Current_AttackStartDelay > 0)
-                    {
-                        yield return new WaitForSeconds(skillStatus.Current_AttackStartDelay);
-                    }
+                    yield return new WaitForSeconds(skillStatus.Current_AttackStartDelay);
+
                     isCanAttack = true;
                     if (CurrentHand)
                     {
