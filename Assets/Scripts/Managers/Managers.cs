@@ -72,7 +72,7 @@ namespace YSJ
             s_instance = null;
         }
 
-        void OnDestroy()
+        void OnDisable()
         {
             Clear();
         }
