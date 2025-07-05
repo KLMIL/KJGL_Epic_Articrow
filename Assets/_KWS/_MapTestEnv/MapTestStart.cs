@@ -17,7 +17,7 @@ namespace Game.Test
         public TextMeshProUGUI infoText;
         public TextMeshProUGUI diffText;
         public TextMeshProUGUI propText;
-        public TextMeshProUGUI commText;
+        public TMP_InputField commText;
 
         [Header("Select Canvas")]
         public GameObject selectMapUI;
@@ -35,29 +35,22 @@ namespace Game.Test
                 return;
             }
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
 
-        bool isFirstMap = true;
-        bool isReview = false;
+        public bool isReview = false;
         private void Update()
         {
-            if (!isReview)
+            if (isReview)
             {
-                if (!isFirstMap)
-                {
-                    infoText.text = dataSO.lastSceneName;
-                    diffText.text = "";
-                    propText.text = "";
-                    commText.text = "";
+                infoText.text = dataSO.lastSceneName;
+                diffText.text = "";
+                propText.text = "";
+                commText.text = "";
 
-                    reviewUI.SetActive(true);
-                    isReview = true;
-                }
-                else
-                {
-                    isFirstMap = false;
-                }
+                reviewUI.SetActive(true);
+                isReview = false;
+
                 currDiffText.text = dataSO.lastSelectedDifficulty;
             }
 
@@ -112,6 +105,9 @@ namespace Game.Test
             diff = -1;
             prop = -1;
             comm = "";
+            diffText.text = "";
+            propText.text = "";
+            commText.text = "";
         }
         #endregion
 
@@ -123,7 +119,7 @@ namespace Game.Test
         {
             switch (index)
             {
-                case 0: currDiff = "Easy";  break;
+                case 0: currDiff = "Easy"; break;
                 case 1: currDiff = "Normal"; break;
                 case 2: currDiff = "Hard"; break;
             }

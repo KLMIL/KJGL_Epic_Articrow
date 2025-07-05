@@ -90,9 +90,14 @@ namespace BMC
             //Managers.Scene.LoadScene(sceneIdx);
             if(_nextStageCoroutine == null)
             {
+                Invoke("EnableReviewUI", 1f);
                 _nextStageCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine(sceneIdx));
-
             }
+        }
+
+        private void EnableReviewUI()
+        {
+            Game.Test.MapTestStart.Instance.isReview = true;
         }
     }
 }
