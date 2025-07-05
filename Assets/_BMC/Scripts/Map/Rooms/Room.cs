@@ -12,7 +12,7 @@ namespace BMC
 
         [Header("문 관련")]
         [SerializeField] protected Door[] _doors;
-        float _openTime = 2.5f; // 문 열리는 시간
+        float _openTime = 0.5f; // 문 열리는 시간
 
         protected StartPosition _startPosition; // 방 진입 시 시작 위치 
 
