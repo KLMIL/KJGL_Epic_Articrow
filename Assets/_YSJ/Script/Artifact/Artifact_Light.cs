@@ -18,7 +18,7 @@ public class Artifact_Light : Artifact_YSJ
     protected override void ResetSkillAttack()
     {
         base.ResetSkillAttack();
-        BeforeFireSkillAttack += CreateGuideLine;
+        skillStatus.BeforeFire += CreateGuideLine;
     }
 
     void CreateGuideLine(Artifact_YSJ me) 
@@ -33,55 +33,55 @@ public class Artifact_Light : Artifact_YSJ
         if (GuideObject)
         {
             // 추가 발사 개수만큼 반복
-            for (int addedSpawnCount = 0; addedSpawnCount < Added_SkillAttackCount; addedSpawnCount++)
+            for (int addedSpawnCount = 0; addedSpawnCount < skillStatus.Added_AttackCount; addedSpawnCount++)
             {
                 // 디폴트 발사 개수만큼 반복
-                for (int SpawnCount = 0; SpawnCount < Default_SkillAttackCount; SpawnCount++)
+                for (int SpawnCount = 0; SpawnCount < skillStatus.Default_AttackCount; SpawnCount++)
                 {
                     // 발사하기 전에 방향 다시계산
                     Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
                     // Add 산탄만큼 산탄 반복
-                    for (int addedSpreadCount = 0; addedSpreadCount < Added_SkillAttackSpreadCount; addedSpreadCount++)
+                    for (int addedSpreadCount = 0; addedSpreadCount < skillStatus.Added_AttackSpreadCount; addedSpreadCount++)
                     {
 
                         float originalAngle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg; // 방향 각도 계산
                                                                                                      // 추가 산탄의 각도 = (바라보는 각도 - (추가탄의 퍼짐각도 * 추가탄 산탄개수) / 2) + (추가탄의 퍼짐각도 * 추가탄의 산탄횟수 n번째)
-                        float addedSpreadAngle = (originalAngle - (Added_SkillAttackSpreadAngle * (Added_SkillAttackSpreadCount - 1) / 2f)) + (Added_SkillAttackSpreadAngle * addedSpreadCount);
+                        float addedSpreadAngle = (originalAngle - (skillStatus.Added_AttackSpreadAngle * (skillStatus.Added_AttackSpreadCount - 1) / 2f)) + (skillStatus.Added_AttackSpreadAngle * addedSpreadCount);
 
                         // Default 산탄만큼 산탄 반복
-                        for (int defaultSpreadCount = 0; defaultSpreadCount < Default_SkillAttackSpreadCount; defaultSpreadCount++)
+                        for (int defaultSpreadCount = 0; defaultSpreadCount < skillStatus.Default_AttackSpreadCount; defaultSpreadCount++)
                         {
                             // 기본 산탄의 각도 = (추가 산탄의 각도 - (기본탄의 퍼짐 각도 * 기본탄 산탄개수) / 2) + (기본탄의 퍼짐각도 * 기본탄의 산탄횟수 n번째)
-                            float defaultSpreadAngle = (addedSpreadAngle - (Default_SkillAttackSpreadAngle * (Default_SkillAttackSpreadCount - 1) / 2f)) + (Default_SkillAttackSpreadAngle * defaultSpreadCount);
+                            float defaultSpreadAngle = (addedSpreadAngle - (skillStatus.Default_AttackSpreadAngle * (skillStatus.Default_AttackSpreadCount - 1) / 2f)) + (skillStatus.Default_AttackSpreadAngle * defaultSpreadCount);
 
                             GameObject SpawnedBullet = Instantiate(GuideObject, firePosition.position, Quaternion.Euler(0, 0, defaultSpreadAngle)); // 각도에 맞게 탄 생성
 
-                            SpawnedBullet.transform.localScale = Vector3.one * Current_SkillAttackScale; // 공격 크기 설정
+                            SpawnedBullet.transform.localScale = Vector3.one * skillStatus.Current_AttackScale; // 공격 크기 설정
                             SpawnedBullet.GetComponent<MagicRoot_YSJ>().SkillAttackInitialize(this); // 마법에 정보 주입(데미지, 스피드, 탄 지속시간 등)
 
                             // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
                             ReadSkillAttackParts(SpawnedBullet.GetComponent<MagicRoot_YSJ>());
 
                             // 일반 공격 생성 한 직후 액션 실행
-                            AfterFireSkillAttack?.Invoke(this, SpawnedBullet);
+                            skillStatus.AfterFire?.Invoke(this, SpawnedBullet);
                         }
                     }
                     // 마지막 공격이 아니라면 공격 간격만큼 기다리기
-                    if (SpawnCount + 1 < Default_SkillAttackCount)
+                    if (SpawnCount + 1 < skillStatus.Default_AttackCount)
                     {
-                        yield return new WaitForSeconds(Default_SkillAttackCountDeltaTime);
+                        yield return new WaitForSeconds(skillStatus.Default_AttackCountDeltaTime);
                     }
                 }
 
                 // 마지막 추가공격이 아니라면 공격 간격만큼 기다리기
-                if (addedSpawnCount + 1 < Added_SkillAttackCount)
+                if (addedSpawnCount + 1 < skillStatus.Added_AttackCount)
                 {
-                    yield return new WaitForSeconds(Default_SkillAttackCountDeltaTime);
+                    yield return new WaitForSeconds(skillStatus.Default_AttackCountDeltaTime);
                 }
             }
 
             // 쿨타임 적용
-            elapsedSkillCoolTime = Current_SkillAttackCoolTime;
+            skillStatus.elapsedCoolTime = skillStatus.Current_AttackCoolTime;
         }
         else
         {
