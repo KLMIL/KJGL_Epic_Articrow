@@ -118,7 +118,7 @@ Transform:
   m_GameObject: {fileID: 7502882156932594828}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.6, y: -1.09, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -251,33 +251,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d80a1111d0f8a349b121dee0055b1a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Default_NormalAttackPower: 1
-  Default_NormalAttackCoolTime: 0.2
-  Default_NormalAttackLife: 0.1
-  Default_NormalBulletSpeed: 30
-  Default_NormalAttackStartDelay: 0
-  Default_NormalAttackScale: 1
-  Default_NormalAttackCount: 1
-  Default_NormalAttackCountDeltaTime: 0.1
-  Default_NormalAttackSpreadCount: 1
-  Default_NormalAttackSpreadAngle: 0
-  Default_SkillAttackPower: 1
-  Default_SkillAttackCoolTime: 0.5
-  Default_SkillAttackLife: 0.15
-  Default_SkillBulletSpeed: 45
-  Default_SkillAttackStartDelay: 1
-  Default_SkillAttackScale: 2
-  Default_SkillAttackCount: 1
-  Default_SkillAttackCountDeltaTime: 0.1
-  Default_SkillAttackSpreadCount: 1
-  Default_SkillAttackSpreadAngle: 0
+  normalStatus:
+    Default_AttackPower: 1
+    Default_AttackCoolTime: 0.2
+    Default_AttackLife: 0.1
+    Default_BulletSpeed: 15
+    Default_AttackStartDelay: 0
+    Default_AttackScale: 1
+    Default_AttackCount: 1
+    Default_AttackCountDeltaTime: 0.1
+    Default_AttackSpreadCount: 1
+    Default_AttackSpreadAngle: 0
+    elapsedCoolTime: 0
+    AttackPrefab: {fileID: 2057780239845692654, guid: f3d12751e381c794ca89dfc3beb05b54, type: 3}
+  skillStatus:
+    Default_AttackPower: 1
+    Default_AttackCoolTime: 0.5
+    Default_AttackLife: 0.15
+    Default_BulletSpeed: 45
+    Default_AttackStartDelay: 1
+    Default_AttackScale: 2
+    Default_AttackCount: 1
+    Default_AttackCountDeltaTime: 0.1
+    Default_AttackSpreadCount: 1
+    Default_AttackSpreadAngle: 0
+    elapsedCoolTime: 0
+    AttackPrefab: {fileID: 2057780239845692654, guid: f3d12751e381c794ca89dfc3beb05b54, type: 3}
   MaxSlotCount: 2
   StatPoint: 0
-  currentHand: {fileID: 0}
+  CurrentHand: {fileID: 0}
   firePosition: {fileID: 0}
-  NormalAttackPrefab: {fileID: 2057780239845692654, guid: f3d12751e381c794ca89dfc3beb05b54, type: 3}
-  SkillAttackPrefab: {fileID: 2057780239845692654, guid: f3d12751e381c794ca89dfc3beb05b54, type: 3}
   isCanAttack: 1
+  isCanLeftClick: 1
+  isCanRightClick: 1
 --- !u!114 &8222114125948571291
 MonoBehaviour:
   m_ObjectHideFlags: 0
