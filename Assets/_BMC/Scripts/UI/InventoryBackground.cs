@@ -14,7 +14,7 @@ public class InventoryBackground : MonoBehaviour, IDropHandler
         CanDragItem_YSJ draggedItem = eventData.pointerDrag.GetComponent<CanDragItem_YSJ>();
         if(draggedItem != null)
         {
-            Debug.LogError($"OnDrop: {draggedItem.name} on {gameObject.name}");
+            Debug.Log($"OnDrop: {draggedItem.name} on {gameObject.name}");
 
             GameObject ConnectedFieldParts = draggedItem.GetComponent<ConnectFieldParts_YSJ>().ConnectedFieldParts;
 
@@ -47,6 +47,6 @@ public class InventoryBackground : MonoBehaviour, IDropHandler
         }
 
         GameObject partInstance = Instantiate(fieldParts, PlayerManager.Instance.transform.position + Random.insideUnitSphere, Quaternion.identity);
-        Debug.LogError($"{partInstance} 버림");
+        Debug.Log($"{partInstance} 버림");
     }
 }

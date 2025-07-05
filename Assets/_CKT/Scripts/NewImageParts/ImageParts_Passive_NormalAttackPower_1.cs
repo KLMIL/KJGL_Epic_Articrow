@@ -6,9 +6,9 @@ public class ImageParts_Passive_NormalAttackPower_1 : ImagePartsRoot_YSJ, IImage
 
     public void Equip(Artifact_YSJ currentArtifact)
     {
-        float add = 0.15f * currentArtifact.Default_NormalAttackPower;
+        float add = 0.15f * currentArtifact.normalStatus.Default_AttackPower;
 
-        currentArtifact.Added_NormalAttackPower += add;
+        currentArtifact.normalStatus.Added_AttackPower += add;
         Debug.Log($"[ckt] {partsName} {add}");
     }
 }
