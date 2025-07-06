@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using YSJ;
 
 namespace BMC
 {
@@ -42,6 +43,8 @@ namespace BMC
                 yield return null;
             }
             _blackScreenPanel.color = Color.black;
+
+            Managers.Sound.PlaySFX(Define.SFX.GameOver);
 
             // 텍스트
             for (alphaValue = 0; alphaValue < 1; alphaValue += Time.deltaTime)

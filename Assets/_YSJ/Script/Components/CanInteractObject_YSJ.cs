@@ -56,6 +56,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
         {
             if (Managers.UI.InventoryCanvas.inventory.TryAddItem(parts.ConnectedImageParts))
             {
+                Managers.Sound.PlaySFX(Define.SFX.Pickup);
                 Destroy(interactItem.gameObject);
             }
             else
@@ -68,6 +69,8 @@ public class CanInteractObject_YSJ : MonoBehaviour
         else if (interactItem.TryGetComponent<Artifact_YSJ>(out Artifact_YSJ artifact))
         {
             if (!hand) return;
+
+            Managers.Sound.PlaySFX(Define.SFX.Equip);
 
             // 상호작용 비활성화
             interactItem.enabled = false;

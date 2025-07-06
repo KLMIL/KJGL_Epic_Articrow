@@ -6,13 +6,13 @@ namespace YSJ
     {
         Animator _anim;
         SpriteRenderer _spriteRenderer;
-        CheckPlayerDirection _checkPlayerDirection;
+        PlayerCheckDirection _checkPlayerDirection;
         PlayerStatus _playerStatus;
 
         void Awake()
         {
             _playerStatus = GetComponent<PlayerStatus>();
-            _checkPlayerDirection = GetComponent<CheckPlayerDirection>();
+            _checkPlayerDirection = GetComponent<PlayerCheckDirection>();
             _anim = GetComponent<Animator>();
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         }
@@ -24,7 +24,7 @@ namespace YSJ
 
         public void PlayAnimation()
         {
-            if (!_checkPlayerDirection || _checkPlayerDirection.CurrentDirection == CheckPlayerDirection.Direction.None)
+            if (!_checkPlayerDirection || _checkPlayerDirection.CurrentDirection == PlayerCheckDirection.Direction.None)
             {
                 return;
             }
@@ -73,7 +73,7 @@ namespace YSJ
 
         void FlipX()
         {
-            _spriteRenderer.flipX = (_checkPlayerDirection.CurrentDirection == CheckPlayerDirection.Direction.Left) ? true : false;
+            _spriteRenderer.flipX = (_checkPlayerDirection.CurrentDirection == PlayerCheckDirection.Direction.Left) ? true : false;
         }
 
         // Hurt 애니메이션이 끝났을 때 호출되는 애니메이션 이벤트

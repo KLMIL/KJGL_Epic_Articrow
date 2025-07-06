@@ -50,9 +50,9 @@ namespace BMC
                 return;
             }
 
-            _playerStatus.CurrentState |= PlayerState.Hurt;
-
             _playerStatus.Health -= damage;
+            _playerStatus.CurrentState |= PlayerState.Hurt;
+            Managers.Sound.PlaySFX(Define.SFX.PlayerHurt);
             UI_InGameEventBus.OnShowBloodCanvas?.Invoke();
             StartCoroutine(InvincibleCoroutine(_invincibleTime));
             GameManager.Instance.CameraController.ShakeCamera(_cameraShakeIntensity, _cameraShakeTime);
@@ -101,6 +101,7 @@ namespace BMC
         void Die()
         {
             IsDead = true;
+            Managers.Sound.PlaySFX(Define.SFX.PlayerDie);
             _playerStatus.CurrentState |= PlayerState.Die;
 
             // 피격 색상 변경 중지
