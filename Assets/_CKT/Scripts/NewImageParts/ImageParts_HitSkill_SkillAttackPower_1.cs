@@ -1,16 +1,20 @@
 using UnityEngine;
 
 /// <summary>
-/// 스킬 적중 시 대상과의 거리가 5 이상일 때 피해량 15% 증가
+/// 스킬 적중 시 대상과의 거리가 4 이상일 때 피해량 20% 증가
 /// </summary>
 public class ImageParts_HitSkill_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
 {
-    float _increasePercent = 15f;
-    float _ThresholdDistance = 5f;
+    float _increasePercent = 20f;
+    float _ThresholdDistance = 4f;
 
     public override string partsName => "HitSkill_SkillAttackPower_1";
 
     #region [Skill]
+    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
     }
@@ -35,10 +39,6 @@ public class ImageParts_HitSkill_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImage
             magicRoot.AttackPower += add;
             Debug.Log($"[ckt] {partsName} {add}");
         }
-    }
-
-    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
-    {
     }
     #endregion
 }

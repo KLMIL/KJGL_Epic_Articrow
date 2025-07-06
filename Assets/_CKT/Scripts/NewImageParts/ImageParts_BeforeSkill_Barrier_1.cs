@@ -14,10 +14,18 @@ public class ImageParts_BeforeSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsT
     public override string partsName => "BeforeSkill_Barrier_1";
 
     #region [Skill]
+    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
+    {
+        if (_barrierCoroutine != null)
+        {
+            EndBuff();
+            StopBuff();
+        }
+        _barrierCoroutine = StartCoroutine(BarrierCoroutine(fireArtifact));
+    }
+
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
-        StopBuff();
-        _barrierCoroutine = StartCoroutine(BarrierCoroutine(fireArtifact));
     }
 
     public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
@@ -31,16 +39,16 @@ public class ImageParts_BeforeSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsT
     public void SKillAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
     }
-
-    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
-    {
-    }
     #endregion
 
     #region [상세]
     void OnDisable()
     {
-        StopBuff();
+        if (_barrierCoroutine != null)
+        {
+            EndBuff();
+            StopBuff();
+        }
     }
 
     IEnumerator BarrierCoroutine(Artifact_YSJ fireArtifact)
@@ -68,7 +76,7 @@ public class ImageParts_BeforeSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsT
         int add = increaseValue;
 
         _fireArtifact.playerStatus.OffsetBarrier -= add;
-        Debug.Log($"[ckt] {partsName} StartBuff {add}");
+        Debug.Log($"[ckt] {partsName} EndBuff {add}");
     }
 
     void StopBuff()
@@ -76,7 +84,6 @@ public class ImageParts_BeforeSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsT
         if (_barrierCoroutine != null)
         {
             StopCoroutine(_barrierCoroutine);
-            EndBuff();
             _fireArtifact = null;
             _barrierCoroutine = null;
         }

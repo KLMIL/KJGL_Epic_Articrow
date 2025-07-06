@@ -3,20 +3,24 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// 스킬로 대상을 처치했을 때 현재 공격의 50%에 해당하는 광역 공격 생성
+/// 스킬로 대상을 처치했을 때 현재 공격의 100%에 해당하는 광역 공격 생성
 /// </summary>
 public class ImageParts_KillSkill_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
 {
-    float _damagePercent = 50f;
+    float _damagePercent = 100f;
 
     public override string partsName => "KillSkill_Explosion_1";
 
     #region [Skill]
-    public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
+    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
     {
     }
 
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
+    public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
     }
 
@@ -26,16 +30,12 @@ public class ImageParts_KillSkill_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsT
 
     public void SKillAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
-        StartCoroutine(KillExplosionCoroutine(fireArtifact, spawnedAttack, hitObject));
-    }
-
-    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
-    {
+        StartCoroutine(KillExplosionCoroutine(spawnedAttack, hitObject));
     }
     #endregion
 
     #region [상세]
-    IEnumerator KillExplosionCoroutine(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
+    IEnumerator KillExplosionCoroutine(GameObject spawnedAttack, GameObject hitObject)
     {
         yield return null;
         

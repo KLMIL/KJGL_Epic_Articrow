@@ -12,6 +12,10 @@ public class ImageParts_Kill_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
     public override string partsName => "Kill_ManaGain_1";
 
     #region [Normal]
+    public void NormalAttackPessive(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
     }
@@ -28,13 +32,13 @@ public class ImageParts_Kill_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
     {
         StartCoroutine(ManaGainCoroutine(fireArtifact, spawnedAttack, hitObject));
     }
-
-    public void NormalAttackPessive(Artifact_YSJ fireArtifact)
-    {
-    }
     #endregion
 
     #region [Skill]
+    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
     }
@@ -50,10 +54,6 @@ public class ImageParts_Kill_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
     public void SKillAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
         StartCoroutine(ManaGainCoroutine(fireArtifact, spawnedAttack, hitObject));
-    }
-
-    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
-    {
     }
     #endregion
 

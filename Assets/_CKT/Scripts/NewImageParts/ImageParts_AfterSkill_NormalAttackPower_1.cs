@@ -2,25 +2,61 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// 스킬 시전 시 일반 공격 피해량 15% 증가
+/// 스킬 시전 시 일반 공격 피해량 20% 증가
 /// </summary>
-public class ImageParts_AfterSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
+public class ImageParts_AfterSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ, IImagePartsToSkillAttack_YSJ
 {
-    Artifact_YSJ _fireArtifact = null;
     Coroutine _normalAttackPowerCoroutine = null;
-    float _increasePercent = 15f;
+    float _increasePercent = 20f;
     float _duration = 5f;
+    bool _isBuff = false;
 
     public override string partsName => "AfterSkill_NormalAttackPower_1";
 
+    #region [Normal]
+    public void NormalAttackPessive(Artifact_YSJ fireArtifact)
+    {
+        if (_isBuff)
+        {
+            float add = (_increasePercent * 0.01f) * fireArtifact.normalStatus.Default_AttackPower;
+
+            fireArtifact.normalStatus.Added_AttackPower += add;
+            Debug.Log($"[ckt] {partsName} buff {add}");
+        }
+    }
+
+    public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
+    public void NormalAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
+    {
+    }
+
+    public void NormalAttackFlying(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
+    {
+    }
+
+    public void NormalAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
+    {
+    }
+    #endregion
+
     #region [Skill]
+    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
     }
 
     public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
-        StopBuff();
+        if (_normalAttackPowerCoroutine != null)
+        {
+            StopBuff();
+        }
         _normalAttackPowerCoroutine = StartCoroutine(AttackPowerCoroutine(fireArtifact));
     }
 
@@ -31,56 +67,44 @@ public class ImageParts_AfterSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIm
     public void SKillAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
     }
-
-    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
-    {
-    }
     #endregion
 
     #region [상세]
     void OnDisable()
     {
-        StopBuff();
+        if (_normalAttackPowerCoroutine != null)
+        {
+            EndBuff();
+            StopBuff();
+        }
     }
 
     IEnumerator AttackPowerCoroutine(Artifact_YSJ fireArtifact)
     {
-        _fireArtifact = fireArtifact;
         StartBuff();
 
         yield return new WaitForSeconds(_duration);
 
         EndBuff();
-        _fireArtifact = null;
-
         _normalAttackPowerCoroutine = null;
     }
 
     void StartBuff()
     {
-        float add = (_increasePercent * 0.01f) * _fireArtifact.normalStatus.Default_AttackPower;
-
-        _fireArtifact.normalStatus.Added_AttackPower += add;
-        Debug.Log($"[ckt] {partsName} StartBuff {add}");
+        _isBuff = true;
+        Debug.Log($"[ckt] {partsName} StartBuff {_isBuff}");
     }
 
     void EndBuff()
     {
-        float add = (_increasePercent * 0.01f) * _fireArtifact.normalStatus.Default_AttackPower;
-
-        _fireArtifact.normalStatus.Added_AttackPower -= add;
-        Debug.Log($"[ckt] {partsName} EndBuff {add}");
+        _isBuff = false;
+        Debug.Log($"[ckt] {partsName} StartBuff {_isBuff}");
     }
 
     void StopBuff()
     {
-        if (_normalAttackPowerCoroutine != null)
-        {
-            StopCoroutine(_normalAttackPowerCoroutine);
-            EndBuff();
-            _fireArtifact = null;
-            _normalAttackPowerCoroutine = null;
-        }
+        StopCoroutine(_normalAttackPowerCoroutine);
+        _normalAttackPowerCoroutine = null;
     }
     #endregion
 }
