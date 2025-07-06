@@ -163,12 +163,13 @@ public class Artifact_YSJ : MonoBehaviour
             IImagePartsToNormalAttack_YSJ imageParts = SlotTransform.GetChild(i).GetComponentInChildren<IImagePartsToNormalAttack_YSJ>();
             if (imageParts != null)
             {
-                normalStatus.Pessive += imageParts.NormalAttackPessive; // 패시브 액션 등록
-                normalStatus.AfterFire += imageParts.NormalAttackAfterFire; // 발사 후 액션 등록
-
+                normalStatus.Pessive += imageParts.NormalAttackPessive;         // 패시브 액션 등록
+                normalStatus.BeforeFire += imageParts.NormalAttackBeforeFire;   // 발사 전 액션 등록
+                normalStatus.AfterFire += imageParts.NormalAttackAfterFire;     // 발사 후 액션 등록
             }
         }
     }
+
     protected void ReadSkillAttackParts()
     {
         // 파츠슬롯 한바퀴 돌면서 등록
@@ -177,11 +178,13 @@ public class Artifact_YSJ : MonoBehaviour
             IImagePartsToSkillAttack_YSJ imageParts = SlotTransform.GetChild(i).GetComponentInChildren<IImagePartsToSkillAttack_YSJ>();
             if (imageParts != null)
             {
-                normalStatus.Pessive += imageParts.SkillAttackPessive; // 패시브 액션 등록
-                normalStatus.AfterFire += imageParts.SkillAttackAfterFire; // 발사 후 액션 등록
+                skillStatus.Pessive += imageParts.SkillAttackPessive;       // 패시브 액션 등록
+                skillStatus.BeforeFire += imageParts.SkillAttackBeforeFire; // 발사 전 액션 등록
+                skillStatus.AfterFire += imageParts.SkillAttackAfterFire;   // 발사 후 액션 등록
             }
         }
     }
+
     protected void ReadNormalAttackParts(MagicRoot_YSJ magicAttack)
     {
         // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
@@ -195,6 +198,7 @@ public class Artifact_YSJ : MonoBehaviour
             }
         }
     }
+
     protected void ReadSkillAttackParts(MagicRoot_YSJ magicAttack)
     {
         // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
@@ -415,7 +419,7 @@ public class Artifact_YSJ : MonoBehaviour
 
     protected virtual void ResetSkillAttack()
     {
-        normalStatus.ResetAddedStatus();
+        skillStatus.ResetAddedStatus();
     }
 
     #region 파츠 추가 및 제거
