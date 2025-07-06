@@ -33,4 +33,10 @@ public class MagicGuide_YSJ : MagicRoot_YSJ
             Destroy(gameObject);
         }
     }
+
+    public override void SkillAttackInitialize(Artifact_YSJ ownerArtifact)
+    {
+        base.SkillAttackInitialize(ownerArtifact);
+        LifeTime = ownerArtifact.skillStatus.Current_AttackStartDelay;
+    }
 }
