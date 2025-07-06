@@ -44,6 +44,10 @@ namespace Game.Enemy
         public float randomMoveChangeCooldown = 0f;
         public bool isRandomMoving = false;
 
+        public bool isChasing = false;      // Chase Action 시작
+        public bool isBypassing = false;    // Chase 중 장애물 우회상태
+        public Vector2 bypassDirection = Vector2.zero; // 우회 경로
+
         // 몬스터 슈퍼아머
         public bool isSuperArmor = false;
 
