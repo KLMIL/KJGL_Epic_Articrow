@@ -42,6 +42,7 @@ namespace Game.Enemy
         // 이동
         public Vector3 randomMoveDirection = Vector3.zero;
         public float randomMoveChangeCooldown = 0f;
+        public bool isRandomMoving = false;
 
         // 몬스터 슈퍼아머
         public bool isSuperArmor = false;
@@ -85,6 +86,8 @@ namespace Game.Enemy
             if (HandleHardInterrupt(current)) return;
             HandleSoftInterrupt(current);
             HandleNoneInterrupt(current);
+
+            //Debug.LogError($"[{Time.time}]: Current Behaviour: {current.stateName}, Dir: {randomMoveDirection.x}, {randomMoveDirection.y}");
         }
 
 
