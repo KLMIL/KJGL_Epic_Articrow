@@ -72,6 +72,10 @@ namespace Game.Enemy
                     // TODO: 이동불가 디버프 효과 부여
                 }
             }
+            else if ((LayerMask.GetMask("Obstacle") & (1 << collision.gameObject.layer)) != 0)
+            {
+                Destroy(gameObject);
+            }
         }
 
         private void OnDestroy()
