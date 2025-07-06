@@ -52,6 +52,9 @@ namespace Game.Enemy
         public bool isBypassingMoveAway = false;
         public Vector2 moveAwayBypassingDirection = Vector2.zero;
 
+        public bool isOrbit = false;
+        public Vector2 orbitDir = Vector2.zero;
+
         // 몬스터 슈퍼아머
         public bool isSuperArmor = false;
 

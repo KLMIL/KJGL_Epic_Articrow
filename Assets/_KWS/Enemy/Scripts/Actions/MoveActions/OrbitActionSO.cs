@@ -14,12 +14,13 @@ namespace Game.Enemy
         public float StandardDistance = 4f; // 기준 거리
         public float DistancePadding = 0.2f; // 기준 거리 오차범위
         public float MoveSpeedMultiply = 1.0f;
-        public float ChangeDirectionInterval = 0.3f;
+        public float ChangeDirectionInterval = 1f;
 
         public override void OnEnter(EnemyController controller)
         {
             // 속도 배율 적용
             controller.ChangeMoveSpeedMultiply(MoveSpeedMultiply);
+            controller.FSM.isOrbit = true;
         }
 
         public override void Act(EnemyController controller)
@@ -51,6 +52,12 @@ namespace Game.Enemy
                 moveDir.Normalize();
             }
 
+            // 가려는 방향이 막혀있다면 반전
+            bool isblocked = Physics2D.Raycast(controller.transform.position, moveDir, 0.5f, LayerMask.GetMask("Obstacle"));
+            if (isblocked)
+            {
+                moveDir *= -1;
+            }
 
             // 이동 호출
             controller.FSM.orbitChagneTime = Time.time;
@@ -60,7 +67,9 @@ namespace Game.Enemy
         public override void OnExit(EnemyController controller)
         {
             // 속도 배율 초기화
+            controller.StopMove();
             controller.ChangeMoveSpeedMultiply(1.0f);
+            controller.FSM.isOrbit = false;
         }
     }
 }
