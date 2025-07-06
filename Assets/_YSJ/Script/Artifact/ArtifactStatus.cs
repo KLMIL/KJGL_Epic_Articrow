@@ -87,6 +87,15 @@ namespace YSJ
             Current_AttackStartDelay = Default_AttackStartDelay + Added_AttackStartDelay;
             Current_AttackScale = Default_AttackScale + Added_AttackScale;
             Current_AttackCount = Default_AttackCount + Added_AttackCount;
+
+            //Debug.Log("=== 현재 공격 스탯 정보 ===");
+            //Debug.Log($"공격력 (AttackPower): {Default_AttackPower} + {Added_AttackPower} = {Current_AttackPower}\n" +
+            //    $"공격 쿨타임 (AttackCoolTime): {Default_AttackCoolTime} + {Added_AttackCoolTime} = {Current_AttackCoolTime}\n" +
+            //    $"공격 지속 시간 (AttackLifeTime): {Default_AttackLife} + {Added_AttackLife} = {Current_AttackLifeTime}\n" +
+            //    $"투사체 속도 (BulletSpeed): {Default_BulletSpeed} + {Added_BulletSpeed} = {Current_BulletSpeed}\n" +
+            //    $"공격 시작 지연 (AttackStartDelay): {Default_AttackStartDelay} + {Added_AttackStartDelay} = {Current_AttackStartDelay}\n" +
+            //    $"공격 크기 (AttackScale): {Default_AttackScale} + {Added_AttackScale} = {Current_AttackScale}\n" +
+            //    $"공격 횟수 (AttackCount): {Default_AttackCount} + {Added_AttackCount} = {Current_AttackCount}");
         }
     }
 }
