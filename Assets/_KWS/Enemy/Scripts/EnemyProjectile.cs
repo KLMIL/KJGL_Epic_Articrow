@@ -51,6 +51,9 @@ namespace Game.Enemy
                 _rb.linearVelocity = _velocity;
                 _rb.gravityScale = _gravity;
             }
+            // 이동 방향으로 회전
+            float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             Destroy(gameObject, _lifetime);
         }
