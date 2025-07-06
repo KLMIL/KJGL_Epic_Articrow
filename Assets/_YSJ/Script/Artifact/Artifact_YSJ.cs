@@ -387,7 +387,7 @@ public class Artifact_YSJ : MonoBehaviour
     protected void DevideStatPoint()
     {
         // 스탯 포인트가 0이 될 때까지
-        int[] randomValues = new int[11];
+        int[] randomValues = new int[9];
         int currentStatPoint = StatPoint; // 스탯 포인트 복사
         while (currentStatPoint > 0)
         {
@@ -401,27 +401,25 @@ public class Artifact_YSJ : MonoBehaviour
         float newDefaultNormalAttackCoolTime = normalStatus.Default_AttackCoolTime - randomValues[1] * 0.1f;
         normalStatus.Default_AttackCoolTime = Mathf.Clamp(newDefaultNormalAttackCoolTime, 0, normalStatus.Default_AttackCoolTime);
         //Default_NormalAttackCoolTime += randomValues[1] * -0.1f;
-        normalStatus.Default_AttackLife += randomValues[2];
-        normalStatus.Default_BulletSpeed += randomValues[3];
+        normalStatus.Default_BulletSpeed += randomValues[2];
 
-        float newDefaultNormalAttackStartDelay = normalStatus.Default_AttackStartDelay - randomValues[4] * 0.1f;
+        float newDefaultNormalAttackStartDelay = normalStatus.Default_AttackStartDelay - randomValues[3] * 0.1f;
         normalStatus.Default_AttackStartDelay = Mathf.Clamp(newDefaultNormalAttackStartDelay, 0, normalStatus.Default_AttackStartDelay);
         //Default_NormalAttackStartDelay += randomValues[4] * -0.1f;
 
-        skillStatus.Default_AttackPower += randomValues[5];
+        skillStatus.Default_AttackPower += randomValues[4];
 
-        float newDefaultSkillAttackCoolTime = skillStatus.Default_AttackCoolTime - randomValues[6] * 0.1f;
+        float newDefaultSkillAttackCoolTime = skillStatus.Default_AttackCoolTime - randomValues[5] * 0.1f;
         skillStatus.Default_AttackCoolTime = Mathf.Clamp(newDefaultSkillAttackCoolTime, 0, skillStatus.Default_AttackCoolTime);
         //Default_SkillAttackCoolTime += randomValues[6] * -0.1f;
 
-        skillStatus.Default_AttackLife += randomValues[7];
-        skillStatus.Default_BulletSpeed += randomValues[8];
+        skillStatus.Default_BulletSpeed += randomValues[6];
 
-        float newSkillAttackStartDelay = skillStatus.Default_AttackStartDelay - randomValues[9] * 0.1f;
+        float newSkillAttackStartDelay = skillStatus.Default_AttackStartDelay - randomValues[7] * 0.1f;
         skillStatus.Default_AttackStartDelay = Mathf.Clamp(newSkillAttackStartDelay, 0, skillStatus.Default_AttackStartDelay);
         //Default_SkillAttackStartDelay += randomValues[9] * -0.1f;
 
-        MaxSlotCount += randomValues[10];
+        MaxSlotCount += randomValues[8];
     }
 
     // Init
