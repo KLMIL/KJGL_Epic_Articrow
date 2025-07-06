@@ -1,10 +1,19 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// 스킬 시전 시 일반 공격 피해량 15% 증가
+/// </summary>
 public class ImageParts_AfterSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
 {
+    Artifact_YSJ _fireArtifact = null;
+    Coroutine _normalAttackPowerCoroutine = null;
+    float _increasePercent = 15f;
+    float _duration = 5f;
+
     public override string partsName => "AfterSkill_NormalAttackPower_1";
 
+    #region [Skill]
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
     }
@@ -26,16 +35,13 @@ public class ImageParts_AfterSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIm
     public void SkillAttackPessive(Artifact_YSJ fireArtifact)
     {
     }
+    #endregion
 
-    #region [스킬 시전 시 5초 동안 일반 공격 피해량 증가 (현재 스킬에는 미적용)]
+    #region [상세]
     void OnDisable()
     {
         StopBuff();
     }
-
-    Artifact_YSJ _fireArtifact = null;
-    Coroutine _normalAttackPowerCoroutine = null;
-    float _duration = 5f;
 
     IEnumerator AttackPowerCoroutine(Artifact_YSJ fireArtifact)
     {
@@ -52,7 +58,7 @@ public class ImageParts_AfterSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIm
 
     void StartBuff()
     {
-        float add = 0.15f * _fireArtifact.normalStatus.Default_AttackPower;
+        float add = (_increasePercent * 0.01f) * _fireArtifact.normalStatus.Default_AttackPower;
 
         _fireArtifact.normalStatus.Added_AttackPower += add;
         Debug.Log($"[ckt] {partsName} StartBuff {add}");
@@ -60,7 +66,7 @@ public class ImageParts_AfterSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIm
 
     void EndBuff()
     {
-        float add = 0.15f * _fireArtifact.normalStatus.Default_AttackPower;
+        float add = (_increasePercent * 0.01f) * _fireArtifact.normalStatus.Default_AttackPower;
 
         _fireArtifact.normalStatus.Added_AttackPower -= add;
         Debug.Log($"[ckt] {partsName} EndBuff {add}");

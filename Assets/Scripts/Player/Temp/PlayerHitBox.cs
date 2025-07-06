@@ -22,13 +22,13 @@ namespace BMC
             {
                 case 1:
                     Anim.Play("AttackSlash1");
-                    Managers.Sound.PlaySFX(Define.SFX.Attack1);
+                    //Managers.Sound.PlaySFX(Define.SFX.Attack1);
                     Debug.LogWarning("1단계 공격");
                     break;
                 case 2:
                     Anim.Play("AttackSlash2");
                     Debug.LogWarning("2단계 공격");
-                    Managers.Sound.PlaySFX(Define.SFX.Attack2);
+                    //Managers.Sound.PlaySFX(Define.SFX.Attack2);
                     break;
                 default:
                     break;

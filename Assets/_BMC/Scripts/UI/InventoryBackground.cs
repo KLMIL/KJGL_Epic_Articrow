@@ -27,6 +27,7 @@ public class InventoryBackground : MonoBehaviour, IDropHandler
             }
 
             // TODO: 인벤토리에서 버린 파츠를 플레이어 주변에 소환시키기
+            Managers.Sound.PlaySFX(Define.SFX.Put);
             SpawnPart(ConnectedFieldParts);
 
             Destroy(draggedItem.gameObject); // 드래그한 아이템을 제거
