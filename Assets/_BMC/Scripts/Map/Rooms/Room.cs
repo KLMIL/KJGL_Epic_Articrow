@@ -37,6 +37,7 @@ namespace BMC
         // 유효한 모든 문 열기
         public void OpenAllValidDoor()
         {
+            Managers.Sound.PlaySFX(Define.SFX.StoneDoor);
             foreach (var door in _doors)
             {
                 if (door.enabled)
@@ -80,12 +81,17 @@ namespace BMC
         {
             if (!_roomData.IsCleared)
             {
-                //Debug.LogError(" 방 클리어");
                 _roomData.IsCleared = true;
                 SpawnScarecrow();
                 //GameManager.Instance.CameraController.SetCameraTargetRoom(transform);
                 Invoke(nameof(OpenAllValidDoor), _openTime);
             }
+        }
+
+        // 튜토리얼 방에서 사용할 방 클리어 함수
+        public void SetRoomClear()
+        {
+            _roomData.IsCleared = true;
         }
         #endregion
     }
