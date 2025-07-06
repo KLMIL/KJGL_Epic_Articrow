@@ -16,7 +16,7 @@ namespace BMC
         public PlayerDebuff PlayerDebuff { get; private set; }
         public PlayerTextWindow PlayerTextWindow { get; private set; }
         public PlayerHand PlayerHand { get; private set; }
-        public CheckPlayerDirection CheckPlayerDirection { get; private set; }
+        public PlayerCheckDirection PlayerCheckDirection { get; private set; }
 
         void Awake()
         {
@@ -37,7 +37,7 @@ namespace BMC
             PlayerDash = GetComponent<PlayerDash>();
             PlayerHurt = GetComponent<PlayerHurt>();
             PlayerDebuff = GetComponent<PlayerDebuff>();
-            CheckPlayerDirection = GetComponent<CheckPlayerDirection>();
+            PlayerCheckDirection = GetComponent<PlayerCheckDirection>();
             PlayerTextWindow = GetComponentInChildren<PlayerTextWindow>(true);
             PlayerHand = GetComponentInChildren<PlayerHand>();
 
@@ -55,7 +55,7 @@ namespace BMC
                 return;
             }
 
-            CheckPlayerDirection.CheckCurrentDirection();
+            PlayerCheckDirection.CheckCurrentDirection();
 
             TestRoomClear();
         }
@@ -104,7 +104,7 @@ namespace BMC
         public bool IsStop()
         {
             // 멈춰야 하는 상황 여기에 추가하기
-            return (PlayerHurt.IsDead || PlayerDebuff.HasDebuff(DebuffType.Stun) || !PlayerHand.CanHandling);
+            return (GameManager.Instance.IsPaused || PlayerHurt.IsDead || PlayerDebuff.HasDebuff(DebuffType.Stun) || !PlayerHand.CanHandling);
         }
 
         #region 테스트 코드
