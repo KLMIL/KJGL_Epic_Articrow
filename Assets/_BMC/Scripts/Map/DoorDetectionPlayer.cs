@@ -11,10 +11,12 @@ namespace BMC
         bool _isPlayerInTrigger;
         bool _isTransferPlayer;
         Door _door;
+        Collider2D _barrierCollider;
 
         public void Init(Door door)
         {
             _door = door;
+            _barrierCollider = gameObject.GetComponentInDirectChildren<Collider2D>();
         }
 
         #region OnTrigger
@@ -33,6 +35,7 @@ namespace BMC
             if(_isPlayerInTrigger && !_isTransferPlayer && _door.IsOpen && Managers.Input.IsPressInteract)
             {
                 Debug.Log("다음 씬으로 이동");
+                _barrierCollider.enabled = false;
                 _door.NextStage();
                 _isTransferPlayer = true;
                 PlayerManager.Instance.PlayerTextWindow.SetText();
