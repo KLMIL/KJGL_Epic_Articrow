@@ -1,10 +1,19 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// 스킬 적중 시 모든 공격 피해량 15% 증가 (5초 지속)
+/// </summary>
 public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
 {
+    Coroutine _attackPowerCoroutine = null;
+    Artifact_YSJ _fireArtifact;
+    float _increasePercent = 15f;
+    float _duration = 5f;
+
     public override string partsName => "HitSkill_AttackPower_1";
 
+    #region [Skill]
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
     }
@@ -26,16 +35,13 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
     public void SkillAttackPessive(Artifact_YSJ fireArtifact)
     {
     }
+    #endregion
 
-    #region [n초 동안 피해량 증가]
+    #region [상세]
     void OnDisable()
     {
         StopBuff();
     }
-
-    Coroutine _attackPowerCoroutine = null;
-    Artifact_YSJ _fireArtifact;
-    float _duration = 5f;
 
     IEnumerator AttackPowerCoroutine(Artifact_YSJ fireArtifact)
     {
@@ -51,8 +57,8 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
 
     void StartBuff()
     {
-        float addNormal = 0.15f * _fireArtifact.normalStatus.Default_AttackPower;
-        float addSkill = 0.15f * _fireArtifact.skillStatus.Default_AttackPower;
+        float addNormal = (_increasePercent * 0.01f) * _fireArtifact.normalStatus.Default_AttackPower;
+        float addSkill = (_increasePercent * 0.01f) * _fireArtifact.skillStatus.Default_AttackPower;
         
         _fireArtifact.normalStatus.Added_AttackPower += addNormal;
         _fireArtifact.skillStatus.Added_AttackPower += addSkill;
@@ -61,8 +67,8 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
 
     void EndBuff()
     {
-        float addNormal = 0.15f * _fireArtifact.normalStatus.Default_AttackPower;
-        float addSkill = 0.15f * _fireArtifact.skillStatus.Default_AttackPower;
+        float addNormal = (_increasePercent * 0.01f) * _fireArtifact.normalStatus.Default_AttackPower;
+        float addSkill = (_increasePercent * 0.01f) * _fireArtifact.skillStatus.Default_AttackPower;
         
         _fireArtifact.normalStatus.Added_AttackPower -= addNormal;
         _fireArtifact.skillStatus.Added_AttackPower -= addSkill;

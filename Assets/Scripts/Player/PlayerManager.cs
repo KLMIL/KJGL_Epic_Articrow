@@ -15,6 +15,7 @@ namespace BMC
         public PlayerHurt PlayerHurt { get; private set; }
         public PlayerDebuff PlayerDebuff { get; private set; }
         public PlayerTextWindow PlayerTextWindow { get; private set; }
+        public PlayerHand PlayerHand { get; private set; }
         public CheckPlayerDirection CheckPlayerDirection { get; private set; }
 
         void Awake()
@@ -38,6 +39,7 @@ namespace BMC
             PlayerDebuff = GetComponent<PlayerDebuff>();
             CheckPlayerDirection = GetComponent<CheckPlayerDirection>();
             PlayerTextWindow = GetComponentInChildren<PlayerTextWindow>(true);
+            PlayerHand = GetComponentInChildren<PlayerHand>();
 
             // 초기화
             PlayerStatus.Init();
@@ -102,7 +104,7 @@ namespace BMC
         public bool IsStop()
         {
             // 멈춰야 하는 상황 여기에 추가하기
-            return (PlayerHurt.IsDead || PlayerDebuff.HasDebuff(DebuffType.Stun));
+            return (PlayerHurt.IsDead || PlayerDebuff.HasDebuff(DebuffType.Stun) || !PlayerHand.CanHandling);
         }
 
         #region 테스트 코드

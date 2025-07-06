@@ -1,11 +1,19 @@
 using System.Collections;
 using UnityEngine;
 
-
+/// <summary>
+/// 스킬 적중 시 이동 속도 20% 증가 (5초 지속)
+/// </summary>
 public class ImageParts_HitSkill_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
 {
+    Artifact_YSJ _fireArtifact = null;
+    Coroutine _moveSpeedUpCoroutine = null;
+    float _increasePercent = 20f;
+    float _duration = 5f;
+
     public override string partsName => "HitSkill_MoveSpeed_1";
 
+    #region [Skill]
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
     }
@@ -27,16 +35,13 @@ public class ImageParts_HitSkill_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsTo
     public void SkillAttackPessive(Artifact_YSJ fireArtifact)
     {
     }
+    #endregion
 
-    #region [스킬 공격 적중 시 5초간 이동 속도 15% 증가]
+    #region [상세]
     void OnDisable()
     {
         StopBuff();
     }
-
-    Artifact_YSJ _fireArtifact = null;
-    Coroutine _moveSpeedUpCoroutine = null;
-    float _duration = 5f;
 
     IEnumerator MoveSpeedUpCoroutine(Artifact_YSJ fireArtifact)
     {
@@ -54,7 +59,7 @@ public class ImageParts_HitSkill_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsTo
     void StartBuff()
     {
         YSJ.PlayerStatus playerStatus = _fireArtifact.playerStatus;
-        float add = 0.15f * playerStatus.DefaultMoveSpeed;
+        float add = (_increasePercent * 0.01f) * playerStatus.DefaultMoveSpeed;
 
         _fireArtifact.Added_MoveSpeed += add;
         Debug.Log($"[ckt] {partsName} StartBuff {add}");
@@ -63,7 +68,7 @@ public class ImageParts_HitSkill_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsTo
     void EndBuff()
     {
         YSJ.PlayerStatus playerStatus = _fireArtifact.playerStatus;
-        float add = 0.15f * playerStatus.DefaultMoveSpeed;
+        float add = (_increasePercent * 0.01f) * playerStatus.DefaultMoveSpeed;
 
         _fireArtifact.Added_MoveSpeed -= add;
         Debug.Log($"[ckt] {partsName} EndBuff {add}");
