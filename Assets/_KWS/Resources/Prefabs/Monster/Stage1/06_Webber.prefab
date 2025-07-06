@@ -104,20 +104,20 @@ MonoBehaviour:
     duration: 0.3
     nextStateName: Idle
     elapsedTime: 0
-  - stateName: Orbit
-    interruptType: 1
-    condition: {fileID: 11400000, guid: e6af8d5b06aa0fb41b44e948b1bccd5f, type: 2}
-    action: {fileID: 11400000, guid: 5b5910283bb4aea49b8eceeef4572302, type: 2}
-    animationName: Walk
-    duration: 0.3
-    nextStateName: Idle
-    elapsedTime: 0
   - stateName: MoveAway
     interruptType: 1
     condition: {fileID: 11400000, guid: 9a27a1f86bc4113409249f428c84706b, type: 2}
     action: {fileID: 11400000, guid: 213566c42bb35cd4fb003086663f870a, type: 2}
     animationName: Walk
     duration: 0.4
+    nextStateName: Idle
+    elapsedTime: 0
+  - stateName: Orbit
+    interruptType: 1
+    condition: {fileID: 11400000, guid: e6af8d5b06aa0fb41b44e948b1bccd5f, type: 2}
+    action: {fileID: 11400000, guid: 5b5910283bb4aea49b8eceeef4572302, type: 2}
+    animationName: Walk
+    duration: 0.3
     nextStateName: Idle
     elapsedTime: 0
   - stateName: Idle

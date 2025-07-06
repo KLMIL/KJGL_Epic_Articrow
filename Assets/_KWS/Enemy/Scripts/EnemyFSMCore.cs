@@ -48,6 +48,10 @@ namespace Game.Enemy
         public bool isBypassing = false;    // Chase 중 장애물 우회상태
         public Vector2 bypassDirection = Vector2.zero; // 우회 경로
 
+        public bool isMovingAway = false;
+        public bool isBypassingMoveAway = false;
+        public Vector2 moveAwayBypassingDirection = Vector2.zero;
+
         // 몬스터 슈퍼아머
         public bool isSuperArmor = false;
 
@@ -91,7 +95,7 @@ namespace Game.Enemy
             HandleSoftInterrupt(current);
             HandleNoneInterrupt(current);
 
-            //Debug.LogError($"[{Time.time}]: Current Behaviour: {current.stateName}, Dir: {randomMoveDirection.x}, {randomMoveDirection.y}");
+            //Debug.LogError($"[{Time.time}]: Current Behaviour: {current.stateName}");
         }
 
 
