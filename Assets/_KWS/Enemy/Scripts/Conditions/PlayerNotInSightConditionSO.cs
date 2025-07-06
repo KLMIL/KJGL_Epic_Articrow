@@ -6,7 +6,7 @@ namespace Game.Enemy
     public class PlayerNotInSightConditionSO : EnemyConditionSO
     {
         public float detectionRange = 5f;
-        public float boxWidth = 1.0f;
+        public float boxWidth = 0.5f;
 
         public override bool IsMet(EnemyController controller)
         {
