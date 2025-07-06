@@ -37,6 +37,7 @@ namespace BMC
         {
             IsOpen = true;
             _anim.Play("Open");
+            Managers.Sound.PlaySFX(Define.SFX.StoneDoor);
         }
 
         // 닫기

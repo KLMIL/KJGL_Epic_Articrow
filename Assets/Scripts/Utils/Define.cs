@@ -24,11 +24,12 @@ public class Define
     public enum SFX
     {
         None,
-        DoorOpen,
-        DoorClose,
+        StoneDoor,
         DefaultAttack,
-        Attack1,
-        Attack2,
+        PlayerDash,
+        PlayerHurt,
+        PlayerDie,
+        GameOver,
         Slash,
         CastDamageArea,
         CastExplosion,
@@ -38,6 +39,7 @@ public class Define
         HitGrab,
         Put,
         Pickup,
+        Equip,
         sfx_slime_die // 250611 KWS - test for enemy sound
     }
     #endregion

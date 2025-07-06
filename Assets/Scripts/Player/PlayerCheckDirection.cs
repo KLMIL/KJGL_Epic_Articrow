@@ -5,7 +5,7 @@ namespace YSJ
     /// <summary>
     /// 플레이어 방향을 체크하는 클래스
     /// </summary>
-    public class CheckPlayerDirection : MonoBehaviour
+    public class PlayerCheckDirection : MonoBehaviour
     {
         public enum Direction
         {
