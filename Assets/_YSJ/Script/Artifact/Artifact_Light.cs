@@ -15,10 +15,21 @@ public class Artifact_Light : Artifact_YSJ
         ArtifactInitialize();
     }
 
+    protected override void ResetNormalAttack()
+    {
+        base.ResetNormalAttack();
+        normalStatus.AfterFire += PlayNormalSFX; // 일반 공격 생성 한 직후 사운드 재생
+    }
+
     protected override void ResetSkillAttack()
     {
         base.ResetSkillAttack();
         skillStatus.BeforeFire += CreateGuideLine;
+    }
+
+    void PlayNormalSFX(Artifact_YSJ artifact = null, GameObject go = null)
+    {
+        Managers.Sound.PlaySFX(Define.SFX.LightNormalAttack);
     }
 
     void CreateGuideLine(Artifact_YSJ me) 

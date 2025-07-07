@@ -7,6 +7,8 @@ public class ManaHeartBar : MonoBehaviour
     public GameObject ManaPrefab;
     List<ManaHeart> manas = new List<ManaHeart>();
 
+    int _manasToMake = 0;
+
     void Awake()
     {
         UI_InGameEventBus.OnPlayerManaUpdate = DrawManas;
@@ -19,13 +21,21 @@ public class ManaHeartBar : MonoBehaviour
 
     public void DrawManas()
     {
-        ClearManas();
-
         float maxManaRemainder = PlayerManager.Instance.PlayerStatus.MaxMana % 2;
         int manasToMake = (int)((PlayerManager.Instance.PlayerStatus.MaxMana / 2) + maxManaRemainder);
-        for (int i = 0; i < manasToMake; i++)
+
+        Debug.Log("생성해야할 마나 수: " + manasToMake);
+        //if (_manasToMake == manasToMake)
+        //    return;
+        if(_manasToMake != manasToMake)
         {
-            CreateEmptyMana();
+            ClearManas();
+            _manasToMake = manasToMake;
+
+            for (int i = 0; i < manasToMake; i++)
+            {
+                CreateEmptyMana();
+            }
         }
 
         for (int i = 0; i < manasToMake; i++)

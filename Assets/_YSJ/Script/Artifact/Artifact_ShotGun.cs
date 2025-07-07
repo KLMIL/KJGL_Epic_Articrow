@@ -27,6 +27,6 @@ public class Artifact_ShotGun : Artifact_YSJ
 
     void PlaySkillSFX(Artifact_YSJ artifact = null, GameObject go = null)
     {
-        Managers.Sound.PlaySFX(Define.SFX.WandSkillAttack);
+        Managers.Sound.PlaySFX(Define.SFX.ShotgunSkillAttack);
     }
 }

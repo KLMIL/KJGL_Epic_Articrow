@@ -12,7 +12,7 @@ public class ImageParts_Passive_MaxMana_1 : ImagePartsRoot_YSJ, IImagePartsToEnh
     {
         int add = 1;
         
-        currentArtifact.playerStatus.OffsetMaxMana += add;
+        currentArtifact.Added_MaxMana += add;
         Debug.Log($"[ckt] {partsName} AddMaxMana({add})");
     }
     #endregion
