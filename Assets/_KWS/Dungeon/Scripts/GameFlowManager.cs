@@ -23,6 +23,7 @@ public class GameFlowManager : MonoBehaviour
     [SerializeField] int _normalRoomIndex = 0;
     [SerializeField] int _hardRoomIndex = 0;
 
+    [SerializeField] bool _isRoomGenerated = false;
 
 
     private void Awake()
@@ -49,6 +50,20 @@ public class GameFlowManager : MonoBehaviour
         _easyRoomIndex = 0;
         _normalRoomIndex = 0;
         _hardRoomIndex = 0;
+
+        _isRoomGenerated = false;
+    }
+
+    public void InitRetry()
+    {
+        _currentStage = 1;
+        _currentRoom = 0;
+
+        _easyRoomIndex = 0;
+        _normalRoomIndex = 0;
+        _hardRoomIndex = 0;
+
+        _isRoomGenerated = false;
     }
 
     public void RequestNextRoom()
@@ -67,7 +82,11 @@ public class GameFlowManager : MonoBehaviour
 
         if (_currentStage == 1) // Stage1 :: Room Number에 따라 분기
         {
-            PickRandomRooms();
+            if (!_isRoomGenerated)
+            {
+                PickRandomRooms();
+            }
+            _isRoomGenerated = true;
 
             if (_currentRoom <= 2) // 0 -> 1, 2는 쉬움 난이도
             {

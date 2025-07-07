@@ -31,7 +31,7 @@ namespace YSJ
         {
             //Managers.Scene.LoadScene(_sceneType);
             //Managers.Scene.LoadScene(_sceneName);
-
+            GameFlowManager.Instance.Init();
             if(_loadSceneCoroutine == null)
             {
                 _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine(_sceneName));
