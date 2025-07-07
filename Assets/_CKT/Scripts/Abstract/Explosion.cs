@@ -30,7 +30,7 @@ namespace CKT
         {
             yield return null;
             _collider.enabled = true;
-            Debug.LogError("Explosion");
+            //Debug.LogError("Explosion");
 
             yield return (DisableTime <= 0) ? null : new WaitForSeconds(DisableTime);
             _collider.enabled = false;
@@ -46,7 +46,7 @@ namespace CKT
             if (iDamageable != null)
             {
                 iDamageable.TakeDamage(_totalDamage);
-                Debug.Log("Explosion");
+                //Debug.Log("Explosion");
             }
         }
     }

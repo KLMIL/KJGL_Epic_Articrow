@@ -5,12 +5,14 @@ using UnityEngine;
 /// </summary>
 public class ImageParts_Passive_MaxMana_1 : ImagePartsRoot_YSJ, IImagePartsToEnhance_YSJ
 {
+    int _increaseValue = 2;
+
     public override string partsName => "Passive_MaxMana_1";
 
     #region [Equip]
     public void Equip(Artifact_YSJ currentArtifact)
     {
-        int add = 1;
+        int add = _increaseValue;
         
         currentArtifact.playerStatus.OffsetMaxMana += add;
         Debug.Log($"[ckt] {partsName} AddMaxMana({add})");

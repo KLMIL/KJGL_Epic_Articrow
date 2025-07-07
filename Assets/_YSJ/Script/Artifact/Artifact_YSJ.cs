@@ -36,7 +36,7 @@ public class Artifact_YSJ : MonoBehaviour
     #region 플레이어 강화 관련
     public float Added_MaxHealth { get; set; }
     public float Added_MaxMana { get; set; }
-    public float Added_DeahCoolTime { get; set; }
+    public float Added_DashCoolTime { get; set; }
     public float Added_MoveSpeed { get; set; }
     #endregion
 
@@ -513,7 +513,7 @@ public class Artifact_YSJ : MonoBehaviour
         playerStatus = PlayerManager.Instance.PlayerStatus;
         playerStatus.OffsetMaxHealth = Added_MaxHealth;
         playerStatus.OffsetMaxMana = Added_MaxMana;
-        playerStatus.OffsetDashCoolTime = Added_DeahCoolTime;
+        playerStatus.OffsetDashCoolTime = Added_DashCoolTime;
         playerStatus.OffsetMoveSpeed = Added_MoveSpeed;
     }
 
@@ -521,7 +521,7 @@ public class Artifact_YSJ : MonoBehaviour
     {
         Added_MaxHealth = 0.0f;
         Added_MaxMana = 0.0f;
-        Added_DeahCoolTime = 0.0f;
+        Added_DashCoolTime = 0.0f;
         Added_MoveSpeed = 0.0f;
     }
     #endregion
