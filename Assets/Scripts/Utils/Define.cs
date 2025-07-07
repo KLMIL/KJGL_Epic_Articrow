@@ -25,10 +25,22 @@ public class Define
     {
         None,
         StoneDoor,
-        DefaultAttack,
+        
+        // 플레이어
         PlayerDash,
         PlayerHurt,
         PlayerDie,
+
+        /* 아티팩트 */
+        // 1. 완드
+        WandNormalAttack,
+        WandSkillAttack,
+
+        // 2. 소총
+        AssultRifleNormalAttack,
+        AssultRifleSkillAttack,
+
+
         GameOver,
         Slash,
         CastDamageArea,
