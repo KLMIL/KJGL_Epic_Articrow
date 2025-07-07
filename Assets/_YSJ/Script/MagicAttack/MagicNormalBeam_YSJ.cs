@@ -31,7 +31,12 @@ public class MagicNormalBeam_YSJ : MagicRoot_YSJ
             for (int i = 0; i < hits.Length; i++)
             {
                 hitpoint = hits[i].point;
-                if (hits[i].collider.TryGetComponent<IDamagable>(out IDamagable damagable))
+                if (LayerMask.LayerToName(hits[i].collider.gameObject.layer) == "Obstacle")
+                {
+                    DestroyCount = -1;
+                    break;
+                }
+                else if (hits[i].collider.TryGetComponent<IDamagable>(out IDamagable damagable))
                 {
                     OnHit(hits[i].collider);
                     damagable.TakeDamage(AttackPower);
