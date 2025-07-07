@@ -5,7 +5,7 @@ public class ShowInteractableWindow_YSJ : MonoBehaviour
 {
     GameObject window;
 
-    void Start()
+    void Awake()
     {
         window = Resources.Load<GameObject>("F");
         window = Instantiate(window, transform);
