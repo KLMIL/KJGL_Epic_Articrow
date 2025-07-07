@@ -17,7 +17,7 @@ namespace BMC
         void OnClicked()
         {
             PlayerManager.Instance.Clear();
-            SceneManager.LoadScene(2);
+            YSJ.Managers.Scene.LoadScene("StageStartScene");
         }
     }
 }
