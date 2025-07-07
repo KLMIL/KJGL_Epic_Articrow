@@ -1,3 +1,5 @@
+using BMC;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,6 +37,8 @@ namespace Game.Enemy
         public string CurrentStateName => FSM.CurrentStateName;
         public string CurrentAnimation => _animation.CurrentAnimation;
 
+        public event Action OnDeath;
+
 
         #region Initialization
         private void Awake()
@@ -70,6 +74,7 @@ namespace Game.Enemy
         {
             //SpawnTime = Time.time;
             //FSM.ChangeState("Spawned");
+            StageManager.Instance.CurrentRoom.GetComponent<NormalRoom>().EnrollEnemy(this);
         }
 
         private void Start()
@@ -193,6 +198,8 @@ namespace Game.Enemy
         {
             _movement.moveSpeedMultiply = multiplier;
         }
+
+        public void OnEnemyDieAction() => OnDeath?.Invoke();
         #endregion
 
 

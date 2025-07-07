@@ -1,5 +1,4 @@
 using Game.Enemy;
-using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -30,7 +29,16 @@ public class ImageParts_Kill_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
 
     public void NormalAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
-        StartCoroutine(ManaGainCoroutine(fireArtifact, spawnedAttack, hitObject));
+        float enemyHealth = hitObject.transform.root.GetComponentInChildren<EnemyController>().Status.healthPoint;
+        float attackPower = spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower;
+        Debug.Log($"[ckt] {partsName} enemyHealth:{enemyHealth}, attackPower:{attackPower}");
+        if (enemyHealth <= attackPower)
+        {
+            int add = _increaseValue * 2;
+
+            fireArtifact.playerStatus.RegenerateMana(add);
+            Debug.Log($"[ckt] {partsName} RegenerateMana({add})");
+        }
     }
     #endregion
 
@@ -53,20 +61,13 @@ public class ImageParts_Kill_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
 
     public void SKillAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
-        StartCoroutine(ManaGainCoroutine(fireArtifact, spawnedAttack, hitObject));
-    }
-    #endregion
-
-    #region [상세]
-    IEnumerator ManaGainCoroutine(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
-    {
-        yield return null;
-
-        float enemyHealth = hitObject.GetComponent<EnemyController>().Status.healthPoint;
-        if (enemyHealth <= 0)
+        float enemyHealth = hitObject.transform.root.GetComponentInChildren<EnemyController>().Status.healthPoint;
+        float attackPower = spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower;
+        Debug.Log($"[ckt] {partsName} enemyHealth:{enemyHealth}, attackPower:{attackPower}");
+        if (enemyHealth <= attackPower)
         {
             int add = _increaseValue * 2;
-            
+
             fireArtifact.playerStatus.RegenerateMana(add);
             Debug.Log($"[ckt] {partsName} RegenerateMana({add})");
         }

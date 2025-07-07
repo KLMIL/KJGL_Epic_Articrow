@@ -1,13 +1,12 @@
 using Game.Enemy;
-using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// 스킬로 대상을 처치했을 때 현재 공격의 100%에 해당하는 광역 공격 생성
+/// 스킬로 대상을 처치했을 때 현재 공격의 250%에 해당하는 광역 공격 생성
 /// </summary>
 public class ImageParts_KillSkill_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
 {
-    float _damagePercent = 100f;
+    float _damagePercent = 250f;
 
     public override string partsName => "KillSkill_Explosion_1";
 
@@ -30,17 +29,10 @@ public class ImageParts_KillSkill_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsT
 
     public void SKillAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
-        StartCoroutine(KillExplosionCoroutine(spawnedAttack, hitObject));
-    }
-    #endregion
-
-    #region [상세]
-    IEnumerator KillExplosionCoroutine(GameObject spawnedAttack, GameObject hitObject)
-    {
-        yield return null;
-        
-        float enemyHealth = hitObject.GetComponent<EnemyController>().Status.healthPoint;
-        if (enemyHealth <= 0)
+        float enemyHealth = hitObject.transform.root.GetComponentInChildren<EnemyController>().Status.healthPoint;
+        float attackPower = spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower;
+        Debug.Log($"[ckt] {partsName} enemyHealth:{enemyHealth}, attackPower:{attackPower}");
+        if (enemyHealth <= attackPower)
         {
             //폭발 생성
             GameObject explosion = YSJ.Managers.Pool.Get<GameObject>(Define.PoolID.HitExplosion);

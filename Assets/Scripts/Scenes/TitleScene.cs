@@ -14,6 +14,7 @@ namespace YSJ
 
         public override void Clear()
         {
+            GameFlowManager.Instance.Init();
             Debug.Log("타이틀 씬 종료");
         }
 
