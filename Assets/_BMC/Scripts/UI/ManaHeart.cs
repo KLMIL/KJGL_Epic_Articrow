@@ -27,6 +27,12 @@ public class ManaHeart : MonoBehaviour
     private void OnDisable()
     {
         YSJ.Managers.UI.OnManaHeartFlickerEvent -= ManaLack;
+
+        if (_manaLackCoroutine != null)
+        {
+            StopCoroutine(_manaLackCoroutine);
+            _manaLackCoroutine = null;
+        }
     }
 
     public void SetHeartImage(ManaStatus status)
