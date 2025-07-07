@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using YSJ;
 
 namespace BMC
 {
@@ -66,6 +67,7 @@ namespace BMC
                 _indicator.transform.localScale = new Vector3(_dist, _endScale, 1);
 
                 // 공격 실행
+                Managers.Sound.PlaySFX(Define.SFX.GolemLaser);
                 _background.enabled = false;
                 _indicator.enabled = true;
                 _boxCollider.enabled = true;

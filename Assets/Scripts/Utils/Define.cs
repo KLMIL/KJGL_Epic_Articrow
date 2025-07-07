@@ -67,7 +67,14 @@ public class Define
         Put,
         Pickup,
         Equip,
-        sfx_slime_die // 250611 KWS - test for enemy sound
+        sfx_slime_die, // 250611 KWS - test for enemy sound
+
+        // 보스
+        GolemRush,
+        GolemRushWall,
+        GolemSpiral,
+        GolemLaser,
+        GolemDie,
     }
     #endregion
 

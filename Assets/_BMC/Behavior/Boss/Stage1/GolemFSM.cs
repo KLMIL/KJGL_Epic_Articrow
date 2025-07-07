@@ -12,6 +12,7 @@ namespace BMC
         public ShokeWaveHitBox ShokeWaveHitBox { get; private set; }  // 쇼크 웨이브 히트 박스
 
         BossHitBox BossHitBox;
+        BossHurtBox BossHurtBox;
         RushAttackIndicator RushAttackIndicator;            // 돌진 공격 인디케이터
         LaserAttackIndicator LaserAttackIndicator;          // 레이저 공격 인디케이터
         ShokeWaveAttackIndicator ShokeWaveAttackIndicator;  // 쇼크 웨이브 공격 인디케이터
@@ -33,6 +34,7 @@ namespace BMC
             ShokeWaveHitBox = GetComponentInChildren<ShokeWaveHitBox>();
 
             BossHitBox = GetComponentInChildren<BossHitBox>();
+            BossHurtBox = GetComponentInChildren<BossHurtBox>();
             RushAttackIndicator = GetComponentInChildren<RushAttackIndicator>();
             LaserAttackIndicator = GetComponentInChildren<LaserAttackIndicator>();
             ShokeWaveAttackIndicator = GetComponentInChildren<ShokeWaveAttackIndicator>();
@@ -52,6 +54,7 @@ namespace BMC
         public void DisableAttack()
         {
             BossHitBox.gameObject.SetActive(false);
+            BossHurtBox.gameObject.SetActive(false);
             RushAttackIndicator.gameObject.SetActive(false);
             LaserAttackIndicator.gameObject.SetActive(false);
             ShokeWaveAttackIndicator.gameObject.SetActive(false);

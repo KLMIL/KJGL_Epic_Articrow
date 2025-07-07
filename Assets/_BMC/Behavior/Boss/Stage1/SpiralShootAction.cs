@@ -4,6 +4,7 @@ using UnityEngine;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
 using BMC;
+using YSJ;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "SpiralShoot", story: "[BossFSM] shoot [Projectile] spiral", category: "Action", id: "ad6c5be37ebc6080140f3704670b1aed")]
@@ -57,6 +58,7 @@ public partial class SpiralShootAction : Action
 
     void FireProjectile(float angle)
     {
+        Managers.Sound.PlaySFX(Define.SFX.GolemSpiral);
         Vector3 direction = Quaternion.Euler(0, 0, angle) * Vector3.right;
         GameObject projectile = GameObject.Instantiate(Projectile.Value, _shootTransform.position, Quaternion.identity);
         projectile.transform.right = direction;

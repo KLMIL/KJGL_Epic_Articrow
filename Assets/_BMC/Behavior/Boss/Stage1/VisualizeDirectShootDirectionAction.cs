@@ -4,6 +4,7 @@ using UnityEngine;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
 using BMC;
+using YSJ;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "VisualizeDirectShootDirection", story: "[BossFSM] visualize direct shoot to [Target] during [WaitDirectShootTime]", category: "Action", id: "8a06ac02ae2e4012a47dc5d82738a144")]
@@ -21,7 +22,6 @@ public partial class VisualizeDirectShootDirectionAction : Action
         {
             _enemyAttackIndicator = BossFSM.Value.GetComponentInChildren<LaserAttackIndicator>();
         }
-
         _lookDirection = (Target.Value.transform.position - BossFSM.Value.transform.position).normalized;
         BossFSM.Value.FlipX(_lookDirection.x);
         _enemyAttackIndicator.Init(_readyTime);
