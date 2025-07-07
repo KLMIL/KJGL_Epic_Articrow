@@ -1,33 +1,35 @@
-using BMC;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using BMC;
 
 namespace CKT
 {
     public class TutorialLaser : MonoBehaviour
     {
-        Coroutine restartCoroutine;
+        Coroutine _restartCoroutine;
 
-        private void OnDisable()
+        void OnDisable()
         {
-            if (restartCoroutine != null)
+            if (_restartCoroutine != null)
             {
-                StopCoroutine(restartCoroutine);
-                restartCoroutine = null;
+                StopCoroutine(_restartCoroutine);
+                _restartCoroutine = null;
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        void OnTriggerStay2D(Collider2D collision)
         {
-            if (!collision.isTrigger) return;
-            if ((1<<collision.gameObject.layer) != LayerMask.GetMask("PlayerHurtBox")) return;
-            if (BMC.PlayerManager.Instance.PlayerDash.IsDash) return;
+            if ((1 << collision.gameObject.layer) == LayerMask.GetMask("PlayerHurtBox"))
+            {
+                if (PlayerManager.Instance.PlayerDash.IsDash)
+                    return;
 
-            Debug.Log("Laser Hit");
-            collision.GetComponent<IDamagable>().TakeDamage(100);
-
-            restartCoroutine = StartCoroutine(RestartCoroutine());
+                if (collision.TryGetComponent<IDamagable>(out IDamagable damagable))
+                {
+                    damagable.TakeDamage(PlayerManager.Instance.PlayerStatus.MaxHealth);
+                    _restartCoroutine = StartCoroutine(RestartCoroutine());
+                }
+            }
         }
 
         IEnumerator RestartCoroutine()

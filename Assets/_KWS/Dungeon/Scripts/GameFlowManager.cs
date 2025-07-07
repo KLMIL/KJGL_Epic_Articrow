@@ -69,24 +69,24 @@ public class GameFlowManager : MonoBehaviour
         {
             PickRandomRooms();
 
-            if (_currentRoom < 2) // 0 -> 1, 2는 쉬움 난이도
+            if (_currentRoom <= 2) // 0 -> 1, 2는 쉬움 난이도
             {
                 //Debug.Log("Here?");
                 StartCoroutine(Managers.Scene.LoadSceneCoroutine(_easyRooms[_easyRoomIndex++]));
             }
-            else if (_currentRoom < 5) // 2 -> 3, 4, 5는 보통 난이도
+            else if (_currentRoom <= 5) // 2 -> 3, 4, 5는 보통 난이도
             {
                 StartCoroutine(Managers.Scene.LoadSceneCoroutine(_normalRooms[_normalRoomIndex++]));
             }
-            else if (_currentRoom == 5) // 5 -> 6은 중간보스
+            else if (_currentRoom == 6) // 5 -> 6은 중간보스
             {
                 StartCoroutine(Managers.Scene.LoadSceneCoroutine("MiniBossScene"));
             }
-            else if (_currentRoom < 9) // 6 -> 7, 8, 9는 어려움 난이도
+            else if (_currentRoom <= 9) // 6 -> 7, 8, 9는 어려움 난이도
             {
                 StartCoroutine(Managers.Scene.LoadSceneCoroutine(_hardRooms[_hardRoomIndex++]));
             }
-            else if (_currentRoom == 9) // 9 -> 10은 보스
+            else if (_currentRoom == 10) // 9 -> 10은 보스
             {
                 StartCoroutine(Managers.Scene.LoadSceneCoroutine("GolemBossScene"));
             }
