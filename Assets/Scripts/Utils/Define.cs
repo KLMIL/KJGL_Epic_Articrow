@@ -40,6 +40,14 @@ public class Define
         GauntletNormalAttack,
         GauntletSkillAttack,
 
+        // 손전등
+        LightNormalAttack,
+        LightSkillAttack,
+
+        // 샷건
+        // 일반 공격은 완드랑 같은 것을 사용
+        ShotgunSkillAttack,
+
         // 소총
         AssultRifleNormalAttack,
         AssultRifleSkillAttack,
