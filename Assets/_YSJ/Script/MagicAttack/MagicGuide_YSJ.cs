@@ -1,4 +1,5 @@
 using UnityEngine;
+using YSJ;
 
 public class MagicGuide_YSJ : MagicRoot_YSJ
 {
@@ -24,10 +25,12 @@ public class MagicGuide_YSJ : MagicRoot_YSJ
     {
         if (elapsedTime < LifeTime)
         {
+            // TODO: 레이저 모이는 소리
             elapsedTime += Time.deltaTime;
         }
         else
         {
+            Managers.Sound.PlaySFX(Define.SFX.LightSkillAttack);
             GameObject spawnedAttack = Instantiate(SkillAttackPrefab, transform.position, transform.rotation);
             spawnedAttack.GetComponent<MagicRoot_YSJ>().SkillAttackInitialize(ownerArtifact);
             Destroy(gameObject);
