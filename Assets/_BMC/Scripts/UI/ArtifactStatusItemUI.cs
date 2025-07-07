@@ -23,7 +23,7 @@ namespace BMC
 
         public void SetText(float value)
         {
-            _valueText.text = value.ToString("F1");
+            _valueText.text = value.ToString("F2");
         }
 
         public void Reset()
