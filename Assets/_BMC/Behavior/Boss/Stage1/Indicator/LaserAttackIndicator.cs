@@ -81,6 +81,8 @@ namespace BMC
                 _indicator.color = originalColor;
                 _coroutine = null;
 
+                _indicator.transform.localScale = new Vector3(0, _startScale, 1);
+                _background.transform.localScale = new Vector3(0, _endScale, 1);
                 _fillDuration = 0.25F;
             }
         }

@@ -60,6 +60,10 @@ namespace BMC
             _background.enabled = false;
             yield return new WaitForSeconds(0.1f);
             _coroutine = null;
+
+            // 초기화
+            _indicator.transform.localScale = new Vector3(0, _startScale, 1);
+            _background.transform.localScale = new Vector3(0, _endScale, 1);
         }
     }
 }

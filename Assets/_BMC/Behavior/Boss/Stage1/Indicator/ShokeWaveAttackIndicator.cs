@@ -64,6 +64,8 @@ namespace BMC
             _indicator.enabled = false;
             _indicator.color = originalColor;
             _coroutine = null;
+            _indicator.transform.localScale = new Vector3(_startScale, _startScale, 1);
+            _background.transform.localScale = new Vector3(_endScale, _endScale, 1);
         }
     }
 }
