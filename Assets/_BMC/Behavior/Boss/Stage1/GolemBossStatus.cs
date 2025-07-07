@@ -19,6 +19,7 @@ namespace BMC
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             _visual = GetComponentInChildren<SpriteRenderer>();
             _core = _visual.GetComponentInChildren<SpriteRenderer>();
+            _showDamageText = GetComponentInChildren<ShowDamageText>();
             Init();
         }
 
@@ -43,7 +44,7 @@ namespace BMC
 
             Health -= damage;
 
-            ShowTakeDamageText(damage);
+            _showDamageText.Show(damage);
 
             Debug.LogError("데미지 받아서 색변경됨");
             StartCoroutine(TakeDamageColor());
