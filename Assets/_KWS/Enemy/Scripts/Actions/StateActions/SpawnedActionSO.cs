@@ -15,6 +15,13 @@ namespace Game.Enemy
         {
             controller.FSM.isSuperArmor = true;
             // 스폰 애니메이션, 이팩트, 사운드 등 재생
+
+            if (!controller.FSM.isSpawnEffect)
+            {
+                controller.FSM.isSpawnEffect = true;
+                controller.MakeSpawnEffect();
+            }
+            
         }
     }
 }
