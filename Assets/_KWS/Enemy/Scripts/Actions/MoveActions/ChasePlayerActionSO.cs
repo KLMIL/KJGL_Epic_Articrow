@@ -89,7 +89,15 @@ namespace Game.Enemy
                 //        LayerMask.GetMask("Obstacle")
                 //    );
 
-                bool inSight = !Physics2D.Raycast(controller.transform.position, toPlayer, obstacleCheckDistance, LayerMask.GetMask("Obstacle"));
+                RaycastHit2D hit = Physics2D.Raycast(
+                    controller.transform.position,
+                    toPlayer,
+                    obstacleCheckDistance,
+                    LayerMask.GetMask("Obstacle")
+                );
+
+                bool inSight = !hit;
+
                 //Debug.DrawRay(controller.transform.position, controller.FSM.bypassDirection * obstacleCheckDistance, Color.green, 0.1f);
                 //Debug.DrawRay(controller.transform.position, toPlayer * obstacleCheckDistance, Color.red, 0.1f);
 
@@ -98,20 +106,32 @@ namespace Game.Enemy
 
                 if (inSight) // 플레이어가 보이는 경우 -> 바로 추적
                 {
-                    Debug.LogError("추적 시도");
+                    //Debug.LogError("추적 시도");
                     controller.MoveTo(toPlayer, Time.deltaTime, "SmartChase", inverse);
                     controller.FSM.isBypassing = false;
                 }
                 else // 플레이어가 보이지 않는 경우 -> 우회
                 {
-                    if (!controller.FSM.isBypassing)
+                    if (!controller.FSM.isBypassing && hit)
                     {
-                        // 좌/우 방향 결정
-                        Vector2 right = new Vector2(-toPlayer.y, toPlayer.x);
-                        Vector2 left = -right;
+                        Vector2 wallNormal = hit.normal;
 
-                        Vector2[] candidates = { right, left };
-                        controller.FSM.bypassDirection = candidates[Random.Range(0, 2)];
+                        // 좌/우 방향 결정
+                        //Vector2 right = new Vector2(-toPlayer.y, toPlayer.x);
+                        //Vector2 left = -right;
+
+                        Vector2 perpRight = new Vector2(wallNormal.y, -wallNormal.x);
+                        Vector2 perpLeft = new Vector2(-wallNormal.y, wallNormal.x);
+
+                        float dotRight = Vector2.Dot(toPlayer, perpRight);
+                        float dotLeft = Vector2.Dot(toPlayer, perpLeft);
+
+                        Vector2 chosenDir = (dotRight > dotLeft) ? perpRight : perpLeft;
+
+                        //Vector2[] candidates = { perpRight, perpLeft };
+                        //controller.FSM.bypassDirection = candidates[Random.Range(0, 2)];
+
+                        controller.FSM.bypassDirection = chosenDir;
                         controller.FSM.isBypassing = true;
                     }
 
@@ -125,12 +145,23 @@ namespace Game.Enemy
                     //        LayerMask.GetMask("Obstacle")
                     //    );
 
-                    bool bypassBlocked = Physics2D.Raycast(controller.transform.position, controller.FSM.bypassDirection, obstacleCheckDistance, LayerMask.GetMask("Obstacle"));
+                    bool bypassBlocked = false;
+                    if (hit)
+                    {
+                        bypassBlocked = Physics2D.Raycast(
+                            controller.transform.position,
+                            controller.FSM.bypassDirection,
+                            obstacleCheckDistance,
+                            LayerMask.GetMask("Obstacle")
+                        );
+                        Debug.DrawRay(controller.transform.position, controller.FSM.bypassDirection * obstacleCheckDistance, Color.green, 0.1f);
+                    }
+
                     //Debug.DrawRay(controller.transform.position, controller.FSM.bypassDirection * obstacleCheckDistance, Color.green, 0.1f);
                     //Debug.DrawRay(controller.transform.position, toPlayer * obstacleCheckDistance, Color.red, 0.1f);
 
                     // 디버그 참고용 -> 박스로 그리진 않음
-                    Debug.DrawRay(controller.transform.position, controller.FSM.bypassDirection * obstacleCheckDistance, Color.green, 0.1f);
+                    
 
                     if (!bypassBlocked)
                     {
