@@ -1,3 +1,4 @@
+using Mono.Cecil.Cil;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +31,15 @@ namespace YSJ
             int sceneIdx = (!Managers.Data.IsClearTutorial) ? 1 : 2;
             if (_loadSceneCoroutine == null)
             {
-                _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine(sceneIdx));
+                if (sceneIdx == 1)
+                {
+                    _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine("TutorialScene"));
+                }
+                else
+                {
+                    _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine("StageStartScene"));
+                }
+                    
             }
         }
     }
