@@ -79,7 +79,7 @@ namespace CKT
             yield return (_artifactSO.AttackDelay <= 0) ? null : new WaitForSeconds(_artifactSO.AttackDelay);
             
             //사운드, 애니메이션 재생
-            YSJ.Managers.Sound.PlaySFX(Define.SFX.DefaultAttack);
+            YSJ.Managers.Sound.PlaySFX(Define.SFX.WandNormalAttack);
             _animator.Play("Attack", -1, 0);
 
             //총알 생성

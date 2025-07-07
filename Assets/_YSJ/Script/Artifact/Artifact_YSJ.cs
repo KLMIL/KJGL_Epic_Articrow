@@ -9,6 +9,10 @@ public class Artifact_YSJ : MonoBehaviour
     public ArtifactStatus normalStatus = new ArtifactStatus();  // 기본 스테이터스
     public ArtifactStatus skillStatus = new ArtifactStatus();   // 스킬 스테이터스
 
+    [Header("마나 회복량, 소모량")]
+    public int ManaIncreaseAmount = 1;
+    public int ManaDecreaseAmount = 3;
+
     [Header("슬롯 수")]
     public int MaxSlotCount;                                    // 아티팩트가 가진 슬롯개수
     public Transform SlotTransform { get; set; }
@@ -103,8 +107,13 @@ public class Artifact_YSJ : MonoBehaviour
                                 // Add 산탄만큼 산탄 반복
                                 for (int addedSpreadCount = 0; addedSpreadCount < normalStatus.Added_AttackSpreadCount; addedSpreadCount++)
                                 {
-                                    // 발사하기 전에 방향 다시계산
-                                    Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
+                                    // 선딜이 없다면 발사하기 전에 방향 다시계산
+                                    if (normalStatus.Current_AttackStartDelay == 0)
+                                    {
+                                        Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
+                                    }
+                                    
+
                                     float originalAngle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg; // 방향 각도 계산
                                                                                                                  // 추가 산탄의 각도 = (바라보는 각도 - (추가탄의 퍼짐각도 * 추가탄 산탄개수) / 2) + (추가탄의 퍼짐각도 * 추가탄의 산탄횟수 n번째)
                                     float addedSpreadAngle = (originalAngle - (normalStatus.Added_AttackSpreadAngle * (normalStatus.Added_AttackSpreadCount - 1) / 2f)) + (normalStatus.Added_AttackSpreadAngle * addedSpreadCount);
@@ -122,6 +131,9 @@ public class Artifact_YSJ : MonoBehaviour
 
                                         // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
                                         ReadNormalAttackParts(SpawnedBullet.GetComponent<MagicRoot_YSJ>());
+
+                                        // 맞췄을 때 마나 증가
+                                        SpawnedBullet.GetComponent<MagicRoot_YSJ>().OnHitAction += ManaIncrease;
 
                                         // 일반 공격 생성 한 직후 액션 실행
                                         normalStatus.AfterFire?.Invoke(this, SpawnedBullet);
@@ -163,12 +175,13 @@ public class Artifact_YSJ : MonoBehaviour
             IImagePartsToNormalAttack_YSJ imageParts = SlotTransform.GetChild(i).GetComponentInChildren<IImagePartsToNormalAttack_YSJ>();
             if (imageParts != null)
             {
-                normalStatus.Pessive += imageParts.NormalAttackPessive; // 패시브 액션 등록
-                normalStatus.AfterFire += imageParts.NormalAttackAfterFire; // 발사 후 액션 등록
-
+                normalStatus.Pessive += imageParts.NormalAttackPessive;         // 패시브 액션 등록
+                normalStatus.BeforeFire += imageParts.NormalAttackBeforeFire;   // 발사 전 액션 등록
+                normalStatus.AfterFire += imageParts.NormalAttackAfterFire;     // 발사 후 액션 등록
             }
         }
     }
+
     protected void ReadSkillAttackParts()
     {
         // 파츠슬롯 한바퀴 돌면서 등록
@@ -177,11 +190,13 @@ public class Artifact_YSJ : MonoBehaviour
             IImagePartsToSkillAttack_YSJ imageParts = SlotTransform.GetChild(i).GetComponentInChildren<IImagePartsToSkillAttack_YSJ>();
             if (imageParts != null)
             {
-                normalStatus.Pessive += imageParts.SkillAttackPessive; // 패시브 액션 등록
-                normalStatus.AfterFire += imageParts.SkillAttackAfterFire; // 발사 후 액션 등록
+                skillStatus.Pessive += imageParts.SkillAttackPessive;       // 패시브 액션 등록
+                skillStatus.BeforeFire += imageParts.SkillAttackBeforeFire; // 발사 전 액션 등록
+                skillStatus.AfterFire += imageParts.SkillAttackAfterFire;   // 발사 후 액션 등록
             }
         }
     }
+
     protected void ReadNormalAttackParts(MagicRoot_YSJ magicAttack)
     {
         // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
@@ -195,6 +210,7 @@ public class Artifact_YSJ : MonoBehaviour
             }
         }
     }
+
     protected void ReadSkillAttackParts(MagicRoot_YSJ magicAttack)
     {
         // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
@@ -249,7 +265,7 @@ public class Artifact_YSJ : MonoBehaviour
                 skillStatus.CountCurrentStatus();
 
                 // 발사 가능하면 발사시도(여기서 마나체크를 해야함)
-                if (true)
+                if (playerStatus.SpendMana(ManaDecreaseAmount))
                 {
                     // 방향 계산
                     Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
@@ -262,7 +278,7 @@ public class Artifact_YSJ : MonoBehaviour
                         CurrentHand.CanHandling = false;
                     }
                     isCanAttack = false;
-                    
+
                     // 선딜 타이머 시작
                     yield return new WaitForSeconds(skillStatus.Current_AttackStartDelay);
 
@@ -280,8 +296,12 @@ public class Artifact_YSJ : MonoBehaviour
                             // 디폴트 발사 개수만큼 반복
                             for (int SpawnCount = 0; SpawnCount < skillStatus.Default_AttackCount; SpawnCount++)
                             {
-                                // 발사하기 전에 방향 다시계산
-                                Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
+                                // 선딜이 없다면 발사하기 전에 방향 다시계산
+                                if (skillStatus.Current_AttackStartDelay == 0) 
+                                {
+                                    Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
+                                }
+
                                 // Add 산탄만큼 산탄 반복
                                 for (int addedSpreadCount = 0; addedSpreadCount < skillStatus.Added_AttackSpreadCount; addedSpreadCount++)
                                 {
@@ -325,6 +345,11 @@ public class Artifact_YSJ : MonoBehaviour
                         skillStatus.elapsedCoolTime = skillStatus.Current_AttackCoolTime;
                     }
                 }
+                else 
+                {
+                    print("마나 부족함");
+                    yield return null;
+                }
             }
             else
             {
@@ -362,7 +387,7 @@ public class Artifact_YSJ : MonoBehaviour
     protected void DevideStatPoint()
     {
         // 스탯 포인트가 0이 될 때까지
-        int[] randomValues = new int[11];
+        int[] randomValues = new int[9];
         int currentStatPoint = StatPoint; // 스탯 포인트 복사
         while (currentStatPoint > 0)
         {
@@ -376,27 +401,25 @@ public class Artifact_YSJ : MonoBehaviour
         float newDefaultNormalAttackCoolTime = normalStatus.Default_AttackCoolTime - randomValues[1] * 0.1f;
         normalStatus.Default_AttackCoolTime = Mathf.Clamp(newDefaultNormalAttackCoolTime, 0, normalStatus.Default_AttackCoolTime);
         //Default_NormalAttackCoolTime += randomValues[1] * -0.1f;
-        normalStatus.Default_AttackLife += randomValues[2];
-        normalStatus.Default_BulletSpeed += randomValues[3];
+        normalStatus.Default_BulletSpeed += randomValues[2];
 
-        float newDefaultNormalAttackStartDelay = normalStatus.Default_AttackStartDelay - randomValues[4] * 0.1f;
+        float newDefaultNormalAttackStartDelay = normalStatus.Default_AttackStartDelay - randomValues[3] * 0.1f;
         normalStatus.Default_AttackStartDelay = Mathf.Clamp(newDefaultNormalAttackStartDelay, 0, normalStatus.Default_AttackStartDelay);
         //Default_NormalAttackStartDelay += randomValues[4] * -0.1f;
 
-        skillStatus.Default_AttackPower += randomValues[5];
+        skillStatus.Default_AttackPower += randomValues[4];
 
-        float newDefaultSkillAttackCoolTime = skillStatus.Default_AttackCoolTime - randomValues[6] * 0.1f;
+        float newDefaultSkillAttackCoolTime = skillStatus.Default_AttackCoolTime - randomValues[5] * 0.1f;
         skillStatus.Default_AttackCoolTime = Mathf.Clamp(newDefaultSkillAttackCoolTime, 0, skillStatus.Default_AttackCoolTime);
         //Default_SkillAttackCoolTime += randomValues[6] * -0.1f;
 
-        skillStatus.Default_AttackLife += randomValues[7];
-        skillStatus.Default_BulletSpeed += randomValues[8];
+        skillStatus.Default_BulletSpeed += randomValues[6];
 
-        float newSkillAttackStartDelay = skillStatus.Default_AttackStartDelay - randomValues[9] * 0.1f;
+        float newSkillAttackStartDelay = skillStatus.Default_AttackStartDelay - randomValues[7] * 0.1f;
         skillStatus.Default_AttackStartDelay = Mathf.Clamp(newSkillAttackStartDelay, 0, skillStatus.Default_AttackStartDelay);
         //Default_SkillAttackStartDelay += randomValues[9] * -0.1f;
 
-        MaxSlotCount += randomValues[10];
+        MaxSlotCount += randomValues[8];
     }
 
     // Init
@@ -415,7 +438,20 @@ public class Artifact_YSJ : MonoBehaviour
 
     protected virtual void ResetSkillAttack()
     {
-        normalStatus.ResetAddedStatus();
+        skillStatus.ResetAddedStatus();
+    }
+
+    // 맞췄을 때 액션에 넣을거임
+    protected virtual void ManaIncrease(Artifact_YSJ me, GameObject bullet, GameObject hitObject)
+    {
+        if (playerStatus)
+        {
+            playerStatus.RegenerateMana(ManaIncreaseAmount);
+        }
+        else 
+        {
+            Debug.LogError("playerStatus 못찾음!");
+        }
     }
 
     #region 파츠 추가 및 제거

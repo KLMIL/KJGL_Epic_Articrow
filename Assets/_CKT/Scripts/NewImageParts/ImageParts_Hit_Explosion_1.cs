@@ -10,6 +10,10 @@ public class ImageParts_Hit_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
     public override string partsName => "Hit_Explosion_1";
 
     #region [Normal]
+    public void NormalAttackPessive(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void NormalAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
     }
@@ -24,26 +28,19 @@ public class ImageParts_Hit_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
 
     public void NormalAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
-        //폭발 생성
-        GameObject explosion = YSJ.Managers.Pool.Get<GameObject>(Define.PoolID.CastExplosion);
-        explosion.transform.position = hitObject.transform.position;
-
-        float damage = (_damagePercent * 0.01f) * spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower;
-        explosion.GetComponent<CKT.Explosion>().Init(damage);
-        Debug.Log($"[ckt] {partsName} HitExplosion {damage}");
-    }
-
-    public void NormalAttackPessive(Artifact_YSJ fireArtifact)
-    {
+        Explosion(spawnedAttack, hitObject);
     }
     #endregion
 
     #region [Skill]
-    public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
+    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
+    {
+    }
+    public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
     }
 
-    public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
+    public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
     }
 
@@ -53,6 +50,13 @@ public class ImageParts_Hit_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
 
     public void SKillAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
+        Explosion(spawnedAttack, hitObject);
+    }
+    #endregion
+
+    #region [상세]
+    void Explosion(GameObject spawnedAttack, GameObject hitObject)
+    {
         //폭발 생성
         GameObject explosion = YSJ.Managers.Pool.Get<GameObject>(Define.PoolID.CastExplosion);
         explosion.transform.position = hitObject.transform.position;
@@ -60,10 +64,6 @@ public class ImageParts_Hit_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
         float damage = (_damagePercent * 0.01f) * spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower;
         explosion.GetComponent<CKT.Explosion>().Init(damage);
         Debug.Log($"[ckt] {partsName} HitExplosion {damage}");
-    }
-
-    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
-    {
     }
     #endregion
 }

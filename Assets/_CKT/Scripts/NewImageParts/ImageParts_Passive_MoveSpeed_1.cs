@@ -18,6 +18,7 @@ public class ImageParts_Passive_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsToE
 
         currentArtifact.Added_MoveSpeed += addMoveSpeed;
         currentArtifact.Added_DeahCoolTime += addDashCoolTime;
+        Debug.Log($"[ckt] {partsName} {addMoveSpeed}_{addDashCoolTime}");
     }
     #endregion
 }

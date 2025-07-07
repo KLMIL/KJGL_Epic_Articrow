@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using YSJ;
 
 namespace BMC
 {
@@ -24,7 +25,7 @@ namespace BMC
 
         public void TryDash(Vector2 dashDir)
         {
-            if(PlayerManager.Instance.PlayerHurt.IsDead)
+            if(PlayerManager.Instance.PlayerHurt.IsDead || Managers.Input.MoveInput == Vector2.zero)
                 return;
 
             _dashCoroutine = _dashCoroutine ?? StartCoroutine(DashCoroutine(dashDir));
@@ -32,6 +33,7 @@ namespace BMC
 
         IEnumerator DashCoroutine(Vector2 dashDir)
         {
+            Managers.Sound.PlaySFX(Define.SFX.PlayerDash);
             _silhouette.IsActive = true;
             IsDash = true;
             _rb.linearVelocity += dashDir * _dashSpeed;

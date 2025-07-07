@@ -19,10 +19,10 @@ namespace YSJ
 
         #region 기준 스테이터스
         [Header("기준 스테이터스")]
-        float _defaultMaxHealth = 7f;       // 기본 최대 체력
-        float _defaultMaxMana = 5f;         // 기본 최대 마나
+        float _defaultMaxHealth = 8f;       // 기본 최대 체력
+        float _defaultMaxMana = 6f;         // 기본 최대 마나
         float _defaultDashCoolTime = 1f;    // 기본 대시 쿨타임
-        float _defaultMoveSpeed = 6f;       // 기본 이동 속도
+        float _defaultMoveSpeed = 4f;       // 기본 이동 속도
 
         public float DefaultMaxHealth => _defaultMaxHealth;
         public float DefaultMaxMana => _defaultMaxMana;

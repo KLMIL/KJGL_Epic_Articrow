@@ -90,7 +90,7 @@ namespace CKT
             ChargeAmount = 0;
             _line.enabled = false;
 
-            YSJ.Managers.Sound.PlaySFX(Define.SFX.DefaultAttack);
+            YSJ.Managers.Sound.PlaySFX(Define.SFX.WandNormalAttack);
 
             //애니메이션 재생
             base._animator.Play("Attack", -1, 0);

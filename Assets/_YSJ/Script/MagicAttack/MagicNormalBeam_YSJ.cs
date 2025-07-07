@@ -10,7 +10,7 @@ public class MagicNormalBeam_YSJ : MagicRoot_YSJ
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        layerMask = LayerMask.GetMask("EnemyHurtBox", "Obstacle");
+        layerMask = LayerMask.GetMask("EnemyHurtBox", "Obstacle", "BreakableObj");
 
         lineRenderer.startWidth = 0.2f;
         lineRenderer.endWidth = 0.2f;
@@ -71,5 +71,12 @@ public class MagicNormalBeam_YSJ : MagicRoot_YSJ
 
         lineRenderer.startWidth = Mathf.Lerp(transform.localScale.x, 0f, elapsedTime / LifeTime);
         lineRenderer.endWidth = Mathf.Lerp(transform.localScale.x, 0f, elapsedTime / LifeTime);
+    }
+
+    public override void NormalAttackInitialize(Artifact_YSJ ownerArtifact)
+    {
+        float lifeTime = LifeTime;
+        base.NormalAttackInitialize(ownerArtifact);
+        LifeTime = lifeTime;
     }
 }

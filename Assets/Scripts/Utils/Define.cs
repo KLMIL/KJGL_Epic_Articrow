@@ -24,11 +24,39 @@ public class Define
     public enum SFX
     {
         None,
-        DoorOpen,
-        DoorClose,
-        DefaultAttack,
-        Attack1,
-        Attack2,
+        StoneDoor,
+        
+        // 플레이어
+        PlayerDash,
+        PlayerHurt,
+        PlayerDie,
+
+        /* 아티팩트 */
+        // 완드
+        WandNormalAttack,
+        WandSkillAttack,
+
+        // 건틀렛
+        GauntletNormalAttack,
+        GauntletSkillAttack,
+
+        // 손전등
+        LightNormalAttack,
+        LightSkillAttack,
+
+        // 샷건
+        // 일반 공격은 완드랑 같은 것을 사용
+        ShotgunSkillAttack,
+
+        // 소총
+        AssultRifleNormalAttack,
+        AssultRifleSkillAttack,
+
+        // 피리
+        FluteNormalAttack,
+        FluteSkillAttack,
+
+        GameOver,
         Slash,
         CastDamageArea,
         CastExplosion,
@@ -38,6 +66,7 @@ public class Define
         HitGrab,
         Put,
         Pickup,
+        Equip,
         sfx_slime_die // 250611 KWS - test for enemy sound
     }
     #endregion

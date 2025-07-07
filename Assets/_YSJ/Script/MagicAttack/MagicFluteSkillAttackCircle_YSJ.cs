@@ -17,6 +17,8 @@ public class MagicFluteSkillAttackCircle_YSJ : MagicRoot_YSJ
         col = GetComponent<Collider2D>();
 
         CheckDamageable();
+
+        YSJ.Managers.Sound.PlaySFX(Define.SFX.FluteSkillAttack);
     }
 
     void CheckDamageable() 
