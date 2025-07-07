@@ -14,6 +14,7 @@ namespace BMC
         protected TextMeshPro _damageText;                                     // 데미지 텍스트
         protected SpriteRenderer _visual;                                      // 외관
         protected WaitForSeconds _colorChangeTime = new WaitForSeconds(0.25f); // 피격 시 색상 변경 시간
+        protected ShowDamageText _showDamageText;                              // 데미지 텍스트 표시
 
         [Header("상태")]
         [field: SerializeField] public bool IsDead { get; set; }
