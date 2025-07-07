@@ -10,12 +10,11 @@ namespace YSJ
             Managers.Sound.PlayBGM(Define.BGM.TitleScene);
             Time.timeScale = 1f;
             Debug.Log("타이틀 씬 초기화");
-
-            GameFlowManager.Instance.Init();
         }
 
         public override void Clear()
         {
+            GameFlowManager.Instance.Init();
             Debug.Log("타이틀 씬 종료");
         }
 
