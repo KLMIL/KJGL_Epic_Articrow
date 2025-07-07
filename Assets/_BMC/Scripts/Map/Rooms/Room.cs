@@ -12,7 +12,7 @@ namespace BMC
 
         [Header("문 관련")]
         [SerializeField] protected Door[] _doors;
-        float _openTime = 2.5f; // 문 열리는 시간
+        float _openTime = 0.5f; // 문 열리는 시간
 
         protected StartPosition _startPosition; // 방 진입 시 시작 위치 
 
@@ -82,7 +82,7 @@ namespace BMC
             if (!_roomData.IsCleared)
             {
                 _roomData.IsCleared = true;
-                SpawnScarecrow();
+                SpawnScarecrow(); // 테스트를 위해 임시 제거
                 //GameManager.Instance.CameraController.SetCameraTargetRoom(transform);
                 Invoke(nameof(OpenAllValidDoor), _openTime);
             }

@@ -83,15 +83,17 @@ namespace Game.Enemy
             }
             else if (moveType == "SimpleMoveAway" || moveType == "SmartMoveAway")
             {
+                //Debug.LogError("Here?");
+
                 if (elapsedTime < duration)
                 {
-                    Vector2 origin = rb.position + _currentDirection * 0.1f;
-                    RaycastHit2D hit = Physics2D.Raycast(origin, _currentDirection, wallCheckDistance, wallLayerMask);
-                    if (hit.collider != null)
-                    {
-                        Stop();
-                        return;
-                    }
+                    //Vector2 origin = rb.position + _currentDirection * 0.1f;
+                    //RaycastHit2D hit = Physics2D.Raycast(origin, _currentDirection, wallCheckDistance, wallLayerMask);
+                    //if (hit.collider != null)
+                    //{
+                    //    Stop();
+                    //    return;
+                    //}
                     Vector2 nextPos = rb.position + _currentDirection * ownerController.Status.moveSpeed * moveSpeedMultiply * Time.fixedDeltaTime;
                     FlipSpirte();
                     rb.MovePosition(nextPos);

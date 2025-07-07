@@ -1,8 +1,6 @@
 using BMC;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using TMPro;
 using UnityEngine;
 using YSJ;
 
@@ -39,7 +37,7 @@ public class Artifact_YSJ : MonoBehaviour
     #region 플레이어 강화 관련
     public float Added_MaxHealth { get; set; }
     public float Added_MaxMana { get; set; }
-    public float Added_DeahCoolTime { get; set; }
+    public float Added_DashCoolTime { get; set; }
     public float Added_MoveSpeed { get; set; }
     #endregion
 
@@ -350,7 +348,8 @@ public class Artifact_YSJ : MonoBehaviour
                 }
                 else 
                 {
-                    print("마나 부족함");
+                    Managers.UI.OnManaHeartFlickerEvent.Invoke();
+
                     yield return null;
                 }
             }
@@ -386,100 +385,44 @@ public class Artifact_YSJ : MonoBehaviour
         }
     }
 
-    #region [스탯 나누기]
     // 스탯 포인트 랜덤으로 나눠갖기
-
-    // 변동시킬 값을 저장 할 구조체
-    public class Values
-    {
-        public Values(float value, float multiply, int index)
-        {
-            _value = value;
-            _variationValue = multiply;
-            _index = index;
-        }
-
-        public float _value;
-        public float _variationValue;
-        public int _index;
-    }
-
     protected void DevideStatPoint()
     {
-        // first는 값, second는 배율
-        List<Values> defaultValues = new();
-        // 노말스탯 변경값
-        defaultValues.Add(new Values(normalStatus.Default_AttackPower, -1, 0));
-        defaultValues.Add(new Values(normalStatus.Default_AttackCoolTime, 0.1f, 1));
-        defaultValues.Add(new Values(normalStatus.Default_BulletSpeed, -1, 2));
-        defaultValues.Add(new Values(normalStatus.Default_AttackStartDelay, 0.1f, 3));
-
-        // 스킬스탯 변경값
-        defaultValues.Add(new Values(skillStatus.Default_AttackPower, -1, 4));
-        defaultValues.Add(new Values(skillStatus.Default_AttackCoolTime, 0.1f, 5));
-        defaultValues.Add(new Values(skillStatus.Default_BulletSpeed, -1f, 6));
-        defaultValues.Add(new Values(skillStatus.Default_AttackStartDelay, 0.1f, 7));
-
-        // 슬롯 수
-        defaultValues.Add(new Values(MaxSlotCount, -1, 8));
-
-        // 스탯 포인트 복사
-        int currentStatPoint = StatPoint;
-
-        // 리스트 복사
-        List<Values> copyValues = defaultValues.Select(v => new Values(v._value, v._variationValue, v._index)).ToList(); // 얕은복사하면 문제생김;
-
         // 스탯 포인트가 0이 될 때까지
-        int InfiniteLoopPrevention = 0;
+        int[] randomValues = new int[9];
+        int currentStatPoint = StatPoint; // 스탯 포인트 복사
         while (currentStatPoint > 0)
         {
-            int randomIndex = UnityEngine.Random.Range(0, copyValues.Count);
-
-            // 현재값 - 변동값 > 0 이면
-            if (copyValues[randomIndex]._value - copyValues[randomIndex]._variationValue > 0)
-            {
-                // 빼주고 스탯포인트 1 차감
-                copyValues[randomIndex]._value -= copyValues[randomIndex]._variationValue;
-                currentStatPoint--;
-            }
-            else 
-            {
-                // 0보다 작아진다면 default저장값에 변동값 옮기고 copy에서 삭제(스탯 가져갈 애들 리스트에서 빼주는 거)
-                defaultValues[copyValues[randomIndex]._index] = copyValues[randomIndex];
-                copyValues.Remove(copyValues[randomIndex]);
-            }
-
-            // 무한루프방지
-            InfiniteLoopPrevention++;
-            if (InfiniteLoopPrevention > 9999)
-            {
-                print("무한루프!");
-                break;
-            }
-
+            int randomIndex = UnityEngine.Random.Range(0, randomValues.Length);
+            randomValues[randomIndex]++;
+            currentStatPoint--;
         }
 
-        // 스탯 다돌았는데 카피리스트가 남았다면 디폴트값으로 옮겨주기
-        foreach (Values value in copyValues)
-        {
-            defaultValues[value._index] = value;
-        }
+        normalStatus.Default_AttackPower += randomValues[0];
 
-        // 변동값 적용 시켜주기
-        normalStatus.Default_AttackPower = defaultValues[0]._value; 
-        normalStatus.Default_AttackCoolTime = defaultValues[1]._value;
-        normalStatus.Default_BulletSpeed = defaultValues[2]._value;
-        normalStatus.Default_AttackStartDelay = defaultValues[3]._value;
+        float newDefaultNormalAttackCoolTime = normalStatus.Default_AttackCoolTime - randomValues[1] * 0.1f;
+        normalStatus.Default_AttackCoolTime = Mathf.Clamp(newDefaultNormalAttackCoolTime, 0, normalStatus.Default_AttackCoolTime);
+        //Default_NormalAttackCoolTime += randomValues[1] * -0.1f;
+        normalStatus.Default_BulletSpeed += randomValues[2];
 
-        skillStatus.Default_AttackPower = defaultValues[4]._value;
-        skillStatus.Default_AttackCoolTime = defaultValues[5]._value;
-        skillStatus.Default_BulletSpeed = defaultValues[6]._value;
-        skillStatus.Default_AttackStartDelay = defaultValues[7]._value;
+        float newDefaultNormalAttackStartDelay = normalStatus.Default_AttackStartDelay - randomValues[3] * 0.1f;
+        normalStatus.Default_AttackStartDelay = Mathf.Clamp(newDefaultNormalAttackStartDelay, 0, normalStatus.Default_AttackStartDelay);
+        //Default_NormalAttackStartDelay += randomValues[4] * -0.1f;
 
-        MaxSlotCount = (int)defaultValues[8]._value;
-        MaxSlotCount = Mathf.Clamp(MaxSlotCount, 0, 15);
+        skillStatus.Default_AttackPower += randomValues[4];
+
+        float newDefaultSkillAttackCoolTime = skillStatus.Default_AttackCoolTime - randomValues[5] * 0.1f;
+        skillStatus.Default_AttackCoolTime = Mathf.Clamp(newDefaultSkillAttackCoolTime, 0, skillStatus.Default_AttackCoolTime);
+        //Default_SkillAttackCoolTime += randomValues[6] * -0.1f;
+
+        skillStatus.Default_BulletSpeed += randomValues[6];
+
+        float newSkillAttackStartDelay = skillStatus.Default_AttackStartDelay - randomValues[7] * 0.1f;
+        skillStatus.Default_AttackStartDelay = Mathf.Clamp(newSkillAttackStartDelay, 0, skillStatus.Default_AttackStartDelay);
+        //Default_SkillAttackStartDelay += randomValues[9] * -0.1f;
+
+        MaxSlotCount += randomValues[8];
     }
-    #endregion
 
     // Init
     protected void ArtifactInitialize()
@@ -572,7 +515,7 @@ public class Artifact_YSJ : MonoBehaviour
         playerStatus = PlayerManager.Instance.PlayerStatus;
         playerStatus.OffsetMaxHealth = Added_MaxHealth;
         playerStatus.OffsetMaxMana = Added_MaxMana;
-        playerStatus.OffsetDashCoolTime = Added_DeahCoolTime;
+        playerStatus.OffsetDashCoolTime = Added_DashCoolTime;
         playerStatus.OffsetMoveSpeed = Added_MoveSpeed;
     }
 
@@ -580,7 +523,7 @@ public class Artifact_YSJ : MonoBehaviour
     {
         Added_MaxHealth = 0.0f;
         Added_MaxMana = 0.0f;
-        Added_DeahCoolTime = 0.0f;
+        Added_DashCoolTime = 0.0f;
         Added_MoveSpeed = 0.0f;
     }
     #endregion

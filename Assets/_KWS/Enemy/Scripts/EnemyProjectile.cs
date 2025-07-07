@@ -51,6 +51,9 @@ namespace Game.Enemy
                 _rb.linearVelocity = _velocity;
                 _rb.gravityScale = _gravity;
             }
+            // 이동 방향으로 회전
+            float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             Destroy(gameObject, _lifetime);
         }
@@ -71,6 +74,10 @@ namespace Game.Enemy
                     collision.gameObject.GetComponentInParent<PlayerDebuff>().ApplyDebuff(DebuffType.Stun, 1f);
                     // TODO: 이동불가 디버프 효과 부여
                 }
+            }
+            else if ((LayerMask.GetMask("Obstacle") & (1 << collision.gameObject.layer)) != 0)
+            {
+                Destroy(gameObject);
             }
         }
 

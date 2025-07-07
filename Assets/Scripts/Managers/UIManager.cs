@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace YSJ
@@ -12,5 +13,10 @@ namespace YSJ
             GameObject settingsUI = Managers.Resource.Load<GameObject>("UI/UI_SettingsCanvas");
             GameObject.Instantiate(settingsUI, Managers.Instance.transform);
         }
+
+        /// <summary>
+        /// ManaHeart에서 구독, Artifact_YSJ에서 호출
+        /// </summary>
+        public Action OnManaHeartFlickerEvent = null;
     }
 }
