@@ -2,13 +2,13 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// 스킬 적중 시 모든 공격 피해량 20% 증가 (4초 지속)
+/// 스킬 적중 시 모든 공격 피해량 20% 증가 (3초 지속)
 /// </summary>
 public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ, IImagePartsToSkillAttack_YSJ
 {
     Coroutine _attackPowerCoroutine = null;
     float _increasePercent = 20f;
-    float _duration = 4f;
+    float _duration = 3f;
     bool _isBuff = false;
 
     public override string partsName => "HitSkill_AttackPower_1";
