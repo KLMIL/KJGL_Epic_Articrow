@@ -42,8 +42,8 @@ namespace BMC
                 Destroy(_artifact.gameObject);
             if(_artifactWindow != null)
                 _artifactWindow.ResetWindow();
-
-            Managers.UI.InventoryCanvas.inventory.Clear();
+            if(Managers.UI.InventoryCanvas != null)
+                Managers.UI.InventoryCanvas.inventory.Clear();
 
             OnEquipPartsAction = null;
 
