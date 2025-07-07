@@ -1,26 +1,24 @@
 using UnityEngine;
 
 /// <summary>
-/// 일반 공격 쿨타임 20% 증가, 일반 공격 적중 시 마나 0.5 획득
+/// 일반 공격 쿨타임 50% 증가, 일반 공격 적중 시 마나 0.5 획득
 /// </summary>
-public class ImageParts_Passive_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToEnhance_YSJ, IImagePartsToNormalAttack_YSJ
+public class ImageParts_Passive_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ
 {
     float _increasePercent = 20f;
     int _increaseValue = 1;
 
     public override string partsName => "Passive_ManaGain_1";
 
-    #region [Equip]
-    public void Equip(Artifact_YSJ currentArtifact)
+    #region [Normal]
+    public void NormalAttackPessive(Artifact_YSJ fireArtifact)
     {
-        float add = (_increasePercent * 0.01f) * currentArtifact.normalStatus.Default_AttackCoolTime;
+        float add = (_increasePercent * 0.01f) * fireArtifact.normalStatus.Default_AttackCoolTime;
 
-        currentArtifact.normalStatus.Added_AttackCoolTime += add;
+        fireArtifact.normalStatus.Added_AttackCoolTime += add;
         Debug.Log($"[ckt] {partsName} AddCoolTime({add})");
     }
-    #endregion
 
-    #region [Normal]
     public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
     }
@@ -39,10 +37,6 @@ public class ImageParts_Passive_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToEn
 
         fireArtifact.playerStatus.RegenerateMana(add);
         Debug.Log($"[ckt] {partsName} RegenerateMana({add})");
-    }
-
-    public void NormalAttackPessive(Artifact_YSJ fireArtifact)
-    {
     }
     #endregion
 }

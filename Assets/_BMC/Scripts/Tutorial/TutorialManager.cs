@@ -21,7 +21,6 @@ namespace BMC
         InputSystemActions _inputSystemActions;
         TutorialInput _tutorialInput;
         
-
         void Awake()
         {
             _instance = this;
@@ -118,9 +117,10 @@ namespace BMC
         #region 튜토리얼 클리어
         public void TutorialClear()
         {
-            if (_isUsedRightHand)
+            if (_isUsedRightHand && !StageManager.Instance.CurrentRoom.RoomData.IsCleared)
             {
-                //문 열림
+                // 방 클리어
+                StageManager.Instance.CurrentRoom.SetRoomClear();
                 StageManager.Instance.CurrentRoom.OpenAllValidDoor();
 
                 // 튜토리얼 클리어 여부 저장 시도

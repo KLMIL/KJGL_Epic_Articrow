@@ -14,6 +14,10 @@ public class ImageParts_HitSkill_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsTo
     public override string partsName => "HitSkill_MoveSpeed_1";
 
     #region [Skill]
+    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
+    {
+    }
+
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
     {
     }
@@ -28,19 +32,23 @@ public class ImageParts_HitSkill_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsTo
 
     public void SKillAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
-        StopBuff();
+        if (_moveSpeedUpCoroutine != null)
+        {
+            EndBuff();
+            StopBuff();
+        }
         _moveSpeedUpCoroutine = StartCoroutine(MoveSpeedUpCoroutine(fireArtifact));
-    }
-
-    public void SkillAttackPessive(Artifact_YSJ fireArtifact)
-    {
     }
     #endregion
 
     #region [상세]
     void OnDisable()
     {
-        StopBuff();
+        if (_moveSpeedUpCoroutine != null)
+        {
+            EndBuff();
+            StopBuff();
+        }
     }
 
     IEnumerator MoveSpeedUpCoroutine(Artifact_YSJ fireArtifact)
@@ -61,7 +69,7 @@ public class ImageParts_HitSkill_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsTo
         YSJ.PlayerStatus playerStatus = _fireArtifact.playerStatus;
         float add = (_increasePercent * 0.01f) * playerStatus.DefaultMoveSpeed;
 
-        _fireArtifact.Added_MoveSpeed += add;
+        playerStatus.OffsetMoveSpeed += add;
         Debug.Log($"[ckt] {partsName} StartBuff {add}");
     }
 
@@ -70,7 +78,7 @@ public class ImageParts_HitSkill_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsTo
         YSJ.PlayerStatus playerStatus = _fireArtifact.playerStatus;
         float add = (_increasePercent * 0.01f) * playerStatus.DefaultMoveSpeed;
 
-        _fireArtifact.Added_MoveSpeed -= add;
+        playerStatus.OffsetMoveSpeed -= add;
         Debug.Log($"[ckt] {partsName} EndBuff {add}");
     }
 
@@ -79,7 +87,6 @@ public class ImageParts_HitSkill_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsTo
         if (_moveSpeedUpCoroutine != null)
         {
             StopCoroutine(_moveSpeedUpCoroutine);
-            EndBuff();
             _fireArtifact = null;
             _moveSpeedUpCoroutine = null;
         }

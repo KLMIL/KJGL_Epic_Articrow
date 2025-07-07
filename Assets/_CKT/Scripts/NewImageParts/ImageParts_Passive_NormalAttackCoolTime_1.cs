@@ -1,21 +1,37 @@
 using UnityEngine;
 
 /// <summary>
-/// 일반 공격 쿨타임 15% 감소
+/// 일반 공격 쿨타임 20% 감소
 /// </summary>
-public class ImageParts_Passive_NormalAttackCoolTime_1 : ImagePartsRoot_YSJ, IImagePartsToEnhance_YSJ
+public class ImageParts_Passive_NormalAttackCoolTime_1 : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ
 {
-    float _percent = 15f;
+    float _percent = 20f;
 
     public override string partsName => "Passive_NormalAttackCoolTime_1";
 
-    #region [Equip]
-    public void Equip(Artifact_YSJ currentArtifact)
+    #region [Normal]
+    public void NormalAttackPessive(Artifact_YSJ fireArtifact)
     {
-        float add = (_percent * 0.01f) * currentArtifact.normalStatus.Default_AttackCoolTime;
+        float add = (_percent * 0.01f) * fireArtifact.normalStatus.Default_AttackCoolTime;
 
-        currentArtifact.normalStatus.Added_AttackCoolTime -= add;
+        fireArtifact.normalStatus.Added_AttackCoolTime -= add;
         Debug.Log($"[ckt] {partsName} {add}");
+    }
+
+    public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
+    }
+
+    public void NormalAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
+    {
+    }
+
+    public void NormalAttackFlying(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
+    {
+    }
+
+    public void NormalAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
+    {
     }
     #endregion
 }

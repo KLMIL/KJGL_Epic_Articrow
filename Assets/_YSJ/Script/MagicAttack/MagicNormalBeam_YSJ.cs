@@ -72,4 +72,11 @@ public class MagicNormalBeam_YSJ : MagicRoot_YSJ
         lineRenderer.startWidth = Mathf.Lerp(transform.localScale.x, 0f, elapsedTime / LifeTime);
         lineRenderer.endWidth = Mathf.Lerp(transform.localScale.x, 0f, elapsedTime / LifeTime);
     }
+
+    public override void NormalAttackInitialize(Artifact_YSJ ownerArtifact)
+    {
+        float lifeTime = LifeTime;
+        base.NormalAttackInitialize(ownerArtifact);
+        LifeTime = lifeTime;
+    }
 }
