@@ -3,6 +3,7 @@ using UnityEngine;
 public class MagicFluteSkillAttackCircle_YSJ : MagicRoot_YSJ
 {
     SpriteRenderer spriteRenderer;
+    float _defaultAlpha;
     Color spriteColor;
     Collider2D col;
 
@@ -11,8 +12,9 @@ public class MagicFluteSkillAttackCircle_YSJ : MagicRoot_YSJ
         LifeTime = .2f;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteColor = spriteRenderer.color;
-        spriteColor.a = 1;
+        spriteColor.a = 0.5f;
         spriteRenderer.color = spriteColor;
+        _defaultAlpha = spriteColor.a;
 
         col = GetComponent<Collider2D>();
 
@@ -43,7 +45,7 @@ public class MagicFluteSkillAttackCircle_YSJ : MagicRoot_YSJ
     {
         elapsedTime += Time.deltaTime;
 
-        spriteColor.a = Mathf.Lerp(1, 0, elapsedTime/LifeTime);
+        spriteColor.a = Mathf.Lerp(_defaultAlpha, 0, elapsedTime/LifeTime);
         spriteRenderer.color = spriteColor;
 
         if (elapsedTime > LifeTime)

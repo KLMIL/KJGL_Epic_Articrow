@@ -17,6 +17,11 @@ namespace YSJ
         /// <summary>
         /// ManaHeart에서 구독, Artifact_YSJ에서 호출
         /// </summary>
-        public Action OnManaHeartFlickerEvent = null;
+        public Action OnManaLackEvent = null;
+
+        /// <summary>
+        /// ManaHeart에서 구독, Artifact_YSJ에서 호출
+        /// </summary>
+        public Action OnStopManaLackEvent = null;
     }
 }
