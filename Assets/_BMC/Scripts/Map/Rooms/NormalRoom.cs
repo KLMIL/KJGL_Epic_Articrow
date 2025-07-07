@@ -41,14 +41,21 @@ namespace BMC
             foreach (Transform child in wave.transform)
             {
                 child.gameObject.SetActive(true);
-                EnemyController enemy = child.GetComponent<EnemyController>();
-                if (enemy != null)
-                {
-                    _aliveEnemyCount++;
-                    enemy.OnDeath -= OnEnemyDie; // 혹시 모르니 중복 대비로 한번 빼줌
-                    enemy.OnDeath += OnEnemyDie;
-                }
+                //EnemyController enemy = child.GetComponent<EnemyController>();
+                //if (enemy != null)
+                //{
+                //    _aliveEnemyCount++;
+                //    enemy.OnDeath -= OnEnemyDie; // 혹시 모르니 중복 대비로 한번 빼줌
+                //    enemy.OnDeath += OnEnemyDie;
+                //}
             }
+        }
+
+        public void EnrollEnemy(EnemyController enemyController)
+        {
+            _aliveEnemyCount++;
+            enemyController.OnDeath -= OnEnemyDie;
+            enemyController.OnDeath += OnEnemyDie;
         }
 
         private void OnEnemyDie()

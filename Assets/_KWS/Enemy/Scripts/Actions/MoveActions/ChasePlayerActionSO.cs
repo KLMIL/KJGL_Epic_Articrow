@@ -134,7 +134,7 @@ namespace Game.Enemy
 
                     if (!bypassBlocked)
                     {
-                        Debug.LogError("우회 시도");
+                        //Debug.LogError("우회 시도");
                         controller.MoveTo(controller.FSM.bypassDirection, Time.deltaTime, "SmartChase", inverse);
                     }
                     else

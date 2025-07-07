@@ -82,7 +82,7 @@ namespace BMC
             {
                 //Debug.LogError(" 방 클리어");
                 _roomData.IsCleared = true;
-                //SpawnScarecrow(); // 테스트를 위해 임시 제거
+                SpawnScarecrow(); // 테스트를 위해 임시 제거
                 //GameManager.Instance.CameraController.SetCameraTargetRoom(transform);
                 Invoke(nameof(OpenAllValidDoor), _openTime);
             }

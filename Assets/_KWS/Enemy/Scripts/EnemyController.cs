@@ -1,3 +1,4 @@
+using BMC;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -73,6 +74,7 @@ namespace Game.Enemy
         {
             //SpawnTime = Time.time;
             //FSM.ChangeState("Spawned");
+            StageManager.Instance.CurrentRoom.GetComponent<NormalRoom>().EnrollEnemy(this);
         }
 
         private void Start()
