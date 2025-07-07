@@ -33,10 +33,12 @@ namespace YSJ
             {
                 if (sceneIdx == 1)
                 {
+                    GameFlowManager.Instance.SetTutorial();
                     _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine("TutorialScene"));
                 }
                 else
                 {
+                    GameFlowManager.Instance.SetStartGame();
                     _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine("StageStartScene"));
                 }
                     

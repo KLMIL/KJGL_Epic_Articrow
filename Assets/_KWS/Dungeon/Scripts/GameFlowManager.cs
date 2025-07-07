@@ -43,14 +43,12 @@ public class GameFlowManager : MonoBehaviour
 
     public void Init()
     {
-        _currentStage = 1;
+        _currentStage = 0;
         _currentRoom = 0;
 
         _easyRoomIndex = 0;
         _normalRoomIndex = 0;
         _hardRoomIndex = 0;
-
-        PickRandomRooms();
     }
 
     public void RequestNextRoom()
@@ -58,6 +56,7 @@ public class GameFlowManager : MonoBehaviour
         // Stage- :: 타이틀 씬 -> 알아서 넘어옴
 
         _currentRoom++;
+
         if (_currentStage == 0) // Stage0 :: 튜토리얼 씬 -> Stage1 시작 씬으로 이동
         {
             _currentStage = 1;
@@ -68,6 +67,8 @@ public class GameFlowManager : MonoBehaviour
 
         if (_currentStage == 1) // Stage1 :: Room Number에 따라 분기
         {
+            PickRandomRooms();
+
             if (_currentRoom < 2) // 0 -> 1, 2는 쉬움 난이도
             {
                 Debug.Log("Here?");
@@ -142,6 +143,20 @@ public class GameFlowManager : MonoBehaviour
 
 
         return result;
+    }
+    #endregion
+
+    #region StartGame
+    public void SetTutorial()
+    {
+        _currentStage = 0;
+        _currentRoom = 0;
+    }
+
+    public void SetStartGame()
+    {
+        _currentStage = 1;
+        _currentRoom = 0;
     }
     #endregion
 }
