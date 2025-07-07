@@ -7,7 +7,7 @@ public class ShowInteractableWindow_YSJ : MonoBehaviour
     SpriteRenderer _sprite;
     TextMeshPro _tmp;
 
-    void Start()
+    void Awake()
     {
         GameObject window = Resources.Load<GameObject>("F");
         window = Instantiate(window, transform);
