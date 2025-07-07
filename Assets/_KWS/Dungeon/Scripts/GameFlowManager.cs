@@ -7,21 +7,21 @@ public class GameFlowManager : MonoBehaviour
 {
     public static GameFlowManager Instance { get; private set; }
 
-    int _currentStage = 1;
-    int _currentRoom = -1;
+    [SerializeField] int _currentStage = 1;
+    [SerializeField] int _currentRoom = -1;
 
 
-    List<string> _easyRooms;
-    List<string> _normalRooms;
-    List<string> _hardRooms;
+    [SerializeField] List<string> _easyRooms;
+    [SerializeField] List<string> _normalRooms;
+    [SerializeField] List<string> _hardRooms;
 
     const int _easyRoomCount = 2;
     const int _normalRoomCount = 3;
     const int _hardRoomCount = 4;
 
-    int _easyRoomIndex = 0;
-    int _normalRoomIndex = 0;
-    int _hardRoomIndex = 0;
+    [SerializeField] int _easyRoomIndex = 0;
+    [SerializeField] int _normalRoomIndex = 0;
+    [SerializeField] int _hardRoomIndex = 0;
 
 
 
@@ -33,6 +33,7 @@ public class GameFlowManager : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -61,7 +62,7 @@ public class GameFlowManager : MonoBehaviour
         {
             _currentStage = 1;
             _currentRoom = 0;
-            Managers.Scene.LoadSceneCoroutine("StageStartScene");
+            StartCoroutine(Managers.Scene.LoadSceneCoroutine("StageStartScene"));
             return;
         }
 
@@ -69,27 +70,28 @@ public class GameFlowManager : MonoBehaviour
         {
             if (_currentRoom < 2) // 0 -> 1, 2는 쉬움 난이도
             {
-                Managers.Scene.LoadSceneCoroutine(_easyRooms[_easyRoomIndex++]);
+                Debug.Log("Here?");
+                StartCoroutine(Managers.Scene.LoadSceneCoroutine(_easyRooms[_easyRoomIndex++]));
             }
             else if (_currentRoom < 5) // 2 -> 3, 4, 5는 보통 난이도
             {
-                Managers.Scene.LoadSceneCoroutine(_normalRooms[_normalRoomIndex++]);
+                StartCoroutine(Managers.Scene.LoadSceneCoroutine(_normalRooms[_normalRoomIndex++]));
             }
             else if (_currentRoom == 5) // 5 -> 6은 중간보스
             {
-                Managers.Scene.LoadSceneCoroutine("MiniBossScene");
+                StartCoroutine(Managers.Scene.LoadSceneCoroutine("MiniBossScene"));
             }
             else if (_currentRoom < 9) // 6 -> 7, 8, 9는 어려움 난이도
             {
-                Managers.Scene.LoadSceneCoroutine(_hardRooms[_hardRoomIndex++]);
+                StartCoroutine(Managers.Scene.LoadSceneCoroutine(_hardRooms[_hardRoomIndex++]));
             }
             else if (_currentRoom == 9) // 9 -> 10은 보스
             {
-                Managers.Scene.LoadSceneCoroutine("GolemBossScene");
+                StartCoroutine(Managers.Scene.LoadSceneCoroutine("GolemBossScene"));
             }
             else // 엔딩씬 호출
             {
-                Managers.Scene.LoadSceneCoroutine("EndingScene");
+                StartCoroutine(Managers.Scene.LoadSceneCoroutine("EndingScene"));
             }
         }
     }

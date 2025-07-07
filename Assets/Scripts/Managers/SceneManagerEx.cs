@@ -51,6 +51,8 @@ public class SceneManagerEx
 
     public IEnumerator LoadSceneCoroutine(string sceneName)
     {
+        Debug.Log("왜 안돼");
+
         UI_SceneTransitionCanvas sceneFade = GameObject.FindAnyObjectByType<UI_SceneTransitionCanvas>();
         yield return sceneFade.FadeOutCoroutine(1f); // 페이드 아웃
 
