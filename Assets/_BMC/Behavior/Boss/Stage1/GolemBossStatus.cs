@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Behavior;
 using UnityEngine;
+using YSJ;
 
 namespace BMC
 {
@@ -10,6 +11,7 @@ namespace BMC
         Rigidbody2D _rb;
         CircleCollider2D _collider;
         SpriteRenderer _core;
+        Coroutine _takeDamageCoroutine;
 
         void Awake()
         {
@@ -47,7 +49,9 @@ namespace BMC
             _showDamageText.Show(damage);
 
             Debug.LogError("데미지 받아서 색변경됨");
-            StartCoroutine(TakeDamageColor());
+
+            if(_takeDamageCoroutine == null)
+                _takeDamageCoroutine = StartCoroutine(TakeDamageColor());
             
             // 보스 체력 UI
             UI_InGameEventBus.OnBossHpSliderValueUpdate?.Invoke(Health);
@@ -69,6 +73,7 @@ namespace BMC
             //Debug.LogError("피격 색상 복구");
             _visual.color = Color.white;
             _core.color = Color.white;
+            _takeDamageCoroutine = null;
         }
 
         public override void Die()
@@ -79,7 +84,8 @@ namespace BMC
             _behaviorGraphAgent.SetVariableValue("IsDead", IsDead);
             _behaviorGraphAgent.SetVariableValue("CurrentState", GolemBossState.Die);
             UI_InGameEventBus.OnToggleBossHpSlider?.Invoke(false); // 보스 HP 슬라이더 숨김
-            _golemFSM.DisableAttack();                         // 공격 인디케이터 비활성화
+            _golemFSM.DisableAttack();                             // 공격 인디케이터 비활성화
+            Managers.Sound.PlaySFX(Define.SFX.GolemDie);
 
             // 피격 색상 변경 중지
             StopAllCoroutines();

@@ -4,6 +4,7 @@ using UnityEngine;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
 using BMC;
+using YSJ;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "BossRush", story: "[BossFSM] rush towards [Target] in a [RushDirection] with [IsCollisionWithObstacle]", category: "Action", id: "05761265047ab4ff5c4f4a0a8d2489b1")]
@@ -23,6 +24,7 @@ public partial class BossRushAction : Action
             Debug.Log("돌진 방향 계산");
             BossFSM.Value.Anim.Play("Rush");
             BossFSM.Value.FlipX(RushDirection.Value.x);
+            Managers.Sound.PlaySFX(Define.SFX.GolemRush);
         }
         return Status.Running;
     }

@@ -1,5 +1,6 @@
 using Unity.Behavior;
 using UnityEngine;
+using YSJ;
 
 namespace BMC
 {
@@ -26,6 +27,8 @@ namespace BMC
         {
             if (!IsInLayerMask(collision.gameObject.layer, _stopLayerMask))
                 return;
+
+            Managers.Sound.PlaySFX(Define.SFX.GolemRushWall);
 
             GameManager.Instance.CameraController.ShakeCamera(5f, 0.1f);
             _behaviorGraphAgent.SetVariableValue("IsCollisionWithObstacle", true);

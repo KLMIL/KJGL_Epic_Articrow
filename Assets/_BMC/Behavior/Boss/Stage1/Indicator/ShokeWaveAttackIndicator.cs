@@ -8,6 +8,8 @@ namespace BMC
 
         ShokeWaveHitBox _shokeWaveHitBox; // 히트박스 컴포넌트
 
+        [SerializeField] GameObject _spikePrefab;
+
         void Awake()
         {
             SetSprite();
@@ -49,6 +51,8 @@ namespace BMC
             }
             _indicator.transform.localScale = new Vector3(_endScale, _endScale, 1);
 
+            // 공격 발동
+            GameObject spikeInstance = Instantiate(_spikePrefab, _indicator.transform.position, Quaternion.identity);
             _background.enabled = false;
             _indicator.enabled = true;
             _circleCollider.enabled = true;
@@ -56,11 +60,12 @@ namespace BMC
             _indicator.color = Color.white;
             
             yield return new WaitForSeconds(0.1f);
-
             _circleCollider.enabled = false;
             _indicator.enabled = false;
             _indicator.color = originalColor;
             _coroutine = null;
+            _indicator.transform.localScale = new Vector3(_startScale, _startScale, 1);
+            _background.transform.localScale = new Vector3(_endScale, _endScale, 1);
         }
     }
 }
