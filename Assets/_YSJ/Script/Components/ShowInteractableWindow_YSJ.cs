@@ -1,24 +1,33 @@
+using TMPro;
 using UnityEngine;
 using YSJ;
 
 public class ShowInteractableWindow_YSJ : MonoBehaviour
 {
-    GameObject window;
+    SpriteRenderer _sprite;
+    TextMeshPro _tmp;
 
     void Start()
     {
-        window = Resources.Load<GameObject>("F");
+        GameObject window = Resources.Load<GameObject>("F");
         window = Instantiate(window, transform);
-        window.SetActive(false);
         window.transform.localPosition = new Vector3(1, 1, 0);
+
+        _sprite = window.GetComponentInChildren<SpriteRenderer>();
+        _tmp = window.GetComponentInChildren<TextMeshPro>();
+
+        _sprite.enabled = false;
+        _tmp.enabled = false;
     }
 
     public void ShowWindow()
     {
-        window.SetActive(true);
+        _sprite.enabled = true;
+        _tmp.enabled = true;
     }
     public void HideWindow()
     {
-        window.SetActive(false);
+        _sprite.enabled = false;
+        _tmp.enabled = false;
     }
 }
