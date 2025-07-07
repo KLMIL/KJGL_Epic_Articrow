@@ -1,5 +1,6 @@
 using BMC;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using YSJ;
 
@@ -347,7 +348,8 @@ public class Artifact_YSJ : MonoBehaviour
                 }
                 else 
                 {
-                    print("마나 부족함");
+                    Managers.UI.OnManaHeartFlickerEvent.Invoke();
+
                     yield return null;
                 }
             }
