@@ -32,14 +32,21 @@ public class Define
         PlayerDie,
 
         /* 아티팩트 */
-        // 1. 완드
+        // 완드
         WandNormalAttack,
         WandSkillAttack,
 
-        // 2. 소총
+        // 건틀렛
+        GauntletNormalAttack,
+        GauntletSkillAttack,
+
+        // 소총
         AssultRifleNormalAttack,
         AssultRifleSkillAttack,
 
+        // 피리
+        FluteNormalAttack,
+        FluteSkillAttack,
 
         GameOver,
         Slash,
