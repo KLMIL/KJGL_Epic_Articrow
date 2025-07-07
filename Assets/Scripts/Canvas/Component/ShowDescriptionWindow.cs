@@ -28,6 +28,7 @@ namespace YSJ
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            _inventory = Managers.UI.InventoryCanvas.inventory;
             // 0. Window 준비
             _descriptionPanel.gameObject.SetActive(true); // 활성화
 
