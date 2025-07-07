@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// 스킬 시전 시 일반 공격 피해량 20% 증가
+/// 스킬 시전 시 일반 공격 피해량 20% 증가 (5초 지속)
 /// </summary>
 public class ImageParts_AfterSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ, IImagePartsToSkillAttack_YSJ
 {
