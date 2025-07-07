@@ -253,6 +253,8 @@ public class Artifact_YSJ : MonoBehaviour
             }
             else if (isCanRightClick)
             {
+                YSJ.Managers.UI.OnStopManaLackEvent.Invoke();
+                
                 // 초기화
                 ResetSkillAttack();
 
@@ -348,7 +350,7 @@ public class Artifact_YSJ : MonoBehaviour
                 }
                 else 
                 {
-                    Managers.UI.OnManaHeartFlickerEvent.Invoke();
+                    Managers.UI.OnManaLackEvent.Invoke();
 
                     yield return null;
                 }

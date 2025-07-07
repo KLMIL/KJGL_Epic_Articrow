@@ -6,6 +6,8 @@ public class MagicPunch_YSJ : MagicRoot_YSJ
     SpriteRenderer spriteRenderer;
 
     Color color;
+    float _defaultAlpha;
+
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -15,6 +17,7 @@ public class MagicPunch_YSJ : MagicRoot_YSJ
     private void Start()
     {
         color = spriteRenderer.color;
+        _defaultAlpha = color.a;
     }
 
     private void Update()
@@ -22,7 +25,7 @@ public class MagicPunch_YSJ : MagicRoot_YSJ
         FlyingAction?.Invoke(ownerArtifact, gameObject);
 
         rb2d.linearVelocity = transform.right * Speed;
-        color.a = Mathf.Lerp(1, 0, elapsedTime/LifeTime * 0.1f);
+        color.a = Mathf.Lerp(_defaultAlpha, 0, elapsedTime/LifeTime * 0.1f);
         spriteRenderer.color = color;
     }
 

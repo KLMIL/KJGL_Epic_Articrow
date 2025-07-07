@@ -21,18 +21,16 @@ public class ManaHeart : MonoBehaviour
 
     private void Start()
     {
-        YSJ.Managers.UI.OnManaHeartFlickerEvent += ManaLack;
+        YSJ.Managers.UI.OnManaLackEvent += ManaLack;
+        YSJ.Managers.UI.OnStopManaLackEvent += StopManaLack;
     }
 
     private void OnDisable()
     {
-        YSJ.Managers.UI.OnManaHeartFlickerEvent -= ManaLack;
-
-        if (_manaLackCoroutine != null)
-        {
-            StopCoroutine(_manaLackCoroutine);
-            _manaLackCoroutine = null;
-        }
+        StopManaLack();
+        
+        YSJ.Managers.UI.OnManaLackEvent -= ManaLack;
+        YSJ.Managers.UI.OnStopManaLackEvent -= StopManaLack;
     }
 
     public void SetHeartImage(ManaStatus status)
@@ -57,6 +55,16 @@ public class ManaHeart : MonoBehaviour
     Coroutine _manaLackCoroutine = null;
     int _flickerCount = 3; //깜박임 횟수
     float _flickerTime = 0.25f; //깜박임 1회 시간
+
+    void StopManaLack()
+    {
+        if (_manaLackCoroutine != null)
+        {
+            StopCoroutine(_manaLackCoroutine);
+            _manaLackCoroutine = null;
+            _manaImage.enabled = true;
+        }
+    }
 
     void ManaLack()
     {
