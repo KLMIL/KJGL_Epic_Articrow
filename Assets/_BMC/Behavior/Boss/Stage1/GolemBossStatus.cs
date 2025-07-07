@@ -6,11 +6,15 @@ namespace BMC
 {
     public class GolemBossStatus : BossStatus, IDamagable
     {
+        GolemFSM _golemFSM;
+        Rigidbody2D _rb;
         CircleCollider2D _collider;
         SpriteRenderer _core;
 
         void Awake()
         {
+            _golemFSM = GetComponent<GolemFSM>();
+            _rb = GetComponent<Rigidbody2D>();
             _collider = GetComponent<CircleCollider2D>();
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             _visual = GetComponentInChildren<SpriteRenderer>();
@@ -20,7 +24,7 @@ namespace BMC
 
         public override void Init()
         {
-            Health = 5000;
+            Health = 3000;
             Damage = 1f;
         }
 
@@ -69,9 +73,12 @@ namespace BMC
         public override void Die()
         {
             IsDead = true;
+            _rb.linearVelocity = Vector2.zero; // 움직임 정지
             _collider.enabled = false;
             _behaviorGraphAgent.SetVariableValue("IsDead", IsDead);
             _behaviorGraphAgent.SetVariableValue("CurrentState", GolemBossState.Die);
+            UI_InGameEventBus.OnToggleBossHpSlider?.Invoke(false); // 보스 HP 슬라이더 숨김
+            _golemFSM.DisableAttack();                         // 공격 인디케이터 비활성화
 
             // 피격 색상 변경 중지
             StopAllCoroutines();
