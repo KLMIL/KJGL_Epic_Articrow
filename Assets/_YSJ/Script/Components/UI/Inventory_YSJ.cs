@@ -15,4 +15,15 @@ public class Inventory_YSJ : MonoBehaviour
         }
         return false;
     }
+
+    public void Clear()
+    {
+        foreach (Transform slot in transform)
+        {
+            if (slot.childCount > 0)
+            {
+                Destroy(slot.GetChild(0).gameObject);
+            }
+        }
+    }
 }

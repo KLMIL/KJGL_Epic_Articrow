@@ -43,6 +43,8 @@ namespace BMC
             if(_artifactWindow != null)
                 _artifactWindow.ResetWindow();
 
+            Managers.UI.InventoryCanvas.inventory.Clear();
+
             OnEquipPartsAction = null;
 
             Managers.Input.OnInteractAction -= CheckInteraction;
