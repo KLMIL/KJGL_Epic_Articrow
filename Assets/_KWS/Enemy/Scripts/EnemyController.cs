@@ -34,6 +34,9 @@ namespace Game.Enemy
         Coroutine markingCoroutine;
         Coroutine gravitySurgeCoroutine;
 
+        [Header("Others")]
+        public GameObject SpawnEffectPrefab;
+
         public string CurrentStateName => FSM.CurrentStateName;
         public string CurrentAnimation => _animation.CurrentAnimation;
 
@@ -200,6 +203,16 @@ namespace Game.Enemy
         }
 
         public void OnEnemyDieAction() => OnDeath?.Invoke();
+
+
+        public void MakeSpawnEffect()
+        {
+            if (SpawnEffectPrefab != null)
+            {
+                Instantiate(SpawnEffectPrefab, transform.position, Quaternion.identity);
+            }
+            
+        }
         #endregion
 
 

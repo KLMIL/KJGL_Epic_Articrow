@@ -78,6 +78,9 @@ namespace Game.Enemy
 
         // Move State 중 Orbit에서 사용하는 변수
         public float orbitChagneTime = -Mathf.Infinity;
+
+        // 스폰될때 마법진 소환했는지 체크하는 변수
+        public bool isSpawnEffect = false;
         #endregion
 
 
