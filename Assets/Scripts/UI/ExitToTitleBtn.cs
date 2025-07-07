@@ -23,6 +23,7 @@ namespace BMC
         void OnClicked()
         {
             //Managers.Scene.LoadScene(_sceneType);
+            GameFlowManager.Instance.Init();
             YSJ.Managers.Scene.LoadScene(_sceneName);
         }
     }

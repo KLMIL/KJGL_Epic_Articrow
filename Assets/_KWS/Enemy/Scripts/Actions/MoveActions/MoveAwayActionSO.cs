@@ -28,6 +28,12 @@ namespace Game.Enemy
 
             if (controller.Player == null) return;
 
+            if (!controller.FSM.isMovingAway)
+            {
+                controller.FSM.isMovingAway = true;
+                controller.FSM.isBypassingMoveAway = false;
+            }
+
             Vector3 awayDir = (controller.transform.position - controller.Player.position).normalized;
             Vector3 targetPos = controller.transform.position + awayDir * moveDistance;
 
@@ -35,60 +41,76 @@ namespace Game.Enemy
             switch (mode)
             {
                 case MoveAwayMode.Simple:
-                    controller.MoveTo(awayDir, moveDuration, "SimpleMoveAway", inverse);
-
-                    //if (!Physics.Raycast(controller.transform.position, awayDir, wallCheckDistance))
-                    //{
-                    //    controller.transform.Translate(awayDir * controller.Status.moveSpeed * Time.deltaTime);
-                    //}
-                    break;
-
+                    {
+                        controller.MoveTo(awayDir, moveDuration, "SimpleMoveAway", inverse);
+                        break;
+                    }
                 case MoveAwayMode.Smart:
-                    // 벽/장애물 체크
-                    Vector3 chosenDir = awayDir;
-                    if (Physics.Raycast(controller.transform.position, awayDir, wallCheckDistance))
                     {
-                        // 벽에 막혀있으면, 벽을 따라 '오른쪽' or '왼쪽' 방향으로 이동d
-                        Vector3 right = Vector3.Cross(Vector3.forward, awayDir).normalized;
-                        Vector3 left = -right;
+                        // 벽/장애물 체크
+                        Vector3 chosenDir = awayDir;
+                        if (Physics2D.Raycast(controller.transform.position, awayDir, wallCheckDistance, LayerMask.GetMask("Obstacle")))
+                        {
+                            if (!controller.FSM.isBypassingMoveAway)
+                            {
+                                controller.FSM.isBypassingMoveAway = true;
 
-                        // 오른쪽 방향 우선 체크
-                        if (!Physics2D.Raycast(controller.transform.position, right, wallCheckDistance))
-                        {
-                            //controller.transform.Translate(right * controller.Status.moveSpeed * Time.deltaTime);
-                            chosenDir = right;
-                        }
-                        // 왼쪽 방향 우선 체크
-                        else if (!Physics2D.Raycast(controller.transform.position, left, wallCheckDistance))
-                        {
-                            //controller.transform.Translate(left * controller.Status.moveSpeed * Time.deltaTime);
-                            chosenDir = left;
-                        }
-                        else
-                        {
-                            chosenDir = Vector3.zero;
-                        }
-                        // 둘 다 막혀있으면 멈춤
-                    }
-                    else
-                    {
-                        //controller.transform.Translate(awayDir * controller.Status.moveSpeed * Time.deltaTime);
-                    }
+                                Vector2 right = (Vector2)Vector3.Cross(Vector3.forward, awayDir).normalized;
+                                Vector2 left = -right;
 
-                    if (chosenDir != Vector3.zero)
-                    {
+                                Vector2[] dirs = { right, left };
+                                Vector2 bypass = dirs[Random.Range(0, 2)];
+
+                                bool bypassBlocked = Physics2D.Raycast(controller.transform.position, bypass, wallCheckDistance, LayerMask.GetMask("Obstacle"));
+
+                                if (!bypassBlocked)
+                                {
+                                    chosenDir = bypass;
+                                }
+                                else
+                                {
+                                    bypass = -bypass;
+                                    bool otherBlocked = Physics2D.Raycast(controller.transform.position, bypass, wallCheckDistance, LayerMask.GetMask("Obstacle"));
+                                    if (!otherBlocked)
+                                    {
+                                        chosenDir = bypass;
+
+                                    }
+                                    else
+                                    {
+                                        chosenDir = Vector3.zero;
+                                        controller.FSM.ChangeState("Idle");
+                                    }
+                                }
+
+                                controller.FSM.bypassDirection = chosenDir;
+                            }
+                            else
+                            {
+                                bool bypassBlocked = Physics2D.Raycast(controller.transform.position, controller.FSM.bypassDirection, wallCheckDistance, LayerMask.GetMask("Obstacle"));
+
+                                if (bypassBlocked)
+                                {
+                                    controller.FSM.isBypassingMoveAway = false;
+                                    return;
+                                }
+                                else
+                                {
+                                    chosenDir = controller.FSM.bypassDirection;
+                                }
+                            }
+                        }
+
+                        //Debug.LogError($"Move Dir: {chosenDir.x}, {chosenDir.y}");
                         controller.MoveTo(chosenDir, moveDuration, "SmartMoveAway", inverse);
+                        break;
                     }
-                    else
-                    {
-                        controller.StopMove();
-                    }
-                    break;
             }
         }
 
         public override void OnExit(EnemyController controller)
         {
+            controller.FSM.isMovingAway = false;
             controller.StopMove();
         }
     }
