@@ -37,9 +37,8 @@ namespace BMC
 
         void SpawnReward()
         {
-            // Hp, Mp 회복
-            PlayerManager.Instance.PlayerStatus.Health += PlayerManager.Instance.PlayerStatus.MaxHealth * 0.3f;
-            PlayerManager.Instance.PlayerStatus.Mana += PlayerManager.Instance.PlayerStatus.MaxMana * 0.3f;
+            // Hp
+            PlayerManager.Instance.PlayerStatus.Health += 1f;
 
             // 보상 결정
             List<GameObject> artifactList = StageManager.Instance.RoomTypeRewardListDict[RoomType.ArtifactRoom];
