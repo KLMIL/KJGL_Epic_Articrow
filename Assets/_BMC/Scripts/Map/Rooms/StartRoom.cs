@@ -8,7 +8,7 @@ namespace BMC
     public class StartRoom : Room
     {
         bool isDoljabied = false;
-        GameObject _dolArtifact;
+        GameObject _dolArtifact = null;
 
         public override void Init()
         {
@@ -24,15 +24,13 @@ namespace BMC
 
         private void Update()
         {
-            if (isDoljabied && _dolArtifact.transform.parent.name == "RightHand")
+            if (isDoljabied && _dolArtifact != null)
             {
-                //bool isPickArtifact = PlayerManager.Instance.GetComponentInChildren<RightHand>(true).transform.childCount != 0;
-
-                //if (isPickArtifact)
-                //{
+                if (_dolArtifact.transform.parent != null &&_dolArtifact.transform.parent.name == "RightHand")
+                {
                     _roomData.IsCleared = true;
                     OpenAllValidDoor();
-                //}
+                }
             }
         }
 
