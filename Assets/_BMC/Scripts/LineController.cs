@@ -29,7 +29,7 @@ public class LineController : MonoBehaviour
 
     void Update()
     {
-        _lineRenderer.SetPosition(1, _target.position);
+        //_lineRenderer.SetPosition(1, _target.position);
 
         fpsCounter += Time.deltaTime;
         if(fpsCounter >= 1f / fps)
