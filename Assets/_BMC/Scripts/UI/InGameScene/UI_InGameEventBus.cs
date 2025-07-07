@@ -21,6 +21,7 @@ public class UI_InGameEventBus : MonoBehaviour
     public static Action<float> OnPlayerDashCoolTimeMaxValueUpdate;     // 플레이어 대시 쿨타임 슬라이더 최대값 업데이트
     public static Action<float> OnPlayerMpSliderValueUpdate;            // 플레이어 MP 슬라이더 값 업데이트
     public static Action<float> OnPlayerMpSliderMaxValueUpdate;         // 플레이어 MP 슬라이더 최대값 업데이트
+    public static Action<bool> OnToggleBossHpSlider;                    // 보스 HP 슬라이더 토글
     public static Action<float> OnBossHpSliderValueUpdate;              // 보스 HP 슬라이더 값 업데이트
 
     public static void Clear()
@@ -34,6 +35,7 @@ public class UI_InGameEventBus : MonoBehaviour
         OnPlayerDashCoolTimeMaxValueUpdate = null;
         OnPlayerMpSliderValueUpdate = null;
         OnPlayerMpSliderMaxValueUpdate = null;
+        OnToggleBossHpSlider = null;
         OnBossHpSliderValueUpdate = null;
     }
 }
