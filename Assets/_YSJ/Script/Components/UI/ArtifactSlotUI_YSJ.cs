@@ -37,6 +37,8 @@ public class ArtifactSlotUI_YSJ : ItemSlot_YSJ
         if (Managers.Scene.CurrentScene.SceneType == Define.SceneType.TutorialScene)
         {
             TutorialManager.Instance.IsEquipParts = true; // 파츠를 장착했음을 알림
+            TutorialManager.Instance.OnEquipPartsAction.Invoke(false);
+            TutorialManager.Instance.TutorialInput.EnableActionMap();
         }
     }
     #endregion
