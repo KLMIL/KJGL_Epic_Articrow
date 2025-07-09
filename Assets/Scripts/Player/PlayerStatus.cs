@@ -5,6 +5,9 @@ namespace YSJ
 {
     public class PlayerStatus : MonoBehaviour
     {
+        public float InteractDistance => _interactDistance;
+        float _interactDistance = 0.6f;
+
         public enum PlayerState
         {
             Idle = 0,

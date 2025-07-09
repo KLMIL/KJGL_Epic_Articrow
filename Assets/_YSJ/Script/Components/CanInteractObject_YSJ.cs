@@ -4,7 +4,6 @@ using YSJ;
 
 public class CanInteractObject_YSJ : MonoBehaviour
 {
-    float interactDistance = 1f;
     Transform hand;
 
     private void Start()
@@ -16,6 +15,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
     // 주변에 먹을 것 좀 있나 탐색
     void TryInteract()
     {
+        float interactDistance = BMC.PlayerManager.Instance.PlayerStatus.InteractDistance;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, interactDistance);
 
         InteractObject_YSJ interactObj = null;

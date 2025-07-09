@@ -11,7 +11,7 @@ public class ShowInteractableWindow_YSJ : MonoBehaviour
     {
         GameObject window = Resources.Load<GameObject>("F");
         window = Instantiate(window, transform);
-        window.transform.localPosition = new Vector3(1, 1, 0);
+        window.transform.localPosition = new Vector3(0, 1, 0);
 
         _sprite = window.GetComponentInChildren<SpriteRenderer>();
         _tmp = window.GetComponentInChildren<TextMeshPro>();
