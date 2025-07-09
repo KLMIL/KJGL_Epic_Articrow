@@ -135,6 +135,19 @@ public class CanInteractObject_YSJ : MonoBehaviour
         currentArtifacttransform.GetComponent<Collider2D>().enabled = true;
         currentArtifacttransform.SetParent(null);
         currentArtifact.transform.rotation = Quaternion.identity;
+
+        // 파츠 떨구기
+        foreach(Transform slot in currentArtifact.GetComponent<Artifact_YSJ>().SlotTransform)
+        {
+            if (slot.childCount > 0) 
+            {
+                GameObject fieldParts = slot.GetChild(0).GetComponent<ConnectFieldParts_YSJ>().ConnectedFieldParts;
+                GameObject SpawnedFeldParts = Instantiate(fieldParts, transform.position + new Vector3(Random.Range(-1f,1f), Random.Range(-1f, 1f), 0), Quaternion.identity);
+                Destroy(slot.GetChild(0).gameObject);
+            }
+        }
+
+        // 돈 디스트로이 해제
         SceneManager.MoveGameObjectToScene(currentArtifacttransform.gameObject, SceneManager.GetActiveScene());
     }
 
