@@ -61,7 +61,9 @@ public class ImageParts_Hit_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
         GameObject explosion = YSJ.Managers.Pool.Get<GameObject>(Define.PoolID.CastExplosion);
         explosion.transform.position = hitObject.transform.position;
 
-        float damage = (_damagePercent * 0.01f) * spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower;
+        float damage = _damagePercent * spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower;
+        damage = 0.01f * Mathf.RoundToInt(damage);
+
         explosion.GetComponent<CKT.Explosion>().Init(damage);
         Debug.Log($"[ckt] {partsName} HitExplosion {damage}");
     }

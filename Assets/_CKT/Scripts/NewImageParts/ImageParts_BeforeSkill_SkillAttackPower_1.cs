@@ -20,7 +20,8 @@ public class ImageParts_BeforeSkill_SkillAttackPower_1 : ImagePartsRoot_YSJ, IIm
 
     public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
     {
-        float add = (_increasePercent * 0.01f) * fireArtifact.skillStatus.Current_AttackStartDelay;
+        float add = _increasePercent * fireArtifact.skillStatus.Current_AttackStartDelay;
+        add = 0.01f * Mathf.RoundToInt(add);
 
         spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower += add;
         Debug.Log($"[ckt] {partsName} {add}");

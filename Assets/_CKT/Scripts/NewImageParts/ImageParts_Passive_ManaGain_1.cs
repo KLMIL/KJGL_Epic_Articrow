@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 public class ImageParts_Passive_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ
 {
-    float _increasePercent = 20f;
+    float _increasePercent = 50f;
     int _increaseValue = 1;
 
     public override string partsName => "Passive_ManaGain_1";

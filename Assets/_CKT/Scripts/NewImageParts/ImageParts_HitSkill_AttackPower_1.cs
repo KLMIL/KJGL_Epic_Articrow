@@ -18,7 +18,8 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
     {
         if (_isBuff)
         {
-            float addNormal = (_increasePercent * 0.01f) * fireArtifact.normalStatus.Default_AttackPower;
+            float addNormal = _increasePercent * fireArtifact.normalStatus.Default_AttackPower;
+            addNormal = 0.01f * Mathf.RoundToInt(addNormal);
 
             fireArtifact.normalStatus.Added_AttackPower += addNormal;
             Debug.Log($"[ckt] {partsName} NormalBuff {addNormal}");
