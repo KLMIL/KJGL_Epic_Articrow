@@ -5,7 +5,6 @@ using YSJ;
 
 public class CheckNearInteractableObj_YSJ : MonoBehaviour
 {
-    float distance = 1f;
     List<Collider2D> nearInteractableColliders = new();
     LayerMask _layerMask;
 
@@ -16,7 +15,8 @@ public class CheckNearInteractableObj_YSJ : MonoBehaviour
 
     void Update()
     {
-        List<Collider2D> cols = Physics2D.OverlapCircleAll(transform.position, distance, _layerMask).ToList();
+        float interactDistance = BMC.PlayerManager.Instance.PlayerStatus.InteractDistance;
+        List<Collider2D> cols = Physics2D.OverlapCircleAll(transform.position, interactDistance, _layerMask).ToList();
         foreach (Collider2D col in cols)
         {
             if (col.TryGetComponent<ShowInteractableWindow_YSJ>(out ShowInteractableWindow_YSJ obj) && !nearInteractableColliders.Contains(col))
