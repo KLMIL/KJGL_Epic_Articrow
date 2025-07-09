@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory_YSJ : MonoBehaviour
 {
@@ -9,7 +10,12 @@ public class Inventory_YSJ : MonoBehaviour
         {
             if (slot.childCount == 0) 
             {
-                Instantiate(Item, slot.transform);
+                GameObject spawnedItem = Instantiate(Item, slot.transform);
+                if (spawnedItem.TryGetComponent<Image>(out Image image)) 
+                {
+                    image.raycastTarget = true;
+                }
+
                 return true;
             }
         }
