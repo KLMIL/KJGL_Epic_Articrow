@@ -29,16 +29,7 @@ public class ImageParts_Kill_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
 
     public void NormalAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
-        float enemyHealth = hitObject.transform.root.GetComponentInChildren<EnemyController>().Status.healthPoint;
-        float attackPower = spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower;
-        Debug.Log($"[ckt] {partsName} enemyHealth:{enemyHealth}, attackPower:{attackPower}");
-        if (enemyHealth <= attackPower)
-        {
-            int add = _increaseValue * 2;
-
-            fireArtifact.playerStatus.RegenerateMana(add);
-            Debug.Log($"[ckt] {partsName} RegenerateMana({add})");
-        }
+        ManaGain(fireArtifact, spawnedAttack, hitObject);
     }
     #endregion
 
@@ -61,15 +52,32 @@ public class ImageParts_Kill_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
 
     public void SKillAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
-        float enemyHealth = hitObject.transform.root.GetComponentInChildren<EnemyController>().Status.healthPoint;
-        float attackPower = spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower;
-        Debug.Log($"[ckt] {partsName} enemyHealth:{enemyHealth}, attackPower:{attackPower}");
-        if (enemyHealth <= attackPower)
-        {
-            int add = _increaseValue * 2;
+        ManaGain(fireArtifact, spawnedAttack, hitObject);
+    }
+    #endregion
 
-            fireArtifact.playerStatus.RegenerateMana(add);
-            Debug.Log($"[ckt] {partsName} RegenerateMana({add})");
+    #region [상세]
+    void ManaGain(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
+    {
+        EnemyController enemy = hitObject.transform.GetComponentInParent<EnemyController>();
+        MagicRoot_YSJ magic = spawnedAttack.GetComponent<MagicRoot_YSJ>();
+
+        if ((enemy != null) && (magic != null))
+        {
+            float enemyHealth = enemy.Status.healthPoint;
+            float attackPower = magic.AttackPower;
+            //Debug.Log($"[ckt] {partsName} enemyHealth:{enemyHealth}, attackPower:{attackPower}");
+            if (enemyHealth <= attackPower)
+            {
+                int add = _increaseValue * 2;
+
+                fireArtifact.playerStatus.RegenerateMana(add);
+                Debug.Log($"[ckt] {partsName} RegenerateMana({add})");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"[ckt] {partsName} EnemyController or MagicRoot_YSJ is null");
         }
     }
     #endregion

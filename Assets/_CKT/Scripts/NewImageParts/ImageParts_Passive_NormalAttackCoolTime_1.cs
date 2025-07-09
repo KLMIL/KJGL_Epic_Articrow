@@ -12,7 +12,8 @@ public class ImageParts_Passive_NormalAttackCoolTime_1 : ImagePartsRoot_YSJ, IIm
     #region [Normal]
     public void NormalAttackPessive(Artifact_YSJ fireArtifact)
     {
-        float add = (_percent * 0.01f) * fireArtifact.normalStatus.Default_AttackCoolTime;
+        float add = _percent * fireArtifact.normalStatus.Current_AttackCoolTime;
+        add = 0.01f * Mathf.RoundToInt(add);
 
         fireArtifact.normalStatus.Added_AttackCoolTime -= add;
         Debug.Log($"[ckt] {partsName} {add}");

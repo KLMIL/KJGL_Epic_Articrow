@@ -1,8 +1,6 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 using YSJ;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class TA_MoveUpRandom : MonoBehaviour
 {
@@ -19,12 +17,19 @@ public class TA_MoveUpRandom : MonoBehaviour
 
     private void OnEnable()
     {
-        //alpha 값 초기화
+
+    }
+
+    private void OnDisable()
+    {
         tmp.text = "0";
+
+        //alpha 값 초기화
         _color = tmp.color;
         _color.a = 1f;
         tmp.color = _color;
     }
+
     void FixedUpdate()
     {
         Vector2 movePostion = (Vector2)transform.position + Vector2.up * _moveSpeed * Time.fixedDeltaTime;
@@ -37,8 +42,7 @@ public class TA_MoveUpRandom : MonoBehaviour
 
         if (tmp.color.a <= 0.25f)
         {
-            tmp.text = "0";
-            //Managers.TestPool.Return(Define.PoolID.DamageText, gameObject);
+            Managers.Pool.Return(Define.PoolID.DamageText, gameObject);
         }
     }
 }
