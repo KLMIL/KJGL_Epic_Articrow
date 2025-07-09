@@ -26,6 +26,11 @@ public partial class VisualizeRushDirectionAction : Action
             _enemyAttackIndicator = Self.Value.GetComponentInChildren<RushAttackIndicator>();
         }
 
+        if(_enemyAttackIndicator == null)
+        {
+            return Status.Failure;
+        }
+
         _lookDirection = (Target.Value.transform.position - Self.Value.transform.position).normalized;
         _fsm.FlipX(_lookDirection.x);
         _enemyAttackIndicator.Init(WaitRushTime.Value);
