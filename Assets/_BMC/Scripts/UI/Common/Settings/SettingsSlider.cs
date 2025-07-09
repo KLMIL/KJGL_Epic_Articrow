@@ -21,7 +21,7 @@ namespace BMC
 
         void Start()
         {
-            _slider.value = _sliderType == SliderType.MusicVolume ? PlayerPrefs.GetFloat("MusicVolume", 1.0f) : PlayerPrefs.GetFloat("SFXVolume", 1.0f);
+            _slider.value = _sliderType == SliderType.MusicVolume ? PlayerPrefs.GetFloat("MusicVolume", 0.5f) : PlayerPrefs.GetFloat("SFXVolume", 0.5f);
             OnValueChanged(_slider.value);
             _slider.onValueChanged.AddListener(OnValueChanged);
         }
