@@ -63,7 +63,7 @@ public class TutorialInput : MonoBehaviour
     }
 
     // 허용된 액션만 활성화
-    public void EnableOnlyAction(InputAction allowedAction)
+    public void EnableOnlyAction(params InputAction[] allowedActions)
     {
         var map = _inputSystemActions.Tutorial;
 
@@ -71,7 +71,10 @@ public class TutorialInput : MonoBehaviour
         map.Disable();
 
         // 허용된 액션만 활성화
-        allowedAction.Enable();
+        foreach(var action in allowedActions)
+        {
+            action.Enable();
+        }
     }
 
     // 튜토리얼 액션 맵 전체 활성화
