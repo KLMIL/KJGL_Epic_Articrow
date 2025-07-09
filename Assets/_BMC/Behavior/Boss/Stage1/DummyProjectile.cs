@@ -4,12 +4,12 @@ namespace BMC
 {
     public class DummyProjectile : MonoBehaviour
     {
-        float _damage = 5f;
+        float _damage = 1f;
         [SerializeField] LayerMask _stopLayerMask;
 
         void Awake()
         {
-            _stopLayerMask = LayerMask.GetMask("PlayerHurtBox");
+            _stopLayerMask = LayerMask.GetMask("PlayerHurtBox", "Obstacle");
         }
 
         // 보스가 데미지 주입하는 메서드
