@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
@@ -6,10 +7,13 @@ using YSJ;
 
 public class SettingsLanguageDropdown : MonoBehaviour
 {
+    public static Action AffectLocalizationSettings; // 언어 설정 변경 시, 영향 받아야 할 것들에게 알림을 보내기 위한 액션
+    
     public TMP_Dropdown LanguageDropdown;
 
     void Awake()
     {
+        AffectLocalizationSettings = null;
         LanguageDropdown = GetComponent<TMP_Dropdown>();
     }
 
@@ -48,6 +52,7 @@ public class SettingsLanguageDropdown : MonoBehaviour
         LanguageDropdown.onValueChanged.AddListener(delegate
         {
             SetLocales(LanguageDropdown.value);
+            AffectLocalizationSettings?.Invoke(); // 언어 설정 변경 알림
         });
     }
 

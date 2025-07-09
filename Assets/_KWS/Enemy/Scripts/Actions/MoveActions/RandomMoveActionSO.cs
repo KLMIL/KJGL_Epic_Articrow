@@ -25,32 +25,49 @@ namespace Game.Enemy
             {
                 controller.FSM.isRandomMoving = true;
 
-                //// 벽에 닿거나 쿨타임 지나면 새 방향 지정
-                //if (controller.FSM.randomMoveChangeCooldown <= 0f || isBlocked)
-                //{
+
                 Vector2[] dirs = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
                 List<Vector2> possibleDirs = new List<Vector2>();
 
                 foreach (var dir in dirs)
                 {
-                    if (!Physics2D.Raycast(
-                        controller.transform.position,
-                        dir,
-                        wallCheckDistance,
-                        LayerMask.GetMask("Obstacle")
-                    ))
+                    RaycastHit2D hit = Physics2D.Raycast(
+                            controller.transform.position,
+                            dir,
+                            wallCheckDistance,
+                            LayerMask.GetMask("Obstacle")
+                    );
+
+                    if (hit)
+                    {
+                        //if (hit.distance < 0.1f)
+                        //{
+                        //    //Debug.LogError("벽과 너무 근접함");
+                        //    Vector2 offset = hit.normal * 0.2f; // 0.1f = 보정 거리
+                        //    controller.transform.position += (Vector3)offset;
+
+                        //    continue;
+                        //}
+                        //continue;
+                    }
+                    else
+                    {
                         possibleDirs.Add(dir);
+                    }
                 }
 
                 if (possibleDirs.Count > 0)
+                {
                     controller.FSM.randomMoveDirection = possibleDirs[Random.Range(0, possibleDirs.Count)];
+                }
                 else
+                {
                     controller.FSM.randomMoveDirection = Vector2.zero; // Idle
+                }
+                    
 
                 controller.FSM.randomMoveChangeCooldown = Random.Range(minMoveCooldown, maxMoveCooldown);
-
                 controller.MoveTo(controller.FSM.randomMoveDirection, controller.FSM.randomMoveChangeCooldown, "Normal", inverse);
-                //}
             }
 
             // 지속시간 갱신
