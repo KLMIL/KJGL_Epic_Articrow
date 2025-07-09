@@ -33,7 +33,7 @@ namespace BMC
 
         public virtual void PlayChargeAndAttack()
         {
-            if (_coroutine == null)
+            if (_coroutine == null && gameObject.activeSelf)
                 _coroutine = StartCoroutine(ChargeCoroutine());
         }
 

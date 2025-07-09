@@ -29,7 +29,11 @@ public class ImageParts_KillSkill_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsT
 
     public void SKillAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
-        float enemyHealth = hitObject.transform.root.GetComponentInChildren<EnemyController>().Status.healthPoint;
+        EnemyController enemyController = hitObject.transform.root.GetComponentInChildren<EnemyController>();
+        if (enemyController == null)
+            return;
+
+        float enemyHealth = enemyController.Status.healthPoint;
         float attackPower = spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower;
         Debug.Log($"[ckt] {partsName} enemyHealth:{enemyHealth}, attackPower:{attackPower}");
         if (enemyHealth <= attackPower)
