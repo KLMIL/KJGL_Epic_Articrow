@@ -5,6 +5,14 @@ namespace YSJ
     public class PlayerHand : MonoBehaviour
     {
         public bool CanHandling = true;
+
+        public RightHand RightHand;
+
+        void Awake()
+        {
+            RightHand = GetComponentInChildren<RightHand>();
+        }
+
         void Update()
         {
             if (CanHandling)

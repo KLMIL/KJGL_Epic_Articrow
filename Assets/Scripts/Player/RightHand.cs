@@ -79,7 +79,7 @@ namespace YSJ
             }
         }
 
-        Transform getArtifact() 
+        public Transform getArtifact() 
         {
             if (transform.childCount == 0)
             {
@@ -90,6 +90,11 @@ namespace YSJ
             {
                 return transform.GetChild(0);
             }
+        }
+
+        public bool IsHoldingArtifact()
+        {
+            return transform.childCount > 0;
         }
     }
 }
