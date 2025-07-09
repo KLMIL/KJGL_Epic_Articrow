@@ -14,6 +14,6 @@ public class PauseBtn : MonoBehaviour
 
     void OnClicked()
     {
-        Managers.Input.OnPauseAction?.Invoke();
+        Managers.Input.Pause();
     }
 }
