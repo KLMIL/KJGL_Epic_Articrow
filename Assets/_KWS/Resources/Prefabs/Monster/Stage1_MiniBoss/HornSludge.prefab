@@ -373,6 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _statusOrigin: {fileID: 11400000, guid: 4d342cd95d99b9b4ab2141a0a3094e67, type: 2}
   Status: {fileID: 0}
+  _currentState: 
   SpriteRenderer: {fileID: 0}
   Behaviours:
   - stateName: Spawned
@@ -412,7 +413,7 @@ MonoBehaviour:
     condition: {fileID: 11400000, guid: 10dede50435f4ef4a8d96ecc8bd48146, type: 2}
     action: {fileID: 11400000, guid: d40a3722c21aa6946adffd3ea634cdd5, type: 2}
     animationName: SmashAttackReady
-    duration: 0.8
+    duration: 1.5
     nextStateName: SmashAttack
     elapsedTime: 0
   - stateName: SmashAttack
@@ -436,7 +437,7 @@ MonoBehaviour:
     condition: {fileID: 11400000, guid: 4cc2c541a2d9de645865a379c9318768, type: 2}
     action: {fileID: 11400000, guid: c2669cb6fb9624c4796a99a997e1f879, type: 2}
     animationName: ProjectileAttackReady
-    duration: 1
+    duration: 1.5
     nextStateName: ProjectileAttack
     elapsedTime: 0
   - stateName: ProjectileAttack
@@ -490,6 +491,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   Attacker: {fileID: 0}
   AttackIndicator: {fileID: 0}
+  SpawnEffectPrefab: {fileID: 0}
 --- !u!114 &7224030860773374779
 MonoBehaviour:
   m_ObjectHideFlags: 0
