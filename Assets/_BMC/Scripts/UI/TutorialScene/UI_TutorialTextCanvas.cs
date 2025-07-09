@@ -8,7 +8,7 @@ namespace BMC
     {
         #region Localization
         static readonly string TutorialTable = "TutorialTable";
-        string _key;
+        string _key = "-1";
         #endregion
 
         TextMeshProUGUI _guideText;
@@ -26,6 +26,9 @@ namespace BMC
 
         public void SetText(int id = -1)
         {
+            if (int.Parse(_key) >= id)
+                return;
+
             if(id == -1)
             {
                 _guideText.text = string.Empty;

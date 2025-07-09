@@ -125,7 +125,7 @@ namespace BMC
             if (_isUsedRightHand && !StageManager.Instance.CurrentRoom.RoomData.IsCleared)
             {
                 // 튜토리얼 안내 문구
-                UI_TutorialEventBus.OnTutorialText?.Invoke(6);
+                UI_TutorialEventBus.OnTutorialText?.Invoke(6); // TODO: 숫자 6 대신 추후에 변수로 할 수 있도록 해야 함
 
                 // 방 클리어
                 StageManager.Instance.CurrentRoom.SetRoomClear();
