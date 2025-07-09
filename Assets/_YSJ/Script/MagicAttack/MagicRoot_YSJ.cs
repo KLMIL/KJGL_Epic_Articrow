@@ -19,7 +19,7 @@ public class MagicRoot_YSJ : MonoBehaviour
         this.ownerArtifact = ownerArtifact;
 
         Speed = ownerArtifact.normalStatus.Current_BulletSpeed;
-        LifeTime = ownerArtifact.normalStatus.Current_AttackLifeTime;
+        LifeTime = ownerArtifact.normalStatus.Current_BulletLife;
         AttackPower = Mathf.RoundToInt(ownerArtifact.normalStatus.Current_AttackPower);
 
         FlyingAction += CountLifeTime;
@@ -30,7 +30,7 @@ public class MagicRoot_YSJ : MonoBehaviour
         this.ownerArtifact = ownerArtifact;
 
         Speed = ownerArtifact.skillStatus.Current_BulletSpeed;
-        LifeTime = ownerArtifact.skillStatus.Current_AttackLifeTime;
+        LifeTime = ownerArtifact.skillStatus.Current_BulletLife;
         AttackPower = Mathf.RoundToInt(ownerArtifact.skillStatus.Current_AttackPower);
 
         FlyingAction += CountLifeTime;

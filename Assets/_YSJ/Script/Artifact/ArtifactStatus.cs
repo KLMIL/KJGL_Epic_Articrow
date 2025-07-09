@@ -9,7 +9,7 @@ namespace YSJ
         #region [기본 능력치 변수들]
         public float Default_AttackPower;
         public float Default_AttackCoolTime;
-        public float Default_AttackLife;
+        public float Default_BulletLife;
         public float Default_BulletSpeed;
         public float Default_AttackStartDelay;
         public float Default_AttackScale = 1.0f;          // 일반 공격 기본 크기
@@ -24,7 +24,7 @@ namespace YSJ
         [Header("파츠에 의한 추가 능력치")]
         public float Added_AttackPower { get; set; }          // 일반 공격 추가 공격력
         public float Added_AttackCoolTime { get; set; }       // 일반 공격 추가 쿨타임
-        public float Added_AttackLife { get; set; }           // 일반 공격 추가 지속시간
+        public float Added_BulletLife { get; set; }           // 일반 공격 추가 지속시간
         public float Added_BulletSpeed { get; set; }          // 일반 공격 추가 속도
         public float Added_AttackStartDelay { get; set; }     // 일반 공격 추가 선딜레이
         public float Added_AttackScale { get; set; }          // 일반 공격 추가 크기
@@ -37,7 +37,7 @@ namespace YSJ
         [Header("현재 능력치")]
         public float Current_AttackPower { get; protected set; }
         public float Current_AttackCoolTime { get; protected set; }
-        public float Current_AttackLifeTime { get; protected set; }
+        public float Current_BulletLife { get; protected set; }
         public float Current_BulletSpeed { get; protected set; }
         public float Current_AttackStartDelay { get; protected set; }
         public float Current_AttackScale { get; protected set; }
@@ -64,7 +64,7 @@ namespace YSJ
         {
             Added_AttackPower = 0.0f;
             Added_AttackCoolTime = 0.0f;
-            Added_AttackLife = 0.0f;
+            Added_BulletLife = 0.0f;
             Added_BulletSpeed = 0.0f;
             Added_AttackStartDelay = 0.0f;
             Added_AttackScale = 0.0f;
@@ -82,7 +82,7 @@ namespace YSJ
         {
             Current_AttackPower = Default_AttackPower + Added_AttackPower;
             Current_AttackCoolTime = Default_AttackCoolTime + Added_AttackCoolTime;
-            Current_AttackLifeTime = Default_AttackLife + Added_AttackLife;
+            Current_BulletLife = Default_BulletLife + Added_BulletLife;
             Current_BulletSpeed = Default_BulletSpeed + Added_BulletSpeed;
             Current_AttackStartDelay = Default_AttackStartDelay + Added_AttackStartDelay;
             Current_AttackScale = Default_AttackScale + Added_AttackScale;
