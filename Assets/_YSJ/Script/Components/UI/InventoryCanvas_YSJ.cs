@@ -28,7 +28,9 @@ public class InventoryCanvas_YSJ : MonoBehaviour
     #region 캔버스 기능들
     void CanvasOnOff() 
     {
-        canvas.enabled = canvas.enabled ? false : true; 
+        Managers.Input.EnableAttack(canvas.enabled);
+        //Debug.Log("캔버스  enable: " + canvas.enabled);
+        canvas.enabled = canvas.enabled ? false : true;
     }
 
     public void CanvasEnable(bool value)

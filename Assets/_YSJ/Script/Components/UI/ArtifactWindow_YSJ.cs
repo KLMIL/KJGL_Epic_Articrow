@@ -56,9 +56,9 @@ public class ArtifactWindow_YSJ : MonoBehaviour
     void ArtifactInfomationTextUpdate(Artifact_YSJ equipedArtifact)
     {
         // 기본공격 정보
-        _artifactStatusTests[0].SetText(equipedArtifact.normalStatus);
+        _artifactStatusTests[0].SetText(equipedArtifact, equipedArtifact.normalStatus);
         // 스킬공격 정보
-        _artifactStatusTests[1].SetText(equipedArtifact.skillStatus);
+        _artifactStatusTests[1].SetText(equipedArtifact, equipedArtifact.skillStatus);
     }
 
     void ResetArtifactInfomationText() 

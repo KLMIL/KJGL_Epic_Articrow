@@ -112,6 +112,7 @@ namespace YSJ
             set
             {
                 _offsetBarrier = value;
+                _offsetBarrier = Mathf.Clamp(_offsetBarrier, 0, int.MaxValue);
 
                 // 배리어는 체력에 영향을 주지 않으면서 보호막 UI 업데이트를 같이 하기 위함
                 Health += 0;

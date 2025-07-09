@@ -69,16 +69,21 @@ namespace BMC
         /// <returns></returns>
         IEnumerator WaitDamageCoroutine()
         {
+            yield return (_waitTime <= 0) ? null : new WaitForSeconds(_waitTime);
+            
             TextMeshPro damageText = Managers.Pool.Get<TextMeshPro>(Define.PoolID.DamageText);
+            
+            //텍스트 표시 + 합산 데미지 초기화
             damageText.text = $"{TotalDamage}";
+            TotalDamage = 0;
+            
+            //투명도 초기화
             Color color = damageText.color;
             color.a = 1;
             damageText.color = color;
+            
+            //위치 설정
             damageText.transform.position = this.transform.position + this.transform.up;
-
-            TotalDamage = 0;
-
-            yield return (_waitTime <= 0) ? null : new WaitForSeconds(_waitTime);
 
             _waitDamageCoroutine = null;
         }

@@ -425,13 +425,13 @@ public class Artifact_YSJ : MonoBehaviour
         // 노말스탯 변경값
         defaultValues.Add(new Values(normalStatus.Default_AttackPower, -1, 0));
         //defaultValues.Add(new Values(normalStatus.Default_AttackCoolTime, 0.1f, 1));
-        defaultValues.Add(new Values(normalStatus.Default_BulletSpeed, -1, 1));
+        defaultValues.Add(new Values(normalStatus.Default_BulletLife, -0.05f, 1));
         defaultValues.Add(new Values(normalStatus.Default_AttackStartDelay, 0.1f, 2));
 
         // 스킬스탯 변경값
         defaultValues.Add(new Values(skillStatus.Default_AttackPower, -1, 3));
         //defaultValues.Add(new Values(skillStatus.Default_AttackCoolTime, 0.1f, 5));
-        defaultValues.Add(new Values(skillStatus.Default_BulletSpeed, -1f, 4));
+        defaultValues.Add(new Values(skillStatus.Default_BulletLife, -0.05f, 4));
         defaultValues.Add(new Values(skillStatus.Default_AttackStartDelay, 0.1f, 5));
 
         // 슬롯 수
@@ -481,11 +481,11 @@ public class Artifact_YSJ : MonoBehaviour
 
         // 변동값 적용 시켜주기
         normalStatus.Default_AttackPower = defaultValues[0]._value;
-        normalStatus.Default_BulletSpeed = defaultValues[1]._value;
+        normalStatus.Default_BulletLife = defaultValues[1]._value;
         normalStatus.Default_AttackStartDelay = defaultValues[2]._value;
 
         skillStatus.Default_AttackPower = defaultValues[3]._value;
-        skillStatus.Default_BulletSpeed = defaultValues[4]._value;
+        skillStatus.Default_BulletLife = defaultValues[4]._value;
         skillStatus.Default_AttackStartDelay = defaultValues[5]._value;
 
         MaxSlotCount = (int)defaultValues[6]._value;
