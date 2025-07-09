@@ -15,6 +15,7 @@ namespace BMC
         float _openTime = 0.5f; // 문 열리는 시간
 
         protected StartPosition _startPosition; // 방 진입 시 시작 위치 
+        protected ScarecrowSpawnPosition _rewardPosition;
 
         [Header("클리어 관련")]
         protected EnemySpawner _enemySpawner;
@@ -23,6 +24,7 @@ namespace BMC
         {
             FindDoor();
             _startPosition = GetComponentInChildren<StartPosition>();
+            _rewardPosition = GetComponentInChildren<ScarecrowSpawnPosition>();
         }
 
         public virtual void Init() { }
@@ -67,7 +69,7 @@ namespace BMC
         {
             if (_roomData.IsCleared)
             {
-                GameObject scarecrowPrefab = Managers.Resource.Instantiate("ScarecrowPrefab");
+                GameObject scarecrowPrefab = Managers.Resource.Instantiate("ScarecrowPrefab", _rewardPosition.transform);
                 scarecrowPrefab.name = "Scarecrow";
             }
             else
