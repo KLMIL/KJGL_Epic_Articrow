@@ -192,39 +192,44 @@ public class InputManager
     {
         if (context.performed)
         {
-            if (Managers.Scene.CurrentScene.SceneType != SceneType.TitleScene
+            Pause();
+        }
+    }
+
+    public void Pause()
+    {
+        if (Managers.Scene.CurrentScene.SceneType != SceneType.TitleScene
                 && Managers.Scene.CurrentScene.SceneType != SceneType.TutorialScene)
+        {
+            if (_inputSystemActions.Player.enabled)
             {
-                if (_inputSystemActions.Player.enabled)
-                {
-                    _inputSystemActions.Player.Disable();
-                    _inputSystemActions.UI.Enable();
-                    Debug.Log("플레이어 -> UI 모드로 전환");
-                }
-                else if (_inputSystemActions.UI.enabled)
-                {
-                    _inputSystemActions.UI.Disable();
-                    _inputSystemActions.Player.Enable();
-                    Debug.Log("UI -> 플레이어 모드로 전환");
-                }
-                OnPauseAction?.Invoke();
+                _inputSystemActions.Player.Disable();
+                _inputSystemActions.UI.Enable();
+                Debug.Log("플레이어 -> UI 모드로 전환");
             }
-            else if(Managers.Scene.CurrentScene.SceneType == SceneType.TutorialScene)
+            else if (_inputSystemActions.UI.enabled)
             {
-                if (_inputSystemActions.Tutorial.enabled)
-                {
-                    _inputSystemActions.Tutorial.Disable();
-                    _inputSystemActions.UI.Enable();
-                    Debug.Log("튜토리얼 -> UI 모드로 전환");
-                }
-                else if (_inputSystemActions.UI.enabled)
-                {
-                    _inputSystemActions.UI.Disable();
-                    _inputSystemActions.Tutorial.Enable();
-                    Debug.Log("UI -> 튜토리얼 모드로 전환");
-                }
-                OnPauseAction?.Invoke();
+                _inputSystemActions.UI.Disable();
+                _inputSystemActions.Player.Enable();
+                Debug.Log("UI -> 플레이어 모드로 전환");
             }
+            OnPauseAction?.Invoke();
+        }
+        else if (Managers.Scene.CurrentScene.SceneType == SceneType.TutorialScene)
+        {
+            if (_inputSystemActions.Tutorial.enabled)
+            {
+                _inputSystemActions.Tutorial.Disable();
+                _inputSystemActions.UI.Enable();
+                Debug.Log("튜토리얼 -> UI 모드로 전환");
+            }
+            else if (_inputSystemActions.UI.enabled)
+            {
+                _inputSystemActions.UI.Disable();
+                _inputSystemActions.Tutorial.Enable();
+                Debug.Log("UI -> 튜토리얼 모드로 전환");
+            }
+            OnPauseAction?.Invoke();
         }
     }
 
