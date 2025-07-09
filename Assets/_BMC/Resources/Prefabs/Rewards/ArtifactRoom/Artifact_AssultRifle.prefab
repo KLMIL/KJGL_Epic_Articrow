@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a82c429d4029c344b05289076d7f89f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &6875469778406786919
+--- !u!1 &5131013786821952541
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,43 +128,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6655168070245745715}
-  - component: {fileID: 6953208375307982010}
-  - component: {fileID: 8689942816291280719}
-  - component: {fileID: 8070129722534574886}
-  - component: {fileID: 743191466579622348}
-  - component: {fileID: 7654829405072954348}
+  - component: {fileID: 147155276564945655}
+  - component: {fileID: 3282715898223321719}
   m_Layer: 30
-  m_Name: Artifact_AssultRifle
+  m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6655168070245745715
+--- !u!4 &147155276564945655
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6875469778406786919}
+  m_GameObject: {fileID: 5131013786821952541}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1097784435941875818}
-  - {fileID: 1193943570177034810}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 6655168070245745715}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &6953208375307982010
+--- !u!212 &3282715898223321719
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6875469778406786919}
+  m_GameObject: {fileID: 5131013786821952541}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -207,12 +201,51 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &6875469778406786919
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6655168070245745715}
+  - component: {fileID: 8689942816291280719}
+  - component: {fileID: 8070129722534574886}
+  - component: {fileID: 743191466579622348}
+  - component: {fileID: 7654829405072954348}
+  - component: {fileID: 7692043335640493665}
+  m_Layer: 30
+  m_Name: Artifact_AssultRifle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6655168070245745715
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6875469778406786919}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1097784435941875818}
+  - {fileID: 1193943570177034810}
+  - {fileID: 147155276564945655}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8689942816291280719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,7 +316,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14f366c0363b7843b6fd24d21db6333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _positionX: 0.5
 --- !u!114 &7654829405072954348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,8 +329,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalStatus:
-    Default_AttackPower: 5
-    Default_AttackCoolTime: 0.5
+    Default_AttackPower: 2
+    Default_AttackCoolTime: 0.75
     Default_AttackLife: 0.25
     Default_BulletSpeed: 15
     Default_AttackStartDelay: 0
@@ -310,8 +342,8 @@ MonoBehaviour:
     elapsedCoolTime: 0
     AttackPrefab: {fileID: 5213770336673385342, guid: b30c08121724d5b40badebf804a18220, type: 3}
   skillStatus:
-    Default_AttackPower: 5
-    Default_AttackCoolTime: 0.5
+    Default_AttackPower: 2
+    Default_AttackCoolTime: 1
     Default_AttackLife: 0.5
     Default_BulletSpeed: 15
     Default_AttackStartDelay: 0
@@ -331,3 +363,25 @@ MonoBehaviour:
   isCanAttack: 1
   isCanLeftClick: 1
   isCanRightClick: 1
+--- !u!95 &7692043335640493665
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6875469778406786919}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 23f2ec5bf65db944f9480ff9f1ca20dc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -330,6 +330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _statusOrigin: {fileID: 11400000, guid: 949a9db12e950e04cab377cd9d009312, type: 2}
   Status: {fileID: 0}
+  _currentState: 
   SpriteRenderer: {fileID: 0}
   Behaviours:
   - stateName: Spawned
@@ -369,7 +370,7 @@ MonoBehaviour:
     condition: {fileID: 11400000, guid: c894a506dfb832a4390b89a00521906c, type: 2}
     action: {fileID: 11400000, guid: 5412564da4cc3c642b37e077c071306a, type: 2}
     animationName: AttackReady
-    duration: 0.7
+    duration: 0.5
     nextStateName: MeleeAttack
     elapsedTime: 0
   - stateName: MeleeAttack
@@ -409,7 +410,7 @@ MonoBehaviour:
     condition: {fileID: 11400000, guid: 67829d83cc8cec74a81d6c7e1937b3af, type: 2}
     action: {fileID: 11400000, guid: 86b6f05c4f40bda43ab31e378ea021b0, type: 2}
     animationName: Walk
-    duration: 2
+    duration: 3
     nextStateName: Idle
     elapsedTime: 0
   Player: {fileID: 0}

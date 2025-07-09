@@ -34,24 +34,10 @@ public class InputManager
     public Action OnPauseAction;                  // 일시정지
     #endregion
 
-    //[Header("Rebind")]
-    //InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
-    //Dictionary<KeyAction, InputAction> _keyActionDict;
-
     public void Init()
     {
         _inputSystemActions = new InputSystemActions();
         _inputSystemActions.Enable();
-
-        //_keyActionDict = new Dictionary<KeyAction, InputAction>
-        //{
-        //    { KeyAction.Move, _inputSystemActions.Player.Move},
-        //    { KeyAction.Interact, _inputSystemActions.Player.Interact },
-        //    { KeyAction.Inventroy, _inputSystemActions.Player.Inventory},
-        //    { KeyAction.LeftHand, _inputSystemActions.Player.LeftHand },
-        //    { KeyAction.RightHand, _inputSystemActions.Player.RightHand },
-        //    { KeyAction.Dash, _inputSystemActions.Player.Dash },
-        //};
 
         LoadKeyBind();
         SubscribeAction();
@@ -196,10 +182,6 @@ public class InputManager
         }
         if (context.canceled)
         {
-            //TODO : SkillManager 정리할 때 같이 정리하기
-            //ActionT0 onHandCancelActionT0 = GameManager.Instance.RightSkillManager.OnHandCancelActionT0;
-            //if (onHandCancelActionT0 != null) onHandCancelActionT0.Trigger();
-
             // YSJ
             OnRightHandActionEnd?.Invoke();
         }
@@ -265,4 +247,20 @@ public class InputManager
             _inputSystemActions = null;
         }
     }
+
+    #region 입력 On/Off
+    public void EnableAttack(bool isActive)
+    {
+        if(isActive)
+        {
+            _inputSystemActions.Player.LeftHand.Enable();
+            _inputSystemActions.Player.RightHand.Enable();
+        }
+        else
+        {
+            _inputSystemActions.Player.LeftHand.Disable();
+            _inputSystemActions.Player.RightHand.Disable();
+        }
+    }
+    #endregion
 }

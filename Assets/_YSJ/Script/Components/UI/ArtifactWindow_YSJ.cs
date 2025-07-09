@@ -46,7 +46,7 @@ public class ArtifactWindow_YSJ : MonoBehaviour
 
     void ArtifactIMGChange(Artifact_YSJ equipedArtifact)
     {
-        if (equipedArtifact.TryGetComponent<SpriteRenderer>(out SpriteRenderer artifactSpriteRenderer)) 
+        if (equipedArtifact.transform.Find("Visual").TryGetComponent<SpriteRenderer>(out SpriteRenderer artifactSpriteRenderer)) 
         {
             ArtifactIMG.sprite = artifactSpriteRenderer.sprite;
             ArtifactIMG.color = artifactSpriteRenderer.color;

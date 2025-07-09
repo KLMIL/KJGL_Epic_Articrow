@@ -286,6 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _statusOrigin: {fileID: 11400000, guid: 7eda9fe33630e7345a635cd45f228df5, type: 2}
   Status: {fileID: 0}
+  _currentState: 
   SpriteRenderer: {fileID: 0}
   Behaviours:
   - stateName: Spawned
@@ -325,7 +326,7 @@ MonoBehaviour:
     condition: {fileID: 11400000, guid: bab7060e874cdd34e8fa28b4ce9290a7, type: 2}
     action: {fileID: 11400000, guid: 1e9f54cd1f706634382a2fdfcd1d1d7c, type: 2}
     animationName: AttackReady
-    duration: 0.5
+    duration: 0.4
     nextStateName: MeleeAttack
     elapsedTime: 0
   - stateName: MeleeAttack
@@ -355,6 +356,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   Attacker: {fileID: 0}
   AttackIndicator: {fileID: 0}
+  SpawnEffectPrefab: {fileID: 0}
 --- !u!114 &1111317123990646688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,6 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f262f1b822313c24589e57fee54e7c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 0}
   moveSpeedMultiply: 1
   wallCheckDistance: 0.5
   wallLayerMask:
