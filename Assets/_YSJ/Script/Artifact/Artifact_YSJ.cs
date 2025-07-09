@@ -36,6 +36,9 @@ public class Artifact_YSJ : MonoBehaviour
     public bool isCanLeftClick = true;
     public bool isCanRightClick = true;
 
+    // 아티팩트 애니메이터
+    Animator animator;
+
     #region 플레이어 강화 관련
     public float Added_MaxHealth { get; set; }
     public float Added_MaxMana { get; set; }
@@ -140,6 +143,9 @@ public class Artifact_YSJ : MonoBehaviour
 
                                         // 일반 공격 생성 한 직후 액션 실행
                                         normalStatus.AfterFire?.Invoke(this, SpawnedBullet);
+
+                                        // 발사 애니메이션 재생
+                                        PlayAnimation("Attack");
                                     }
                                 }
                                 // 마지막 공격이 아니라면 공격 간격만큼 기다리기
@@ -284,6 +290,9 @@ public class Artifact_YSJ : MonoBehaviour
                     }
                     isCanAttack = false;
 
+                    // 준비 애니메이션 실행
+                    PlayAnimation("Ready");
+
                     // 선딜 타이머 시작
                     yield return new WaitForSeconds(skillStatus.Current_AttackStartDelay);
 
@@ -331,6 +340,9 @@ public class Artifact_YSJ : MonoBehaviour
 
                                         // 일반 공격 생성 한 직후 액션 실행
                                         skillStatus.AfterFire?.Invoke(this, SpawnedBullet);
+
+                                        // 발사 애니메이션 재생
+                                        PlayAnimation("Attack");
                                     }
                                 }
                                 // 마지막 공격이 아니라면 공격 간격만큼 기다리기
@@ -388,7 +400,7 @@ public class Artifact_YSJ : MonoBehaviour
             spawnedObject.transform.SetParent(SlotTransform);
         }
     }
-    #region [스탯 나누기]
+    #region [스탯 분배 로직]
     // 스탯 포인트 랜덤으로 나눠갖기
 
     // 변동시킬 값을 저장 할 구조체
@@ -485,6 +497,7 @@ public class Artifact_YSJ : MonoBehaviour
     protected void ArtifactInitialize()
     {
         playerStatus = GetComponentInParent<PlayerStatus>();
+        animator = GetComponent<Animator>();
         DevideStatPoint(); // 스탯 포인트 나눠갖기
         SlotRefresh(); // 슬롯 초기화
     }
@@ -510,6 +523,19 @@ public class Artifact_YSJ : MonoBehaviour
         else 
         {
             Debug.LogError("playerStatus 못찾음!");
+        }
+    }
+
+    //애니메이션 실행
+    public void PlayAnimation(string name) 
+    {
+        if (animator)
+        {
+            animator.Play(name, 0, 0);
+        }
+        else
+        {
+            print("애니메이터 없음!");
         }
     }
 
