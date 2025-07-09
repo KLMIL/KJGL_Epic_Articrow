@@ -93,6 +93,9 @@ namespace Game.Enemy
 
         public void Update()
         {
+            // 디버깅용 String 변경
+            _ownerController._currentState = CurrentStateName;
+
             int idx = _behaviours.FindIndex(b => b.stateName == CurrentStateName);
             if (idx < 0) return;
             EnemyBehaviourUnit current = _behaviours[idx];
