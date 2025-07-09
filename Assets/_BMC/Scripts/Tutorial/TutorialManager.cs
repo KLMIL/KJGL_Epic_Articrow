@@ -124,6 +124,9 @@ namespace BMC
         {
             if (_isUsedRightHand && !StageManager.Instance.CurrentRoom.RoomData.IsCleared)
             {
+                // 튜토리얼 안내 문구
+                UI_TutorialEventBus.OnTutorialText?.Invoke(6);
+
                 // 방 클리어
                 StageManager.Instance.CurrentRoom.SetRoomClear();
                 StageManager.Instance.CurrentRoom.OpenAllValidDoor();
