@@ -26,7 +26,6 @@ namespace BMC
         public TextMeshProUGUI fullscreentext;  // 전체 화면
         public TextMeshProUGUI vsyncText;       // VSync
         //public SettingsOnOffBtn fullScreenBtn;  // 전체 화면
-        //public SettingsOnOffBtn vsyncBtn;       // VSync
         public TMP_Dropdown resolutionDropdown; // 해상도 드롭다운
         public Slider musicSlider;              // 음악 볼륨(BGM)
 
@@ -55,17 +54,11 @@ namespace BMC
         public void Init()
         {
             _onOffBtnActionDict.Add(OnOffButtonType.FullScreen, ToggleFullScreen);
-            _onOffBtnActionDict.Add(OnOffButtonType.VSync, ToggleVSync);
 
             // 비디오 & 오디오 설정
             fullscreentext.text = (Screen.fullScreen) ? "O" : "X";
-            vsyncText.text = PlayerPrefs.GetInt("VSync") == 1 ? "O" : "X";
-            //musicSlider.GetComponent<Slider>().value = PlayerPrefs.GetFloat("MusicVolume");
 
             // 조작
-
-            // 게임 플레이
-            //tooltipstext.text = PlayerPrefs.GetInt("ToolTips") == 1 ? "On" : "Off";
         }
 
         void Update()
@@ -82,40 +75,9 @@ namespace BMC
             fullscreentext.text = newState ? "O" : "X";
             Screen.fullScreen = newState;
         }
-
-        public void MusicSlider()
-        {
-            //PlayerPrefs.SetFloat("MusicVolume", sliderValue);
-            PlayerPrefs.SetFloat("MusicVolume", musicSlider.GetComponent<Slider>().value);
-        }
-
-        public void ToggleVSync()
-        {
-            QualitySettings.vSyncCount = (QualitySettings.vSyncCount == 0) ? 1 : 0;
-            vsyncText.text = (QualitySettings.vSyncCount == 0) ? "O" : "X";
-        }
         #endregion
 
         #region 조작 설정
-        #endregion
-
-        #region 게임 플레이 설정
-        // show tool tips like: 'How to Play' control pop ups
-        public void ToolTips()
-        {
-            int toolTipsValue = PlayerPrefs.GetInt("ToolTips");
-            int setValue = (toolTipsValue == 0) ? 1 : 0;
-            PlayerPrefs.SetInt("ToolTips", setValue);
-            tooltipstext.text = (toolTipsValue == 0) ? "O" : "X";
-        }
-
-        public void CameraEffects()
-        {
-            int cameraEffects = PlayerPrefs.GetInt("CameraEffects");
-            int setValue = (cameraEffects == 0) ? 1 : 0;
-            PlayerPrefs.SetInt("CameraEffects", setValue);
-            cameraeffectstext.text = (cameraEffects == 0) ? "O" : "X";
-        }
         #endregion
     }
 }
