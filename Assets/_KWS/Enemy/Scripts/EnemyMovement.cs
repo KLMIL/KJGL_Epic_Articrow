@@ -9,12 +9,12 @@ namespace Game.Enemy
         Rigidbody2D rb;
         public SpriteRenderer _spriteRenderer;
 
-        public float moveSpeedMultiply = 1.0f;
+        public float moveSpeedMultiply = 0.5f;
         Vector2 _currentDirection = Vector2.zero;
 
         float duration = 0f;
         float elapsedTime = 0f;
-        public float wallCheckDistance = 0.5f;
+        public float wallCheckDistance = 1f;
         string moveType;
         bool inverse = false;
 
@@ -24,15 +24,6 @@ namespace Game.Enemy
         {
             ownerController = GetComponent<EnemyController>();
             rb = GetComponent<Rigidbody2D>();
-        }
-
-        private void Start()
-        {
-            //_spriteRenderer = ownerController.SpriteRenderer;
-            //if (_spriteRenderer == null)
-            //{
-            //    Debug.LogError($"{gameObject.name} Sprite renderer 할당 오류");
-            //}
         }
 
         public void Init(SpriteRenderer renderer)
@@ -54,12 +45,13 @@ namespace Game.Enemy
             if (moveType == "Normal")
             {
                 Vector2 origin = rb.position + _currentDirection * 0.1f; // 자기 자신 피함
-                RaycastHit2D hit = Physics2D.Raycast(origin, _currentDirection, wallCheckDistance, wallLayerMask);
+                RaycastHit2D hit = Physics2D.Raycast(origin, _currentDirection, wallCheckDistance, LayerMask.GetMask("Obstacle"));
                 Debug.DrawRay(origin, _currentDirection * wallCheckDistance, Color.red);
 
                 if (hit.collider != null)
                 {
-                    Stop();
+                    //Stop();
+                    ownerController.FSM.ForceToNextState(); 
                     return;
                 }
 
@@ -87,13 +79,6 @@ namespace Game.Enemy
 
                 if (elapsedTime < duration)
                 {
-                    //Vector2 origin = rb.position + _currentDirection * 0.1f;
-                    //RaycastHit2D hit = Physics2D.Raycast(origin, _currentDirection, wallCheckDistance, wallLayerMask);
-                    //if (hit.collider != null)
-                    //{
-                    //    Stop();
-                    //    return;
-                    //}
                     Vector2 nextPos = rb.position + _currentDirection * ownerController.Status.moveSpeed * moveSpeedMultiply * Time.fixedDeltaTime;
                     FlipSpirte();
                     rb.MovePosition(nextPos);
@@ -109,7 +94,7 @@ namespace Game.Enemy
                 wallCheckDistance = 1.0f;
 
                 Vector2 origin = rb.position + rushDir * 0.1f;
-                RaycastHit2D hit = Physics2D.Raycast(origin, rushDir, wallCheckDistance, wallLayerMask);
+                RaycastHit2D hit = Physics2D.Raycast(origin, rushDir, wallCheckDistance, LayerMask.GetMask("Obstacle"));
                 if (hit.collider != null || elapsedTime > duration || ownerController.FSM.isRushAttacked)
                 {
                     Stop();
@@ -124,7 +109,7 @@ namespace Game.Enemy
             else if (moveType == "Orbit")
             {
                 Vector2 origin = rb.position + _currentDirection * 0.1f; // 자기 자신 피함
-                RaycastHit2D hit = Physics2D.Raycast(origin, _currentDirection, wallCheckDistance, wallLayerMask);
+                RaycastHit2D hit = Physics2D.Raycast(origin, _currentDirection, wallCheckDistance, LayerMask.GetMask("Obstacle"));
                 Debug.DrawRay(origin, _currentDirection * wallCheckDistance, Color.red);
 
                 if (hit.collider != null)
@@ -195,7 +180,7 @@ namespace Game.Enemy
             for (int i = 0; i < steps; i++)
             {
                 Vector2 nextPos = rb.position + direction * stepDist;
-                RaycastHit2D hit = Physics2D.Raycast(rb.position, direction, stepDist, wallLayerMask);
+                RaycastHit2D hit = Physics2D.Raycast(rb.position, direction, stepDist, LayerMask.GetMask("Obstacle"));
                 if (hit.collider != null)
                 {
                     break;

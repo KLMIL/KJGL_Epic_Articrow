@@ -16,16 +16,16 @@ public class ImageParts_BeforeSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsT
     #region [Skill]
     public void SkillAttackPessive(Artifact_YSJ fireArtifact)
     {
+    }
+
+    public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
+    {
         if (_barrierCoroutine != null)
         {
             EndBuff();
             StopBuff();
         }
         _barrierCoroutine = StartCoroutine(BarrierCoroutine(fireArtifact));
-    }
-
-    public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
-    {
     }
 
     public void SkillAttackAfterFire(Artifact_YSJ fireArtifact, GameObject spawnedAttack)

@@ -80,15 +80,6 @@ namespace Game.Enemy
                 Vector2 toPlayer = (Vector2)(controller.Player.position - controller.transform.position).normalized;
                 Vector2 boxSize = enemySize;
 
-                //bool inSight = !Physics2D.BoxCast(
-                //        (Vector2)controller.transform.position,
-                //        boxSize,
-                //        0f,
-                //        toPlayer,
-                //        obstacleCheckDistance,
-                //        LayerMask.GetMask("Obstacle")
-                //    );
-
                 RaycastHit2D hit = Physics2D.Raycast(
                     controller.transform.position,
                     toPlayer,
@@ -98,10 +89,20 @@ namespace Game.Enemy
 
                 bool inSight = !hit;
 
-                //Debug.DrawRay(controller.transform.position, controller.FSM.bypassDirection * obstacleCheckDistance, Color.green, 0.1f);
-                //Debug.DrawRay(controller.transform.position, toPlayer * obstacleCheckDistance, Color.red, 0.1f);
+                //// ---- [끼임 보정 로직 시작] ----
+                //if (hit && hit.distance < 0.05f) // 0.05는 상황에 따라 조절
+                //{
+                //    // 벽의 노멀 방향으로 살짝 밀어내기
+                //    Vector2 offset = hit.normal * 0.2f; // 0.1f = 보정 거리
+                //    controller.transform.position += (Vector3)offset;
+
+                //    // 보정 후, 더 이상 진행하지 않고 return (이번 프레임)
+                //    return;
+                //}
+                //// ---- [끼임 보정 로직 끝] ----
 
                 // 디버그 참고용 -> 박스로 그리진 않음
+                //Debug.LogError($"디버그 띄움 -> {controller.transform.position}");
                 Debug.DrawRay(controller.transform.position, toPlayer * obstacleCheckDistance, Color.red, 0.1f);
 
                 if (inSight) // 플레이어가 보이는 경우 -> 바로 추적
@@ -116,10 +117,6 @@ namespace Game.Enemy
                     {
                         Vector2 wallNormal = hit.normal;
 
-                        // 좌/우 방향 결정
-                        //Vector2 right = new Vector2(-toPlayer.y, toPlayer.x);
-                        //Vector2 left = -right;
-
                         Vector2 perpRight = new Vector2(wallNormal.y, -wallNormal.x);
                         Vector2 perpLeft = new Vector2(-wallNormal.y, wallNormal.x);
 
@@ -128,22 +125,9 @@ namespace Game.Enemy
 
                         Vector2 chosenDir = (dotRight > dotLeft) ? perpRight : perpLeft;
 
-                        //Vector2[] candidates = { perpRight, perpLeft };
-                        //controller.FSM.bypassDirection = candidates[Random.Range(0, 2)];
-
                         controller.FSM.bypassDirection = chosenDir;
                         controller.FSM.isBypassing = true;
                     }
-
-                    // 또 막히면 다른 방향 시도
-                    //bool bypassBlocked = Physics2D.BoxCast(
-                    //        (Vector2)controller.transform.position,
-                    //        boxSize,
-                    //        0f,
-                    //        controller.FSM.bypassDirection,
-                    //        obstacleCheckDistance,
-                    //        LayerMask.GetMask("Obstacle")
-                    //    );
 
                     bool bypassBlocked = false;
                     if (hit)
@@ -156,12 +140,6 @@ namespace Game.Enemy
                         );
                         Debug.DrawRay(controller.transform.position, controller.FSM.bypassDirection * obstacleCheckDistance, Color.green, 0.1f);
                     }
-
-                    //Debug.DrawRay(controller.transform.position, controller.FSM.bypassDirection * obstacleCheckDistance, Color.green, 0.1f);
-                    //Debug.DrawRay(controller.transform.position, toPlayer * obstacleCheckDistance, Color.red, 0.1f);
-
-                    // 디버그 참고용 -> 박스로 그리진 않음
-                    
 
                     if (!bypassBlocked)
                     {
