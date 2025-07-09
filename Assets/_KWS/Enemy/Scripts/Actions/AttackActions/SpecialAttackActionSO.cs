@@ -23,6 +23,8 @@ namespace Game.Enemy
         public int spawnCount = 3;
         public float spawnRadius = 1f;
 
+        [Header("Boom")]
+        public GameObject BoomEffectPrefab;
        
 
         public override void Act(EnemyController controller)
@@ -98,6 +100,7 @@ namespace Game.Enemy
                 controller.DealDamageToPlayer(damage, target, false);
             }
 
+            Destroy(Instantiate(BoomEffectPrefab, controller.transform.position, Quaternion.identity), 1.0f);
             controller.Status.healthPoint = 0;
         }
     }
