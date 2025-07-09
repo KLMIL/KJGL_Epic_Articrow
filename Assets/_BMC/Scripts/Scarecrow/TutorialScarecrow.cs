@@ -4,6 +4,8 @@ namespace BMC
 {
     public class TutorialScarecrow : MonoBehaviour, IDamagable
     {
+        [SerializeField] int _id; // 튜토리얼 허수아비 ID
+
         Animator _anim;
         ShowDamageText _showDamageText;
 
@@ -17,7 +19,11 @@ namespace BMC
         {
             _anim.Play("Hurt");
             _showDamageText.Show(damage);
-            TutorialManager.Instance.TutorialClear();
+
+            if (_id == 1)
+            {
+                TutorialManager.Instance.TutorialClear();
+            }
         }
     }
 }

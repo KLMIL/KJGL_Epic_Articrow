@@ -15,7 +15,7 @@ public class InventoryCanvas_YSJ : MonoBehaviour
         inventory = GetComponentInChildren<Inventory_YSJ>();
     }
 
-    private void Start()
+    void Start()
     {
         Managers.Input.OnInventoryAction += CanvasOnOff;
         Managers.UI.InventoryCanvas = this;
@@ -34,7 +34,6 @@ public class InventoryCanvas_YSJ : MonoBehaviour
     public void CanvasEnable(bool value)
     {
         canvas.enabled = value;
-        GameManager.Instance.TogglePauseGame(value);
         Debug.Log("인벤토리 캔버스 enable: " + value);
     }
 

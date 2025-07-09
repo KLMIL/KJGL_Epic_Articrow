@@ -18,21 +18,32 @@ namespace BMC
         [SerializeField] CanDragItem_YSJ _part;
         [SerializeField] ArtifactWindow_YSJ _artifactWindow;
 
+        [Header("카메라")]
+        CameraController _cameraController;
+
+        [Header("튜토리얼 진행도")]
+
+        [Header("튜토리얼 입력")]
         InputSystemActions _inputSystemActions;
-        TutorialInput _tutorialInput;
+        public TutorialInput TutorialInput { get; private set; }
         
         void Awake()
         {
             _instance = this;
+
+            _cameraController = Camera.main.GetComponentInParent<CameraController>();
         }
 
         void Start()
         {
+            OnEquipPartsAction += Pause;
+
+            _cameraController.SetCameraTarget(PlayerManager.Instance.transform);
+
             _inputSystemActions = Managers.Input.InputSystemActions;
-            _tutorialInput = GetComponent<TutorialInput>();
+            TutorialInput = GetComponent<TutorialInput>();
 
             YSJ.Managers.Input.OnInteractAction += CheckInteraction;
-            YSJ.Managers.Input.OnLeftHandActionEnd += CheckLeftHandEnd;
             YSJ.Managers.Input.OnRightHandAction += CheckRightHand;
         }
 
@@ -48,7 +59,6 @@ namespace BMC
             OnEquipPartsAction = null;
 
             Managers.Input.OnInteractAction -= CheckInteraction;
-            Managers.Input.OnLeftHandActionEnd -= CheckLeftHandEnd;
             Managers.Input.OnRightHandAction -= CheckRightHand;
 
             _instance = null;
@@ -68,34 +78,22 @@ namespace BMC
             _artifactWindow = Managers.UI.InventoryCanvas.ArtifactWindow;
 
             // 아티팩트 + 파츠 장착한 경우
-            if (_artifact != null && _part != null)
+            if (!IsEquipParts && _artifact != null && _part != null)
             {
-                OnEquipPartsAction.Invoke(true);
-                _tutorialInput.EnableOnlyAction(_inputSystemActions.Tutorial.LeftHand);
-                Managers.Input.OnInteractAction -= CheckInteraction;
+                OnEquipPartsAction?.Invoke(true);
+
+                // 튜토리얼 액션 맵 부분 활성화
+                TutorialInput.EnableOnlyAction(_inputSystemActions.Tutorial.Interact);
+                //Managers.Input.OnInteractAction -= CheckInteraction;
                 Debug.Log("아티팩트와 파츠를 먹어서 상호작용 확인 제거");
             }
         }
         #endregion
 
-        #region [CheckLeftHand]
-        void CheckLeftHandEnd()
+        public void UnsubscribeCheckInteraction()
         {
-            StartCoroutine(CheckLeftHandEndCoroutine());
+            Managers.Input.OnInteractAction -= CheckInteraction;
         }
-
-        IEnumerator CheckLeftHandEndCoroutine()
-        {
-            yield return null;
-            if (_part != null && IsEquipParts)
-            {
-                OnEquipPartsAction.Invoke(false);
-                Managers.Input.OnLeftHandActionEnd -= CheckLeftHandEnd;
-                _tutorialInput.EnableActionMap();
-                Debug.Log("아티팩트와 파츠를 먹어서 평타 공격 확인 제거");
-            }
-        }
-        #endregion
 
         #region [CheckRightHand]
         void CheckRightHand()
@@ -107,7 +105,7 @@ namespace BMC
         {
             yield return null;            
             //아티팩트를 장착해야 한다 + 파츠를 장착해야 한다
-            if ((_artifact != null) && (_part != null) && _isUsedRightHand == false)
+            if (_artifact != null && _part != null && !_isUsedRightHand)
             {
                 _isUsedRightHand = true;
                 Managers.Input.OnRightHandAction -= CheckRightHand;
@@ -116,11 +114,19 @@ namespace BMC
         }
         #endregion
 
+        public void Pause(bool isActive)
+        {
+            Time.timeScale = isActive ? 0f : 1f;
+        }
+
         #region 튜토리얼 클리어
         public void TutorialClear()
         {
             if (_isUsedRightHand && !StageManager.Instance.CurrentRoom.RoomData.IsCleared)
             {
+                // 튜토리얼 안내 문구
+                UI_TutorialEventBus.OnTutorialText?.Invoke(6); // TODO: 숫자 6 대신 추후에 변수로 할 수 있도록 해야 함
+
                 // 방 클리어
                 StageManager.Instance.CurrentRoom.SetRoomClear();
                 StageManager.Instance.CurrentRoom.OpenAllValidDoor();
