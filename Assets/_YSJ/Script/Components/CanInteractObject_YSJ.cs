@@ -136,13 +136,24 @@ public class CanInteractObject_YSJ : MonoBehaviour
         currentArtifacttransform.SetParent(null);
         currentArtifact.transform.rotation = Quaternion.identity;
 
-        // 파츠 떨구기
+        // 파츠 인벤에 추가 시도하고 꽉차면 떨구기
         foreach(Transform slot in currentArtifact.GetComponent<Artifact_YSJ>().SlotTransform)
         {
             if (slot.childCount > 0) 
             {
-                GameObject fieldParts = slot.GetChild(0).GetComponent<ConnectFieldParts_YSJ>().ConnectedFieldParts;
-                GameObject SpawnedFeldParts = Instantiate(fieldParts, transform.position + new Vector3(Random.Range(-1f,1f), Random.Range(-1f, 1f), 0), Quaternion.identity);
+                // 인벤에 이미지 파츠추가 시도
+                if (Managers.UI.InventoryCanvas.inventory.TryAddItem(slot.GetChild(0).gameObject))
+                {
+                }
+                // 추가 못하면 땅바닥에 스폰
+                else 
+                {
+                    print("템창꽉참!");
+
+                    GameObject fieldParts = slot.GetChild(0).GetComponent<ConnectFieldParts_YSJ>().ConnectedFieldParts;
+                    GameObject SpawnedFeldParts = Instantiate(fieldParts, transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0), Quaternion.identity);
+                }
+                // 슬롯에 있는 애는 삭제
                 Destroy(slot.GetChild(0).gameObject);
             }
         }
