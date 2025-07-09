@@ -27,20 +27,10 @@ namespace YSJ
 
         void OnClicked()
         {
-            int sceneIdx = (!Managers.Data.IsClearTutorial) ? 1 : 2;
             if (_loadSceneCoroutine == null)
             {
-                if (sceneIdx == 1)
-                {
-                    GameFlowManager.Instance.SetTutorial();
-                    _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine("TutorialScene"));
-                }
-                else
-                {
-                    GameFlowManager.Instance.SetStartGame();
-                    _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine("StageStartScene"));
-                }
-                    
+                GameFlowManager.Instance.SetStartGame();
+                _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine("StageStartScene"));
             }
         }
     }
