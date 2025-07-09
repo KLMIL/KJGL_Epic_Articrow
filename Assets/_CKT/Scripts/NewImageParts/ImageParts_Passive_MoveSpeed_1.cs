@@ -13,8 +13,10 @@ public class ImageParts_Passive_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsToE
     public void Equip(Artifact_YSJ currentArtifact)
     {
         YSJ.PlayerStatus playerStatus = currentArtifact.playerStatus;
-        float addMoveSpeed = (_increasePercent * 0.01f) * playerStatus.DefaultMoveSpeed;
-        float addDashCoolTime = (_increasePercent * 0.01f) * playerStatus.DefaultDashCoolTime;
+        float addMoveSpeed = _increasePercent * playerStatus.DefaultMoveSpeed;
+        addMoveSpeed = 0.01f * Mathf.RoundToInt(addMoveSpeed);
+        float addDashCoolTime = _increasePercent * playerStatus.DefaultDashCoolTime;
+        addDashCoolTime = 0.01f * Mathf.RoundToInt(addDashCoolTime);
 
         currentArtifact.Added_MoveSpeed += addMoveSpeed;
         currentArtifact.Added_DashCoolTime += addDashCoolTime;

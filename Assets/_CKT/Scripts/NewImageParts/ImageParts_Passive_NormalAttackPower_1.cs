@@ -12,7 +12,8 @@ public class ImageParts_Passive_NormalAttackPower_1 : ImagePartsRoot_YSJ, IImage
     #region [Normal]
     public void NormalAttackPessive(Artifact_YSJ fireArtifact)
     {
-        float add = (_percent * 0.01f) * fireArtifact.normalStatus.Default_AttackPower;
+        float add = _percent * fireArtifact.normalStatus.Default_AttackPower;
+        add = 0.01f * Mathf.RoundToInt(add);
 
         fireArtifact.normalStatus.Added_AttackPower += add;
         Debug.Log($"[ckt] {partsName} {add}");

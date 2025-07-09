@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14f366c0363b7843b6fd24d21db6333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _positionX: 0.5
 --- !u!114 &64334678117631073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,8 +199,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalStatus:
-    Default_AttackPower: 5
-    Default_AttackCoolTime: 0.75
+    Default_AttackPower: 15
+    Default_AttackCoolTime: 0.5
     Default_AttackLife: 0.25
     Default_BulletSpeed: 10
     Default_AttackStartDelay: 0
@@ -211,9 +212,9 @@ MonoBehaviour:
     elapsedCoolTime: 0
     AttackPrefab: {fileID: 6071873824539340446, guid: a448847484cc9574fbc42ed1b888cf46, type: 3}
   skillStatus:
-    Default_AttackPower: 5
-    Default_AttackCoolTime: 0.25
-    Default_AttackLife: 1
+    Default_AttackPower: 15
+    Default_AttackCoolTime: 0.5
+    Default_AttackLife: 0.5
     Default_BulletSpeed: 10
     Default_AttackStartDelay: 0
     Default_AttackScale: 3
@@ -232,6 +233,7 @@ MonoBehaviour:
   isCanAttack: 1
   isCanLeftClick: 1
   isCanRightClick: 1
+  FireEffect: {fileID: 7957352759546251513, guid: d0e8921ce313c4745858ef82c768c030, type: 3}
 --- !u!95 &7691709041999980705
 Animator:
   serializedVersion: 7

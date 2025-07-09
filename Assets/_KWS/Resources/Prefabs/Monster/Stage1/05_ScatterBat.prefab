@@ -249,6 +249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _statusOrigin: {fileID: 11400000, guid: 9b7169188c8055a4c9fa2a3495c6e98a, type: 2}
   Status: {fileID: 0}
+  _currentState: 
   SpriteRenderer: {fileID: 0}
   Behaviours:
   - stateName: Spawned
@@ -288,7 +289,7 @@ MonoBehaviour:
     condition: {fileID: 11400000, guid: 403d4d05594bac045bc7e22a72f12763, type: 2}
     action: {fileID: 11400000, guid: 262ff57ce66034a48a263498e4b9c6e5, type: 2}
     animationName: AttackReady
-    duration: 0.7
+    duration: 0.5
     nextStateName: ProjectileAttack
     elapsedTime: 0
   - stateName: ProjectileAttack
