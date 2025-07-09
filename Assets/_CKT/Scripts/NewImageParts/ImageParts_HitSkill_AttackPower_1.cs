@@ -48,7 +48,8 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
     {
         if (_isBuff)
         {
-            float addSkill = (_increasePercent * 0.01f) * fireArtifact.skillStatus.Default_AttackPower;
+            float addSkill = _increasePercent * fireArtifact.skillStatus.Default_AttackPower;
+            addSkill = 0.01f * Mathf.RoundToInt(addSkill);
 
             fireArtifact.skillStatus.Added_AttackPower += addSkill;
             Debug.Log($"[ckt] {partsName} SkillBuff {addSkill}");

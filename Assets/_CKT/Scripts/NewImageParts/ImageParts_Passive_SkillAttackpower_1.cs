@@ -13,8 +13,10 @@ public class ImageParts_Passive_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImageP
     #region [Skill]
     public void SkillAttackPessive(Artifact_YSJ fireArtifact)
     {
-        float addDelay = (_delayPercent * 0.01f);
-        float addPower = (_powerPercent * 0.01f) * fireArtifact.skillStatus.Default_AttackPower;
+        float addDelay = _delayPercent;
+        addDelay = 0.01f * Mathf.RoundToInt(addDelay);
+        float addPower = _powerPercent * fireArtifact.skillStatus.Default_AttackPower;
+        addPower = 0.01f * Mathf.RoundToInt(addPower);
 
         fireArtifact.skillStatus.Added_AttackStartDelay += addDelay;
         fireArtifact.skillStatus.Added_AttackPower += addPower;
