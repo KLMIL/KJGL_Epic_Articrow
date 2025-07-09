@@ -2,6 +2,7 @@ using BMC;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Game.Enemy
@@ -12,6 +13,8 @@ namespace Game.Enemy
         [Header("Enemy Status")]
         [SerializeField] EnemyStatusSO _statusOrigin;
         [HideInInspector] public EnemyStatusSO Status;
+
+        [SerializeField] public string _currentState;
 
         public EnemyStatusSO StatusOrigin => _statusOrigin;
 
