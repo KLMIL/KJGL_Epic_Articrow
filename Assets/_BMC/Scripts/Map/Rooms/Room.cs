@@ -69,6 +69,9 @@ namespace BMC
         {
             if (_roomData.IsCleared)
             {
+                if (_rewardPosition == null)
+                    return;
+
                 GameObject scarecrowPrefab = Managers.Resource.Instantiate("ScarecrowPrefab", _rewardPosition.transform);
                 scarecrowPrefab.name = "Scarecrow";
             }
