@@ -4,7 +4,7 @@ namespace BMC
 {
     public class ShokeWaveAttackIndicator : AttackIndicator
     {
-        CircleCollider2D _circleCollider;
+        CapsuleCollider2D _capsuleCollider;
 
         ShokeWaveHitBox _shokeWaveHitBox; // 히트박스 컴포넌트
 
@@ -13,14 +13,14 @@ namespace BMC
         void Awake()
         {
             SetSprite();
-            _circleCollider = GetComponentInChildren<CircleCollider2D>();
+            _capsuleCollider = GetComponentInChildren<CapsuleCollider2D>();
             _shokeWaveHitBox = GetComponentInChildren<ShokeWaveHitBox>();
         }
 
         void Start()
         {
-            _startScale = 1f;
-            _endScale = 5f;
+            _startScale = 0.1f;
+            _endScale = 1f;
             _shokeWaveHitBox.Damage = 2f;
         }
 
@@ -55,12 +55,12 @@ namespace BMC
             GameObject spikeInstance = Instantiate(_spikePrefab, _indicator.transform.position, Quaternion.identity);
             _background.enabled = false;
             _indicator.enabled = true;
-            _circleCollider.enabled = true;
+            _capsuleCollider.enabled = true;
             Color originalColor = _indicator.color;
             _indicator.color = Color.white;
             
             yield return new WaitForSeconds(0.1f);
-            _circleCollider.enabled = false;
+            _capsuleCollider.enabled = false;
             _indicator.enabled = false;
             _indicator.color = originalColor;
             _coroutine = null;
