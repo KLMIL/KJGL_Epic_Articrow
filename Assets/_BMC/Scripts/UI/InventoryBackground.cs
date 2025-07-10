@@ -26,6 +26,7 @@ public class InventoryBackground : MonoBehaviour, IDropHandler
                 artifactslot.CurrentArtifact.UpdateEnhance();
             }
 
+            TutorialNotifier();
             // TODO: 인벤토리에서 버린 파츠를 플레이어 주변에 소환시키기
             Managers.Sound.PlaySFX(Define.SFX.Put);
             SpawnPart(ConnectedFieldParts);
@@ -50,4 +51,14 @@ public class InventoryBackground : MonoBehaviour, IDropHandler
         GameObject partInstance = Instantiate(fieldParts, PlayerManager.Instance.transform.position + Random.insideUnitSphere, Quaternion.identity);
         Debug.Log($"{partInstance} 버림");
     }
+
+    #region 튜토리얼
+    public void TutorialNotifier()
+    {
+        if (Managers.Scene.CurrentScene.SceneType == Define.SceneType.TutorialScene)
+        {
+            TutorialManager.Instance.IsEquipParts = false; // 파츠를 해제했음을 알림
+        }
+    }
+    #endregion
 }

@@ -20,6 +20,8 @@ namespace YSJ
                 _root = new GameObject { name = "@Sound" };
                 Object.DontDestroyOnLoad(_root);
 
+                AudioSettings.OnAudioConfigurationChanged += OnAudioConfigurationChanged;
+
                 GameObject bgmGO = new GameObject { name = "@BGM" };
                 GameObject sfxGO = new GameObject { name = "@SFX" };
                 _bgmSource = bgmGO.AddComponent<AudioSource>();
@@ -50,6 +52,22 @@ namespace YSJ
                     }
                 }
             }
+        }
+
+        // 오디오 장치 설정 변경 시 호출
+        void OnAudioConfigurationChanged(bool deviceWasChanged)
+        {
+            Debug.Log(deviceWasChanged ? "장치가 변경되었음" : "초기화가 호출되었음");
+            if (deviceWasChanged)
+            {
+                AudioConfiguration config = AudioSettings.GetConfiguration();
+                config.dspBufferSize = 512;
+                if (!AudioSettings.Reset(config))
+                {
+                    Debug.LogError("장치 변경 후, 오디오 설정에 실패");
+                }
+            }
+            _bgmSource.Play();
         }
 
         // BGM 재생
@@ -89,6 +107,7 @@ namespace YSJ
         {
             if (_root != null)
             {
+                AudioSettings.OnAudioConfigurationChanged -= OnAudioConfigurationChanged;
                 _bgmDict.Clear();
                 _sfxDict.Clear();
                 Object.Destroy(_root);

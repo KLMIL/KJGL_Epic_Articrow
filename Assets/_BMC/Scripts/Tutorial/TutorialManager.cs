@@ -10,17 +10,15 @@ namespace BMC
         public static TutorialManager Instance => _instance;
         static TutorialManager _instance;
 
-        [field: SerializeField] public bool IsEquipParts { get; set; } //아티팩트에 파츠를 장착했는지
+        [field: SerializeField] public bool IsEquipParts { get; set; } // 아티팩트에 파츠를 장착했는지
         public Action<bool> OnEquipPartsAction;
 
-        [SerializeField] Artifact_YSJ _artifact;
-        [SerializeField] CanDragItem_YSJ _part;
-        [SerializeField] ArtifactWindow_YSJ _artifactWindow;
+        [SerializeField] Artifact_YSJ _artifact;                // 아티팩트
+        [field: SerializeField] public CanDragItem_YSJ Part;    // 인벤토리에 들어온 파츠
+        [SerializeField] ArtifactWindow_YSJ _artifactWindow;    // 아티팩트 창
 
         [Header("카메라")]
         CameraController _cameraController;
-
-        [Header("튜토리얼 진행도")]
 
         [Header("튜토리얼 입력")]
         InputSystemActions _inputSystemActions;
@@ -35,15 +33,13 @@ namespace BMC
 
         void Start()
         {
-            OnEquipPartsAction += Pause;
-
             _cameraController.SetCameraTarget(PlayerManager.Instance.transform);
+            
+            OnEquipPartsAction += Pause;
+            YSJ.Managers.Input.OnInteractAction += CheckInteraction;
 
             _inputSystemActions = Managers.Input.InputSystemActions;
             TutorialInput = GetComponent<TutorialInput>();
-
-            YSJ.Managers.Input.OnInteractAction += CheckInteraction;
-            YSJ.Managers.Input.OnRightHandAction += CheckRightHand;
         }
 
         void OnDisable()
@@ -58,7 +54,6 @@ namespace BMC
             OnEquipPartsAction = null;
 
             Managers.Input.OnInteractAction -= CheckInteraction;
-            Managers.Input.OnRightHandAction -= CheckRightHand;
 
             _instance = null;
         }
@@ -73,41 +68,18 @@ namespace BMC
         {
             yield return null;
             _artifact = PlayerManager.Instance.transform.Find("Hand").GetComponentInChildren<Artifact_YSJ>();
-            _part = PlayerManager.Instance.GetComponentInChildren<Inventory_YSJ>().GetComponentInChildren<CanDragItem_YSJ>();
+            Part = PlayerManager.Instance.GetComponentInChildren<Inventory_YSJ>().GetComponentInChildren<CanDragItem_YSJ>();
             _artifactWindow = Managers.UI.InventoryCanvas.ArtifactWindow;
 
             // 아티팩트 + 파츠 장착한 경우
-            if (!IsEquipParts && _artifact != null && _part != null)
+            if (!IsEquipParts && _artifact != null && Part != null)
             {
                 OnEquipPartsAction?.Invoke(true);
+                Managers.Input.OnInteractAction -= CheckInteraction;
 
                 // 튜토리얼 액션 맵 부분 활성화
                 TutorialInput.EnableOnlyAction(_inputSystemActions.Tutorial.Interact);
-                //Managers.Input.OnInteractAction -= CheckInteraction;
                 Debug.Log("아티팩트와 파츠를 먹어서 상호작용 확인 제거");
-            }
-        }
-        #endregion
-
-        public void UnsubscribeCheckInteraction()
-        {
-            Managers.Input.OnInteractAction -= CheckInteraction;
-        }
-
-        #region [CheckRightHand]
-        void CheckRightHand()
-        {
-            StartCoroutine(CheckRightHandCoroutine());
-        }
-
-        IEnumerator CheckRightHandCoroutine()
-        {
-            yield return null;            
-            //아티팩트를 장착해야 한다 + 파츠를 장착해야 한다
-            if (_artifact != null && _part != null)
-            {
-                //Managers.Input.OnRightHandAction -= CheckRightHand;
-                Debug.Log("아티팩트와 파츠를 먹고 난 후, 스킬 공격 했으니 스킬 공격 확인 제거");
             }
         }
         #endregion
@@ -120,7 +92,7 @@ namespace BMC
         #region 튜토리얼 클리어
         public void TutorialClear()
         {
-            if (!StageManager.Instance.CurrentRoom.RoomData.IsCleared)
+            if (IsEquipParts && !StageManager.Instance.CurrentRoom.RoomData.IsCleared)
             {
                 // 튜토리얼 안내 문구
                 UI_TutorialEventBus.OnTutorialText?.Invoke(6); // TODO: 숫자 6 대신 추후에 변수로 할 수 있도록 해야 함
@@ -128,17 +100,6 @@ namespace BMC
                 // 방 클리어
                 StageManager.Instance.CurrentRoom.SetRoomClear();
                 StageManager.Instance.CurrentRoom.OpenAllValidDoor();
-
-                // 튜토리얼 클리어 여부 저장 시도
-                TrySaveTutorialClear();
-            }
-        }
-
-        public void TrySaveTutorialClear()
-        {
-            if (Managers.Data.IsClearTutorial == false)
-            {
-                Managers.Data.IsClearTutorial = true;
             }
         }
         #endregion
