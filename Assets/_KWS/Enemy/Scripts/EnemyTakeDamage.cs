@@ -43,6 +43,7 @@ namespace Game.Enemy
             if (isMarked)
             {
                 currDamage *= ownerController.FSM.enemyDamagedMultiply;
+                currDamage = 0.01f * Mathf.RoundToInt(currDamage * 100f);
             }
 
             //// 대미지 부여 텍스트
