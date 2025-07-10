@@ -26,8 +26,8 @@ namespace BMC
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.V))
-                PlayChargeAndAttack();
+            //if (Input.GetKeyDown(KeyCode.V))
+            //    PlayChargeAndAttack();
         }
 
         protected override IEnumerator ChargeCoroutine()

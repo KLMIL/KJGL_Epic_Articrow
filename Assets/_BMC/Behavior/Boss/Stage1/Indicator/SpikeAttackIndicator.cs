@@ -24,8 +24,8 @@ namespace BMC
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Z))
-                PlayChargeAndAttack();
+            //if (Input.GetKeyDown(KeyCode.Z))
+            //    PlayChargeAndAttack();
         }
 
         public void PlayChargeAndAttack()
