@@ -81,7 +81,7 @@ namespace YSJ
         public void CountCurrentStatus()
         {
             Current_AttackPower = Default_AttackPower + Added_AttackPower;
-            Current_AttackCoolTime = Default_AttackCoolTime + Added_AttackCoolTime;
+            Current_AttackCoolTime = Mathf.Clamp(Default_AttackCoolTime + Added_AttackCoolTime, 0.1f, float.MaxValue);
             Current_BulletLife = Default_BulletLife + Added_BulletLife;
             Current_BulletSpeed = Default_BulletSpeed + Added_BulletSpeed;
             Current_AttackStartDelay = Default_AttackStartDelay + Added_AttackStartDelay;
