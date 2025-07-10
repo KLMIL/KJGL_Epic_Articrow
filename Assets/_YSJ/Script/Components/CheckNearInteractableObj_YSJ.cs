@@ -19,7 +19,7 @@ public class CheckNearInteractableObj_YSJ : MonoBehaviour
         List<Collider2D> cols = Physics2D.OverlapCircleAll(transform.position, interactDistance, _layerMask).ToList();
         foreach (Collider2D col in cols)
         {
-            if (col.TryGetComponent<ShowInteractableWindow_YSJ>(out ShowInteractableWindow_YSJ obj) && !nearInteractableColliders.Contains(col))
+            if (col.TryGetComponent<ShowInteractableWindow_YSJ>(out ShowInteractableWindow_YSJ obj) && !nearInteractableColliders.Contains(col) && obj.enabled == true)
             {
                 nearInteractableColliders.Add(col);
                 obj.ShowWindow();
