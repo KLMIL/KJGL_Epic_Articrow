@@ -12,12 +12,12 @@ namespace Game.Test
         [Header("SO")]
         public MapTestDataSO dataSO;
 
-        [Header("Review Canvas")]
-        public GameObject reviewUI;
-        public TextMeshProUGUI infoText;
-        public TextMeshProUGUI diffText;
-        public TextMeshProUGUI propText;
-        public TMP_InputField commText;
+        //[Header("Review Canvas")]
+        //public GameObject reviewUI;
+        //public TextMeshProUGUI infoText;
+        //public TextMeshProUGUI diffText;
+        //public TextMeshProUGUI propText;
+        //public TMP_InputField commText;
 
         [Header("Select Canvas")]
         public GameObject selectMapUI;
@@ -38,23 +38,23 @@ namespace Game.Test
             DontDestroyOnLoad(gameObject);
         }
 
-        public bool isReview = false;
+        //public bool isReview = false;
         private void Update()
         {
-            if (isReview)
-            {
-                infoText.text = dataSO.lastSceneName;
-                diffText.text = "";
-                propText.text = "";
-                commText.text = "";
+            //if (isReview)
+            //{
+            //    infoText.text = dataSO.lastSceneName;
+            //    diffText.text = "";
+            //    propText.text = "";
+            //    commText.text = "";
 
-                reviewUI.SetActive(true);
-                isReview = false;
+            //    reviewUI.SetActive(true);
+            //    isReview = false;
 
-                currDiffText.text = dataSO.lastSelectedDifficulty;
-            }
+            //    currDiffText.text = dataSO.lastSelectedDifficulty;
+            //}
 
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.F10))
             {
                 selectMapUI.SetActive(!selectMapUI.activeSelf);
             }
@@ -64,51 +64,51 @@ namespace Game.Test
 
 
         #region Review
-        int diff = -1;
-        int prop = -1;
-        string comm = "";
+        //int diff = -1;
+        //int prop = -1;
+        //string comm = "";
 
-        public void OnDiffButtonClicked(int index)
-        {
-            diff = index;
-            switch (diff)
-            {
-                case 0: diffText.text = "매우 쉬움"; break;
-                case 1: diffText.text = "쉬움"; break;
-                case 2: diffText.text = "보통"; break;
-                case 3: diffText.text = "어려움"; break;
-                case 4: diffText.text = "매우 어려움"; break;
-            }
-        }
+        //public void OnDiffButtonClicked(int index)
+        //{
+        //    diff = index;
+        //    switch (diff)
+        //    {
+        //        case 0: diffText.text = "매우 쉬움"; break;
+        //        case 1: diffText.text = "쉬움"; break;
+        //        case 2: diffText.text = "보통"; break;
+        //        case 3: diffText.text = "어려움"; break;
+        //        case 4: diffText.text = "매우 어려움"; break;
+        //    }
+        //}
 
-        public void OnPropButtonClicked(int index)
-        {
-            prop = index;
-            switch (prop)
-            {
-                case 0: propText.text = "매우 부적절"; break;
-                case 1: propText.text = "부적절"; break;
-                case 2: propText.text = "애매함"; break;
-                case 3: propText.text = "적당함"; break;
-                case 4: propText.text = "매우 적당함"; break;
-            }
-        }
+        //public void OnPropButtonClicked(int index)
+        //{
+        //    prop = index;
+        //    switch (prop)
+        //    {
+        //        case 0: propText.text = "매우 부적절"; break;
+        //        case 1: propText.text = "부적절"; break;
+        //        case 2: propText.text = "애매함"; break;
+        //        case 3: propText.text = "적당함"; break;
+        //        case 4: propText.text = "매우 적당함"; break;
+        //    }
+        //}
 
-        public void OnSubmitButtonClicked()
-        {
-            if (diff == -1 || prop == -1) return;
+        //public void OnSubmitButtonClicked()
+        //{
+        //    if (diff == -1 || prop == -1) return;
 
-            comm = commText.text;
-            dataSO.AddData(infoText.text, diff, prop, comm);
-            reviewUI.SetActive(false);
+        //    comm = commText.text;
+        //    dataSO.AddData(infoText.text, diff, prop, comm);
+        //    reviewUI.SetActive(false);
 
-            diff = -1;
-            prop = -1;
-            comm = "";
-            diffText.text = "";
-            propText.text = "";
-            commText.text = "";
-        }
+        //    diff = -1;
+        //    prop = -1;
+        //    comm = "";
+        //    diffText.text = "";
+        //    propText.text = "";
+        //    commText.text = "";
+        //}
         #endregion
 
 
@@ -159,7 +159,7 @@ namespace Game.Test
 
             // TODO: 선택된 맵에 맞는 씬 로드
             StartCoroutine(Managers.Scene.LoadSceneCoroutine(sceneName));
-            isReview = false;
+            //isReview = false;
         }
         #endregion
     }

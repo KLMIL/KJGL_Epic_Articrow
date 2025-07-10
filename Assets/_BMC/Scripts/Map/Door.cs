@@ -98,7 +98,7 @@ namespace BMC
 
         private void EnableReviewUI()
         {
-            Game.Test.MapTestStart.Instance.isReview = true;
+            //Game.Test.MapTestStart.Instance.isReview = true;
         }
     }
 }
