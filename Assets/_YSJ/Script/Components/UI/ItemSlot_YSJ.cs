@@ -48,10 +48,22 @@ public class ItemSlot_YSJ : MonoBehaviour, IDropHandler
         // 드래그한 파츠가 아티팩트 슬롯에서 왔으면
         if (draggedItem.currentParent.TryGetComponent<ArtifactSlotUI_YSJ>(out ArtifactSlotUI_YSJ artifactslot))
         {
+            TutorialNotifier();
+
             // 원래 슬롯에 있던 파츠 아티팩트에서 등록해제
             artifactslot.CurrentArtifact.RemoveParts(artifactslot.SlotIndex);
             artifactslot.CurrentArtifact.UpdateEnhance();
         }
         draggedItem.currentParent = transform;
     }
+
+    #region 튜토리얼 코드
+    public void TutorialNotifier()
+    {
+        if (Managers.Scene.CurrentScene.SceneType == Define.SceneType.TutorialScene)
+        {
+            BMC.TutorialManager.Instance.IsEquipParts = false; // 파츠를 해제했음을 알림
+        }
+    }
+    #endregion
 }
