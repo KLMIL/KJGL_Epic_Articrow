@@ -2,36 +2,44 @@ using UnityEngine;
 
 public class MagicFluteNormalAttack_YSJ : MagicRoot_YSJ
 {
-    float AttackSize = 1f;
+    //float AttackSize = 1f;
 
-    SpriteRenderer spriteRenderer;
-    Color spriteColor;
+    SpriteRenderer[] spriteRenderers;
+    Color[] spriteColors;
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteColor = GetComponent<SpriteRenderer>().color;
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        spriteColors = new Color[spriteRenderers.Length];
+        for (int i = 0; i < spriteRenderers.Length; i++)
+        {
+            spriteColors[i] = spriteRenderers[i].color;
+        }
     }
 
     private void Start()
     {
-        AttackSize = transform.localScale.x;
+        //AttackSize = transform.localScale.x;
     }
 
     private void Update()
     {
         FlyingAction?.Invoke(ownerArtifact, gameObject);
 
-        transform.localScale += Vector3.one * Speed * Time.deltaTime * AttackSize;
+        //transform.localScale += Vector3.one * Speed * Time.deltaTime * AttackSize;
+        transform.localScale += Vector3.one * Speed * Time.deltaTime * base.LifeTime * base.Speed;
 
-        spriteColor.a = Mathf.Lerp(1, 0, elapsedTime/LifeTime);
-        foreach (Transform child in transform)
+        for (int i = 0;i < spriteRenderers.Length; i++)
         {
-            Color color = child.GetComponent<SpriteRenderer>().color;
-            color.a = Mathf.Lerp(1, 0, elapsedTime / LifeTime);
-            child.GetComponent<SpriteRenderer>().color = color;
+            spriteColors[i].a = Mathf.Lerp(1, 0, elapsedTime / LifeTime);
+            foreach (Transform child in transform)
+            {
+                Color color = child.GetComponent<SpriteRenderer>().color;
+                color.a = Mathf.Lerp(1, 0, elapsedTime / LifeTime);
+                child.GetComponent<SpriteRenderer>().color = color;
+            }
+            spriteRenderers[i].color = spriteColors[i];
         }
-        spriteRenderer.color = spriteColor;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

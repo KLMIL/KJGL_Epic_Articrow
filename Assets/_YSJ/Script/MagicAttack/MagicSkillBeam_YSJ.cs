@@ -21,7 +21,7 @@ public class MagicSkillBeam_YSJ : MagicRoot_YSJ
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, transform.position);
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, transform.right, Speed, layerMask);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, transform.right, base.Speed * base.LifeTime, layerMask);
 
         if (hits.Length != 0)
         {
@@ -44,7 +44,7 @@ public class MagicSkillBeam_YSJ : MagicRoot_YSJ
             // 관통 조건
             if (DestroyCount >= 0)
             {
-                lineRenderer.SetPosition(1, transform.position + transform.right * Speed);
+                lineRenderer.SetPosition(1, transform.position + (transform.right * base.Speed * base.LifeTime));
             }
             // 관통 못했으면 마지막 충돌지점에 선 그리기
             else
@@ -54,7 +54,7 @@ public class MagicSkillBeam_YSJ : MagicRoot_YSJ
         }
         else
         {
-            lineRenderer.SetPosition(1, transform.position + transform.right * Speed);
+            lineRenderer.SetPosition(1, transform.position + (transform.right * base.Speed * base.LifeTime));
         }
     }
 
@@ -77,7 +77,7 @@ public class MagicSkillBeam_YSJ : MagicRoot_YSJ
     {
         base.SkillAttackInitialize(ownerArtifact);
 
-        LifeTime = LightLifeTime;
+        //LifeTime = LightLifeTime;
 
         // 파츠슬롯 한바퀴 돌면서 탄에다가 직접등록
         for (int partsIndex = 0; partsIndex < ownerArtifact.MaxSlotCount; partsIndex++)

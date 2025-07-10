@@ -5,6 +5,8 @@ public class MagicGuide_YSJ : MagicRoot_YSJ
 {
     LineRenderer lineRenderer;
     public GameObject SkillAttackPrefab;
+    float _delay;
+
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -13,7 +15,7 @@ public class MagicGuide_YSJ : MagicRoot_YSJ
     {
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, transform.position + transform.right * Speed);
+        lineRenderer.SetPosition(1, transform.position + (transform.right * base.Speed * base.LifeTime));
     }
 
     private void Update()
@@ -23,7 +25,7 @@ public class MagicGuide_YSJ : MagicRoot_YSJ
 
     public override void CountLifeTime(Artifact_YSJ ownerArtifact, GameObject Attack)
     {
-        if (elapsedTime < LifeTime)
+        if (elapsedTime < _delay)
         {
             // TODO: 레이저 모이는 소리
             elapsedTime += Time.deltaTime;
@@ -41,6 +43,6 @@ public class MagicGuide_YSJ : MagicRoot_YSJ
     public override void SkillAttackInitialize(Artifact_YSJ ownerArtifact)
     {
         base.SkillAttackInitialize(ownerArtifact);
-        LifeTime = ownerArtifact.skillStatus.Current_AttackStartDelay;
+        _delay = ownerArtifact.skillStatus.Current_AttackStartDelay;
     }
 }
