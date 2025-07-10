@@ -15,8 +15,8 @@ namespace BMC
         [Header("시간")]
         float _attackTime = 0.5f;   // 공격 지속 시간
         int _loopCount = 3;         // 반복 횟수
-        float _tempFillDuration;    // 초기 확장 시간
-        float _secondFillDuration = 0.25f;
+        float _tempFillDuration;    // 확장 시간 보관할 변수
+        float _secondFillDuration = 0.15f;
 
         [SerializeField] GameObject _laserPrefab;
 
@@ -47,16 +47,11 @@ namespace BMC
                 Vector3 dir = (_target.position - transform.position).normalized;
                 transform.right = dir;
 
-                // 원래 스케일 초기화
-                _indicator.transform.localScale = new Vector3(0, _startScale, 1);
-                _background.transform.localScale = new Vector3(0, _endScale, 1);
                 _indicator.enabled = true;
                 _background.enabled = true;
 
-                //_dist = Vector2.Distance(_indicator.transform.position, _target.position) / 2;
-
                 // 1. 길이 확장
-                _indicator.transform.localScale = new Vector3(_dist, _endScale, 1);
+                _indicator.transform.localScale = new Vector3(_dist, _startScale, 1);
                 _background.transform.localScale = new Vector3(_dist, _endScale, 1);
 
                 // 2. 배경에 딱 채우기
@@ -73,23 +68,17 @@ namespace BMC
 
                 // 공격 실행
                 Managers.Sound.PlaySFX(Define.SFX.GolemLaser);
-                _background.enabled = false;
                 _indicator.enabled = false;
+                _background.enabled = false;
                 _boxCollider.enabled = true;
-                Color originalColor = _indicator.color;
-                //_indicator.color = Color.;
 
                 // 레이저 스폰
                 GameObject laserInstance = Instantiate(_laserPrefab, _indicator.transform.position, Quaternion.identity);
                 laserInstance.transform.right = dir;
-                yield return new WaitForSeconds(_attackTime);
 
+                yield return new WaitForSeconds(_attackTime);
                 _boxCollider.enabled = false;
-                _indicator.enabled = false;
-                _indicator.color = originalColor;
-                
-                _indicator.transform.localScale = new Vector3(0, _startScale, 1);
-                _background.transform.localScale = new Vector3(0, _endScale, 1);
+
                 _tempFillDuration = _secondFillDuration;
             }
             _coroutine = null;
