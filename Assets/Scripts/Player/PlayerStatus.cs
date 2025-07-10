@@ -190,6 +190,11 @@ namespace YSJ
                 // 보호막 반 칸 획득
                 OffsetBarrier += 1f;
             }
+            else if(Input.GetKeyDown(KeyCode.F6))
+            {
+                GameObject testPackage = Managers.Resource.Instantiate("TestArtifactsAndPartsPackage");
+                testPackage.transform.position = transform.position;
+            }
         }
         #endregion
     }
