@@ -42,6 +42,23 @@ public class GameFlowManager : MonoBehaviour
         Init();
     }
 
+    private void Update()
+    {
+        // TODO: QA 테스트 커맨드용 코드. 제거요망. 
+        if (Input.GetKeyDown(KeyCode.F7)) 
+        {
+            _currentRoom = _easyRoomCount + _normalRoomCount + 1;
+            StartCoroutine(Managers.Scene.LoadSceneCoroutine("MiniBossScene"));
+        }
+
+        // TODO: QA 테스트 커맨드용 코드. 제거요망. 
+        if(Input.GetKeyDown(KeyCode.F8))
+        {
+            _currentRoom = _easyRoomCount + _normalRoomCount + 1 + _hardRoomCount + 1;
+            StartCoroutine(Managers.Scene.LoadSceneCoroutine("GolemBossScene"));
+        }
+    }
+
     public void Init()
     {
         _currentStage = 0;
