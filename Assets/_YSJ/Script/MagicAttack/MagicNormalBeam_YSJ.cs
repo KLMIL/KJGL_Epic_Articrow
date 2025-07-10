@@ -18,10 +18,11 @@ public class MagicNormalBeam_YSJ : MagicRoot_YSJ
 
     private void Start()
     {
+        float radius = lineRenderer.startWidth * 0.5f;
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, transform.position);
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, transform.right, base.Speed * base.LifeTime, layerMask);
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, radius, transform.right, base.Speed * base.LifeTime, layerMask);
 
         if (hits.Length != 0)
         {

@@ -5,23 +5,24 @@ public class MagicSkillBeam_YSJ : MagicRoot_YSJ
     LineRenderer lineRenderer;
     LayerMask layerMask;
 
-    public float LightLifeTime = 0.2f;
+    //public float LightLifeTime = 0.2f;
 
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
         layerMask = LayerMask.GetMask("EnemyHurtBox", "Obstacle", "BreakableObj");
 
-        lineRenderer.startWidth = 0.2f;
-        lineRenderer.endWidth = 0.2f;
+        //lineRenderer.startWidth = 0.2f;
+        //lineRenderer.endWidth = 0.2f;
     }
 
     private void Start()
     {
+        float radius = base.ownerArtifact.skillStatus.Current_AttackScale;
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, transform.position);
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, transform.right, base.Speed * base.LifeTime, layerMask);
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, radius, transform.right, base.Speed * base.LifeTime, layerMask);
 
         if (hits.Length != 0)
         {
