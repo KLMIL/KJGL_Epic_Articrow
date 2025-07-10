@@ -4,7 +4,7 @@ using YSJ;
 
 public class ShowInteractableWindow_YSJ : MonoBehaviour
 {
-    [SerializeField] float _positionX;
+    [SerializeField] Vector2 _fPosition;
     SpriteRenderer _sprite;
     TextMeshPro _tmp;
 
@@ -12,7 +12,7 @@ public class ShowInteractableWindow_YSJ : MonoBehaviour
     {
         GameObject window = Resources.Load<GameObject>("F");
         window = Instantiate(window, transform);
-        window.transform.localPosition = new Vector3(_positionX, 1, 0);
+        window.transform.localPosition = _fPosition;
 
         _sprite = window.GetComponentInChildren<SpriteRenderer>();
         _tmp = window.GetComponentInChildren<TextMeshPro>();

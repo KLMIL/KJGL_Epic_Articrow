@@ -140,10 +140,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2343098937756300516}
-  - component: {fileID: 1050738974069867685}
   - component: {fileID: 5969742949157883834}
-  - component: {fileID: 7278766301536492939}
+  - component: {fileID: 1050738974069867685}
   - component: {fileID: 8381653193122957973}
+  - component: {fileID: 7278766301536492939}
   - component: {fileID: 3083707814932235479}
   m_Layer: 30
   m_Name: Artifact_Light
@@ -170,18 +170,6 @@ Transform:
   - {fileID: 1341077334462111554}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1050738974069867685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7654110849585966910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6df5d955b71faa428bcc9ea8fe5daad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &5969742949157883834
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -228,6 +216,31 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &1050738974069867685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7654110849585966910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6df5d955b71faa428bcc9ea8fe5daad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8381653193122957973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7654110849585966910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d14f366c0363b7843b6fd24d21db6333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fPosition: {x: 0.5, y: 1}
 --- !u!114 &7278766301536492939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,19 +289,6 @@ MonoBehaviour:
   isCanLeftClick: 1
   isCanRightClick: 1
   GuideLineObject: {fileID: 132759636820691613, guid: d0c1b811bdd121542b37b75bf546b53b, type: 3}
---- !u!114 &8381653193122957973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7654110849585966910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d14f366c0363b7843b6fd24d21db6333, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _positionX: 0.5
 --- !u!95 &3083707814932235479
 Animator:
   serializedVersion: 7

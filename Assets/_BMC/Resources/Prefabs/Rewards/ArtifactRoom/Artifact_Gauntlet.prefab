@@ -184,10 +184,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6370097261262239978}
-  - component: {fileID: 9152523421589668525}
   - component: {fileID: 6234265650898135709}
-  - component: {fileID: 7545367243806879446}
+  - component: {fileID: 9152523421589668525}
   - component: {fileID: 8222114125948571291}
+  - component: {fileID: 7545367243806879446}
   - component: {fileID: 1240743669155462880}
   m_Layer: 30
   m_Name: Artifact_Gauntlet
@@ -214,18 +214,6 @@ Transform:
   - {fileID: 1792555934883953058}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9152523421589668525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7502882156932594828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6df5d955b71faa428bcc9ea8fe5daad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &6234265650898135709
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -272,6 +260,31 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.7}
   m_EdgeRadius: 0
+--- !u!114 &9152523421589668525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7502882156932594828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6df5d955b71faa428bcc9ea8fe5daad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8222114125948571291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7502882156932594828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d14f366c0363b7843b6fd24d21db6333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fPosition: {x: 0.5, y: 1}
 --- !u!114 &7545367243806879446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,19 +332,6 @@ MonoBehaviour:
   isCanAttack: 1
   isCanLeftClick: 1
   isCanRightClick: 1
---- !u!114 &8222114125948571291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7502882156932594828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d14f366c0363b7843b6fd24d21db6333, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _positionX: 0.5
 --- !u!95 &1240743669155462880
 Animator:
   serializedVersion: 7
