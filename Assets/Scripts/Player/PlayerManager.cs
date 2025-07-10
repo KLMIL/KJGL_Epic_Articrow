@@ -110,7 +110,8 @@ namespace BMC
         #region 테스트 코드
         public void TestRoomClear()
         {
-            if (Input.GetMouseButtonDown(2)) // 마우스 휠 클릭
+            // 방 클리어
+            if (Input.GetKeyDown(KeyCode.F4))
             {
                 Room room = FindAnyObjectByType<Room>();
                 room.RoomClearComplete();

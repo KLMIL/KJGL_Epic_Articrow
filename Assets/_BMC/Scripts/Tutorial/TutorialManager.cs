@@ -11,7 +11,6 @@ namespace BMC
         static TutorialManager _instance;
 
         [field: SerializeField] public bool IsEquipParts { get; set; } //아티팩트에 파츠를 장착했는지
-        [SerializeField] bool _isUsedRightHand;                        //우클릭으로 스킬을 사용했는지
         public Action<bool> OnEquipPartsAction;
 
         [SerializeField] Artifact_YSJ _artifact;
@@ -105,10 +104,9 @@ namespace BMC
         {
             yield return null;            
             //아티팩트를 장착해야 한다 + 파츠를 장착해야 한다
-            if (_artifact != null && _part != null && !_isUsedRightHand)
+            if (_artifact != null && _part != null)
             {
-                _isUsedRightHand = true;
-                Managers.Input.OnRightHandAction -= CheckRightHand;
+                //Managers.Input.OnRightHandAction -= CheckRightHand;
                 Debug.Log("아티팩트와 파츠를 먹고 난 후, 스킬 공격 했으니 스킬 공격 확인 제거");
             }
         }
@@ -122,7 +120,7 @@ namespace BMC
         #region 튜토리얼 클리어
         public void TutorialClear()
         {
-            if (_isUsedRightHand && !StageManager.Instance.CurrentRoom.RoomData.IsCleared)
+            if (!StageManager.Instance.CurrentRoom.RoomData.IsCleared)
             {
                 // 튜토리얼 안내 문구
                 UI_TutorialEventBus.OnTutorialText?.Invoke(6); // TODO: 숫자 6 대신 추후에 변수로 할 수 있도록 해야 함

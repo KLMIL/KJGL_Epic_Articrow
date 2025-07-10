@@ -142,7 +142,7 @@ namespace YSJ
 
         void Update()
         {
-            Test();
+            TestCode();
         }
 
         public void Init()
@@ -172,20 +172,25 @@ namespace YSJ
         #endregion
 
         #region 테스트 코드
-        public void Test()
+
+        public void TestCode()
         {
-            // 테스트용
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.F1))
             {
+                // 체력 완전 회복
+                RecoverHealth(MaxHealth);
+            }
+            else if (Input.GetKeyDown(KeyCode.F2))
+            {
+                // 마나 완전 회복
+                RegenerateMana(MaxMana);
+            }
+            else if (Input.GetKeyDown(KeyCode.F3))
+            {
+                // 보호막 반 칸 획득
                 OffsetBarrier += 1f;
-                //StartDebuffCoroutine(PlayerState.Stun, 1f);
-                //TakeDamage(1f);
-                OffsetMaxHealth += 2f;
-                //OffsetDashCoolTime += 0.1f;
-                //SpendMana(1f);
             }
         }
-
         #endregion
     }
 }

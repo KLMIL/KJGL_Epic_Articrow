@@ -140,7 +140,7 @@ namespace BMC
 
         void TestCode()
         {
-            if (Input.GetKeyDown(KeyCode.X))
+            if (Input.GetKeyDown(KeyCode.F5))
             {
                 TakeDamage(1f);
             }

@@ -56,11 +56,11 @@ namespace BMC
 
         public void TestCode()
         {
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                //ApplyDebuff(DebuffType.Stun, 2f);
-                //ApplyDebuff(DebuffType.Burn, 6f, 1f, 1f);
-            }
+            //if (Input.GetKeyDown(KeyCode.Z))
+            //{
+            //    //ApplyDebuff(DebuffType.Stun, 2f);
+            //    //ApplyDebuff(DebuffType.Burn, 6f, 1f, 1f);
+            //}
         }
     }
 }

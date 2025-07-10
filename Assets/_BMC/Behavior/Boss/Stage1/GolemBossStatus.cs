@@ -33,10 +33,7 @@ namespace BMC
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                TakeDamage(1000f);
-            }
+            TestCode();
         }
 
         public void TakeDamage(float damage)
@@ -98,5 +95,15 @@ namespace BMC
             Debug.Log("보스 방 클리어");
             StageManager.Instance.CurrentRoom.RoomClearComplete();
         }
+
+        #region 테스트 코드
+        public void TestCode()
+        {
+            if (Input.GetKeyDown(KeyCode.F9))
+            {
+                TakeDamage(1000f);
+            }
+        }
+        #endregion
     }
 }
