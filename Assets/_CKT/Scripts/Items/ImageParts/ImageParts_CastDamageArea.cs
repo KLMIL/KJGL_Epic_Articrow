@@ -24,7 +24,7 @@ namespace CKT
                 yield return new WaitForSeconds(0.05f);
             }*/
 
-            Managers.Sound.PlaySFX(Define.SFX.CastDamageArea);
+            //Managers.Sound.PlaySFX(Define.SFX.CastDamageArea);
             //GameObject castDamageArea = YSJ.Managers.TestPool.Get<GameObject>(Define.PoolID.CastDamageArea);
             //castDamageArea.transform.position = startPos;
             //castDamageArea.GetComponent<DamageArea>().Init(level);

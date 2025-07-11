@@ -57,8 +57,7 @@ public class Define
         FluteSkillAttack,
 
         GameOver,
-        Slash,
-        CastDamageArea,
+        //CastDamageArea,
         CastExplosion,
         HitDefaultAttack,
         HitDamageArea,
