@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using YSJ;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace BMC
 {
@@ -24,7 +25,7 @@ namespace BMC
             }
         }
         float _totalDamage = 0;
-        float _waitTime = 0.04f;
+        float _waitTime = 0.06f;
         Coroutine _waitDamageCoroutine = null;
 
         void Awake()
@@ -72,9 +73,16 @@ namespace BMC
             yield return (_waitTime <= 0) ? null : new WaitForSeconds(_waitTime);
             
             TextMeshPro damageText = Managers.Pool.Get<TextMeshPro>(Define.PoolID.DamageText);
-            
+
             //텍스트 표시 + 합산 데미지 초기화
-            damageText.text = $"{TotalDamage}";
+            if (Mathf.Approximately(TotalDamage, Mathf.Round(TotalDamage)))
+            {
+                damageText.text = $"{Mathf.RoundToInt(TotalDamage)}";
+            }
+            else
+            {
+                damageText.text = $"{TotalDamage:F1}";
+            }
             TotalDamage = 0;
             
             //투명도 초기화
