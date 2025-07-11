@@ -73,6 +73,13 @@ namespace YSJ
         // BGM 재생
         public void PlayBGM(BGM bgm)
         {
+            // 같은 BGM을 재생하는 경우 중단
+            if (_bgmSource.clip != null)
+            {
+                if (bgm.ToString() == _bgmSource.clip.name)
+                    return;
+            }
+
             _bgmSource.volume = PlayerPrefs.GetFloat("MusicVolume");
             _bgmSource.clip = _bgmDict[bgm];
             _bgmSource.Play();
@@ -81,7 +88,7 @@ namespace YSJ
         // 효과음 재생
         public void PlaySFX(SFX sfx)
         {
-            _sfxSource.volume =PlayerPrefs.GetFloat("SFXVolume");
+            _sfxSource.volume = PlayerPrefs.GetFloat("SFXVolume");
             _sfxSource.PlayOneShot(_sfxDict[sfx]);
         }
 
