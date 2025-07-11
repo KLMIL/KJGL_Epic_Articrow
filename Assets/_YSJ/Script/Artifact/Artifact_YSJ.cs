@@ -436,6 +436,7 @@ public class Artifact_YSJ : MonoBehaviour
 
         // 슬롯 수
         defaultValues.Add(new Values(MaxSlotCount, -1, 6));
+        defaultValues.Add(new Values(MaxSlotCount, -1, 7));
 
         // 스탯 포인트 복사
         int currentStatPoint = StatPoint;
@@ -489,6 +490,7 @@ public class Artifact_YSJ : MonoBehaviour
         skillStatus.Default_AttackStartDelay = defaultValues[5]._value;
 
         MaxSlotCount = (int)defaultValues[6]._value;
+        MaxSlotCount = (int)defaultValues[7]._value;
         MaxSlotCount = Mathf.Clamp(MaxSlotCount, 0, 15);
     }
     #endregion
