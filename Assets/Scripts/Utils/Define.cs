@@ -75,6 +75,7 @@ public class Define
         GolemRushWall,
         GolemSpiral,
         GolemLaser,
+        GolemSpike,
         GolemDie,
     }
     #endregion
