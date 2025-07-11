@@ -35,7 +35,7 @@ namespace Game.Enemy
                 GameManager.Instance.CameraController.ShakeCamera(0.5f, 0.1f);
 
                 // 콜라이더 및 트리거 비활성화
-                foreach (var collider in controller.GetComponents<Collider2D>())
+                foreach (var collider in controller.GetComponentsInChildren<Collider2D>())
                 {
                     collider.enabled = false;
                 }
