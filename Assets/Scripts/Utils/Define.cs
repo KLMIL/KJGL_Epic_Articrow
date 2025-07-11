@@ -8,7 +8,8 @@ public class Define
         TitleScene,
         InGameScene,
         EndingScene,
-        TutorialScene
+        TutorialScene,
+        GolemBossScene,
     }
     #endregion
 
@@ -19,7 +20,8 @@ public class Define
         None,
         TitleScene,
         InGameScene,
-        EndingScene
+        EndingScene,
+        GolemBossScene,
     }
     public enum SFX
     {
