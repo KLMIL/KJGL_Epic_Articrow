@@ -26,6 +26,11 @@ namespace YSJ
             _descriptionPanel.gameObject.SetActive(false); // 초기에는 비활성화
         }
 
+        void OnDisable()
+        {
+            _descriptionPanel.gameObject.SetActive(false);
+        }
+
         public void OnPointerEnter(PointerEventData eventData)
         {
             _inventory = Managers.UI.InventoryCanvas.inventory;
