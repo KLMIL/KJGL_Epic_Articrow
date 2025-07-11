@@ -12,6 +12,7 @@ public partial class BossDieAction : Action
     [SerializeReference] public BlackboardVariable<BossFSM> BossFSM;
     protected override Status OnStart()
     {
+        BossFSM.Value.Anim.StopPlayback();
         BossFSM.Value.Anim.Play("Die");
         return Status.Running;
     }
