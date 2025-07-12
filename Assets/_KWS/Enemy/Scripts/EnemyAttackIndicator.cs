@@ -56,10 +56,7 @@ namespace Game.Enemy
                         float angleStep = 360f / segments;
                         float radius = lens[0].x; // 첫 값을 반지름으로
                         
-
-
                         Vector2 origin = (Vector2)transform.position;
-
 
                         for (int i = 0; i < segments; i++)
                         {
@@ -94,7 +91,50 @@ namespace Game.Enemy
                     }
                 case IndicatorType.Cone:
                     {
+                        Vector2 origin = (Vector2)transform.position;
+                        Vector2 leftDir = dirs[0].normalized;
+                        Vector2 rightDir = dirs[1].normalized;
+                        float maxDist = lens[0].x;
 
+                        float coneAngle = Vector2.Angle(leftDir, rightDir);
+
+                        float stepAngle = 1f;
+                        int segments = Mathf.Max(2, Mathf.CeilToInt(coneAngle / stepAngle));
+
+
+                        Vector2 forward = (leftDir + rightDir).normalized;
+
+                        float startAngle = Vector2.SignedAngle(forward, leftDir);
+
+                        for (int i = 0; i < segments; i++)
+                        {
+                            float t = (segments == 1) ? 0.5f : (float)i / (segments - 1);
+                            float angle = Mathf.Lerp(-coneAngle / 2, coneAngle / 2, t);
+
+                            Vector2 dir = Quaternion.Euler(0, 0, angle) * forward;
+
+                            float dist = maxDist;
+                            RaycastHit2D hit = Physics2D.Raycast(origin, dir, maxDist, LayerMask.GetMask("Obstacle"));
+                            if (hit.collider != null)
+                            {
+                                dist = hit.distance;
+                            }
+
+                            GameObject indicator = Instantiate(prefab, transform);
+                            LineRenderer lr = indicator.GetComponent<LineRenderer>();
+
+                            lr.positionCount = 2;
+                            lr.SetPosition(0, origin);
+                            lr.SetPosition(1, origin + dir * dist);
+
+                            float width = Mathf.Deg2Rad * stepAngle * dist;
+                            //(2 * Mathf.PI * dist) / segments;
+
+                            lr.startWidth = 0;
+                            lr.endWidth = width;
+
+                            _rendererPrefabs.Add(indicator);
+                        }
 
                         break;
                     }

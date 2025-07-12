@@ -91,10 +91,21 @@ namespace Game.Enemy
                     lens.Add(scale);
                     break;
                 case AttackType.Melee_Smash:
-                    dirs.Add(standardDir);
-                    lens.Add(scale);
-                    break;
+                    {
+                        Vector2 forawrd = standardDir.normalized;
 
+                        float halfAngle = angle * 0.5f;
+
+                        Vector2 leftDir = Quaternion.Euler(0, 0, -halfAngle) * forawrd;
+                        Vector2 rightDir = Quaternion.Euler(0, 0, +halfAngle) * forawrd;
+
+                        Vector2 indicatorLen = IndicatorScale;
+
+                        dirs.Add(leftDir);
+                        dirs.Add(rightDir);
+                        lens.Add(indicatorLen);
+                        break;
+                    }
                 case AttackType.Projectile_ScatterLinearAttack:
                     {
                         float spreadAngle = 0;
