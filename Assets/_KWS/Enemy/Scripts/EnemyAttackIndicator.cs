@@ -52,7 +52,43 @@ namespace Game.Enemy
                     }
                 case IndicatorType.Circle:
                     {
+                        int segments = 64; // 인디케이터를 구성하는 조각 수
+                        float angleStep = 360f / segments;
+                        float radius = lens[0].x; // 첫 값을 반지름으로
+                        
 
+
+                        Vector2 origin = (Vector2)transform.position;
+
+
+                        for (int i = 0; i < segments; i++)
+                        {
+                            float angle = i * angleStep;
+                            Vector2 dir = new Vector2(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle));
+                            float maxDist = radius;
+                            float dist = maxDist;
+
+                            // Raycast로 벽까지 거리 체크
+                            RaycastHit2D hit = Physics2D.Raycast(origin, dir, maxDist, LayerMask.GetMask("Obstacle"));
+                            if (hit.collider != null)
+                                dist = hit.distance;
+                            
+
+                            GameObject indicator = Instantiate(prefab, transform);
+                            LineRenderer lr = indicator.GetComponent<LineRenderer>();
+
+                            lr.positionCount = 2;
+
+                            lr.SetPosition(0, origin);
+                            lr.SetPosition(1, origin + dir * dist);
+
+                            float width = (2 * Mathf.PI * dist) / segments;
+
+                            lr.startWidth = 0;
+                            lr.endWidth = width;
+
+                            _rendererPrefabs.Add(indicator);
+                        }
 
                         break;
                     }

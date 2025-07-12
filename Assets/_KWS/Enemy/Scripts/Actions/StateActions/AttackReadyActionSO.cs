@@ -138,7 +138,7 @@ namespace Game.Enemy
                 controller.StopCoroutine(controller.GetIndicatorCoroutine());
                 controller.EndIndicatorCoroutine();
             }
-            controller.StartIndicatorCoroutine(controller.StartCoroutine(UpdateIndicatorCoroutine(controller, IndicatorType.Line, dirs, lens, IndicatorPrefab, duration)));
+            controller.StartIndicatorCoroutine(controller.StartCoroutine(UpdateIndicatorCoroutine(controller, IndicatorType, dirs, lens, IndicatorPrefab, duration)));
         }
 
         private IEnumerator BlinkAndHideCoroutine(EnemyController controller, float duration)
@@ -153,7 +153,7 @@ namespace Game.Enemy
             float elapsed = 0f;
             while (elapsed < duration - 0.1f)
             {
-                controller.AttackIndicator.SetIndicators(IndicatorType.Line, dirs, lens, IndicatorPrefab);
+                controller.AttackIndicator.SetIndicators(IndicatorType, dirs, lens, IndicatorPrefab);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
