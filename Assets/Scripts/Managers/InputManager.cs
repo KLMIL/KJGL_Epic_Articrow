@@ -254,6 +254,17 @@ public class InputManager
     }
 
     #region 입력 On/Off
+
+    public void EnablePlayer()
+    {
+        _inputSystemActions.Player.Enable();
+    }
+
+    public void DisablePlayer()
+    {
+        _inputSystemActions.Player.Disable();
+    }
+
     public void EnableAttack(bool isActive)
     {
         if(isActive)
