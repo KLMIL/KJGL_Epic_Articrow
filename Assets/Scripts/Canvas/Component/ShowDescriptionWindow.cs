@@ -22,8 +22,8 @@ namespace YSJ
         {
             _inventory = transform.GetComponentInParent<Inventory_YSJ>();
             _localizationKey = GetComponent<ImagePartsRoot_YSJ>().partsName;
-            _descriptionPanel = Managers.Pool.Get<RectTransform>(Define.PoolID.Description);
-            _descriptionPanel.gameObject.SetActive(false); // 초기에는 비활성화
+            //_descriptionPanel = Managers.Pool.Get<RectTransform>(Define.PoolID.Description);
+            //_descriptionPanel.gameObject.SetActive(false); // 초기에는 비활성화
         }
 
         void OnDisable()
@@ -35,6 +35,7 @@ namespace YSJ
         {
             _inventory = Managers.UI.InventoryCanvas.inventory;
             // 0. Window 준비
+            _descriptionPanel = Managers.Pool.Get<RectTransform>(Define.PoolID.Description);
             _descriptionPanel.gameObject.SetActive(true); // 활성화
 
             // 1. Window 배치
@@ -52,8 +53,8 @@ namespace YSJ
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            //Managers.Pool.Return(Define.PoolID.Description, _descriptionPanel.gameObject);
-            _descriptionPanel.gameObject.SetActive(false);
+            Managers.Pool.Return(Define.PoolID.Description, _descriptionPanel.gameObject);
+            //_descriptionPanel.gameObject.SetActive(false);
         }
 
         // 설명 업데이트
