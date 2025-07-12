@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using YSJ;
 
@@ -104,6 +105,7 @@ public class Artifact_YSJ : MonoBehaviour
 
                     if (normalStatus.AttackPrefab)
                     {
+                        int fireCount = 0;
                         // 추가 발사 개수만큼 반복
                         for (int addedSpawnCount = 0; addedSpawnCount < normalStatus.Added_AttackCount; addedSpawnCount++)
                         {
@@ -113,8 +115,8 @@ public class Artifact_YSJ : MonoBehaviour
                                 // Add 산탄만큼 산탄 반복
                                 for (int addedSpreadCount = 0; addedSpreadCount < normalStatus.Added_AttackSpreadCount; addedSpreadCount++)
                                 {
-                                    // 선딜이 없다면 발사하기 전에 방향 다시계산
-                                    if (normalStatus.Current_AttackStartDelay == 0)
+                                    // 첫번째 발사가 아니라면 방향 다시계산
+                                    if (fireCount > 0)
                                     {
                                         Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
                                     }
@@ -153,6 +155,8 @@ public class Artifact_YSJ : MonoBehaviour
                                 {
                                     yield return new WaitForSeconds(normalStatus.Default_AttackCountDeltaTime);
                                 }
+
+                                fireCount++;
                             }
 
                             // 마지막 추가공격이 아니라면 공격 간격만큼 기다리기
@@ -304,14 +308,16 @@ public class Artifact_YSJ : MonoBehaviour
 
                     if (skillStatus.AttackPrefab)
                     {
+                        int fireCount = 0;
+
                         // 추가 발사 개수만큼 반복
                         for (int addedSpawnCount = 0; addedSpawnCount < skillStatus.Added_AttackCount; addedSpawnCount++)
                         {
                             // 디폴트 발사 개수만큼 반복
                             for (int SpawnCount = 0; SpawnCount < skillStatus.Default_AttackCount; SpawnCount++)
                             {
-                                // 선딜이 없다면 발사하기 전에 방향 다시계산
-                                if (skillStatus.Current_AttackStartDelay == 0) 
+                                // 첫번째 발사가 아니라면 방향 다시계산
+                                if (fireCount > 0) 
                                 {
                                     Direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePosition.position).normalized;
                                 }
@@ -350,6 +356,8 @@ public class Artifact_YSJ : MonoBehaviour
                                 {
                                     yield return new WaitForSeconds(skillStatus.Default_AttackCountDeltaTime);
                                 }
+
+                                fireCount++;
                             }
 
                             // 마지막 추가공격이 아니라면 공격 간격만큼 기다리기

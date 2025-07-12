@@ -28,7 +28,7 @@ namespace YSJ
 
         void OnDisable()
         {
-            _descriptionPanel.gameObject.SetActive(false);
+            //_descriptionPanel.gameObject.SetActive(false);
         }
 
         public void OnPointerEnter(PointerEventData eventData)
