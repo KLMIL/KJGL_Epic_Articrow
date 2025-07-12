@@ -4,24 +4,34 @@ using UnityEngine;
 using Steamworks;
 public class SteamAchievement : MonoBehaviour
 {
+    public enum AchievementType
+    {
+        Test,
+        StartFirstGame,
+        TutorialClear,
+        SlimeBossClear,
+        GolemBossClear
+    }
+
     public static SteamAchievement instance;
 
-    private void Awake()
+    void Awake()
     {
         instance = this;
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F12))
+        // 테스트용
+        if (Input.GetKeyDown(KeyCode.F11))
         {
-            //Debug.LogError("아아 테스트 준비 완료");
-            Achieve("NEW_ACHIEVEMENT_1_0");
+            Achieve(AchievementType.Test);
         }
     }
 
-    public void Achieve(string apiName)
+    public void Achieve(AchievementType achievementType)
     {
+        string apiName = achievementType.ToString();
         Debug.Log("도전과제 달성 요청");
         if (SteamManager.Initialized)
         {
