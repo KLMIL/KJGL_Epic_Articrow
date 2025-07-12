@@ -26,6 +26,10 @@ public class GameFlowManager : MonoBehaviour
     [SerializeField] bool _isRoomGenerated = false;
 
 
+    // Properties
+    public int CurrentRoom => _currentRoom;
+
+
     private void Awake()
     {
         if (Instance != null)
