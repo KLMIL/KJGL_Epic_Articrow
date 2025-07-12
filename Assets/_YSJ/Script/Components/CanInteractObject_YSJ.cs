@@ -141,6 +141,11 @@ public class CanInteractObject_YSJ : MonoBehaviour
         {
             if (slot.childCount > 0) 
             {
+                if (slot.GetChild(0).TryGetComponent<ShowDescriptionWindow>(out ShowDescriptionWindow description)) 
+                {
+                    description.ReturnPanel();
+                }
+
                 // 인벤에 이미지 파츠추가 시도
                 if (Managers.UI.InventoryCanvas.inventory.TryAddItem(slot.GetChild(0).gameObject))
                 {

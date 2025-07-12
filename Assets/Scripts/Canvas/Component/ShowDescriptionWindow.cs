@@ -22,13 +22,11 @@ namespace YSJ
         {
             _inventory = transform.GetComponentInParent<Inventory_YSJ>();
             _localizationKey = GetComponent<ImagePartsRoot_YSJ>().partsName;
-            //_descriptionPanel = Managers.Pool.Get<RectTransform>(Define.PoolID.Description);
-            //_descriptionPanel.gameObject.SetActive(false); // 초기에는 비활성화
         }
 
         void OnDisable()
         {
-            //_descriptionPanel.gameObject.SetActive(false);
+            ReturnPanel();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -53,8 +51,16 @@ namespace YSJ
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            Managers.Pool.Return(Define.PoolID.Description, _descriptionPanel.gameObject);
-            //_descriptionPanel.gameObject.SetActive(false);
+            ReturnPanel();
+        }
+
+        public void ReturnPanel()
+        {
+            if (_descriptionPanel != null)
+            {
+                _descriptionPanel.gameObject.SetActive(false);
+                Managers.Pool.Return(Define.PoolID.Description, _descriptionPanel.gameObject);
+            }
         }
 
         // 설명 업데이트
