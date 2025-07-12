@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using YSJ;
 
 public class GameFlowManager : MonoBehaviour
@@ -132,7 +133,8 @@ public class GameFlowManager : MonoBehaviour
             }
             else // 엔딩씬 호출
             {
-                StartCoroutine(Managers.Scene.LoadSceneCoroutine("EndingScene"));
+                int index = Managers.Scene.GetBuildIndexBySceneName("EndingScene");
+                StartCoroutine(Managers.Scene.LoadSceneCoroutine(index));
             }
         }
     }
