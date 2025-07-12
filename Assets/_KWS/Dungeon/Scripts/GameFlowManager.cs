@@ -15,9 +15,9 @@ public class GameFlowManager : MonoBehaviour
     [SerializeField] List<string> _normalRooms;
     [SerializeField] List<string> _hardRooms;
 
-    const int _easyRoomCount = 4;
-    const int _normalRoomCount = 6;
-    const int _hardRoomCount = 10;
+    const int _easyRoomCount = 3;
+    const int _normalRoomCount = 4;
+    const int _hardRoomCount = 7;
 
     [SerializeField] int _easyRoomIndex = 0;
     [SerializeField] int _normalRoomIndex = 0;
