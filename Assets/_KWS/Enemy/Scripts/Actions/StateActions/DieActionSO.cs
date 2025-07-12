@@ -24,6 +24,11 @@ namespace Game.Enemy
             {
                 controller.FSM.isDied = true;
 
+                if (controller.gameObject.name == "HornSludge")
+                {
+                    SteamAchievement.instance.Achieve(SteamAchievement.AchievementType.SlimeBossClear);
+                }
+
                 // TODO: 몬스터가 죽을 때마다 Wave 진행해야하는지 확인
                 //BMC.EnemySpawner.OnEnemyDie?.Invoke();
                 controller.OnEnemyDieAction();
