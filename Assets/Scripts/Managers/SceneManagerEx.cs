@@ -68,6 +68,7 @@ public class SceneManagerEx
 
 
         // 4. 연출 애니메이션 실행
+        YSJ.Managers.Input.DisablePlayer();
         yield return stageProgress.PlayerProgressAnimation();
         yield return new WaitForSecondsRealtime(0.3f);
 
@@ -80,6 +81,7 @@ public class SceneManagerEx
 
 
         // 6. 씬 활성화
+        YSJ.Managers.Input.EnablePlayer();
         asyncOperation.allowSceneActivation = true;
         while (!asyncOperation.isDone)
         {
