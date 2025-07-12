@@ -85,16 +85,12 @@ namespace Game.Enemy
                 controller.FSM.rushSpeedMultiply = this.rushSpeedMultiply;
                 controller.FSM.currentActionDamageMultiply = this.damageMultiply;
             }
-
-            //controller.lastAttackTimes[controller.CurrentStateName] = -Mathf.Infinity;
         }
 
         public override void OnExit(EnemyController controller)
         {
             switch (meleeAttackMode)
             {
-                //case MeleeAttackMode.Contact:
-                //    break;
                 case MeleeAttackMode.Basic:
                     break;
                 case MeleeAttackMode.Rush:
@@ -106,33 +102,8 @@ namespace Game.Enemy
         }
 
 
-
-        // DEP :: DealDamage로 완전히 이동
-        //private void ContactAttack(EnemyController controller)
-        //{
-        //    float damage = controller.Status.attack * damageMultiply;
-        //    controller.DealDamageToPlayer(damage, false);
-
-        //    // (이펙트가 필요하다면 이 부분에 추가)
-        //}
-
         private void BasicAttack(EnemyController controller)
         {
-            // TODO: 구조 다시 구현할 것. EnemyDealDamage에서 대미지 부여하는 방식으로.
-            //Vector2 attackOrigin = (Vector2)controller.transform.position + attackOffset;
-
-            //LayerMask playerMask = LayerMask.GetMask("Player");
-            //Collider2D[] hits = Physics2D.OverlapCircleAll(attackOrigin, attackRange, playerMask);
-
-            //foreach (var hit in hits)
-            //{
-            //    float damage = controller.Status.attack * damageMultiply;
-            //    controller.DealDamageToPlayer(damage, false);
-
-            //    // (넉백이 필요하다면 이 부분에 추가)
-            //}
-            // (이팩트가 필요하다면 이 부분에 추가)
-
             Vector2 attackOrigin = (Vector2)controller.transform.position + attackOffset;
             float radius = attackRange;
             LayerMask playerMask = LayerMask.GetMask("PlayerHurtBox");
@@ -153,17 +124,8 @@ namespace Game.Enemy
 
         private void RushAttack(EnemyController controller)
         {
-            // 유도형 돌진은 일단 제외
-            //if (trackingRush) // 유도형 돌진
-            //{
-            //    // 매 프레임마다 최신 방향을 추적
-            //    controller.rushDirection = (controller.Player.position - controller.transform.position).normalized;
-            //}
-            //else if (!controller.isRushing)// 일반 돌진
             if (!controller.FSM.isRushing)// 일반 돌진
             {
-                // 첫 rush에서 방향 초기화
-                //controller.FSM.rushDirection = (controller.Player.position - controller.transform.position).normalized;
                 controller.FSM.rushDirection = (controller.FSM.AttackTargetPosition - (Vector2)controller.transform.position).normalized;
             }
 
@@ -171,8 +133,6 @@ namespace Game.Enemy
             controller.FSM.isRushAttacked = false;
             controller.FSM.isRushing = true;
             controller.MoveTo(controller.FSM.rushDirection, rushDuration, "RushAttack");
-
-            //controller.transform.Translate(controller.rushDirection * controller.Status.moveSpeed * rushSpeedMultiply * Time.deltaTime);
         }
 
         private void SmashAttack(EnemyController controller)
@@ -181,6 +141,7 @@ namespace Game.Enemy
             float radius = coneRadius;
             float maxAngle = coneAngle * 0.5f;
             LayerMask playerMask = LayerMask.GetMask("PlayerHurtBox");
+            LayerMask obstacleMask = LayerMask.GetMask("Obstacle");
 
             Vector2 forward = (controller.FSM.AttackTargetPosition - (Vector2)controller.transform.position).normalized;
 
@@ -193,6 +154,36 @@ namespace Game.Enemy
 
                 if (angle <= maxAngle)
                 {
+                    // 벽 체크
+                    Collider2D playerCollider = hit;
+
+                    Vector2[] checkPoints = new Vector2[]
+                    {
+                        playerCollider.bounds.center, // 중심
+                        playerCollider.bounds.min, // 좌하단
+                        playerCollider.bounds.max, // 우상단
+                        new Vector2(playerCollider.bounds.min.x, playerCollider.bounds.max.y), // 좌상단
+                        new Vector2(playerCollider.bounds.max.x, playerCollider.bounds.min.y) // 우하단
+                    };
+
+                    bool allBlocked = true;
+                    foreach (var point in checkPoints)
+                    {
+                        RaycastHit2D wallCheck = Physics2D.Linecast(attackOrigin, point, obstacleMask);
+                        if (wallCheck.collider == null)
+                        {
+                            allBlocked = false; // 한 곳이라도 뚫렸다면 피격
+                            break;
+                        }
+                    }
+
+                    if (allBlocked)
+                    {
+                        // 몸 전체가 벽 뒤에 있다면 피격받지 않음
+                        continue; 
+                    }
+
+                    // 벽 없으면 대미지 부여
                     float damage = controller.Status.attack * damageMultiply;
                     Transform target = hit.transform;
                     controller.DealDamageToPlayer(damage, target, false);
