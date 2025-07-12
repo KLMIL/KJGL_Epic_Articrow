@@ -25,9 +25,22 @@ namespace Game.Enemy
                             GameObject indicator = Instantiate(prefab, transform);
                             LineRenderer lr = indicator.GetComponent<LineRenderer>();
 
+                            Vector2 origin = (Vector2)transform.position;
+                            Vector2 direction = dirs[i].normalized;
+                            float maxDistance = lens[i].x;
+
+                            float finalDistance = maxDistance;
+                            RaycastHit2D hit = Physics2D.Raycast(origin, direction, maxDistance, LayerMask.GetMask("Obstacle"));
+                            if (hit.collider != null)
+                            {
+                                finalDistance = hit.distance;
+                            }
+
+
                             lr.positionCount = 2;
-                            lr.SetPosition(0, (Vector2)transform.position);
-                            lr.SetPosition(1, (Vector2)transform.position + dirs[i].normalized * lens[i].x);
+                            lr.SetPosition(0, origin);
+                            //lr.SetPosition(1, (Vector2)transform.position + dirs[i].normalized * lens[i].x);
+                            lr.SetPosition(1, origin + direction * finalDistance);
 
                             lr.startWidth = lens[i].y;
                             lr.endWidth = lens[i].y;
