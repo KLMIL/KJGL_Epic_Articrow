@@ -46,9 +46,8 @@ namespace Game.Dungeon
                 _progressText.text = "다음 방으로 이동 중 ...";
             }
 
-            // 시작 상태: 현재 방이 중앙, 플레이어 아이콘도 현재 방 위치에 존재
             CenterRoom(_nowRoomIndex);
-            SetPlayerIconPosition(_nowRoomIndex);
+            //SetPlayerIconPosition(_nowRoomIndex); // 지금 상태에선 필요없는 함수. 추가 연출을 위해 제거X
         }
 
         /// <summary>
