@@ -22,6 +22,7 @@ namespace BMC
 
         public IEnumerator FadeInCoroutine(float duration)
         {
+            if (_canvas == null) yield break;
             _canvas.enabled = true;
 
             Color startColor = new Color(_sceneFadeImage.color.r, _sceneFadeImage.color.g, _sceneFadeImage.color.b, 1f);
@@ -29,11 +30,13 @@ namespace BMC
 
             yield return FadeCoroutine(startColor, targetColor, duration);
 
+            if (_canvas == null) yield break;
             _canvas.enabled = false;
         }
 
         public IEnumerator FadeOutCoroutine(float duration)
         {
+            if (_canvas == null) yield break;
             _canvas.enabled = true;
 
             Color startColor = new Color(_sceneFadeImage.color.r, _sceneFadeImage.color.g, _sceneFadeImage.color.b, 0f);
@@ -49,6 +52,7 @@ namespace BMC
 
             while (elapsedPercentage < 1)
             {
+                if (_sceneFadeImage == null) yield break;
                 elapsedPercentage = elapsedTime / duration;
                 _sceneFadeImage.color = Color.Lerp(startColor, targetColor, elapsedPercentage);
                 yield return null;
