@@ -36,6 +36,7 @@ namespace Game.Enemy
 
         Coroutine markingCoroutine;
         Coroutine gravitySurgeCoroutine;
+        Coroutine indicatorCoroutine;
 
         [Header("Others")]
         public GameObject SpawnEffectPrefab;
@@ -215,6 +216,26 @@ namespace Game.Enemy
                 Instantiate(SpawnEffectPrefab, transform.position, Quaternion.identity);
             }
             
+        }
+
+        public void StartIndicatorCoroutine(Coroutine coroutine)
+        {
+            indicatorCoroutine = coroutine;
+        }
+
+        public void EndIndicatorCoroutine()
+        {
+            indicatorCoroutine = null;
+        }
+
+        public bool IsIndicatorCoroutineGo()
+        {
+            return indicatorCoroutine != null;
+        }
+
+        public Coroutine GetIndicatorCoroutine()
+        {
+            return indicatorCoroutine;
         }
         #endregion
 
