@@ -91,10 +91,21 @@ namespace Game.Enemy
                     lens.Add(scale);
                     break;
                 case AttackType.Melee_Smash:
-                    dirs.Add(standardDir);
-                    lens.Add(scale);
-                    break;
+                    {
+                        Vector2 forawrd = standardDir.normalized;
 
+                        float halfAngle = angle * 0.5f;
+
+                        Vector2 leftDir = Quaternion.Euler(0, 0, -halfAngle) * forawrd;
+                        Vector2 rightDir = Quaternion.Euler(0, 0, +halfAngle) * forawrd;
+
+                        Vector2 indicatorLen = IndicatorScale;
+
+                        dirs.Add(leftDir);
+                        dirs.Add(rightDir);
+                        lens.Add(indicatorLen);
+                        break;
+                    }
                 case AttackType.Projectile_ScatterLinearAttack:
                     {
                         float spreadAngle = 0;
@@ -131,9 +142,14 @@ namespace Game.Enemy
                     break;
             }
 
-            controller.AttackIndicator.SetIndicators(dirs, lens, IndicatorPrefab);
-
-            controller.StartCoroutine(BlinkAndHideCoroutine(controller, duration - 0.1f));
+            //controller.AttackIndicator.SetIndicators(IndicatorType.Line, dirs, lens, IndicatorPrefab);
+            // 인디케이터 생성 코루틴 호출 -> 몬스터 따라가면서 계속 갱신
+            if (controller.IsIndicatorCoroutineGo()) // 코루틴이 실행중이라면 중지
+            {
+                controller.StopCoroutine(controller.GetIndicatorCoroutine());
+                controller.EndIndicatorCoroutine();
+            }
+            controller.StartIndicatorCoroutine(controller.StartCoroutine(UpdateIndicatorCoroutine(controller, IndicatorType, dirs, lens, IndicatorPrefab, duration)));
         }
 
         private IEnumerator BlinkAndHideCoroutine(EnemyController controller, float duration)
@@ -141,6 +157,19 @@ namespace Game.Enemy
             yield return new WaitForSeconds(duration);
 
             controller.AttackIndicator.BlinkAndHide();
+        }
+
+        private IEnumerator UpdateIndicatorCoroutine(EnemyController controller, IndicatorType type, List<Vector2> dirs, List<Vector2> lens, GameObject IndicatorPrefab, float duration)
+        {
+            float elapsed = 0f;
+            while (elapsed < duration - 0.1f)
+            {
+                controller.AttackIndicator.SetIndicators(IndicatorType, dirs, lens, IndicatorPrefab);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            controller.StartCoroutine(BlinkAndHideCoroutine(controller, 0.1f));
         }
 
         public override void Act(EnemyController controller)
