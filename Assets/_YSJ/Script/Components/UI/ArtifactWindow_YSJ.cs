@@ -67,9 +67,10 @@ public class ArtifactWindow_YSJ : MonoBehaviour
         _artifactStatusTests[1].Reset();
     }
 
-    public void SendInfoToUI(Artifact_YSJ equipedArtifact)
+    public void ArtifactWindowUpdate(Artifact_YSJ equipedArtifact)
     {
         ArtifactIMGChange(equipedArtifact);
+        RemoveAllSlotUI();
         CreateSlotUI(equipedArtifact);
         ArtifactInfomationTextUpdate(equipedArtifact);
     }

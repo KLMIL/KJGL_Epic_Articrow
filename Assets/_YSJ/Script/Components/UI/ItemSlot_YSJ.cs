@@ -43,6 +43,24 @@ public class ItemSlot_YSJ : MonoBehaviour, IDropHandler
         }
     }
 
+    virtual public void MoveToSlot(Transform Goal) 
+    {
+        CanDragItem_YSJ currentItem = transform.GetChild(0).GetComponent<CanDragItem_YSJ>();
+        if (currentItem != null)
+        {
+            // 목표지점이 아티팩트 슬롯이고, 현재 아이템이 파츠면
+            if (Goal.TryGetComponent<ArtifactSlotUI_YSJ>(out ArtifactSlotUI_YSJ artifactSlot) && currentItem.TryGetComponent<ImagePartsRoot_YSJ>(out ImagePartsRoot_YSJ parts))
+            {
+                //print(parts.name);
+                artifactSlot.CurrentArtifact.RemoveParts(artifactSlot.SlotIndex); // 현재 아이템이 속한 아티팩트에서 파츠를 제거
+                artifactSlot.CurrentArtifact.AddParts(parts, artifactSlot.SlotIndex); // 목표지점 아티팩트슬롯에 이미 들어있던 파츠를 등록
+            }
+            // 트랜스폼 부모지정
+            currentItem.transform.SetParent(Goal);
+            currentItem.currentParent = Goal;
+        }
+    }
+
     virtual public void AddPartsInCurrentSlot(CanDragItem_YSJ draggedItem) 
     {
         // 드래그한 파츠가 아티팩트 슬롯에서 왔으면
