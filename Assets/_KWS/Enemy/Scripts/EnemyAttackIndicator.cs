@@ -11,7 +11,56 @@ namespace Game.Enemy
         Color _originColor;
 
 
-        public void SetIndicators(List<Vector2> dirs, List<Vector2> lens, GameObject prefab)
+        public void SetIndicators(IndicatorType type, List<Vector2> dirs, List<Vector2> lens, GameObject prefab)
+        {
+            Hide();
+
+            switch (type)
+            {
+                case IndicatorType.Line:
+                    {
+                        int count = dirs.Count;
+                        for (int i = 0; i < count; i++)
+                        {
+                            GameObject indicator = Instantiate(prefab, transform);
+                            LineRenderer lr = indicator.GetComponent<LineRenderer>();
+
+                            lr.positionCount = 2;
+                            lr.SetPosition(0, (Vector2)transform.position);
+                            lr.SetPosition(1, (Vector2)transform.position + dirs[i].normalized * lens[i].x);
+
+                            lr.startWidth = lens[i].y;
+                            lr.endWidth = lens[i].y;
+
+                            _rendererPrefabs.Add(indicator);
+                        }
+
+                        break;
+                    }
+                case IndicatorType.Circle:
+                    {
+
+
+                        break;
+                    }
+                case IndicatorType.Cone:
+                    {
+
+
+                        break;
+                    }
+            }
+
+
+            // Blink를 위해 기본 원본 색 저장
+            if (_rendererPrefabs.Count > 0 && _rendererPrefabs[0] != null)
+            {
+                _originColor = _rendererPrefabs[0].GetComponent<LineRenderer>().startColor;
+            }
+        }
+
+
+        public void DEP_SetIndicators(List<Vector2> dirs, List<Vector2> lens, GameObject prefab)
         {
             Hide();
 
@@ -61,7 +110,7 @@ namespace Game.Enemy
 
         private IEnumerator BlinkCoroutine(float duration, int count)
         {
-            if (_rendererPrefabs == null || _rendererPrefabs.Count == 0 ) yield break;
+            if (_rendererPrefabs == null || _rendererPrefabs.Count == 0) yield break;
 
             //Color originColor = _renderer.color;
             Color blinkColor = Color.white;
@@ -71,18 +120,30 @@ namespace Game.Enemy
                 // 1. 모든 SpriteRenderer를 흰색으로
                 foreach (var p in _rendererPrefabs)
                 {
-                    var srs = p.GetComponentsInChildren<SpriteRenderer>();
-                    foreach (var sr in srs)
-                        sr.color = blinkColor;
+                    //var srs = p.GetComponentsInChildren<SpriteRenderer>();
+                    //foreach (var sr in srs)
+                    //    sr.color = blinkColor;
+                    var lr = p.GetComponent<LineRenderer>();
+                    if (lr != null)
+                    {
+                        lr.startColor = blinkColor;
+                        lr.endColor = blinkColor;
+                    }
                 }
                 yield return new WaitForSeconds(duration / (count * 2));
 
                 // 2. 원래 색으로 복구
                 foreach (var p in _rendererPrefabs)
                 {
-                    var srs = p.GetComponentsInChildren<SpriteRenderer>();
-                    foreach (var sr in srs)
-                        sr.color = _originColor;
+                    //var srs = p.GetComponentsInChildren<SpriteRenderer>();
+                    //foreach (var sr in srs)
+                    //    sr.color = _originColor;
+                    var lr = p.GetComponent<LineRenderer>();
+                    if (lr != null)
+                    {
+                        lr.startColor = _originColor;
+                        lr.endColor = _originColor;
+                    }
                 }
                 yield return new WaitForSeconds(duration / (count * 2));
             }
@@ -90,9 +151,15 @@ namespace Game.Enemy
             // 마지막에 다시 원상복귀(혹시 이상하게 깜빡였을 때)
             foreach (var p in _rendererPrefabs)
             {
-                var srs = p.GetComponentsInChildren<SpriteRenderer>();
-                foreach (var sr in srs)
-                    sr.color = _originColor;
+                //var srs = p.GetComponentsInChildren<SpriteRenderer>();
+                //foreach (var sr in srs)
+                //    sr.color = _originColor;
+                var lr = p.GetComponent<LineRenderer>();
+                if (lr != null)
+                {
+                    lr.startColor = _originColor;
+                    lr.endColor = _originColor;
+                }
             }
 
             Hide();
