@@ -39,13 +39,6 @@ namespace Game.Dungeon
             _nowRoomIndex = nowIdx;
             _nextRoomIndex = nextIdx;
 
-            // 텍스트 초기화
-            if (_progressText != null)
-            {
-                // TODO: 로컬라이징 하던가 글씨 없애야함
-                _progressText.text = "다음 방으로 이동 중 ...";
-            }
-
             CenterRoom(_nowRoomIndex);
             //SetPlayerIconPosition(_nowRoomIndex); // 지금 상태에선 필요없는 함수. 추가 연출을 위해 제거X
         }
