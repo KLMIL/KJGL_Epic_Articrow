@@ -5,7 +5,6 @@ using UnityEngine;
 /// </summary>
 public class ImageParts_Passive_NormalAttackCoolTime_1 : ImagePartsRoot_YSJ, IImagePartsToNormalAttack_YSJ
 {
-    float _percent = 30f;
     float _coolTimeValue = 0.05f;
 
     public override string partsName => "Passive_NormalAttackCoolTime_1";
