@@ -1,6 +1,7 @@
 using BMC;
 using Game.Dungeon;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Define;
@@ -9,6 +10,21 @@ public class SceneManagerEx
 {
     // 현재 씬
     public BaseScene CurrentScene { get { return GameObject.FindAnyObjectByType<BaseScene>(); } }
+
+    public int GetBuildIndexBySceneName(string sceneName)
+    {
+        int count = SceneManager.sceneCountInBuildSettings;
+
+        for (int i = 0; i < count; i++)
+        {
+            string path = SceneUtility.GetScenePathByBuildIndex(i);
+            string name = Path.GetFileNameWithoutExtension(path);
+            if (name == sceneName)
+                return i;
+        }
+
+        return -1; // 씬 이름이 빌드 세팅에 없다면 -1
+    }
 
     // 씬 로드(개발 마무리 단계에서 사용할 예정)
     public void LoadScene(SceneType sceneType)
