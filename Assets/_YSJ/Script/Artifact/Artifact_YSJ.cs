@@ -489,8 +489,7 @@ public class Artifact_YSJ : MonoBehaviour
         skillStatus.Default_BulletLife = defaultValues[4]._value;
         skillStatus.Default_AttackStartDelay = defaultValues[5]._value;
 
-        MaxSlotCount = (int)defaultValues[6]._value;
-        MaxSlotCount = (int)defaultValues[7]._value;
+        MaxSlotCount = (int)defaultValues[6]._value + (int)defaultValues[7]._value;
         MaxSlotCount = Mathf.Clamp(MaxSlotCount, 0, 15);
     }
     #endregion
