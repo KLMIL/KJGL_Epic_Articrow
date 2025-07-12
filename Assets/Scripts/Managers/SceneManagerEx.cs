@@ -92,6 +92,7 @@ public class SceneManagerEx
 
 
         // 8. FadeIn 시작
+        sceneFade = GameObject.FindAnyObjectByType<UI_SceneTransitionCanvas>();
         yield return sceneFade.FadeInCoroutine(0.5f);
     }
 
