@@ -23,9 +23,12 @@ public class SteamAchievement : MonoBehaviour
     void Start()
     {
 #if UNITY_EDITOR
-        SteamUserStats.ResetAllStats(true);
-        SteamUserStats.StoreStats();            // 유저 통계 저장
-        Debug.Log("에디터라서 도전과제 초기화하고 시작");
+        if (SteamManager.Initialized)
+        {
+            SteamUserStats.ResetAllStats(true);
+            SteamUserStats.StoreStats();            // 유저 통계 저장
+            Debug.Log("에디터라서 도전과제 초기화하고 시작");
+        }
 #else
 #endif
     }
