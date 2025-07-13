@@ -253,5 +253,13 @@ namespace Game.Enemy
 
             Hide();
         }
+
+        public void StopCoroutines()
+        {
+            if (_blinkCoroutine != null)
+            {
+                StopCoroutine(_blinkCoroutine);
+            }
+        }
     }
 }
