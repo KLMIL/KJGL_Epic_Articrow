@@ -110,7 +110,7 @@ public class CanInteractObject_YSJ : MonoBehaviour
         artifactTransform.localRotation = Quaternion.identity;
 
         Managers.UI.InventoryCanvas.ArtifactWindow.RemoveAllSlotUI();
-        Managers.UI.InventoryCanvas.ArtifactWindow.SendInfoToUI(artifact);
+        Managers.UI.InventoryCanvas.ArtifactWindow.ArtifactWindowUpdate(artifact);
     }
 
     void Unequip() 

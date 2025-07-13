@@ -15,6 +15,14 @@ public class ArtifactSlotUI_YSJ : ItemSlot_YSJ
         base.MoveToSlot(draggedItem);
     }
 
+    public override void MoveToSlot(Transform Goal)
+    {
+        CurrentArtifact.RemoveParts(SlotIndex); // 현재 슬롯에 있는 파츠를 아티팩트에서 제거
+
+        base.MoveToSlot(Goal);
+    }
+
+
     public override void AddPartsInCurrentSlot(CanDragItem_YSJ draggedItem)
     {
         base.AddPartsInCurrentSlot(draggedItem);

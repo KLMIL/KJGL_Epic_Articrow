@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace YSJ
@@ -34,7 +35,8 @@ namespace YSJ
             GameFlowManager.Instance.Init();
             if(_loadSceneCoroutine == null)
             {
-                _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine(_sceneName));
+                int index = Managers.Scene.GetBuildIndexBySceneName(_sceneName);
+                _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine(index));
             }
         }
     }
