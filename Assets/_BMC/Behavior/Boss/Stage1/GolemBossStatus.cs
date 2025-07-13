@@ -45,7 +45,7 @@ namespace BMC
 
             _showDamageText.Show(damage);
 
-            Debug.LogError("데미지 받아서 색변경됨");
+            //Debug.LogError("데미지 받아서 색변경됨");
 
             if(_takeDamageCoroutine == null)
                 _takeDamageCoroutine = StartCoroutine(TakeDamageColor());
