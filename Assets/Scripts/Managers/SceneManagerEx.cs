@@ -66,12 +66,13 @@ public class SceneManagerEx
         }
     }
 
-    public IEnumerator LoadSceneCoroutine(string sceneName, float duration = 2f)
+    public IEnumerator LoadSceneCoroutine(string sceneName, float duration = 1f)
     {
+        // TODO: duration으로 각 단계의 시간 파라미터 전달하는 방식으로 변경 필요
+
         // 1. FadeOut 시작
         UI_SceneTransitionCanvas sceneFade = GameObject.FindAnyObjectByType<UI_SceneTransitionCanvas>();
-        yield return sceneFade.FadeOutCoroutine(1f); // 페이드 아웃
-
+        yield return sceneFade.FadeOutCoroutine(0.4f); // 페이드 아웃
 
         // 2. 진행상황 UI 활성화
         UI_StageProgressCanvas stageProgress = GameObject.FindAnyObjectByType<UI_StageProgressCanvas>();
@@ -86,7 +87,7 @@ public class SceneManagerEx
         // 4. 연출 애니메이션 실행
         YSJ.Managers.Input.DisablePlayer();
         yield return stageProgress.PlayerProgressAnimation();
-        yield return new WaitForSecondsRealtime(0.3f);
+        //yield return new WaitForSecondsRealtime(0.1f);
 
 
         // 5. 씬 비동기 로딩이 끝날 때까지 대기(로딩이 느린 경우 대비)
@@ -94,7 +95,6 @@ public class SceneManagerEx
         {
             yield return null;
         }
-
 
         // 6. 씬 활성화
         YSJ.Managers.Input.EnablePlayer();
@@ -111,7 +111,7 @@ public class SceneManagerEx
 
         // 8. FadeIn 시작
         sceneFade = GameObject.FindAnyObjectByType<UI_SceneTransitionCanvas>();
-        yield return sceneFade.FadeInCoroutine(0.5f);
+        yield return sceneFade.FadeInCoroutine(0.2f);
     }
 
     // 씬 정리

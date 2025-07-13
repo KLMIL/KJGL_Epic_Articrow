@@ -16,7 +16,7 @@ namespace Game.Dungeon
 
         [Header("세팅값")]
         [SerializeField] float _roomSpacing = 256f;
-        [SerializeField] float _stageMoveDuration = 1.5f;
+        [SerializeField] float _stageMoveDuration = 0.5f;
         [SerializeField] float _iconMoveDuration = 0.5f;
 
         [Header("내부 상태")]
