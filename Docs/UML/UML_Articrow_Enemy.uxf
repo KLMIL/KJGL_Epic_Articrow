@@ -1,573 +1,1483 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="15.1">
-  <zoom_level>6</zoom_level>
+  <zoom_level>5</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>684</x>
-      <y>300</y>
-      <w>192</w>
-      <h>192</h>
+      <x>145</x>
+      <y>295</y>
+      <w>340</w>
+      <h>295</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
-EnemyController
---
-EnemyStatusSO Status;
-Player: Transform;
-lastAttackTimes: Dictionary&lt;string, float&gt;
-
-CurrentStateName: stirng
-CurrentAnimation: string
-
-(Behaviour State Fields)
---
-Awake(): void
-Start(): void
-Update(): void
-
-PlayAnimationOnce(string): void
-
-DealDamageToPlayer(float, bool): void</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>606</x>
-      <y>366</y>
-      <w>90</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
-m1=1
-m2=1
-</panel_attributes>
-    <additional_attributes>130.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>516</x>
-      <y>252</y>
-      <w>96</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;ScriptableObject&gt;&gt;
-EnemyStatusSO
---
-healthPoint: float
-attack: float
-defence: float
-moveSpeed: float
-
-knockbackResit: float</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>558</x>
-      <y>336</y>
-      <w>18</w>
-      <h>42</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>516</x>
-      <y>366</y>
-      <w>96</w>
-      <h>24</h>
-    </coordinates>
-    <panel_attributes>Status Origin</panel_attributes>
+    <panel_attributes>layer=-1
+All Hierarchy / Overview</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>954</x>
-      <y>138</y>
-      <w>120</w>
-      <h>66</h>
+      <x>170</x>
+      <y>360</y>
+      <w>60</w>
+      <h>25</h>
     </coordinates>
     <panel_attributes>&lt;&lt;GameObject&gt;&gt;
-Enemy Object
---
-PolygonCollider2D :: Trigger
-CircleCillider2D :: Collider
-Rigidbody2D
-
-
-bg=yellow</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>780</x>
-      <y>198</y>
-      <w>216</w>
-      <h>114</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>340.0;10.0;10.0;170.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>918</x>
-      <y>360</y>
-      <w>132</w>
-      <h>78</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
-EnemyAnimation
---
-
---
-Awake()
-Play(string): void</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1194</x>
-      <y>354</y>
-      <w>144</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
-EnemyDealDamage
---
-targetTag: string
---
-Start()
-Update()
-OnTriggerEnter2D(Collider2D): void
-OnTriggerExit2D(Collider2D): void</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1350</x>
-      <y>354</y>
-      <w>108</w>
-      <h>66</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
-EnemyTakeDamage
---
-
---
-Start()
-TakeDamage(float): void</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>978</x>
-      <y>198</y>
-      <w>36</w>
-      <h>174</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>40.0;10.0;10.0;270.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1014</x>
-      <y>198</y>
-      <w>264</w>
-      <h>168</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;420.0;260.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1038</x>
-      <y>198</y>
-      <w>402</w>
-      <h>168</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Root Object
 </panel_attributes>
-    <additional_attributes>10.0;10.0;650.0;260.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>492</x>
-      <y>450</y>
-      <w>120</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>EnemyBehaviourUnit
---
-stateName: string
-interruptTupe: InterruptType
-animationName: string
-duration: float
-nextStateName: string
-
-elaspedTime: float</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>408</x>
-      <y>450</y>
+      <x>200</x>
+      <y>550</y>
       <w>60</w>
-      <h>66</h>
+      <h>25</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;Enum&gt;&gt;
-InterruptType
---
-None,
-Soft,
-Hard
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Visual
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>475</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Hurt Box
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>270</x>
+      <y>510</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Shadow
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>440</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Attack Indicator
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>462</x>
-      <y>480</y>
-      <w>42</w>
-      <h>18</h>
+      <x>215</x>
+      <y>380</y>
+      <w>240</w>
+      <h>70</h>
     </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;50.0;10.0</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0;460.0;90.0;460.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>200</x>
+      <y>380</y>
+      <w>185</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;160.0;350.0;160.0;350.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>185</x>
+      <y>380</y>
+      <w>130</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;230.0;240.0;230.0;240.0;260.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>170</x>
+      <y>380</y>
+      <w>70</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;310.0;120.0;310.0;120.0;340.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>342</x>
-      <y>600</y>
-      <w>150</w>
+      <x>145</x>
+      <y>690</y>
+      <w>2050</w>
+      <h>695</h>
+    </coordinates>
+    <panel_attributes>layer=-1
+All Class / Overview</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>105</x>
+      <y>1490</y>
+      <w>2570</w>
+      <h>1395</h>
+    </coordinates>
+    <panel_attributes>layer=-1
+All Class / Detail
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>150</x>
+      <y>765</y>
+      <w>60</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Root Object
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>185</x>
+      <y>1290</y>
+      <w>60</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Visual
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1145</x>
+      <y>1140</y>
+      <w>60</w>
       <h>60</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;ScriptableObject&gt;&gt;
-{abstract}EnemyActionSO
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Hurt Box
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>785</x>
+      <y>1225</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Shadow
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1860</x>
+      <y>1060</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Attack Indicator
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>165</x>
+      <y>825</y>
+      <w>660</w>
+      <h>410</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;750.0;1300.0;750.0;1300.0;800.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>825</y>
+      <w>80</w>
+      <h>475</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;900.0;140.0;900.0;140.0;930.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>825</y>
+      <w>1005</w>
+      <h>325</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;580.0;1990.0;580.0;1990.0;630.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>195</x>
+      <y>825</y>
+      <w>1705</w>
+      <h>245</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;420.0;3390.0;420.0;3390.0;470.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>665</x>
+      <y>855</y>
+      <w>80</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Enemy Controller
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>805</x>
+      <y>855</y>
+      <w>80</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Enemy Movement
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>940</x>
+      <y>855</y>
+      <w>80</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Enemy Deal Damage
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>855</y>
+      <w>80</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Rigidbody2D</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>530</x>
+      <y>855</y>
+      <w>80</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Collider2D</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>270</x>
+      <y>855</y>
+      <w>80</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Transform</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>205</x>
+      <y>815</y>
+      <w>75</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0;90.0;100.0;130.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>205</x>
+      <y>805</y>
+      <w>205</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;350.0;10.0;350.0;120.0;390.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>205</x>
+      <y>795</y>
+      <w>335</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;610.0;10.0;610.0;140.0;650.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>205</x>
+      <y>785</y>
+      <w>470</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;880.0;10.0;880.0;160.0;920.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>205</x>
+      <y>775</y>
+      <w>610</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;1150.0;10.0;1150.0;180.0;1200.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>205</x>
+      <y>765</y>
+      <w>745</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;1420.0;10.0;1420.0;200.0;1470.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>295</x>
+      <y>1350</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Transform</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>1350</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Sprite Renderer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>510</x>
+      <y>1350</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Enemy Animation</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>620</x>
+      <y>1350</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Animator</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>1320</y>
+      <w>65</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0;70.0;80.0;110.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>1310</y>
+      <w>170</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;280.0;10.0;280.0;100.0;320.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>1300</y>
+      <w>280</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;500.0;10.0;500.0;120.0;540.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>1290</y>
+      <w>390</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;710.0;10.0;710.0;140.0;760.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>900</x>
+      <y>1275</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Transform</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>840</x>
+      <y>1235</y>
+      <w>70</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;100.0;120.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1010</x>
+      <y>1275</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Sprite Renderer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>840</x>
+      <y>1225</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;300.0;10.0;300.0;120.0;340.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1255</x>
+      <y>1220</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Transform</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>1185</y>
+      <w>65</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0;70.0;90.0;110.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1360</x>
+      <y>1220</y>
+      <w>95</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Test Enemy Take Damage</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>1175</y>
+      <w>170</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;280.0;10.0;280.0;110.0;320.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1500</x>
+      <y>1220</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Collider 2D</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1605</x>
+      <y>1220</y>
+      <w>75</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Enemy Take Damage</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1730</x>
+      <y>1220</y>
+      <w>75</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Show Damage Text</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>1165</y>
+      <w>310</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;560.0;10.0;560.0;130.0;600.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>1155</y>
+      <w>415</w>
+      <h>85</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;770.0;10.0;770.0;150.0;810.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>1145</y>
+      <w>540</w>
+      <h>95</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;1020.0;10.0;1020.0;170.0;1060.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1970</x>
+      <y>1090</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Transform</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1915</x>
+      <y>1070</y>
+      <w>65</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0;70.0;60.0;110.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2080</x>
+      <y>1090</y>
+      <w>80</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Enemy Attack Indicator</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1915</x>
+      <y>1060</y>
+      <w>175</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;280.0;10.0;280.0;80.0;330.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>135</x>
+      <y>0</y>
+      <w>290</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>layer=-1
+FSM / Detail
+
+나중에 작업할거 ...</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>160</x>
+      <y>1525</y>
+      <w>60</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Root Object
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>195</x>
+      <y>2680</y>
+      <w>60</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Visual
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1155</x>
+      <y>2530</y>
+      <w>60</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Hurt Box
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>795</x>
+      <y>2615</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Shadow
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2150</x>
+      <y>2450</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GameObject&gt;&gt;
+Attack Indicator
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>175</x>
+      <y>1585</y>
+      <w>660</w>
+      <h>1040</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;1970.0;1300.0;1970.0;1300.0;2060.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>1585</y>
+      <w>80</w>
+      <h>1105</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;2020.0;140.0;2020.0;140.0;2190.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>190</x>
+      <y>1585</y>
+      <w>1005</w>
+      <h>955</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;1830.0;1990.0;1830.0;1990.0;1890.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>205</x>
+      <y>1585</y>
+      <w>1985</w>
+      <h>875</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;1670.0;3950.0;1670.0;3950.0;1730.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>965</x>
+      <y>1615</y>
+      <w>180</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Enemy Movement
 --
-{abstract}Act(EnemyController): void
-OnEnter(EnemyController): void
-OnExit(EnemyController): void</panel_attributes>
+ownerController: EnemyController
+rb: Rigidbody2D
++ _spriteRenderer: SpriteRenderer
+
++ moveSpeedMultiply: float
+_currentDirection: Vector2
+
+duration: float
+elapsedTime: float
++ wallCheckDistance: float
+moveType: string
+inverse: bool
+
++ wallLayerMask: LayerMask
+
+--
+Awake(): void
++ Init(SpriteRenderer)
+FixedUpdate(): void
+
+FlipSprite(): void
++ MoveTo(Vector3, float, string, bool): void
++ Stop(): void
++ StepKnockback(Vector2, float, float, int): IEnumerator</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1205</x>
+      <y>1615</y>
+      <w>175</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Enemy Deal Damage
+--
+ownerController: EnemyController
+isPlayerContact: bool
+
+--
+Start(): void
+OnTriggerEnter2D(Collider2D): void
+OnTriggerExit2D(Collider2D): void
+
++ DealDamageToPlayer(float, Transform, bool): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>1615</y>
+      <w>80</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Rigidbody2D
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>540</x>
-      <y>600</y>
-      <w>156</w>
-      <h>48</h>
+      <y>1615</y>
+      <w>80</w>
+      <h>25</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;ScriptableObject&gt;&gt;
-{abstract}EnemyConditionSO
---
-{abstract}IsMet(EnemyController): void
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Collider2D</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>280</x>
+      <y>1615</y>
+      <w>80</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Transform
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>426</x>
-      <y>534</y>
-      <w>120</w>
-      <h>78</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;110.0;180.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>570</x>
-      <y>534</y>
-      <w>60</w>
-      <h>78</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>80.0;110.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>408</x>
-      <y>654</y>
-      <w>18</w>
-      <h>66</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>624</x>
-      <y>642</y>
-      <w>18</w>
-      <h>78</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>390</x>
-      <y>708</y>
-      <w>48</w>
-      <h>18</h>
-    </coordinates>
-    <panel_attributes>Actions
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>558</x>
-      <y>708</y>
-      <w>138</w>
-      <h>120</h>
-    </coordinates>
-    <panel_attributes>Conditions
---
-ContactPlayerConditionSO
-CooldownConditionSO
-DamagedConditionSO
-DeadConditionSO
-FalseConditionSO
-PlayerInDistanceConditionSO
-PlayerInSightConditionSO
-PlayerNotInDistanceConditionSO
-PlayerNotInSightConditionSO
-TrueConditionSO</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>294</x>
-      <y>720</y>
-      <w>120</w>
-      <h>78</h>
-    </coordinates>
-    <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>10.0;110.0;180.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>204</x>
-      <y>786</y>
-      <w>102</w>
-      <h>72</h>
-    </coordinates>
-    <panel_attributes>AttackActions
---
-MeleeAttackActionSO
-ProjectileAttackActionSO
-SpecialAttackActionSO</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>324</x>
-      <y>786</y>
-      <w>96</w>
-      <h>72</h>
-    </coordinates>
-    <panel_attributes>MoveActions
---
-ChasePlayerActionSO
-MoveAwayActionSO
-RandomMoveActionSO</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>438</x>
-      <y>786</y>
-      <w>84</w>
-      <h>72</h>
-    </coordinates>
-    <panel_attributes>StateActions
---
-DamagedActionSO
-DieActionSO
-IdleActionSO
-PostAttackActionSO</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>372</x>
-      <y>720</y>
-      <w>54</w>
-      <h>78</h>
-    </coordinates>
-    <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>10.0;110.0;70.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>420</x>
-      <y>720</y>
-      <w>42</w>
-      <h>78</h>
-    </coordinates>
-    <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>50.0;110.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>606</x>
-      <y>480</y>
-      <w>90</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
-m1=1
-m2=0..n
-</panel_attributes>
-    <additional_attributes>130.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>822</x>
-      <y>414</y>
-      <w>594</w>
-      <h>216</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;130.0;10.0;340.0;970.0;340.0;970.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>846</x>
-      <y>438</y>
-      <w>432</w>
-      <h>180</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;90.0;10.0;280.0;700.0;280.0;700.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1086</x>
-      <y>360</y>
-      <w>90</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes>Animator
---
-AnimationController</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1044</x>
-      <y>372</y>
-      <w>54</w>
-      <h>18</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1008</x>
-      <y>198</y>
-      <w>132</w>
-      <h>174</h>
+      <x>215</x>
+      <y>1575</y>
+      <w>75</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;200.0;270.0</additional_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0;90.0;100.0;130.0;100.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>870</x>
-      <y>432</y>
-      <w>132</w>
-      <h>54</h>
+      <x>215</x>
+      <y>1565</y>
+      <w>205</w>
+      <h>70</h>
     </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>200.0;10.0;200.0;70.0;10.0;70.0</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;350.0;10.0;350.0;120.0;390.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>215</x>
+      <y>1555</y>
+      <w>335</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;610.0;10.0;610.0;140.0;650.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>215</x>
+      <y>1545</y>
+      <w>470</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;880.0;10.0;880.0;160.0;920.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>215</x>
+      <y>1535</y>
+      <w>760</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;1450.0;10.0;1450.0;180.0;1500.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>215</x>
+      <y>1525</y>
+      <w>1000</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;1930.0;10.0;1930.0;200.0;1980.0;200.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>750</x>
-      <y>642</y>
-      <w>240</w>
-      <h>156</h>
+      <x>305</x>
+      <y>2740</y>
+      <w>60</w>
+      <h>25</h>
     </coordinates>
-    <panel_attributes>EnemyFSMCore
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Transform</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>2740</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Sprite Renderer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>630</x>
+      <y>2740</y>
+      <w>150</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Enemy Animation
 --
-_behaviours: List&lt;EnemyBehaviourUnit&gt;
-CurrentStateName: string
+animator: Animator
+_spriteRenderer: SpriteRenderer
++ [HideInInspector] CurrentAnimation: string
 
 --
-EnemyFSMCore(EnemyController, List&lt;EneyBehaviourUnit)
++ SpriteRenderer: SpriteRendrer { get; }
+
+--
+Awake(): void
++ Play(string): void
++ PlayAnimationOnce(string): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>2740</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Animator</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>250</x>
+      <y>2710</y>
+      <w>65</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0;70.0;80.0;110.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>250</x>
+      <y>2700</y>
+      <w>170</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;280.0;10.0;280.0;100.0;320.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>250</x>
+      <y>2690</y>
+      <w>280</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;500.0;10.0;500.0;120.0;540.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>250</x>
+      <y>2680</y>
+      <w>390</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;710.0;10.0;710.0;140.0;760.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>910</x>
+      <y>2665</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Transform</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>850</x>
+      <y>2625</y>
+      <w>70</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;100.0;120.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1020</x>
+      <y>2665</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Sprite Renderer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>850</x>
+      <y>2615</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;300.0;10.0;300.0;120.0;340.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1265</x>
+      <y>2610</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Transform</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1210</x>
+      <y>2575</y>
+      <w>65</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0;70.0;90.0;110.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1485</x>
+      <y>2610</y>
+      <w>150</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Test Enemy Take Damage
+--
+_enemyTakeDamage: EnemyTakeDamage
+
+--
++ Init(EnemyTakeDamage): void
++ TakeDamage(float): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1210</x>
+      <y>2565</y>
+      <w>170</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;280.0;10.0;280.0;110.0;320.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1370</x>
+      <y>2610</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Collider 2D</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1685</x>
+      <y>2610</y>
+      <w>135</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Enemy Take Damage
+--
+ownerController: EnemyController
+showDamageText: ShowDamageText
+
+--
+Awake(): void
+Start(): void
+OnDisable: void
++ TakeDamage(float): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1870</x>
+      <y>2610</y>
+      <w>125</w>
+      <h>115</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+namespace BMC
+Show Damage Text
+--
+TotalDamage: float
+_totalDamage: float
+_waitTime: float
+_waitDamageCoroutine: Coroutine
+
+--
+Awake(): void
+OnDestroy(): void
++ SHow(float): void
+WaitDamageCoroutine(): IEnumerator</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1210</x>
+      <y>2555</y>
+      <w>285</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;500.0;10.0;500.0;130.0;550.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1210</x>
+      <y>2545</y>
+      <w>485</w>
+      <h>85</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;910.0;10.0;910.0;150.0;950.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1210</x>
+      <y>2535</y>
+      <w>670</w>
+      <h>95</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;1270.0;10.0;1270.0;170.0;1320.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2260</x>
+      <y>2480</y>
+      <w>60</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Component&gt;&gt;
+Transform</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2205</x>
+      <y>2460</y>
+      <w>65</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0;70.0;60.0;110.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2370</x>
+      <y>2480</y>
+      <w>260</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Enemy Attack Indicator
+--
+_rendererPrefabs: List&lt;GameObject&gt;
+_blinkCoroutine: Coroutine
+_originColor: Color
+
+--
++ SetIndicators(IndicatorType, List&lt;Vector2&gt;, List&lt;Vector2&gt;, GameObject): void
++ DEP_SetIndicators(생략): void
+Hide(): void
++ BlinkAndHide(float, int): void
+BlinkCoroutine(float, int): IEnumerator
++ StopCoroutines(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2205</x>
+      <y>2450</y>
+      <w>175</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;280.0;10.0;280.0;80.0;330.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>675</x>
+      <y>1615</y>
+      <w>210</w>
+      <h>585</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MonoBehaviour&gt;&gt;
+Enemy Controller
+--
+*[Header: Enemy Status]*
+[SerializeField] _statusOrigin: EnemyStatusSO
+[HideInInspector] public Status: EnemyStatusSO
++ [SerializeField] _currentState: string
+
+*[Header: Components]*
++ SpriteRenderer: SpriteRenderer
++ [HideInInspector] FSM: EnemyFSMCore
+_animation: EnemyAnimation
+_movement: EnemyMovement
+_dealDamage: EnemyDealDamage
++ [HideInInspector] AttackIndicator: EnemyAttackIndicator
+
+*[Header: FSM]*
++ Behaviours: List&lt;EnemyBehaviourUnit&gt;
++ lastAttackTimes: Dictionary&lt;string, float&gt;
+
+*[Header: Others]*
++ [HideInInspector] Player: Transform
++ [HideInInspector] Attacker: Transform
+
+markingCoroutine: Coroutine
+gravitySurgeCoroutine: Coroutine
+indicatorCoroutine: Coroutine
+
++ SpawnEffectPrefab: GameObject
+
++ OnDeath: event Action
+
+
+--
++ StatusOrigin: EnemyStatusSO { get; }
++ CurrentStateName: string { get; }
++ CurrentAnimation: string { get; }
+
+
+--
+*[region: Initialization]*
+Awake(): void
+OnEnable(): void
+Start(): void
 
 Update(): void
 
-HandleHardInterrupt(EnemyBehaviourUnit): bool
-HandleSoftInterrupt(EnemyBehaviourUnit): void
-HandleNoneInterrupt(EnemyBehaviourUnit): void
+*[region: Public API]*
++ PlayerAnimationOnce(string): void
++ ForceToNextState(): void
++ DealDamageToPlayer(float, Transform, bool = false): void
++ MoveTo(Vector3, float, string, bool = false): void
++ StopMove(): void
++ StartKnockbackCoroutine(Vector2, float, float, int): void
++ StartMarkingCoroutine(float, float): void
++ StartTintCoroutine(Color, float): void
++ StartTineCoroutineOnce(Color): void
++ StartGravitySurgeCoroutine(Coroutine): void
++ EndGravitySurgeCoroutine(): void
++ IsGravitySurgeCoroutine(): bool
++ IsPatternReady(string, float): bool
++ ChangeMovesSpeedMultiply(float): void
++ OnEnemyDieAction(): void
++ MakeSpawnEffect(): void
++ StartIndicatorCoroutine(Coroutine): void
++ EndIndicatorCoroutine(): void
++ IsIndicatorCoroutineGo(): bool
++ GetIndicatorCoroutine(): Coroutine
 
-ChageState(string): void
-ForceToNextState(): void</panel_attributes>
+*[region: Coroutines]*
+MarkingRestoreCoroutine(float): IEnmerator
+SpriteTineRepeatCoroutine(Color, float): IEnumerator
+SpriteTintOnceCoroutine(Color): IEnumerator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>Relation</id>
+    <id>UMLClass</id>
     <coordinates>
-      <x>780</x>
-      <y>486</y>
-      <w>18</w>
-      <h>168</h>
+      <x>475</x>
+      <y>1700</y>
+      <w>80</w>
+      <h>25</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;260.0</additional_attributes>
+    <panel_attributes>EnemyBehaviourUnit</panel_attributes>
+    <additional_attributes/>
   </element>
   <element>
-    <id>UMLNote</id>
+    <id>UMLClass</id>
     <coordinates>
-      <x>684</x>
-      <y>138</y>
-      <w>84</w>
-      <h>42</h>
+      <x>475</x>
+      <y>1740</y>
+      <w>80</w>
+      <h>25</h>
     </coordinates>
-    <panel_attributes>최신화 일자
-2025-06-09 14:25
-
-bg=cyan</panel_attributes>
+    <panel_attributes>EnemyStatusSO</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>475</x>
+      <y>1780</y>
+      <w>80</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>EnemyFSMCore</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
