@@ -37,6 +37,7 @@ namespace Game.Enemy
         [Header("Cone Attack Only")]
         public float coneRadius = 3f;
         public float coneAngle = 120f;
+        public GameObject attackEffect;
 
         public override void Act(EnemyController controller)
         {
@@ -190,6 +191,9 @@ namespace Game.Enemy
                     break;
                 }
             }
+
+            float angle2 = Mathf.Atan2(forward.y, forward.x) * Mathf.Rad2Deg;
+            Destroy(Instantiate(attackEffect, controller.transform.position, Quaternion.Euler(0, 0, angle2)), 1.0f);
         }
     }
 }
