@@ -44,6 +44,7 @@ public class MagicBuckShot_YSJ : MagicRoot_YSJ
                 // 액션 넘겨주기, 맞은 애 기록해주기
                 MagicSplinter_YSJ splinterMagicRoot = SpawnedSplinter.GetComponent<MagicSplinter_YSJ>();
                 splinterMagicRoot.SplinterInitialize(this, collision);
+                splinterMagicRoot.AttackPower = base.AttackPower * 0.5f;
             }
 
             CheckDestroy();
