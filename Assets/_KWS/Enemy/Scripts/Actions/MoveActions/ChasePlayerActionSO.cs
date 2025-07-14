@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Localization.SmartFormat.Core.Parsing;
 
 /*
  * 최소 거리 ~ 최대 거리 사이의 플레이어를 추적한다. 
@@ -20,7 +21,7 @@ namespace Game.Enemy
         public float maxDistance = 9999.0f; // 추적하기에 충분히 큰 값 -> 무조건 추적
 
         [Header("Smart Chase")]
-        public float obstacleCheckDistance = 1f;
+        public float obstacleCheckDistance = 1.0f;
 
         public Vector2 enemySize = new Vector2(1f, 1f);
 
@@ -84,7 +85,7 @@ namespace Game.Enemy
                     controller.transform.position,
                     toPlayer,
                     obstacleCheckDistance,
-                    LayerMask.GetMask("Obstacle")
+                    LayerMask.GetMask("Obstacle", "Wall")
                 );
 
                 bool inSight = !hit;
@@ -136,7 +137,7 @@ namespace Game.Enemy
                             controller.transform.position,
                             controller.FSM.bypassDirection,
                             obstacleCheckDistance,
-                            LayerMask.GetMask("Obstacle")
+                            LayerMask.GetMask("Obstacle", "Wall")
                         );
                         Debug.DrawRay(controller.transform.position, controller.FSM.bypassDirection * obstacleCheckDistance, Color.green, 0.1f);
                     }
@@ -150,7 +151,16 @@ namespace Game.Enemy
                     {
                         // 막히면 정지 + idle로 전환
                         controller.StopMove();
-                        controller.FSM.ChangeState("Idle");
+
+                        if (hit)
+                        {
+                            Vector2 pushDir = ((Vector2)controller.transform.position - hit.point).normalized;
+                            controller.transform.position += (Vector3)(pushDir * 0.15f); // 0.15f는 상황에 맞게
+                            Debug.DrawRay(controller.transform.position, pushDir * 0.3f, Color.yellow, 0.2f);
+                        }
+
+
+                        //controller.FSM.ChangeState("Idle");
                     }
                 }
             }
