@@ -150,7 +150,15 @@ namespace Game.Enemy
                     {
                         // 막히면 정지 + idle로 전환
                         controller.StopMove();
-                        controller.FSM.ChangeState("Idle");
+
+                        if (hit)
+                        {
+                            Vector2 offset = hit.normal * 0.2f;
+                            controller.transform.position += (Vector3)offset;
+                        }
+
+
+                        //controller.FSM.ChangeState("Idle");
                     }
                 }
             }
