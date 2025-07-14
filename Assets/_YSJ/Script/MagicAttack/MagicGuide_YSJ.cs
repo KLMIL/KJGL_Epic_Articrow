@@ -33,10 +33,10 @@ public class MagicGuide_YSJ : MagicRoot_YSJ
         else
         {
             Managers.Sound.PlaySFX(Define.SFX.LightSkillAttack);
-            /*GameObject spawnedAttack = Instantiate(SkillAttackPrefab, transform.position, transform.rotation);
+            GameObject spawnedAttack = Instantiate(SkillAttackPrefab, transform.position, transform.rotation);
             MagicRoot_YSJ MagicRoot = spawnedAttack.GetComponent<MagicRoot_YSJ>();
             MagicRoot.SkillAttackInitialize(ownerArtifact);
-            MagicRoot.AttackPower = base.AttackPower;*/
+            MagicRoot.AttackPower = base.AttackPower;
             ownerArtifact.PlayAnimation("Attack");
             Destroy(gameObject);
         }
