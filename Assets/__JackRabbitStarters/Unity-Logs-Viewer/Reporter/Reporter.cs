@@ -21,6 +21,8 @@ using System.Collections;
 using System.Collections.Generic;
 #if UNITY_CHANGE3
 using UnityEngine.SceneManagement;
+using System;
+
 #endif
 #if UNITY_CHANGE4
 using UnityEngine.Networking;
@@ -227,6 +229,9 @@ public class Reporter : MonoBehaviour
 		Graph,
 	}
 
+    // 싱글톤
+    public static Reporter Instance { get; private set; }
+
 	//used to check if you have In Game Logs multiple time in different scene
 	//only one should work and other should be deleted
 	static bool created = false;
@@ -300,8 +305,21 @@ public class Reporter : MonoBehaviour
 
 	void Awake()
 	{
-		if (!Initialized)
-			Initialize();
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // 중복 제거
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // 씬 전환에도 유지
+
+        if (!created)
+        {
+            Initialize(); // 초기화 로직
+        }
+        //if (!Initialized)
+        //	Initialize();
 
 #if UNITY_CHANGE3
         SceneManager.sceneLoaded += _OnLevelWasLoaded;
@@ -368,7 +386,7 @@ public class Reporter : MonoBehaviour
 			//Application.logMessageReceived += CaptureLog ;
 			Application.logMessageReceivedThreaded += CaptureLogThread;
 #endif
-			created = true;
+			//created = true;
 			//addSample();
 		}
 		else {
@@ -1850,12 +1868,42 @@ public class Reporter : MonoBehaviour
 #endif
 
 		calculateStartIndex();
-		if (!show && isGestureDone()) {
-			doShow();
-		}
+
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            if (show)
+            {
+                // 창 닫기
+                show = false;
+
+                // ReporterGUI 제거 (UI 비활성화)
+                ReporterGUI gui = gameObject.GetComponent<ReporterGUI>();
+                if (gui != null)
+                    DestroyImmediate(gui);
+
+                try
+                {
+                    gameObject.SendMessage("OnHideReporter");
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogException(e);
+                }
+            }
+            else
+            {
+                // 창 열기
+                doShow();
+            }
+        }
+
+        // 원 제스처로 여는 부분
+        //      if (!show && isGestureDone()) {
+        //	doShow();
+        //}
 
 
-		if (threadedLogs.Count > 0) {
+        if (threadedLogs.Count > 0) {
 			lock (threadedLogs) {
 				for (int i = 0; i < threadedLogs.Count; i++) {
 					Log l = threadedLogs[i];
@@ -2107,7 +2155,8 @@ public class Reporter : MonoBehaviour
 
     private void SaveLogsToDevice()
     {
-        string filePath = Application.persistentDataPath + "/logs.txt";
+        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        string filePath = Application.persistentDataPath + $"/logs_{timestamp}.txt";
         List<string> fileContentsList = new List<string>();
         Debug.Log("Saving logs to " + filePath);
         File.Delete(filePath);
@@ -2118,5 +2167,3 @@ public class Reporter : MonoBehaviour
         File.WriteAllLines(filePath, fileContentsList.ToArray());
     }
 }
-
-
