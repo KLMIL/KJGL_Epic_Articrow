@@ -24,7 +24,7 @@ public class GameExitBtn : MonoBehaviour
         //AnalyticsManager.Instance.SendAnalytics(); // 게임 종료 시 통계 데이터 전송
 #else
                     AnalyticsManager.Instance.analyticsData.progressStage = GameFlowManager.Instance.CurrentRoom; // 현재 진행 중인 스테이지 저장   
-                    AnalyticsManager.Instance.analyticsData.SendAnalytics(); // 게임 종료 시 통계 데이터 전송
+                    AnalyticsManager.Instance.SendAnalytics(); // 게임 종료 시 통계 데이터 전송
                     Application.Quit();
 #endif
     }
