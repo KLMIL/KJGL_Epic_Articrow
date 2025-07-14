@@ -156,6 +156,12 @@ namespace Game.Enemy
         {
             yield return new WaitForSeconds(duration);
 
+            // 1. Controller null 체크
+            if (controller == null) yield break;
+            // 2. 인디케이터 null/Dispose 체크
+            if (controller.AttackIndicator == null) yield break;
+            if (!controller.AttackIndicator.gameObject.activeInHierarchy) yield break;
+
             controller.AttackIndicator.BlinkAndHide();
         }
 
