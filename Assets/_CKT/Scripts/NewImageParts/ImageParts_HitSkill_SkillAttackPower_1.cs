@@ -1,3 +1,4 @@
+using Game.Enemy;
 using UnityEngine;
 
 /// <summary>
@@ -29,15 +30,20 @@ public class ImageParts_HitSkill_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImage
 
     public void SKillAttackOnHit(Artifact_YSJ fireArtifact, GameObject spawnedAttack, GameObject hitObject)
     {
-        Vector2 dir = (BMC.PlayerManager.Instance.transform.position - spawnedAttack.transform.position);
+        Vector2 dir = (BMC.PlayerManager.Instance.transform.position - hitObject.transform.position);
         float sqrDistance = dir.sqrMagnitude;
         if (sqrDistance >= (_ThresholdDistance * _ThresholdDistance))
         {
-            MagicRoot_YSJ magicRoot = spawnedAttack.GetComponent<MagicRoot_YSJ>();
             float add = _increasePercent * fireArtifact.skillStatus.Default_AttackPower;
             add = 0.01f * Mathf.RoundToInt(add);
 
-            magicRoot.AttackPower += add;
+            /*MagicRoot_YSJ magicRoot = spawnedAttack.GetComponent<MagicRoot_YSJ>();
+            magicRoot.AttackPower += add;*/
+            IDamagable iDamageable = hitObject.GetComponentInChildren<IDamagable>();
+            if (iDamageable != null)
+            {
+                iDamageable.TakeDamage(add);
+            }
             Debug.Log($"[ckt] {partsName} {add}");
         }
     }
