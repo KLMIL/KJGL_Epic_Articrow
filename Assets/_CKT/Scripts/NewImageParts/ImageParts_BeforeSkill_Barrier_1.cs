@@ -2,14 +2,14 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// 스킬 시전 시 보호막 1 획득 (3초 지속)
+/// 스킬 시전 시 보호막 1 획득 (1초 지속)
 /// </summary>
 public class ImageParts_BeforeSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsToSkillAttack_YSJ
 {
     Coroutine _barrierCoroutine = null;
     Artifact_YSJ _fireArtifact = null;
     int increaseValue = 1;
-    float _duration = 3f;
+    float _duration = 1f;
 
     public override string partsName => "BeforeSkill_Barrier_1";
 
