@@ -36,6 +36,7 @@ namespace BMC
             PlacePlayer();
             Init();
             //SteamAchievement.instance.Achieve(SteamAchievement.AchievementType.StartFirstGame); // 첫 게임 시작 도전과제 달성
+            AnalyticsManager.Instance.StartAnalystics();
         }
 
         void SpawnArtifact()

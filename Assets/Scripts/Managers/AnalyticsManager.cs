@@ -1,13 +1,19 @@
 using Unity.Services.Analytics;
 using Unity.Services.Core;
 using UnityEngine;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
+using BMC;
 
 public class AnalyticsManager : MonoBehaviour
 {
     public static AnalyticsManager Instance;
     private bool _isInitialized = false;
 
-    int testLevel = 0;
+    bool isGameStart = false;
+
+    public AnalyticsData analyticsData = new AnalyticsData(); // 통계 분석 데이터 클래스
+    Stopwatch _stopWatch;
 
     void Awake()
     {
@@ -21,6 +27,11 @@ public class AnalyticsManager : MonoBehaviour
         }
     }
 
+    public void InitData()
+    {
+        analyticsData.Init();
+    }
+
     // 초기화
     async void Start()
     {
@@ -29,42 +40,78 @@ public class AnalyticsManager : MonoBehaviour
         _isInitialized = true;
     }
 
-    void Update()
+    #region 타이머 관련
+    // 타이머 시작
+    public void StartTimeCounter()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if (_stopWatch == null)
+            _stopWatch = new Stopwatch();
+
+        if (!_stopWatch.IsRunning)
         {
-            NextLevel(testLevel); // 예시로 1번 레벨로 이동
-        }
-        else if(Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            RestartGame();
+            _stopWatch.Start();
+            isGameStart = true;
         }
     }
 
-    public void NextLevel(int currentLevel)
+    // 타이머 정지
+    public void StopTimeCounter()
     {
-        if(!_isInitialized)
+        if (_stopWatch == null)
         {
             return;
         }
 
-        // 이벤트 생성
-        CustomEvent myEvent = new CustomEvent("next_level")
-        {
-            // 해당 이벤트의 파라미터 설정
-            { "level_index", currentLevel }
-        };
+        _stopWatch.Stop();
+        int time = (int)_stopWatch.Elapsed.TotalSeconds;
+        analyticsData.playTime = time;
+    }
+    #endregion
 
-        AnalyticsService.Instance.RecordEvent(myEvent);
-        AnalyticsService.Instance.Flush();
-        Debug.Log("next_level");
-        testLevel++;
+    // 통계 시작
+    public void StartAnalystics()
+    {
+        if (!_isInitialized)
+        {
+            return;
+        }
+
+        InitData(); // 데이터 초기화
+        StartTimeCounter(); // 타이머 시작
+        Debug.Log("통계 분석 시작");
     }
 
-    public void RestartGame()
+    // 통계 전송
+    public void SendAnalytics()
     {
-        AnalyticsService.Instance.RecordEvent("restart_game");
-        AnalyticsService.Instance.Flush();
-        Debug.Log("restart_game");
+        if(!_isInitialized || !isGameStart)
+        {
+            return;
+        }
+
+        // 인게임 중인 경우, 장착한 파츠 개수
+        PlayerManager.Instance.PlayerHand.RightHand.GetComponentInChildren<Artifact_YSJ>().CountEquipParts();
+        
+        // 타이머 정지
+        StopTimeCounter();
+
+        // 이벤트 생성
+        CustomEvent analyticsEvent = new CustomEvent("playAnalytics")
+        {
+            { "countArtifactSwap", analyticsData.countArtifactSwap },
+            { "playerHurtCount", analyticsData.playerHurtCount },
+            { "normalAttackCount", analyticsData.normalAttackCount },
+            { "skillAttackCount", analyticsData.skillAttackCount },
+            { "isPlayerDead", analyticsData.isPlayerDead },
+            { "currentEquipPartsCount", analyticsData.currentEquipPartsCount },
+            { "playTime", analyticsData.playTime },
+            { "progressStage", analyticsData.progressStage },
+        };
+
+        AnalyticsService.Instance.RecordEvent(analyticsEvent);
+        //AnalyticsService.Instance.Flush();
+        Debug.Log("통계 분석 전송");
+
+        isGameStart = false;
     }
 }

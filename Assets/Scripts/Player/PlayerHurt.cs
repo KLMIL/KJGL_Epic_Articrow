@@ -45,7 +45,10 @@ namespace BMC
                 return;
             }
 
-            if(IsCanUseBarrier(ref damage))
+            // 피격 횟수 통계
+            AnalyticsManager.Instance.analyticsData.playerHurtCount++;
+
+            if (IsCanUseBarrier(ref damage))
             {
                 return;
             }
@@ -100,6 +103,9 @@ namespace BMC
         // 사망
         void Die()
         {
+            // 플레이어 사망 통계
+            AnalyticsManager.Instance.analyticsData.isPlayerDead = true;
+
             IsDead = true;
             Managers.Sound.PlaySFX(Define.SFX.PlayerDie);
             _playerStatus.CurrentState |= PlayerState.Die;
