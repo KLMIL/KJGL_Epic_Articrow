@@ -44,6 +44,12 @@ namespace Game.Enemy
                 {
                     collider.enabled = false;
                 }
+                // 자식 오브젝트에서 인디케이터 찾아서 비활성화
+                if (controller.GetComponentInChildren<EnemyAttackIndicator>() != null)
+                {
+                    controller.GetComponentInChildren<EnemyAttackIndicator>().StopCoroutines();
+                    controller.GetComponentInChildren<EnemyAttackIndicator>().gameObject.SetActive(false);
+                }
                 controller.StopMove();
 
                 // 몬스터 스프라이트 색 변경

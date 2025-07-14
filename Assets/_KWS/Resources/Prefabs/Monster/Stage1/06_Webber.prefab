@@ -121,6 +121,14 @@ MonoBehaviour:
     duration: 1
     nextStateName: Idle
     elapsedTime: 0
+  - stateName: ChasePlayer
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 6f452eaed36b4c3418bc37ded42c5267, type: 2}
+    action: {fileID: 11400000, guid: 1be266b03039a2742a2fc3b82bb7122c, type: 2}
+    animationName: Walk
+    duration: 0.5
+    nextStateName: Idle
+    elapsedTime: 0
   - stateName: Idle
     interruptType: 0
     condition: {fileID: 11400000, guid: 34c56b31ea38af84996eef307c7e86d2, type: 2}
