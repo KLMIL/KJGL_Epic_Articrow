@@ -16,6 +16,8 @@ namespace BMC
 
         void OnClicked()
         {
+            AnalyticsManager.Instance.SendAnalytics(); // 게임 종료 시 통계 데이터 전송
+
             PlayerManager.Instance.Clear();
 
             GameFlowManager.Instance.InitRetry();
