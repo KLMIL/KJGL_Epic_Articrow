@@ -26,7 +26,7 @@ namespace Game.Enemy
 
                 if (controller.gameObject.name == "HornSludge")
                 {
-                    SteamAchievement.instance.Achieve(SteamAchievement.AchievementType.SlimeBossClear);
+                    //SteamAchievement.instance.Achieve(SteamAchievement.AchievementType.SlimeBossClear);
                 }
 
                 // TODO: 몬스터가 죽을 때마다 Wave 진행해야하는지 확인
