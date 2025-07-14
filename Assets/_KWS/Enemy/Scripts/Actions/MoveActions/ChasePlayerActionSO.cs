@@ -21,7 +21,7 @@ namespace Game.Enemy
         public float maxDistance = 9999.0f; // 추적하기에 충분히 큰 값 -> 무조건 추적
 
         [Header("Smart Chase")]
-        public float obstacleCheckDistance = 1f;
+        public float obstacleCheckDistance = 1.0f;
 
         public Vector2 enemySize = new Vector2(1f, 1f);
 
@@ -85,7 +85,7 @@ namespace Game.Enemy
                     controller.transform.position,
                     toPlayer,
                     obstacleCheckDistance,
-                    LayerMask.GetMask("Obstacle")
+                    LayerMask.GetMask("Obstacle", "Wall")
                 );
 
                 bool inSight = !hit;
@@ -137,7 +137,7 @@ namespace Game.Enemy
                             controller.transform.position,
                             controller.FSM.bypassDirection,
                             obstacleCheckDistance,
-                            LayerMask.GetMask("Obstacle")
+                            LayerMask.GetMask("Obstacle", "Wall")
                         );
                         Debug.DrawRay(controller.transform.position, controller.FSM.bypassDirection * obstacleCheckDistance, Color.green, 0.1f);
                     }
