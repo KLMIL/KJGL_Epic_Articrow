@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Localization.SmartFormat.Core.Parsing;
 
 /*
  * 최소 거리 ~ 최대 거리 사이의 플레이어를 추적한다. 
@@ -153,8 +154,9 @@ namespace Game.Enemy
 
                         if (hit)
                         {
-                            Vector2 offset = hit.normal * 0.2f;
-                            controller.transform.position += (Vector3)offset;
+                            Vector2 pushDir = ((Vector2)controller.transform.position - hit.point).normalized;
+                            controller.transform.position += (Vector3)(pushDir * 0.15f); // 0.15f는 상황에 맞게
+                            Debug.DrawRay(controller.transform.position, pushDir * 0.3f, Color.yellow, 0.2f);
                         }
 
 
