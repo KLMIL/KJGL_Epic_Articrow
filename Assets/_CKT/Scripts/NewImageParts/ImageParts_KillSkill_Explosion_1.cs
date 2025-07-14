@@ -44,7 +44,7 @@ public class ImageParts_KillSkill_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsT
                 explosion.transform.position = hitObject.transform.position;
 
                 float damage = _damagePercent * spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower;
-                damage = 0.01f * Mathf.RoundToInt(damage);
+                damage = Mathf.RoundToInt(damage) / 100f;
 
                 explosion.GetComponent<CKT.Explosion>().Init(damage);
                 Debug.Log($"[ckt] {partsName} KillExplosion {damage}");

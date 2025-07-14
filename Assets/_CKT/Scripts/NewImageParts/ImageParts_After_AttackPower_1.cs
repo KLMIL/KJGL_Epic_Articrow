@@ -23,7 +23,7 @@ public class ImageParts_After_AttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToN
         if (fireArtifact.playerStatus.OffsetBarrier > 0)
         {
             float add = _increasePercent * fireArtifact.normalStatus.Default_AttackPower;
-            add = 0.01f * Mathf.RoundToInt(add);
+            add = Mathf.RoundToInt(add) / 100f;
 
             spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower += add;
             Debug.Log($"[ckt] {partsName} Normal {add}");
@@ -53,7 +53,7 @@ public class ImageParts_After_AttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToN
         if (fireArtifact.playerStatus.OffsetBarrier > 0)
         {
             float add = _increasePercent * fireArtifact.skillStatus.Default_AttackPower;
-            add = 0.01f * Mathf.RoundToInt(add);
+            add = Mathf.RoundToInt(add) / 100f;
 
             spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower += add;
             Debug.Log($"[ckt] {partsName} Skill {add}");

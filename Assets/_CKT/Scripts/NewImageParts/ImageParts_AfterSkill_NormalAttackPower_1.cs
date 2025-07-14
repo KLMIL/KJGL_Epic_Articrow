@@ -19,7 +19,7 @@ public class ImageParts_AfterSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIm
         if (_isBuff)
         {
             float add = _increasePercent * fireArtifact.normalStatus.Default_AttackPower;
-            add = 0.01f * Mathf.RoundToInt(add);
+            add = Mathf.RoundToInt(add) / 100f;
 
             fireArtifact.normalStatus.Added_AttackPower += add;
             Debug.Log($"[ckt] {partsName} buff {add}");

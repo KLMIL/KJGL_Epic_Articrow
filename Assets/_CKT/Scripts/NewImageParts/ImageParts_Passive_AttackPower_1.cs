@@ -59,11 +59,11 @@ public class ImageParts_Passive_AttackPower_1 : ImagePartsRoot_YSJ, IImagePartsT
     void AttackPower(Artifact_YSJ fireArtifact, GameObject spawnedAttack, float default_AttackPower)
     {
         float addedPercent = fireArtifact.Added_MoveSpeed / fireArtifact.playerStatus.DefaultMoveSpeed;
-        addedPercent = 0.01f * Mathf.RoundToInt(addedPercent * 100f);
+        addedPercent = Mathf.RoundToInt(addedPercent * 100f) / 100f;
         Debug.Log($"[ckt] {partsName} addPercent_{addedPercent}");
 
         float add = _increasePercent * addedPercent * default_AttackPower;
-        add = 0.01f * Mathf.RoundToInt(add);
+        add = Mathf.RoundToInt(add) / 100f;
         Debug.Log($"[ckt] {partsName} add_{add}");
 
         spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower += add;

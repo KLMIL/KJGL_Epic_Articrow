@@ -45,7 +45,7 @@ public class ImageParts_HitNormal_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImag
     public void SkillAttackPessive(Artifact_YSJ fireArtifact)
     {
         float add = _curStack * _increasePercent * fireArtifact.skillStatus.Default_AttackPower;
-        add = 0.01f * Mathf.RoundToInt(add);
+        add = Mathf.RoundToInt(add) / 100f;
 
         fireArtifact.skillStatus.Added_AttackPower += add;
         Debug.Log($"[ckt] {partsName} StartBuff {_curStack}_{add}");

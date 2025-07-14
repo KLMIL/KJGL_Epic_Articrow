@@ -14,7 +14,7 @@ public class ImageParts_Passive_SkillAttackPower_3 : ImagePartsRoot_YSJ, IImageP
     {
         float offsetMana = fireArtifact.playerStatus.OffsetMaxMana * 0.5f;
         float add = offsetMana * _percent * fireArtifact.skillStatus.Default_AttackPower;
-        add = 0.01f * Mathf.RoundToInt(add);
+        add = Mathf.RoundToInt(add) / 100f;
 
         fireArtifact.skillStatus.Added_AttackPower += add;
         Debug.Log($"[ckt] {partsName} {add}");

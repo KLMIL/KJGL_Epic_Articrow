@@ -16,12 +16,13 @@ public class ImageParts_Passive_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImageP
     {
         //float addDelay = _delayPercent;
         //addDelay = 0.01f * Mathf.RoundToInt(addDelay);
+        float addDelay = _delayValue;
         float addPower = _powerPercent * fireArtifact.skillStatus.Default_AttackPower;
-        addPower = 0.01f * Mathf.RoundToInt(addPower);
+        addPower = Mathf.RoundToInt(addPower) / 100f;
 
-        fireArtifact.skillStatus.Added_AttackStartDelay += _delayValue;
+        fireArtifact.skillStatus.Added_AttackStartDelay += addDelay;
         fireArtifact.skillStatus.Added_AttackPower += addPower;
-        Debug.Log($"[ckt] {partsName} {fireArtifact.skillStatus.Current_AttackStartDelay}_{_delayValue}_{addPower}");
+        Debug.Log($"[ckt] {partsName} {fireArtifact.skillStatus.Current_AttackStartDelay}_{addDelay}_{addPower}");
     }
 
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)

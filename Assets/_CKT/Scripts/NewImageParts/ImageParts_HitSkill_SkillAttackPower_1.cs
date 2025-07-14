@@ -35,7 +35,7 @@ public class ImageParts_HitSkill_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImage
         if (sqrDistance >= (_ThresholdDistance * _ThresholdDistance))
         {
             float add = _increasePercent * fireArtifact.skillStatus.Default_AttackPower;
-            add = 0.01f * Mathf.RoundToInt(add);
+            add = Mathf.RoundToInt(add) / 100f;
 
             /*MagicRoot_YSJ magicRoot = spawnedAttack.GetComponent<MagicRoot_YSJ>();
             magicRoot.AttackPower += add;*/
