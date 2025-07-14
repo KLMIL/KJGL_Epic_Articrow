@@ -95,13 +95,13 @@ namespace YSJ
         public void UpdateBGMVolume(float volume)
         {
             _bgmSource.volume = volume;
-            Debug.Log("bgm 볼륨: " + _bgmSource.volume);
+            //Debug.Log("bgm 볼륨: " + _bgmSource.volume);
         }
 
         public void UpdateSFXVolume(float volume)
         {
             _sfxSource.volume = volume;
-            Debug.Log("sfx 볼륨: " + _bgmSource.volume);
+            //Debug.Log("sfx 볼륨: " + _bgmSource.volume);
         }
 
         public void Stop()

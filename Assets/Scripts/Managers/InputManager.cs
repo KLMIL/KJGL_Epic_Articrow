@@ -99,7 +99,7 @@ public class InputManager
         var rebinds = PlayerPrefs.GetString("rebinds");
         if (!string.IsNullOrEmpty(rebinds))
         {
-            Debug.Log(rebinds + "\n 불러옴");
+            //Debug.Log(rebinds + "\n 불러옴");
             _inputSystemActions.LoadBindingOverridesFromJson(rebinds);
         }
     }
@@ -107,7 +107,7 @@ public class InputManager
     public void ApplyKeyBind(string savedBindings)
     {
         _inputSystemActions.LoadBindingOverridesFromJson(savedBindings);
-        Debug.Log("적용하기");
+        //Debug.Log("적용하기");
     }
     #endregion
 
@@ -131,7 +131,7 @@ public class InputManager
         if (context.performed)
         {
             OnDashAction?.Invoke(MoveInput);
-            Debug.Log("대시");
+            //Debug.Log("대시");
             IsPressDash = false;
         }
         //Debug.Log("IsPressDash: " + IsPressDash);

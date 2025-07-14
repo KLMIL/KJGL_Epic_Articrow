@@ -102,7 +102,7 @@ namespace YSJ
             set
             {
                 _offsetMaxMana = value;
-                Debug.Log($"{MaxMana}");
+                //Debug.Log($"{MaxMana}");
                 UI_InGameEventBus.OnPlayerManaUpdate?.Invoke();
             }
         }

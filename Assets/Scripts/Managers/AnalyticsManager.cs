@@ -71,7 +71,7 @@ public class AnalyticsManager : MonoBehaviour
     // 통계 시작
     public void StartAnalystics()
     {
-        //return; // QA를 위한 연결 해제
+        return; // QA를 위한 연결 해제
 
         if (!_isInitialized)
         {
@@ -86,7 +86,7 @@ public class AnalyticsManager : MonoBehaviour
     // 통계 전송
     public void SendAnalytics()
     {
-        //return; // QA를 위한 연결 해제
+        return; // QA를 위한 연결 해제
 
         if (!_isInitialized || !isGameStart)
         {

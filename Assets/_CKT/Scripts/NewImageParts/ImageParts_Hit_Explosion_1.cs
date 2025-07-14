@@ -65,7 +65,7 @@ public class ImageParts_Hit_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
         damage = Mathf.RoundToInt(damage) / 100f;
 
         explosion.GetComponent<CKT.Explosion>().Init(damage);
-        Debug.Log($"[ckt] {partsName} HitExplosion {damage}");
+        //Debug.Log($"[ckt] {partsName} HitExplosion {damage}");
     }
     #endregion
 }

@@ -91,7 +91,7 @@ namespace BMC
             }
             else
             {
-                Debug.LogWarning($"체력: {PlayerStatus.Health}, 마나: {PlayerStatus.Mana}");
+                //Debug.LogWarning($"체력: {PlayerStatus.Health}, 마나: {PlayerStatus.Mana}");
             }
         }
 

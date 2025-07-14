@@ -9,13 +9,13 @@ namespace YSJ
             SceneType = Define.SceneType.TitleScene;
             Managers.Sound.PlayBGM(Define.BGM.TitleScene);
             Time.timeScale = 1f;
-            Debug.Log("타이틀 씬 초기화");
+            //Debug.Log("타이틀 씬 초기화");
         }
 
         public override void Clear()
         {
             GameFlowManager.Instance.Init();
-            Debug.Log("타이틀 씬 종료");
+            //Debug.Log("타이틀 씬 종료");
         }
 
         void OnDestroy()

@@ -79,7 +79,7 @@ namespace BMC
 
                 // 튜토리얼 액션 맵 부분 활성화
                 TutorialInput.EnableOnlyAction(_inputSystemActions.Tutorial.Interact);
-                Debug.Log("아티팩트와 파츠를 먹어서 상호작용 확인 제거");
+                //Debug.Log("아티팩트와 파츠를 먹어서 상호작용 확인 제거");
             }
         }
         #endregion

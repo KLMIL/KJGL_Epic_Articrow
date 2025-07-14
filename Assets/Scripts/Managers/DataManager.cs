@@ -34,7 +34,7 @@ namespace YSJ
         {
             // 설정 파일에 데이터를 저장하는 로직
             // 예: PlayerPrefs, JSON 파일 등에서 설정을 저장하기
-            Debug.Log("Settings saved.");
+            //Debug.Log("Settings saved.");
         }
 
         // 설정 불러오기
@@ -42,7 +42,7 @@ namespace YSJ
         {
             // 설정 파일에서 데이터를 불러오는 로직
             // 예: PlayerPrefs, JSON 파일 등에서 설정을 읽어오기
-            Debug.Log("Settings loaded.");
+            //Debug.Log("Settings loaded.");
 
 
             // 설정된 로컬라이제이션 인덱스 로드

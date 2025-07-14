@@ -24,7 +24,7 @@ public class ManaHeartBar : MonoBehaviour
         float maxManaRemainder = PlayerManager.Instance.PlayerStatus.MaxMana % 2;
         int manasToMake = (int)((PlayerManager.Instance.PlayerStatus.MaxMana / 2) + maxManaRemainder);
 
-        Debug.Log("생성해야할 마나 수: " + manasToMake);
+        //Debug.Log("생성해야할 마나 수: " + manasToMake);
         //if (_manasToMake == manasToMake)
         //    return;
         if(_manasToMake != manasToMake)

@@ -36,7 +36,7 @@ public class InventoryCanvas_YSJ : MonoBehaviour
     public void CanvasEnable(bool value)
     {
         canvas.enabled = value;
-        Debug.Log("인벤토리 캔버스 enable: " + value);
+        //Debug.Log("인벤토리 캔버스 enable: " + value);
     }
 
     #endregion

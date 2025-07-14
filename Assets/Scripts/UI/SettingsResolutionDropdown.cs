@@ -63,7 +63,7 @@ public class SettingsResolutionDropdown : MonoBehaviour
 
         Resolution resolution = _filteredResolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-        Debug.LogWarning(resolutionIndex + " : " + resolution.width + " x " + resolution.height);
+        //Debug.LogWarning(resolutionIndex + " : " + resolution.width + " x " + resolution.height);
 
         // 해상도 인덱스 저장
         PlayerPrefs.SetInt("ResolutionIndex", resolutionIndex);

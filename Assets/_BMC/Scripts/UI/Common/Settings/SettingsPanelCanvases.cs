@@ -24,10 +24,10 @@ public class SettingsPanelCanvases : MonoBehaviour
 
     public void ActivePanelCanvas(int idx)
     {
-        if (_canvasArray == null)
-            Debug.Log("설정창에서 캔버스가 널");
-        else
-            Debug.Log(_canvasArray.Length);
+        //if (_canvasArray == null)
+        //    Debug.Log("설정창에서 캔버스가 널");
+        //else
+        //    Debug.Log(_canvasArray.Length);
 
         DeactivatePanelCanvas();
         _canvasArray[idx].enabled = true;

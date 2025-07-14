@@ -24,7 +24,7 @@ namespace BMC
         {
             if (!_isPlayerInTrigger && collision.CompareTag("Player") && _door.IsOpen)
             {
-                Debug.Log("문 닿음");
+                //Debug.Log("문 닿음");
                 _isPlayerInTrigger = true;
                 PlayerManager.Instance.PlayerTextWindow.SetText("F");
             }
@@ -34,7 +34,7 @@ namespace BMC
         {
             if(_isPlayerInTrigger && !_isTransferPlayer && _door.IsOpen && Managers.Input.IsPressInteract)
             {
-                Debug.Log("다음 씬으로 이동");
+                //Debug.Log("다음 씬으로 이동");
                 _barrierCollider.enabled = false;
                 _door.NextStage();
                 _isTransferPlayer = true;
@@ -46,7 +46,7 @@ namespace BMC
         {
             if (_isPlayerInTrigger && collision.CompareTag("Player") && _door.IsOpen)
             {
-                Debug.Log("문 떠남");
+                //Debug.Log("문 떠남");
                 _isPlayerInTrigger = false;
                 PlayerManager.Instance.PlayerTextWindow.SetText();
             }
