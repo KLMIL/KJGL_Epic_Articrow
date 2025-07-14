@@ -90,20 +90,7 @@ namespace Game.Enemy
 
                 bool inSight = !hit;
 
-                //// ---- [끼임 보정 로직 시작] ----
-                //if (hit && hit.distance < 0.05f) // 0.05는 상황에 따라 조절
-                //{
-                //    // 벽의 노멀 방향으로 살짝 밀어내기
-                //    Vector2 offset = hit.normal * 0.2f; // 0.1f = 보정 거리
-                //    controller.transform.position += (Vector3)offset;
-
-                //    // 보정 후, 더 이상 진행하지 않고 return (이번 프레임)
-                //    return;
-                //}
-                //// ---- [끼임 보정 로직 끝] ----
-
-                // 디버그 참고용 -> 박스로 그리진 않음
-                //Debug.LogError($"디버그 띄움 -> {controller.transform.position}");
+                // 디버그 참고용 -> 플레이어 방향 빨간색 라인
                 Debug.DrawRay(controller.transform.position, toPlayer * obstacleCheckDistance, Color.red, 0.1f);
 
                 if (inSight) // 플레이어가 보이는 경우 -> 바로 추적
@@ -129,7 +116,8 @@ namespace Game.Enemy
                         controller.FSM.bypassDirection = chosenDir;
                         controller.FSM.isBypassing = true;
                     }
-
+                    
+                    // 우회 방향에 장애물 여부 검사
                     bool bypassBlocked = false;
                     if (hit)
                     {
@@ -144,23 +132,35 @@ namespace Game.Enemy
 
                     if (!bypassBlocked)
                     {
-                        //Debug.LogError("우회 시도");
+                        //Debug.LogError("우회 시도중");
                         controller.MoveTo(controller.FSM.bypassDirection, Time.deltaTime, "SmartChase", inverse);
                     }
                     else
                     {
-                        // 막히면 정지 + idle로 전환
-                        controller.StopMove();
+                        //Debug.LogError("다시 우회 시도중");
 
-                        if (hit)
+                        bool bypassBlocked2 = false;
+                        bypassBlocked2 = Physics2D.Raycast(
+                            controller.transform.position,
+                            -controller.FSM.bypassDirection,
+                            obstacleCheckDistance,
+                            LayerMask.GetMask("Obstacle", "Wall")
+                        );
+                        Debug.DrawRay(controller.transform.position, controller.FSM.bypassDirection * obstacleCheckDistance, Color.yellow, 0.1f);
+                        
+                        
+                        if (!bypassBlocked2)
                         {
-                            Vector2 pushDir = ((Vector2)controller.transform.position - hit.point).normalized;
-                            controller.transform.position += (Vector3)(pushDir * 0.15f); // 0.15f는 상황에 맞게
-                            Debug.DrawRay(controller.transform.position, pushDir * 0.3f, Color.yellow, 0.2f);
+                            //Debug.LogError("또다시 우회 시도중");
+                            controller.MoveTo(-controller.FSM.bypassDirection, Time.deltaTime, "SmartChase", inverse);
                         }
-
-
-                        //controller.FSM.ChangeState("Idle");
+                        else
+                        {
+                            if (hit)
+                            {
+                                controller.transform.position += Vector3.up * 0.1f;
+                            }
+                        }
                     }
                 }
             }
