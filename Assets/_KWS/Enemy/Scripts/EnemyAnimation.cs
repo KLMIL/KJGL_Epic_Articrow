@@ -34,6 +34,10 @@ namespace Game.Enemy
 
         public void PlayAnimationOnce(string animName)
         {
+            // 일시 정지 시, 애니메이션 변경 무시
+            if(GameManager.Instance.IsPaused) 
+                return;
+
             //Debug.Log($"[{Time.time}]: Animation Change: {animName}");
             if (CurrentAnimation == animName) return;
 

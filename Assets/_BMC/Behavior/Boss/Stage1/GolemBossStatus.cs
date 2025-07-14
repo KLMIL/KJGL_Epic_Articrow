@@ -88,7 +88,7 @@ namespace BMC
             StopAllCoroutines();
             _visual.color = Color.gray;
 
-            SteamAchievement.instance.Achieve(SteamAchievement.AchievementType.GolemBossClear);
+            //SteamAchievement.instance.Achieve(SteamAchievement.AchievementType.GolemBossClear);
         }
 
         // GolemBossDie 애니메이션 끝에서 실행할 애니메이션 이벤트

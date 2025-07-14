@@ -44,6 +44,7 @@ public class SteamAchievement : MonoBehaviour
 
     public void Achieve(AchievementType achievementType)
     {
+        return;
         string apiName = achievementType.ToString();
         Debug.Log("도전과제 달성 요청");
         if (SteamManager.Initialized)
