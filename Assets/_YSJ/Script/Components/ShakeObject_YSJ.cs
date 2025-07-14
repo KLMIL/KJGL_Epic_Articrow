@@ -22,4 +22,9 @@ public class ShakeObject_YSJ : MonoBehaviour
         Vector3 RandomShakePos = new Vector3(Random.Range(-Range, Range), Random.Range(-Range, Range), 0);
         transform.position = currentPosition + RandomShakePos * Strength;
     }
+
+    private void OnDisable()
+    {
+        transform.localPosition = Vector3.zero;
+    }
 }
