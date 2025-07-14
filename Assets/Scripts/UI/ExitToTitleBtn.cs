@@ -24,7 +24,6 @@ namespace BMC
         {
             //Managers.Scene.LoadScene(_sceneType);
 
-            AnalyticsManager.Instance.analyticsData.progressStage = GameFlowManager.Instance.CurrentRoom;
             AnalyticsManager.Instance.SendAnalytics(); // 게임 종료 시 통계 데이터 전송
 
             GameFlowManager.Instance.Init();

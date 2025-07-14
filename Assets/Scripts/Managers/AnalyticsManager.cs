@@ -89,6 +89,9 @@ public class AnalyticsManager : MonoBehaviour
             return;
         }
 
+        // 보낼 때 스테이지 기록
+        analyticsData.progressStage = GameFlowManager.Instance.CurrentRoom;
+
         // 인게임 중인 경우, 장착한 파츠 개수
         PlayerManager.Instance.PlayerHand.RightHand.GetComponentInChildren<Artifact_YSJ>().CountEquipParts();
         
@@ -109,7 +112,7 @@ public class AnalyticsManager : MonoBehaviour
         };
 
         AnalyticsService.Instance.RecordEvent(analyticsEvent);
-        //AnalyticsService.Instance.Flush();
+        AnalyticsService.Instance.Flush();
         Debug.Log("통계 분석 전송");
 
         isGameStart = false;
