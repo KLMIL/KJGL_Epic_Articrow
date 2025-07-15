@@ -18,7 +18,7 @@ public class MagicSkillBeam_YSJ : MagicRoot_YSJ
 
     private void Start()
     {
-        float radius = base.ownerArtifact.skillStatus.Current_AttackScale;
+        float radius = base.ownerArtifact.skillStatus.Current_AttackScale * 0.5f;
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, transform.position);
 
