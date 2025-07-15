@@ -22,7 +22,7 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
             addNormal = Mathf.RoundToInt(addNormal) / 100f;
 
             fireArtifact.normalStatus.Added_AttackPower += addNormal;
-            Debug.Log($"[ckt] {partsName} NormalBuff {addNormal}");
+            //Debug.Log($"[ckt] {partsName} NormalBuff {addNormal}");
         }
     }
 
@@ -52,7 +52,7 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
             addSkill = Mathf.RoundToInt(addSkill) / 100f;
 
             fireArtifact.skillStatus.Added_AttackPower += addSkill;
-            Debug.Log($"[ckt] {partsName} SkillBuff {addSkill}");
+            //Debug.Log($"[ckt] {partsName} SkillBuff {addSkill}");
         }
     }
 
@@ -102,13 +102,13 @@ public class ImageParts_HitSkill_AttackPower_1 : ImagePartsRoot_YSJ, IImageParts
     void StartBuff()
     {
         _isBuff = true;
-        Debug.Log($"[ckt] {partsName} Buff {_isBuff}");
+        //Debug.Log($"[ckt] {partsName} Buff {_isBuff}");
     }
 
     void EndBuff()
     {
         _isBuff = false;
-        Debug.Log($"[ckt] {partsName} Buff {_isBuff}");
+        //Debug.Log($"[ckt] {partsName} Buff {_isBuff}");
     }
 
     void StopBuff()

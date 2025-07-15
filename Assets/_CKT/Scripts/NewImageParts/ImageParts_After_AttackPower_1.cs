@@ -26,7 +26,7 @@ public class ImageParts_After_AttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToN
             add = Mathf.RoundToInt(add) / 100f;
 
             spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower += add;
-            Debug.Log($"[ckt] {partsName} Normal {add}");
+            //Debug.Log($"[ckt] {partsName} Normal {add}");
         }
     }
 
@@ -56,7 +56,7 @@ public class ImageParts_After_AttackPower_1 : ImagePartsRoot_YSJ, IImagePartsToN
             add = Mathf.RoundToInt(add) / 100f;
 
             spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower += add;
-            Debug.Log($"[ckt] {partsName} Skill {add}");
+            //Debug.Log($"[ckt] {partsName} Skill {add}");
         }
     }
 

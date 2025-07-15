@@ -48,7 +48,7 @@ public class ImageParts_HitNormal_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImag
         add = Mathf.RoundToInt(add) / 100f;
 
         fireArtifact.skillStatus.Added_AttackPower += add;
-        Debug.Log($"[ckt] {partsName} StartBuff {_curStack}_{add}");
+        //Debug.Log($"[ckt] {partsName} StartBuff {_curStack}_{add}");
     }
 
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
@@ -92,13 +92,13 @@ public class ImageParts_HitNormal_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImag
     {
         _curStack++;
         _curStack = Mathf.Clamp(_curStack, 0, _maxStack);
-        Debug.Log($"[ckt] {partsName} StartBuff stack_{_curStack}");
+        //Debug.Log($"[ckt] {partsName} StartBuff stack_{_curStack}");
     }
 
     void EndBuff()
     {
         _curStack = 0;
-        Debug.Log($"[ckt] {partsName} EndBuff stack_{_curStack}");
+        //Debug.Log($"[ckt] {partsName} EndBuff stack_{_curStack}");
     }
 
     void StopBuff()

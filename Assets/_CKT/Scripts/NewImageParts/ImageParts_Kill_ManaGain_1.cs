@@ -72,12 +72,12 @@ public class ImageParts_Kill_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
                 int add = _increaseValue * 2;
 
                 fireArtifact.playerStatus.RegenerateMana(add);
-                Debug.Log($"[ckt] {partsName} RegenerateMana({add})");
+                //Debug.Log($"[ckt] {partsName} RegenerateMana({add})");
             }
         }
         else
         {
-            Debug.LogWarning($"[ckt] {partsName} EnemyController or MagicRoot_YSJ is null");
+            //Debug.LogWarning($"[ckt] {partsName} EnemyController or MagicRoot_YSJ is null");
         }
     }
     #endregion

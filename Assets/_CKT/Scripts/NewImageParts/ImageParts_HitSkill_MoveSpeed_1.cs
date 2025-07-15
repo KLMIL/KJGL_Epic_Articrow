@@ -71,7 +71,7 @@ public class ImageParts_HitSkill_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsTo
         add = Mathf.RoundToInt(add) / 100f;
 
         _fireArtifact.Added_MoveSpeed += add;
-        Debug.Log($"[ckt] {partsName} StartBuff {add}_{playerStatus.MoveSpeed}");
+        //Debug.Log($"[ckt] {partsName} StartBuff {add}_{playerStatus.MoveSpeed}");
     }
 
     void EndBuff()
@@ -81,7 +81,7 @@ public class ImageParts_HitSkill_MoveSpeed_1 : ImagePartsRoot_YSJ, IImagePartsTo
         add = Mathf.RoundToInt(add) / 100f;
 
         _fireArtifact.Added_MoveSpeed -= add;
-        Debug.Log($"[ckt] {partsName} EndBuff {add}_{playerStatus.MoveSpeed}");
+        //Debug.Log($"[ckt] {partsName} EndBuff {add}_{playerStatus.MoveSpeed}");
     }
 
     void StopBuff()

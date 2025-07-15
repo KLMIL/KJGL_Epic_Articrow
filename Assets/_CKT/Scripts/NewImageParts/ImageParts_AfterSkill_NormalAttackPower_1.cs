@@ -22,7 +22,7 @@ public class ImageParts_AfterSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIm
             add = Mathf.RoundToInt(add) / 100f;
 
             fireArtifact.normalStatus.Added_AttackPower += add;
-            Debug.Log($"[ckt] {partsName} buff {add}");
+            //Debug.Log($"[ckt] {partsName} buff {add}");
         }
     }
 
@@ -93,13 +93,13 @@ public class ImageParts_AfterSkill_NormalAttackPower_1 : ImagePartsRoot_YSJ, IIm
     void StartBuff()
     {
         _isBuff = true;
-        Debug.Log($"[ckt] {partsName} StartBuff {_isBuff}");
+        //Debug.Log($"[ckt] {partsName} StartBuff {_isBuff}");
     }
 
     void EndBuff()
     {
         _isBuff = false;
-        Debug.Log($"[ckt] {partsName} StartBuff {_isBuff}");
+        //Debug.Log($"[ckt] {partsName} StartBuff {_isBuff}");
     }
 
     void StopBuff()

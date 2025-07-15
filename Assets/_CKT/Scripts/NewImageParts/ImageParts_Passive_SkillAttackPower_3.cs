@@ -17,7 +17,7 @@ public class ImageParts_Passive_SkillAttackPower_3 : ImagePartsRoot_YSJ, IImageP
         add = Mathf.RoundToInt(add) / 100f;
 
         fireArtifact.skillStatus.Added_AttackPower += add;
-        Debug.Log($"[ckt] {partsName} {add}");
+        //Debug.Log($"[ckt] {partsName} {add}");
     }
 
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)

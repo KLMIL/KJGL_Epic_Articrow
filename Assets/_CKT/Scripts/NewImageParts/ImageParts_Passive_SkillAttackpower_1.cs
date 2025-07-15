@@ -22,7 +22,7 @@ public class ImageParts_Passive_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImageP
 
         fireArtifact.skillStatus.Added_AttackStartDelay += addDelay;
         fireArtifact.skillStatus.Added_AttackPower += addPower;
-        Debug.Log($"[ckt] {partsName} {fireArtifact.skillStatus.Current_AttackStartDelay}_{addDelay}_{addPower}");
+        //Debug.Log($"[ckt] {partsName} {fireArtifact.skillStatus.Current_AttackStartDelay}_{addDelay}_{addPower}");
     }
 
     public void SkillAttackBeforeFire(Artifact_YSJ fireArtifact)
