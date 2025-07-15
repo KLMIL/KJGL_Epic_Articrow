@@ -47,6 +47,7 @@ namespace Game.Enemy
 
         public float duration = 0.7f;
 
+
         public override void OnEnter(EnemyController controller)
         {
             controller.FSM.isSuperArmor = true;
@@ -73,10 +74,7 @@ namespace Game.Enemy
                     break;
             }
 
-            controller.FSM.IndicatorScale = scale;
-
             // 기준 방향 계산
-            //Vector2 standardDir = (controller.FSM.AttackTargetPosition - (Vector2)controller.transform.position).normalized;
             Vector2 standardDir = (controller.FSM.AttackTargetPosition - (Vector2)controller.AttackIndicator.transform.position).normalized;
 
             List<Vector2> dirs = new();
@@ -142,14 +140,13 @@ namespace Game.Enemy
                     break;
             }
 
-            //controller.AttackIndicator.SetIndicators(IndicatorType.Line, dirs, lens, IndicatorPrefab);
             // 인디케이터 생성 코루틴 호출 -> 몬스터 따라가면서 계속 갱신
-            if (controller.IsIndicatorCoroutineGo()) // 코루틴이 실행중이라면 중지
+            if (controller.IndicatorCoroutine != null) // 코루틴이 실행중이라면 중지
             {
-                controller.StopCoroutine(controller.GetIndicatorCoroutine());
-                controller.EndIndicatorCoroutine();
+                controller.StopCoroutine(controller.IndicatorCoroutine);
+                controller.IndicatorCoroutine = null;
             }
-            controller.StartIndicatorCoroutine(controller.StartCoroutine(UpdateIndicatorCoroutine(controller, IndicatorType, dirs, lens, IndicatorPrefab, duration)));
+            controller.IndicatorCoroutine = controller.StartCoroutine(UpdateIndicatorCoroutine(controller, IndicatorType, dirs, lens, IndicatorPrefab, duration));
         }
 
         private IEnumerator BlinkAndHideCoroutine(EnemyController controller, float duration)

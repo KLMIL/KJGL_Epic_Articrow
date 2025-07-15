@@ -8,44 +8,36 @@ namespace Game.Enemy
         EnemyController _ownerController;
         List<EnemyBehaviourUnit> _behaviours;
 
-        public string CurrentStateName { get; private set; } = "Spawned";
+        #region Behaviour State: Common
+        public string CurrentStateName { get; private set; } = "Spawned"; // 현재 상태 변수
+        public bool isSuperArmor = false; // 몬스터 슈퍼아머 여부
+        #endregion
 
 
-        #region Behaviour State Field 
-        // 몬스터 피격 처리
-        public bool isDamaged = false;
-        public float pendingDamage = 0;
-        public bool isDied = false;
+        #region Behaviour State: Attack
+        public float currentActionDamageMultiply = 1.0f; // 공격 대미지 배율
 
-        public float knockbackDistance = 0.1f;
+        public Coroutine fireRoutine; // ProjectileAttack Coroutine 저장
 
-        // 공격, 투사체 소환 등
-        public int projectileFiredCount = 0;
-        public float projectileIntervalTimer = 0;
-        public Coroutine fireRoutine;
+        public bool isSpawnedMite = false; // Jar의 패턴 수행 여부 검사
 
-        public bool isSpawnedMite = false;
-
+        // RushAttack 관련 Field
         public bool isRushAttacked = true;
         public bool isRushing = false;
         public Vector3 rushDirection = Vector3.zero;
         public float rushSpeedMultiply = 1f;
         public float rushDamageMultuply = 1f;
+        #endregion
 
-        public bool isContactDamageActive = false;
-        public float currentActionDamageMultiply = 1.0f;
 
-        // 접촉공격 쿨타임
-        public float lastContactAttackTime = -Mathf.Infinity;
-        public float contactAttackCooldown = 1.0f;
-
+        #region Behaviour State: Move
         // 이동
         public Vector3 randomMoveDirection = Vector3.zero;
         public float randomMoveChangeCooldown = 0f;
         public bool isRandomMoving = false;
 
         public bool isChasing = false;      // Chase Action 시작
-        public bool isBypassing = false;    // Chase 중 장애물 우회상태
+        public bool isBypassingChase = false;    // Chase 중 장애물 우회상태
         public Vector2 bypassDirection = Vector2.zero; // 우회 경로
 
         public bool isMovingAway = false;
@@ -54,35 +46,21 @@ namespace Game.Enemy
 
         public bool isOrbit = false;
         public Vector2 orbitDir = Vector2.zero;
-
-        // 몬스터 슈퍼아머
-        public bool isSuperArmor = false;
-
-
-        // TODO: 임시 변수 필드 -> EnemyStatusEffect 클래스로 분리하기
-        public float enemyDamagedMultiply = 1f;
-        public float enemyDamagedMultiplyRemainTime = 0f;
-
-        // 인디케이터를 위한 공통 변수
-        public float indicatorLength = 1f;
-        public Vector2 IndicatorScale = Vector2.one;
-
-        // TODO: 블랙홀 파츠를 위한 임시 필드
-        public bool isGravitySurge = false;
-
-        // AttackReady Action에서 저장할 플레이어(공격할) 위치
-        public Vector2 AttackTargetPosition;
-
-        // 인디케이터 위치 조정을 위한 피벗
-        public Vector2 IndicatorPivot = Vector2.zero;
-
-        // Move State 중 Orbit에서 사용하는 변수
-        public float orbitChagneTime = -Mathf.Infinity;
-
-        // 스폰될때 마법진 소환했는지 체크하는 변수
-        public bool isSpawnEffect = false;
+        public float orbitChangeTime = -Mathf.Infinity;
         #endregion
 
+
+        #region Behaviour State: State
+        public bool isSpawnEffect = false; // 스폰될때 마법진 소환했는지 여부
+
+        // 인디케이터를 위한 공통 변수
+        public Vector2 AttackTargetPosition; // AttackReady Action에서 저장할 공격할 위치(일반적으로 플레이어 위치)
+
+        // 몬스터 피격 처리
+        public bool isDamaged = false;
+        public bool isDied = false;
+        public float knockbackDistance = 0.1f;
+        #endregion
 
 
         public EnemyFSMCore(EnemyController ownerController, List<EnemyBehaviourUnit> behaviours)
