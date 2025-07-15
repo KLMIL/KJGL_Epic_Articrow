@@ -90,8 +90,6 @@ namespace Game.Enemy
             {
                 controller.StopCoroutine(controller.FSM.fireRoutine);
             }
-            controller.FSM.projectileFiredCount = 0;
-            controller.FSM.projectileIntervalTimer = 0;
         }
 
 

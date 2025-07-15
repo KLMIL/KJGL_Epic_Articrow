@@ -29,14 +29,6 @@ namespace Game.Enemy
             }
             float currDamage = damage;
 
-            // 표식이 있는지 검사해서, 있다면 대미지 배율 적용
-            bool isMarked = Time.time < ownerController.FSM.enemyDamagedMultiplyRemainTime;
-            if (isMarked)
-            {
-                currDamage *= ownerController.FSM.enemyDamagedMultiply;
-                currDamage = 0.01f * Mathf.RoundToInt(currDamage * 100f);
-            }
-
             showDamageText.Show(currDamage);
 
 

@@ -24,19 +24,8 @@ namespace Game.Enemy
                     Transform target = collision.transform;
                     ownerController.DealDamageToPlayer(ownerController.Status.attack * ownerController.FSM.rushDamageMultuply, target);
                     ownerController.FSM.isRushAttacked = true;
-                    ownerController.FSM.lastContactAttackTime = Time.time;
                     return;
                 }
-
-                ownerController.FSM.isContactDamageActive = true;
-            }
-        }
-
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            if ((1 << collision.gameObject.layer) == LayerMask.GetMask("PlayerHurtBox"))
-            {
-                ownerController.FSM.isContactDamageActive = false;
             }
         }
 
