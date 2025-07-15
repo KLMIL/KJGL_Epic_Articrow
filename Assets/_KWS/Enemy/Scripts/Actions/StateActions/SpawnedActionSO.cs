@@ -35,7 +35,8 @@ namespace Game.Enemy
 
                 foreach (var key in controller.lastAttackTimes.Keys.ToList())
                 {
-                    controller.lastAttackTimes[key] = Time.time + spawnAttackCooldown;
+                    float cooldown = spawnAttackCooldown == 0 ? -Mathf.Infinity : Time.time + spawnAttackCooldown;
+                    controller.lastAttackTimes[key] = cooldown;
                 }
             }
         }
