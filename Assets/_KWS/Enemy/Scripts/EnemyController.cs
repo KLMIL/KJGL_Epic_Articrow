@@ -24,6 +24,7 @@ namespace Game.Enemy
         EnemyAnimation _animation;
         EnemyMovement _movement;
         EnemyDealDamage _dealDamage;
+        Rigidbody2D _rb;
 
         [Header("FSM")]
         public List<EnemyBehaviourUnit> Behaviours = new();       // 직접 할당할 FSM 상태 리스트
@@ -75,6 +76,8 @@ namespace Game.Enemy
             {
                 Debug.Log($"{gameObject.name}: No AttackIndicator assigned");
             }
+
+            _rb = GetComponent<Rigidbody2D>();
         }
 
         private void OnEnable()
@@ -91,7 +94,7 @@ namespace Game.Enemy
             SpriteRenderer = _animation.SpriteRenderer;
             
             _movement = GetComponent<EnemyMovement>();
-            _movement.Init(SpriteRenderer);
+            _movement.Init(this, SpriteRenderer, _rb);
             _dealDamage = GetComponent<EnemyDealDamage>();
 
             Player = GameObject.FindWithTag("Player")?.transform;
