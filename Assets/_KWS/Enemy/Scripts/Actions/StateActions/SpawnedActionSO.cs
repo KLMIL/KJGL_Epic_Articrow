@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 /*
@@ -13,6 +13,7 @@ namespace Game.Enemy
     public class SpawnedActionSO : EnemyActionSO
     {
         public bool IsHideOnSpawned = true;
+        public float spawnAttackCooldown = 0f;
 
         public override void Act(EnemyController controller)
         {
@@ -31,6 +32,11 @@ namespace Game.Enemy
                     controller.SetAllChildrenActive(true);
                 }
                 controller.MakeSpawnEffect();
+
+                foreach (var key in controller.lastAttackTimes.Keys.ToList())
+                {
+                    controller.lastAttackTimes[key] = Time.time + spawnAttackCooldown;
+                }
             }
         }
 
