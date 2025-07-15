@@ -32,13 +32,13 @@ public class AnalyticsManager : MonoBehaviour
         analyticsData.Init();
     }
 
-    //// 초기화
-    //async void Start()
-    //{
-    //    await UnityServices.InitializeAsync();
-    //    AnalyticsService.Instance.StartDataCollection();
-    //    _isInitialized = true;
-    //}
+    // 초기화
+    async void Start()
+    {
+        await UnityServices.InitializeAsync();
+        AnalyticsService.Instance.StartDataCollection();
+        _isInitialized = true;
+    }
 
     #region 타이머 관련
     // 타이머 시작
