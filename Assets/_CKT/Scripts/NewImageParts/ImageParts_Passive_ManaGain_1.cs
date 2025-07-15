@@ -20,7 +20,7 @@ public class ImageParts_Passive_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNo
         fireArtifact.normalStatus.Added_AttackCoolTime += add;
         Debug.Log($"[ckt] {partsName} AddCoolTime({add})");*/
         fireArtifact.normalStatus.Added_AttackCoolTime += _coolTimeValue;
-        Debug.Log($"[ckt] {partsName} AddCoolTime({_coolTimeValue})");
+        //Debug.Log($"[ckt] {partsName} AddCoolTime({_coolTimeValue})");
     }
 
     public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)
@@ -40,7 +40,7 @@ public class ImageParts_Passive_ManaGain_1 : ImagePartsRoot_YSJ, IImagePartsToNo
         int add = _increaseValue;
 
         fireArtifact.playerStatus.RegenerateMana(add);
-        Debug.Log($"[ckt] {partsName} RegenerateMana({add})");
+        //Debug.Log($"[ckt] {partsName} RegenerateMana({add})");
     }
     #endregion
 }

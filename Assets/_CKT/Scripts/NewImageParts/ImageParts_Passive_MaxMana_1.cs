@@ -15,7 +15,7 @@ public class ImageParts_Passive_MaxMana_1 : ImagePartsRoot_YSJ, IImagePartsToEnh
         int add = _increaseValue;
         
         currentArtifact.Added_MaxMana += add;
-        Debug.Log($"[ckt] {partsName} AddMaxMana({add})");
+        //Debug.Log($"[ckt] {partsName} AddMaxMana({add})");
     }
     #endregion
 }

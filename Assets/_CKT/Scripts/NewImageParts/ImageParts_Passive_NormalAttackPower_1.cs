@@ -16,7 +16,7 @@ public class ImageParts_Passive_NormalAttackPower_1 : ImagePartsRoot_YSJ, IImage
         add = Mathf.RoundToInt(add) / 100f;
 
         fireArtifact.normalStatus.Added_AttackPower += add;
-        Debug.Log($"[ckt] {partsName} {add}");
+        //Debug.Log($"[ckt] {partsName} {add}");
     }
 
     public void NormalAttackBeforeFire(Artifact_YSJ fireArtifact)

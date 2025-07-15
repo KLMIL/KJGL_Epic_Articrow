@@ -68,7 +68,7 @@ public class ImageParts_BeforeSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsT
         int add = increaseValue;
 
         _fireArtifact.playerStatus.OffsetBarrier += add;
-        Debug.Log($"[ckt] {partsName} StartBuff {add}");
+        //Debug.Log($"[ckt] {partsName} StartBuff {add}");
     }
 
     void EndBuff()
@@ -76,7 +76,7 @@ public class ImageParts_BeforeSkill_Barrier_1 : ImagePartsRoot_YSJ, IImagePartsT
         int add = increaseValue;
 
         _fireArtifact.playerStatus.OffsetBarrier -= add;
-        Debug.Log($"[ckt] {partsName} EndBuff {add}");
+        //Debug.Log($"[ckt] {partsName} EndBuff {add}");
     }
 
     void StopBuff()

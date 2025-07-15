@@ -64,10 +64,10 @@ public class ImageParts_Passive_AttackPower_1 : ImagePartsRoot_YSJ, IImagePartsT
 
         float add = _increasePercent * addedPercent * default_AttackPower;
         add = Mathf.RoundToInt(add) / 100f;
-        Debug.Log($"[ckt] {partsName} add_{add}");
+        //Debug.Log($"[ckt] {partsName} add_{add}");
 
         spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower += add;
-        Debug.Log($"[ckt] {partsName} {addedPercent}_{add}");
+        //Debug.Log($"[ckt] {partsName} {addedPercent}_{add}");
     }
     #endregion
 }

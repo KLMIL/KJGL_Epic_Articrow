@@ -1,3 +1,4 @@
+using Game.Enemy;
 using UnityEngine;
 
 /// <summary>
@@ -57,15 +58,20 @@ public class ImageParts_Hit_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
     #region [상세]
     void Explosion(GameObject spawnedAttack, GameObject hitObject)
     {
-        //폭발 생성
-        GameObject explosion = YSJ.Managers.Pool.Get<GameObject>(Define.PoolID.CastExplosion);
-        explosion.transform.position = hitObject.transform.position;
+        EnemyController enemy = hitObject.transform.GetComponentInParent<EnemyController>();
+        MagicRoot_YSJ magicRoot = spawnedAttack.GetComponent<MagicRoot_YSJ>();
+        if ((enemy != null) && (magicRoot != null))
+        {
+            //폭발 생성
+            GameObject explosion = YSJ.Managers.Pool.Get<GameObject>(Define.PoolID.CastExplosion);
+            explosion.transform.position = hitObject.transform.position;
 
-        float damage = _damagePercent * spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower;
-        damage = Mathf.RoundToInt(damage) / 100f;
+            float damage = _damagePercent * magicRoot.AttackPower;
+            damage = Mathf.RoundToInt(damage) / 100f;
+            explosion.GetComponent<CKT.Explosion>().Init(damage);
 
-        explosion.GetComponent<CKT.Explosion>().Init(damage);
-        //Debug.Log($"[ckt] {partsName} HitExplosion {damage}");
+            //Debug.Log($"[ckt] {partsName} HitExplosion {damage}");
+        }
     }
     #endregion
 }

@@ -44,7 +44,7 @@ public class ImageParts_HitSkill_SkillAttackPower_1 : ImagePartsRoot_YSJ, IImage
             {
                 iDamageable.TakeDamage(add);
             }
-            Debug.Log($"[ckt] {partsName} {add}");
+            //Debug.Log($"[ckt] {partsName} {add}");
         }
     }
     #endregion
