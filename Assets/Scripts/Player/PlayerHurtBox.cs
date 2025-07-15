@@ -5,7 +5,7 @@ namespace BMC
     // 플레이어 HurtBox
     public class PlayerHurtBox : MonoBehaviour, IDamagable
     {
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Transform attacker = null)
         {
             PlayerManager.Instance.PlayerHurt.TakeDamage(damage);
         }

@@ -14,7 +14,7 @@ namespace BMC
             _damagable = _fsm.GetComponent<IDamagable>();
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Transform attacker = null)
         {
             Debug.Log("보스 데미지 주기");
             _damagable.TakeDamage(damage);
