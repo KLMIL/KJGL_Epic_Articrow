@@ -98,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _statusOrigin: {fileID: 11400000, guid: 572883ed34dc059458aa9319cd60ad55, type: 2}
   Status: {fileID: 0}
+  _currentState: 
   SpriteRenderer: {fileID: 0}
   Behaviours:
   - stateName: Spawned
@@ -164,7 +165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f262f1b822313c24589e57fee54e7c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 0}
   moveSpeedMultiply: 1
   wallCheckDistance: 0.5
   wallLayerMask:
@@ -208,7 +208,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 7
 --- !u!70 &5961344032750752291
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -255,7 +255,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6650150279969911716}
-  - component: {fileID: 2921204682988763481}
   - component: {fileID: 3376849943339268373}
   - component: {fileID: 7666292934596616316}
   - component: {fileID: 6401317494609794033}
@@ -281,18 +280,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3379652911884462664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2921204682988763481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3468725166329513980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8dc1c1c841af3b46932aec62e1b0a6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!70 &3376849943339268373
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

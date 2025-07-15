@@ -198,8 +198,10 @@ public class InputManager
 
     public void Pause()
     {
+        // 인게임
         if (Managers.Scene.CurrentScene.SceneType != SceneType.TitleScene
-                && Managers.Scene.CurrentScene.SceneType != SceneType.TutorialScene)
+                && Managers.Scene.CurrentScene.SceneType != SceneType.TutorialScene
+                && Managers.Scene.CurrentScene.SceneType != SceneType.EndingScene)
         {
             if (_inputSystemActions.Player.enabled)
             {
@@ -211,10 +213,16 @@ public class InputManager
             {
                 _inputSystemActions.UI.Disable();
                 _inputSystemActions.Player.Enable();
+
+                if (Managers.UI.InventoryCanvas.canvas.enabled)
+                    EnableAttack(false);
+
+
                 Debug.Log("UI -> 플레이어 모드로 전환");
             }
             OnPauseAction?.Invoke();
         }
+        // 튜토리얼
         else if (Managers.Scene.CurrentScene.SceneType == SceneType.TutorialScene)
         {
             if (_inputSystemActions.Tutorial.enabled)
@@ -227,6 +235,10 @@ public class InputManager
             {
                 _inputSystemActions.UI.Disable();
                 _inputSystemActions.Tutorial.Enable();
+
+                if (Managers.UI.InventoryCanvas.canvas.enabled)
+                    EnableAttack(false);
+
                 Debug.Log("UI -> 튜토리얼 모드로 전환");
             }
             OnPauseAction?.Invoke();
