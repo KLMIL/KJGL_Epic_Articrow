@@ -49,7 +49,7 @@ namespace BMC
             Vector3 dir = Vector3.down;
             Instantiate(rewardObject, transform.position + dir - transform.right * 2f, Quaternion.identity);
             rewardObject = StageManager.Instance.FieldParts[Random.Range(0, StageManager.Instance.FieldParts.Length)];
-            Instantiate(rewardObject, transform.position + dir + transform.right * 2f, Quaternion.identity);
+            Instantiate(rewardObject, transform.position + dir + transform.right * 1.5f, Quaternion.identity);
         }
 
         // Spawn 애니메이션 이벤트
