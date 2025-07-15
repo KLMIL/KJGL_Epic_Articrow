@@ -200,7 +200,8 @@ public class InputManager
     {
         // 인게임
         if (Managers.Scene.CurrentScene.SceneType != SceneType.TitleScene
-                && Managers.Scene.CurrentScene.SceneType != SceneType.TutorialScene)
+                && Managers.Scene.CurrentScene.SceneType != SceneType.TutorialScene
+                && Managers.Scene.CurrentScene.SceneType != SceneType.EndingScene)
         {
             if (_inputSystemActions.Player.enabled)
             {
