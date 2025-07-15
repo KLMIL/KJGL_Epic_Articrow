@@ -28,26 +28,26 @@ namespace CKT
             if (!collision.isTrigger) return;
 
             Transform target = collision.transform;
-            Game.Enemy.TestEnemyTakeDamage damagable = target.GetComponent<Game.Enemy.TestEnemyTakeDamage>();
+            //Game.Enemy.TestEnemyTakeDamage damagable = target.GetComponent<Game.Enemy.TestEnemyTakeDamage>();
             Rigidbody2D rb = target.GetComponentInParent<Rigidbody2D>();
             Game.Enemy.EnemyController enemyController = collision.GetComponentInParent<Game.Enemy.EnemyController>();
 
             //Debug.LogError($"타겟: {target.gameObject.name}, damagable: {damagable == null}, rb: {rb == null}");
 
             // 몬스터는 모두 IDamagable을 가지고 있음
-            if (damagable != null && rb != null)
-            {
-                //Debug.LogError("여기 진입?");
-                //damagable.TakeDamage(1);
-                Vector2 pullTargetPos = transform.position;
-                //Debug.LogError("코루틴 시작");
+            //if (damagable != null && rb != null)
+            //{
+            //    //Debug.LogError("여기 진입?");
+            //    //damagable.TakeDamage(1);
+            //    Vector2 pullTargetPos = transform.position;
+            //    //Debug.LogError("코루틴 시작");
 
-                if (enemyController.IsGravitySurgeCoroutineGO())
-                {
-                    enemyController.EndGravitySurgeCoroutine();
-                }
-                enemyController.StartGravitySurgeCoroutine(StartCoroutine(PullCoroutine(rb, pullTargetPos, enemyController)));
-            }
+            //    if (enemyController.IsGravitySurgeCoroutineGO())
+            //    {
+            //        enemyController.EndGravitySurgeCoroutine();
+            //    }
+            //    enemyController.StartGravitySurgeCoroutine(StartCoroutine(PullCoroutine(rb, pullTargetPos, enemyController)));
+            //}
         }
 
         private IEnumerator PullCoroutine(Rigidbody2D rb, Vector2 pullTargetPos, Game.Enemy.EnemyController enemyController)
