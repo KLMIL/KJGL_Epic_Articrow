@@ -39,7 +39,6 @@ namespace Game.Enemy
 
                             lr.positionCount = 2;
                             lr.SetPosition(0, origin);
-                            //lr.SetPosition(1, (Vector2)transform.position + dirs[i].normalized * lens[i].x);
                             lr.SetPosition(1, origin + direction * finalDistance);
 
                             lr.startWidth = lens[i].y;
@@ -140,7 +139,6 @@ namespace Game.Enemy
                     }
             }
 
-
             // Blink를 위해 기본 원본 색 저장
             if (_rendererPrefabs.Count > 0 && _rendererPrefabs[0] != null)
             {
@@ -149,29 +147,16 @@ namespace Game.Enemy
         }
 
 
-        public void DEP_SetIndicators(List<Vector2> dirs, List<Vector2> lens, GameObject prefab)
+        public void BlinkAndHide(float duration = 0.1f, int count = 2)
         {
-            Hide();
+            if (_rendererPrefabs == null || _rendererPrefabs.Count == 0) return;
 
-            int count = dirs.Count;
-            for (int i = 0; i < count; i++)
+            if (_blinkCoroutine != null)
             {
-                GameObject indicator = Instantiate(prefab, transform);
-
-                Vector2 dir = dirs[i];
-                Vector2 scale = lens[i];
-
-                //Debug.LogError($"인디케이터 생성 {i}번째: ({dirs[i].x}, {dirs[i].y})");
-
-                indicator.transform.right = dir;
-                indicator.transform.localScale = new Vector3(scale.x, scale.y, 1f);
-
-                _rendererPrefabs.Add(indicator);
+                StopCoroutine(_blinkCoroutine);
             }
-
-            _originColor = prefab.GetComponentInChildren<SpriteRenderer>().color;
+            _blinkCoroutine = StartCoroutine(BlinkCoroutine(duration, count));
         }
-
 
         private void Hide()
         {
@@ -186,22 +171,10 @@ namespace Game.Enemy
             _originColor = Color.white;
         }
 
-        public void BlinkAndHide(float duration = 0.1f, int count = 2)
-        {
-            if (_rendererPrefabs == null || _rendererPrefabs.Count == 0) return;
-
-            if (_blinkCoroutine != null)
-            {
-                StopCoroutine(_blinkCoroutine);
-            }
-            _blinkCoroutine = StartCoroutine(BlinkCoroutine(duration, count));
-        }
-
         private IEnumerator BlinkCoroutine(float duration, int count)
         {
             if (_rendererPrefabs == null || _rendererPrefabs.Count == 0) yield break;
 
-            //Color originColor = _renderer.color;
             Color blinkColor = Color.white;
 
             for (int i = 0; i < count; i++)
@@ -209,9 +182,6 @@ namespace Game.Enemy
                 // 1. 모든 SpriteRenderer를 흰색으로
                 foreach (var p in _rendererPrefabs)
                 {
-                    //var srs = p.GetComponentsInChildren<SpriteRenderer>();
-                    //foreach (var sr in srs)
-                    //    sr.color = blinkColor;
                     var lr = p.GetComponent<LineRenderer>();
                     if (lr != null)
                     {
@@ -224,9 +194,6 @@ namespace Game.Enemy
                 // 2. 원래 색으로 복구
                 foreach (var p in _rendererPrefabs)
                 {
-                    //var srs = p.GetComponentsInChildren<SpriteRenderer>();
-                    //foreach (var sr in srs)
-                    //    sr.color = _originColor;
                     var lr = p.GetComponent<LineRenderer>();
                     if (lr != null)
                     {
@@ -240,9 +207,6 @@ namespace Game.Enemy
             // 마지막에 다시 원상복귀(혹시 이상하게 깜빡였을 때)
             foreach (var p in _rendererPrefabs)
             {
-                //var srs = p.GetComponentsInChildren<SpriteRenderer>();
-                //foreach (var sr in srs)
-                //    sr.color = _originColor;
                 var lr = p.GetComponent<LineRenderer>();
                 if (lr != null)
                 {

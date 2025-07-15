@@ -57,7 +57,7 @@ namespace Game.Enemy
 
             // Smart Chase 관련 변수 초기화
             controller.FSM.isChasing = false;
-            controller.FSM.isBypassing = false;
+            controller.FSM.isBypassingChase = false;
             controller.FSM.bypassDirection = Vector2.zero;
         }
 
@@ -75,7 +75,7 @@ namespace Game.Enemy
             {
                 // 상태 파라미터 값 설정
                 controller.FSM.isChasing = true;
-                controller.FSM.isBypassing = false;
+                controller.FSM.isBypassingChase = false;
 
                 // 플레이어 방향 계산
                 Vector2 toPlayer = (Vector2)(controller.Player.position - controller.transform.position).normalized;
@@ -97,11 +97,11 @@ namespace Game.Enemy
                 {
                     //Debug.LogError("추적 시도");
                     controller.MoveTo(toPlayer, Time.deltaTime, "SmartChase", inverse);
-                    controller.FSM.isBypassing = false;
+                    controller.FSM.isBypassingChase = false;
                 }
                 else // 플레이어가 보이지 않는 경우 -> 우회
                 {
-                    if (!controller.FSM.isBypassing && hit)
+                    if (!controller.FSM.isBypassingChase && hit)
                     {
                         Vector2 wallNormal = hit.normal;
 
@@ -114,7 +114,7 @@ namespace Game.Enemy
                         Vector2 chosenDir = (dotRight > dotLeft) ? perpRight : perpLeft;
 
                         controller.FSM.bypassDirection = chosenDir;
-                        controller.FSM.isBypassing = true;
+                        controller.FSM.isBypassingChase = true;
                     }
                     
                     // 우회 방향에 장애물 여부 검사

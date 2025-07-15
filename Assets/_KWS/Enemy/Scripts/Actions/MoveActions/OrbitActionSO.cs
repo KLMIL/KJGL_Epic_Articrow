@@ -25,7 +25,7 @@ namespace Game.Enemy
 
         public override void Act(EnemyController controller)
         {
-            if (Time.time - controller.FSM.orbitChagneTime < ChangeDirectionInterval) return;
+            if (Time.time - controller.FSM.orbitChangeTime < ChangeDirectionInterval) return;
 
             // 플레이어와의 거리 계산
             Vector2 playerDir = controller.Player.position - controller.transform.position;
@@ -60,7 +60,7 @@ namespace Game.Enemy
             }
 
             // 이동 호출
-            controller.FSM.orbitChagneTime = Time.time;
+            controller.FSM.orbitChangeTime = Time.time;
             controller.MoveTo(moveDir, ChangeDirectionInterval, "Orbit", false);
         }
 
