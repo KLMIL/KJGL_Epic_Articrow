@@ -58,7 +58,8 @@ namespace Game.Enemy
             {
                 if (behaviour.action is MeleeAttackActionSO ||
                     behaviour.action is ProjectileAttackActionSO ||
-                    behaviour.action is SpecialAttackActionSO)
+                    behaviour.action is SpecialAttackActionSO ||
+                    behaviour.action is DecidePatternActionSO)
                 {
                     string key = behaviour.stateName;
                     if (!lastAttackTimes.ContainsKey(key))
