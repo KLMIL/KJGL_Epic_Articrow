@@ -47,12 +47,12 @@ public class ImageParts_KillSkill_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsT
                 damage = Mathf.RoundToInt(damage) / 100f;
 
                 explosion.GetComponent<CKT.Explosion>().Init(damage);
-                Debug.Log($"[ckt] {partsName} KillExplosion {damage}");
+                //Debug.Log($"[ckt] {partsName} KillExplosion {damage}");
             }
         }
         else
         {
-            Debug.LogWarning($"[ckt] {partsName} EnemyController or MagicRoot_YSJ is null");
+            //Debug.LogWarning($"[ckt] {partsName} EnemyController or MagicRoot_YSJ is null");
         }
     }
     #endregion

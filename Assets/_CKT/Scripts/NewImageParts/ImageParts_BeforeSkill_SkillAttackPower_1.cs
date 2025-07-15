@@ -25,7 +25,7 @@ public class ImageParts_BeforeSkill_SkillAttackPower_1 : ImagePartsRoot_YSJ, IIm
         add = Mathf.RoundToInt(add) / 100f;
 
         spawnedAttack.GetComponent<MagicRoot_YSJ>().AttackPower += add;
-        Debug.Log($"[ckt] {partsName} {add}");
+        //Debug.Log($"[ckt] {partsName} {add}");
     }
 
     public void SkillAttackFlying(Artifact_YSJ fireArtifact, GameObject spawnedAttack)
