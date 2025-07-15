@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /*
@@ -11,6 +12,8 @@ namespace Game.Enemy
 )]
     public class SpawnedActionSO : EnemyActionSO
     {
+        public bool IsHideOnSpawned = true;
+
         public override void Act(EnemyController controller)
         {
             controller.FSM.isSuperArmor = true;
@@ -19,9 +22,21 @@ namespace Game.Enemy
             if (!controller.FSM.isSpawnEffect)
             {
                 controller.FSM.isSpawnEffect = true;
+                if (IsHideOnSpawned)
+                {
+                    controller.SetAllChildrenActive(false);
+                }
+                else
+                {
+                    controller.SetAllChildrenActive(true);
+                }
                 controller.MakeSpawnEffect();
             }
-            
+        }
+
+        public override void OnExit(EnemyController controller)
+        {
+            if (IsHideOnSpawned) controller.SetAllChildrenActive(true);
         }
     }
 }

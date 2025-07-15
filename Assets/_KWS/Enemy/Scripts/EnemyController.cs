@@ -86,34 +86,6 @@ namespace Game.Enemy
 
         private void Start()
         {
-            foreach (var behaviour in Behaviours)
-            {
-                // TODO: attack length 관련 공통 변수로 통일 필요
-
-                if (behaviour.action is MeleeAttackActionSO meleeAttack)
-                {
-                    if (meleeAttack.meleeAttackMode == MeleeAttackMode.Basic)
-                    {
-                        //FSM.indicatorLength = meleeAttack.attackRange;
-                    }
-                    if (meleeAttack.meleeAttackMode == MeleeAttackMode.Rush)
-                    {
-                        //FSM.indicatorLength = meleeAttack.rushSpeedMultiply * meleeAttack.rushDuration * Status.moveSpeed;
-                    }
-                }
-
-                if (behaviour.action is ProjectileAttackActionSO projectileAttack)
-                {
-                    //FSM.indicatorLength = projectileAttack.projectileSpeed * projectileAttack.lifetime;
-                }
-
-                if (behaviour.action is SpecialAttackActionSO specialAttack)
-                {
-                    //FSM.indicatorLength = specialAttack.spawnRadius;
-                }
-            }
-
-
             //SpriteRenderer = GetComponent<SpriteRenderer>();
             _animation = GetComponentInChildren<EnemyAnimation>();
             SpriteRenderer = _animation.SpriteRenderer;
@@ -123,6 +95,8 @@ namespace Game.Enemy
             _dealDamage = GetComponent<EnemyDealDamage>();
 
             Player = GameObject.FindWithTag("Player")?.transform;
+
+            SetAllChildrenActive(false);
         }
         #endregion
 
@@ -236,6 +210,14 @@ namespace Game.Enemy
         public Coroutine GetIndicatorCoroutine()
         {
             return indicatorCoroutine;
+        }
+
+        public void SetAllChildrenActive(bool isActive)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).gameObject.SetActive(isActive);
+            }
         }
         #endregion
 
