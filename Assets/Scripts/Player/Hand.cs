@@ -1,3 +1,4 @@
+using BMC;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -59,6 +60,11 @@ namespace YSJ
 
         protected void SpriteRotation()
         {
+            // 손을 회전 못하는 경우거나 플레이어가 죽어있는 경우면 회전하지 않음
+            if ((_hand && !_hand.CanHandling) || PlayerManager.Instance.PlayerHurt.IsDead)
+            {
+                return;
+            }
             Vector2 mousePos = Managers.Input.MouseWorldPos;
             Vector2 mouseDir = (mousePos - (Vector2)this.transform.position).normalized;
             float angleZ = Mathf.Atan2(mouseDir.y, mouseDir.x) * Mathf.Rad2Deg;
