@@ -4,6 +4,8 @@ namespace YSJ
 {
     public class RightHand : Hand
     {
+        public Artifact_YSJ _artifact;
+
         private void OnEnable()
         {
             Managers.Input.OnLeftHandAction += TryArtifactNormalAttackTrigger;
@@ -96,5 +98,25 @@ namespace YSJ
         {
             return transform.childCount > 0;
         }
+
+        #region 통계 관련
+        void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Y))
+            {
+                RecordEquipParts();
+            }
+        }
+
+        // 아티팩트에 장착된 부품 기록
+        public void RecordEquipParts()
+        {
+            Transform artifactTransform = getArtifact();
+            if(artifactTransform != null)
+            {
+                artifactTransform.GetComponent<Artifact_YSJ>().RecordEquipParts();
+            }
+        }
+        #endregion
     }
 }

@@ -1,9 +1,11 @@
+using BMC;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
 using UnityEngine;
-using System.Diagnostics;
+using static AnalyticsClass;
 using Debug = UnityEngine.Debug;
-using BMC;
 
 public class AnalyticsManager : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class AnalyticsManager : MonoBehaviour
     private bool _isInitialized = false;
 
     bool isGameStart = false;
+
+    public AllEquipParts _allEquipParts = new AllEquipParts(); // 방 이름과 장착한 파츠 정보 리스트
 
     public AnalyticsData analyticsData = new AnalyticsData(); // 통계 분석 데이터 클래스
     Stopwatch _stopWatch;
@@ -24,12 +28,14 @@ public class AnalyticsManager : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(this.gameObject); // 씬 전환 시에도 파괴되지 않도록 설정 (임시)
         }
     }
 
     public void InitData()
     {
         analyticsData.Init();
+        _allEquipParts = new AllEquipParts(); // 방 이름과 장착한 파츠 정보 리스트 초기화
     }
 
     //// 초기화
@@ -39,6 +45,30 @@ public class AnalyticsManager : MonoBehaviour
     //    AnalyticsService.Instance.StartDataCollection();
     //    _isInitialized = true;
     //}
+
+    private void Update()
+    {
+        //if (Input.GetKeyDown(KeyCode.Y))
+        //{
+        //    List<Part> equipedParts = new List<Part>
+        //    {
+        //        new Part { name = "Part1", count = 1 },
+        //        new Part { name = "Part2", count = 2 }
+        //    };
+        //    EquipParts equipedPartsData = new EquipParts
+        //    {
+        //        sceneName = "TestScene",
+        //        equipedParts = equipedParts
+        //    };
+
+        //    SaveEquipParts(equipedPartsData);
+        //}
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            TestSendEquipPartsData();
+        }
+    }
+
 
     #region 타이머 관련
     // 타이머 시작
@@ -120,5 +150,21 @@ public class AnalyticsManager : MonoBehaviour
         Debug.Log("통계 분석 전송");
 
         isGameStart = false;
+    }
+
+    // 각 방을 나갈 때마다 장착한 파츠 정보 저장
+    // Artifact에서 호출해줘야 함
+    public void SaveEquipParts(EquipParts equipParts)
+    {
+        _allEquipParts.equipPartsList.Add(equipParts);
+    }
+
+    // 데이터 전송
+    public void TestSendEquipPartsData()
+    {
+        string json = JsonUtility.ToJson(_allEquipParts);
+        Debug.Log(json);
+
+        // Analytics에 보내는 부분 작성할 예정
     }
 }

@@ -146,4 +146,29 @@ public class Define
         Passive 
     }
     #endregion
+
+    #region  파츠 정보
+    public enum PartsType
+    {
+        After_AttackPower_1,
+        AfterSkill_NormalAttackPower_1,
+        BeforeSkill_Barrier_1,
+        BeforeSkill_SkillAttackPower_1,
+        Hit_Explosion_1,
+        HitNormal_SkillAttackPower_1,
+        HitSkill_AttackPower_1,
+        HitSkill_MoveSpeed_1,
+        HitSkill_SkillAttackPower_1,
+        Kill_ManaGain_1,
+        KillSkill_Explosion_1,
+        Passive_AttackPower_1,
+        Passive_ManaGain_1,
+        Passive_MaxMana_1,
+        Passive_MoveSpeed_1,
+        Passive_NormalAttackCoolTime_1,
+        Passive_NormalAttackPower_1,
+        Passive_SkillAttackPower_1,
+        Passive_SkillAttackPower_3,
+    }
+    #endregion
 }
