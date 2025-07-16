@@ -23,7 +23,7 @@ namespace BMC
             _anim.Play("Spawn");
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Transform attacker = null)
         {
             AnimatorStateInfo stateInfo = _anim.GetCurrentAnimatorStateInfo(0);
             if (stateInfo.IsName("Spawn"))
