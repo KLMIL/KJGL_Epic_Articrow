@@ -8,6 +8,26 @@ public class AnalyticsClass
     /* 방에서 플레이어에게 피해를 준 공격자의 정보 저장 (None이 공격자면 이탈) */
     // class<List<string>> 방이름< 때린애들 >
 
+    #region 피격 정보 저장
+    [Serializable]
+    public class AllPlayerHurtInfo 
+    {
+        public List<PlayerHurtInfo> playerHurtInfos = new List<PlayerHurtInfo>(); // 방 이름과 해당 방에서 플레이어에게 피해를 준 공격자들의 이름 리스트
+        public AllPlayerHurtInfo()
+        {
+            playerHurtInfos = new List<PlayerHurtInfo>();
+        }
+    }
+
+    [Serializable]
+    public class PlayerHurtInfo
+    {
+        public string sceneName; // 방 이름
+        public string hurtPlayerMonsters; // 해당 방에서 플레이어에게 피해를 준 공격자들의 이름 리스트
+    }
+
+    #endregion
+
     #region 방 전환 시, 19개 파츠 중 장착한 파츠 정보 저장
     // 방 이름과 장착한 파츠 정보 리스트 클래스
     [Serializable]

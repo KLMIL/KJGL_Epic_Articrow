@@ -14,7 +14,8 @@ public class AnalyticsManager : MonoBehaviour
 
     bool isGameStart = false;
 
-    public AllEquipParts _allEquipParts = new AllEquipParts(); // 방 이름과 장착한 파츠 정보 리스트
+    public AllPlayerHurtInfo allPlayerHurtInfo = new AllPlayerHurtInfo(); // 방 이름과 해당 방에서 플레이어에게 피해를 준 공격자들의 이름 리스트
+    public AllEquipParts _allEquipParts = new AllEquipParts();            // 방 이름과 장착한 파츠 정보 리스트
 
     public AnalyticsData analyticsData = new AnalyticsData(); // 통계 분석 데이터 클래스
     Stopwatch _stopWatch;
@@ -35,6 +36,7 @@ public class AnalyticsManager : MonoBehaviour
     public void InitData()
     {
         analyticsData.Init();
+        allPlayerHurtInfo = new AllPlayerHurtInfo(); // 방 이름과 해당 방에서 플레이어에게 피해를 준 공격자들의 이름 리스트 초기화
         _allEquipParts = new AllEquipParts(); // 방 이름과 장착한 파츠 정보 리스트 초기화
     }
 
@@ -114,6 +116,7 @@ public class AnalyticsManager : MonoBehaviour
     }
 
     // 통계 전송
+    // 엔딩 타이틀 씬 버튼은 전송을 안함!
     public void SendAnalytics()
     {
         //return; // QA를 위한 연결 해제
@@ -145,15 +148,26 @@ public class AnalyticsManager : MonoBehaviour
             { "progressStage", analyticsData.progressStage },
         };
 
-        string json = JsonUtility.ToJson(_allEquipParts);
-        Debug.Log(json);
-        CustomEvent artifactEvent = new CustomEvent("next_level")
+        // 저장했던 파츠들의 정보들을 JSON으로 변환하고 커스텀 이벤트에 할당
+        string artifactjson = JsonUtility.ToJson(_allEquipParts);
+        Debug.Log(artifactjson);
+        CustomEvent artifactEvent = new CustomEvent("Test_PartsLogEvent")
         {
-            { "Test", json}
+            { "TestLog", artifactjson }
         };
+
+        // 저장했던 피격 정보들을 JSON으로 변환하고 커스텀 이벤트에 할당
+        string hurtjson = JsonUtility.ToJson(allPlayerHurtInfo);
+        Debug.Log(hurtjson);
+        CustomEvent HurtEvent = new CustomEvent("Test_HurtLogEvent")
+        {
+            { "TestLog", hurtjson }
+        };
+
 
         AnalyticsService.Instance.RecordEvent(analyticsEvent);
         AnalyticsService.Instance.RecordEvent(artifactEvent);
+        AnalyticsService.Instance.RecordEvent(HurtEvent);
         AnalyticsService.Instance.Flush();
         Debug.Log("통계 분석 전송");
 
@@ -166,6 +180,12 @@ public class AnalyticsManager : MonoBehaviour
     {
         _allEquipParts.equipPartsList.Add(equipParts);
         Debug.Log("아티팩트 장착 파츠 기록 완료");
+    }
+
+    public void SavePlayerHurtInfo(PlayerHurtInfo hurtInfo)
+    {
+        allPlayerHurtInfo.playerHurtInfos.Add(hurtInfo);
+        print($"{allPlayerHurtInfo.playerHurtInfos.Count}번째 정보: {hurtInfo.hurtPlayerMonsters}에게 맞은 정보 저장");
     }
 
     // 데이터 전송

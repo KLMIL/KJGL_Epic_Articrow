@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using YSJ;
 using static YSJ.PlayerStatus;
 
@@ -46,7 +47,12 @@ namespace BMC
             }
 
             // 피격 횟수 통계
-            AnalyticsManager.Instance.analyticsData.playerHurtCount++;
+            AnalyticsClass.PlayerHurtInfo hurtInfo = new AnalyticsClass.PlayerHurtInfo
+            {
+                sceneName = SceneManager.GetActiveScene().name,
+                hurtPlayerMonsters = attacker.ToString()
+            };
+            AnalyticsManager.Instance.SavePlayerHurtInfo(hurtInfo);
 
             if (IsCanUseBarrier(ref damage))
             {
