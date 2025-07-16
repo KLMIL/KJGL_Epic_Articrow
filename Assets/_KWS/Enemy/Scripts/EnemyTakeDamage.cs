@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using BMC;
 
@@ -19,7 +18,7 @@ namespace Game.Enemy
             ownerController = GetComponentInParent<EnemyController>();
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Define.EnemyName attacker = Define.EnemyName.None)
         {
             if (ownerController.FSM.isDied) return;
 

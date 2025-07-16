@@ -16,7 +16,7 @@ namespace CKT
 
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Define.EnemyName attacker = Define.EnemyName.None)
         {
             Debug.Log($"{this.name} : TakeDamage, {damage}");
         }

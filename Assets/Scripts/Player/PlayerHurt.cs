@@ -38,7 +38,7 @@ namespace BMC
 
         #region 피해 및 사망 관련
         // 피해 받기
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Define.EnemyName attacker = Define.EnemyName.None)
         {
             if (IsDead || IsHurt || PlayerManager.Instance.PlayerDash.IsDash)
             {

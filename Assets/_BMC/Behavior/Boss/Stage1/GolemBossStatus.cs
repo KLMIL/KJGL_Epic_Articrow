@@ -36,7 +36,7 @@ namespace BMC
             TestCode();
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Define.EnemyName attacker = Define.EnemyName.None)
         {
             if (IsDead)
                 return;

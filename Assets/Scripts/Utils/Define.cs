@@ -147,28 +147,27 @@ public class Define
     }
     #endregion
 
-    #region  파츠 정보
-    public enum PartsType
+    #region Enemy
+    public enum EnemyName
     {
-        After_AttackPower_1,
-        AfterSkill_NormalAttackPower_1,
-        BeforeSkill_Barrier_1,
-        BeforeSkill_SkillAttackPower_1,
-        Hit_Explosion_1,
-        HitNormal_SkillAttackPower_1,
-        HitSkill_AttackPower_1,
-        HitSkill_MoveSpeed_1,
-        HitSkill_SkillAttackPower_1,
-        Kill_ManaGain_1,
-        KillSkill_Explosion_1,
-        Passive_AttackPower_1,
-        Passive_ManaGain_1,
-        Passive_MaxMana_1,
-        Passive_MoveSpeed_1,
-        Passive_NormalAttackCoolTime_1,
-        Passive_NormalAttackPower_1,
-        Passive_SkillAttackPower_1,
-        Passive_SkillAttackPower_3,
+        // 넘버링은 등장 스테이지:D2 + 번호:D2
+        // 번호 넘버링은 근접계열 00 ~ 29, 원거리계열 30 ~ 59, 특수계열 60 ~ 89, 보스 90 ~ 99
+
+        None = 0,
+
+        Carapace_Slime = 0100,
+        Worm_Slime = 0101,
+        Jar_Larva = 0102,
+
+        Spore_Slime = 0130,
+        Scatter_Bat = 0131,
+        Webber = 0132,
+        
+        Jar = 0160,
+        Boom_Shroom = 0161,
+
+        Horn_Sludge = 0190, // 미니보스
+        GolemBoss = 0191 // 최종보스
     }
     #endregion
 }
