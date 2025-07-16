@@ -64,7 +64,6 @@ namespace BMC
             {
                 OnDeadAction.Invoke();
                 UI_InGameEventBus.OnShowGameOverCanvas?.Invoke(); // 게임 오버 화면 표시
-                Managers.Input.EnableAttack(false);
             }
         }
 
