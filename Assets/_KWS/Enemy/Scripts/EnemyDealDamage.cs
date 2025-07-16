@@ -36,7 +36,7 @@ namespace Game.Enemy
 
             if (target != null)
             {
-                target.TakeDamage(damage);
+                target.TakeDamage(damage, ownerController.Status.enemyName);
 
                 if (forceToNextState)
                 {

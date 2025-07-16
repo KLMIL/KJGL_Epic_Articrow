@@ -15,7 +15,7 @@ namespace BMC
             _showDamageText = GetComponent<ShowDamageText>();
         }
 
-        public void TakeDamage(float damage, Transform attacker = null)
+        public void TakeDamage(float damage, Define.EnemyName attacker = Define.EnemyName.None)
         {
             _anim.Play("Hurt");
             _showDamageText.Show(damage);

@@ -21,7 +21,7 @@ namespace BMC
             Damage = 10f;
         }
 
-        public void TakeDamage(float damage, Transform attacker = null)
+        public void TakeDamage(float damage, Define.EnemyName attacker = Define.EnemyName.None)
         {
             if (IsDead)
                 return;
