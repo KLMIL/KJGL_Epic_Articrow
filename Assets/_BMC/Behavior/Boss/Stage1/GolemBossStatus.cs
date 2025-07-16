@@ -36,7 +36,7 @@ namespace BMC
             TestCode();
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Transform attacker = null)
         {
             if (IsDead)
                 return;

@@ -61,7 +61,7 @@ public class BreakableObject : MonoBehaviour, IDamagable
         PlayerManager.Instance.PlayerStatus.RegenerateMana(randomAmount);
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Transform attacker = null)
     {
         Break();
     }

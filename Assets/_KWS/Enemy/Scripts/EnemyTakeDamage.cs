@@ -19,7 +19,7 @@ namespace Game.Enemy
             ownerController = GetComponentInParent<EnemyController>();
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Transform attacker = null)
         {
             if (ownerController.FSM.isDied) return;
 
