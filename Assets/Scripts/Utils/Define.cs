@@ -165,6 +165,7 @@ public class Define
         
         Jar = 0160,
         Boom_Shroom = 0161,
+        Blast_Shroom = 0162,
 
         Horn_Sludge = 0190, // 미니보스
         GolemBoss = 0191 // 최종보스
