@@ -28,7 +28,7 @@ public class AnalyticsManager : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(this.gameObject); // 씬 전환 시에도 파괴되지 않도록 설정 (임시)
+            //DontDestroyOnLoad(this.gameObject); // 씬 전환 시에도 파괴되지 않도록 설정 (임시)
         }
     }
 
@@ -38,13 +38,13 @@ public class AnalyticsManager : MonoBehaviour
         _allEquipParts = new AllEquipParts(); // 방 이름과 장착한 파츠 정보 리스트 초기화
     }
 
-    //// 초기화
-    //async void Start()
-    //{
-    //    await UnityServices.InitializeAsync();
-    //    AnalyticsService.Instance.StartDataCollection();
-    //    _isInitialized = true;
-    //}
+    // 초기화
+    async void Start()
+    {
+        await UnityServices.InitializeAsync();
+        AnalyticsService.Instance.StartDataCollection();
+        _isInitialized = true;
+    }
 
     private void Update()
     {
@@ -101,7 +101,7 @@ public class AnalyticsManager : MonoBehaviour
     // 통계 시작
     public void StartAnalystics()
     {
-        return; // QA를 위한 연결 해제
+        //return; // QA를 위한 연결 해제
 
         if (!_isInitialized)
         {
@@ -116,7 +116,7 @@ public class AnalyticsManager : MonoBehaviour
     // 통계 전송
     public void SendAnalytics()
     {
-        return; // QA를 위한 연결 해제
+        //return; // QA를 위한 연결 해제
 
         if (!_isInitialized || !isGameStart)
         {
@@ -145,7 +145,15 @@ public class AnalyticsManager : MonoBehaviour
             { "progressStage", analyticsData.progressStage },
         };
 
+        string json = JsonUtility.ToJson(_allEquipParts);
+        Debug.Log(json);
+        CustomEvent artifactEvent = new CustomEvent("next_level")
+        {
+            { "Test", json}
+        };
+
         AnalyticsService.Instance.RecordEvent(analyticsEvent);
+        AnalyticsService.Instance.RecordEvent(artifactEvent);
         AnalyticsService.Instance.Flush();
         Debug.Log("통계 분석 전송");
 
@@ -157,6 +165,7 @@ public class AnalyticsManager : MonoBehaviour
     public void SaveEquipParts(EquipParts equipParts)
     {
         _allEquipParts.equipPartsList.Add(equipParts);
+        Debug.Log("아티팩트 장착 파츠 기록 완료");
     }
 
     // 데이터 전송

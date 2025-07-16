@@ -669,6 +669,7 @@ public class Artifact_YSJ : MonoBehaviour
         AnalyticsClass.EquipParts equipParts = new AnalyticsClass.EquipParts
         {
             sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
+            roomIdx = GameFlowManager.Instance.CurrentRoom,                                                                         // 현재 방 인덱스
             equipedParts = partsDictionary.Select(kvp => new AnalyticsClass.Part { name = kvp.Key, count = kvp.Value }).ToList()
         };
 

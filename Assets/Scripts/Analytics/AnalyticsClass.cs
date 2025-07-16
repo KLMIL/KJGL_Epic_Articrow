@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnalyticsClass : MonoBehaviour
+public class AnalyticsClass
 {
     /* 방에서 플레이어에게 피해를 준 공격자의 정보 저장 (None이 공격자면 이탈) */
     // class<List<string>> 방이름< 때린애들 >
@@ -25,12 +25,14 @@ public class AnalyticsClass : MonoBehaviour
     [Serializable]
     public class EquipParts
     {
-        public string sceneName; // 방 이름
+        public string sceneName;    // 방 이름
+        public int roomIdx;         // 방 인덱스 (0부터 시작)
         public List<Part> equipedParts = new List<Part>(); // 각 씬에서 장착한 파츠 정보
 
         public EquipParts()
         {
             sceneName = string.Empty;
+            roomIdx = -1;
             equipedParts = new List<Part>();
         }
     }
