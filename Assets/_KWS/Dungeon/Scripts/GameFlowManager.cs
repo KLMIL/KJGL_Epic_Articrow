@@ -159,8 +159,8 @@ public class GameFlowManager : MonoBehaviour
         for (int i = 0; i < roomNumbers.Count; i++)
         {
             int j = Random.Range(i, roomNumbers.Count);
-            int tmp = roomNumbers[j];
 
+            int tmp = roomNumbers[i];
             roomNumbers[i] = roomNumbers[j];
             roomNumbers[j] = tmp;
         }

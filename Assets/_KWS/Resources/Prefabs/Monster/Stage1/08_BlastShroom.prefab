@@ -115,7 +115,7 @@ Transform:
   m_GameObject: {fileID: 2346042627203067095}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -165,7 +165,7 @@ SpriteRenderer:
   m_SortingLayerID: 541412685
   m_SortingLayer: 7
   m_SortingOrder: 20
-  m_Sprite: {fileID: -1293763648, guid: 8853a600f9c6f0d4691a6c0b8db37fcc, type: 3}
+  m_Sprite: {fileID: -1545976011, guid: c427648fb12b13845818cf1ebeeea575, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -199,7 +199,7 @@ Animator:
   m_GameObject: {fileID: 2346042627203067095}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4aadcb93f7975a140a3d2305a8a094d4, type: 2}
+  m_Controller: {fileID: 9100000, guid: c399e7bdd25055b4bbd7f5dd090fee94, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 3532702173169904932}
   - component: {fileID: 2421618693177224655}
   m_Layer: 9
-  m_Name: 07_BoomShroom
+  m_Name: 08_BlastShroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -307,71 +307,71 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28991b7ecaa04e74f9284c72439a1200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _statusOrigin: {fileID: 11400000, guid: 5e46f76654d0da7478faf16c24928bd6, type: 2}
+  _statusOrigin: {fileID: 11400000, guid: 0659ed95aa045dc4d9063e7f1987d2e9, type: 2}
   Status: {fileID: 0}
   _currentState: 
   SpriteRenderer: {fileID: 0}
+  AttackIndicator: {fileID: 0}
   Behaviours:
   - stateName: Spawned
     interruptType: 2
-    condition: {fileID: 11400000, guid: 34ce54470f5062c4c9bb9cdf2d2f66c3, type: 2}
-    action: {fileID: 11400000, guid: 38b310dfafe3c4b4c95335ee6f36fb1f, type: 2}
+    condition: {fileID: 11400000, guid: be85ae15c1457e1408ed01aa9b1567f0, type: 2}
+    action: {fileID: 11400000, guid: 6fd42fe4196af2745abe0d4831e29b8e, type: 2}
     animationName: Idle
     duration: 1
     nextStateName: Idle
     elapsedTime: 0
   - stateName: Die
     interruptType: 2
-    condition: {fileID: 11400000, guid: 876c7146744c79941a4fe21a0b522a85, type: 2}
-    action: {fileID: 11400000, guid: 94543614aa2660c4997b845af0c16f89, type: 2}
+    condition: {fileID: 11400000, guid: 1c9df8c8fd5cffc42b92b20eaeedd922, type: 2}
+    action: {fileID: 11400000, guid: 3b07aa02deba26742adf03e7de046cca, type: 2}
     animationName: Die
     duration: 5
     nextStateName: Die
     elapsedTime: 0
   - stateName: Damaged
     interruptType: 2
-    condition: {fileID: 11400000, guid: 4a160575e5aec114daefaaea78294b4e, type: 2}
-    action: {fileID: 11400000, guid: 5d4191cb437191d47bbc929dc09ceaea, type: 2}
+    condition: {fileID: 11400000, guid: 57b92781c2dce6c408162cae212d0e98, type: 2}
+    action: {fileID: 11400000, guid: b80ba64e72c4cdd47b74fa3562c26d8d, type: 2}
     animationName: Hurt
     duration: 0.3
     nextStateName: AttackReady
     elapsedTime: 0
   - stateName: AttackCheck
     interruptType: 1
-    condition: {fileID: 11400000, guid: 011fb0bb0f50f8e4e806e334e7050405, type: 2}
-    action: {fileID: 11400000, guid: a3af7cbafe99e3d4d98b5fd585bcf154, type: 2}
+    condition: {fileID: 11400000, guid: 5bf437c7efaa50b4fa07e2c0dcecce5d, type: 2}
+    action: {fileID: 11400000, guid: c117b84dbfc1ff4499c939fddacb5154, type: 2}
     animationName: Idle
     duration: 0.2
     nextStateName: AttackReady
     elapsedTime: 0
   - stateName: AttackReady
     interruptType: 1
-    condition: {fileID: 11400000, guid: 8b5a379af5bf8fa4b9d314a752a22b7f, type: 2}
-    action: {fileID: 11400000, guid: dd29f45c77857ec469ad54d631182917, type: 2}
+    condition: {fileID: 11400000, guid: 5d1c29ca55e346b4ab8c2c25ce19fb78, type: 2}
+    action: {fileID: 11400000, guid: 7df9e07b3ca73c8428195563277515fe, type: 2}
     animationName: AttackReady
     duration: 0.5
     nextStateName: BoomAttack
     elapsedTime: 0
   - stateName: BoomAttack
     interruptType: 1
-    condition: {fileID: 11400000, guid: e4558ef1dcf7821478146c1caf204d8d, type: 2}
-    action: {fileID: 11400000, guid: ad1d28cf453ec9c418516ecf881341d7, type: 2}
+    condition: {fileID: 11400000, guid: 4c4e1076bb561324486f1ab480da9dc1, type: 2}
+    action: {fileID: 11400000, guid: 509c62e97ed9d844e859f6921ecd3c92, type: 2}
     animationName: Attack
     duration: 0.2
     nextStateName: Die
     elapsedTime: 0
   - stateName: Idle
     interruptType: 0
-    condition: {fileID: 11400000, guid: f59b4cd6875004b42824e1faa3f59133, type: 2}
-    action: {fileID: 11400000, guid: 844a23909806321439a43994123e65c8, type: 2}
+    condition: {fileID: 11400000, guid: 3500984a9f5bbd5489f73be2aa389e0d, type: 2}
+    action: {fileID: 11400000, guid: 545cdacb90cc79f45b8708fd86b48206, type: 2}
     animationName: Idle
     duration: 0.7
     nextStateName: Idle
     elapsedTime: 0
+  SpawnEffectPrefab: {fileID: 1906413312044114269, guid: a1e48d43072f0694cbd999282593cfa2, type: 3}
   Player: {fileID: 0}
   Attacker: {fileID: 0}
-  AttackIndicator: {fileID: 0}
-  SpawnEffectPrefab: {fileID: 1906413312044114269, guid: a1e48d43072f0694cbd999282593cfa2, type: 3}
 --- !u!114 &819626171759006211
 MonoBehaviour:
   m_ObjectHideFlags: 0
