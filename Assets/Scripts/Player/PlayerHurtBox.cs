@@ -7,7 +7,7 @@ namespace BMC
     {
         public void TakeDamage(float damage, Define.EnemyName attacker = Define.EnemyName.None)
         {
-            PlayerManager.Instance.PlayerHurt.TakeDamage(damage);
+            PlayerManager.Instance.PlayerHurt.TakeDamage(damage, attacker);
         }
     }
 }

@@ -639,5 +639,40 @@ public class Artifact_YSJ : MonoBehaviour
         }
         AnalyticsManager.Instance.analyticsData.currentEquipPartsCount = count;
     }
+
+    // 씬 전환 시, 파츠 정보 기록
+    public void RecordEquipParts()
+    {
+        // 딕셔너리 준비
+        Dictionary<string, int> partsDictionary = new Dictionary<string, int>();
+        foreach(Define.PartsType partsType in System.Enum.GetValues(typeof(Define.PartsType)))
+        {
+            partsDictionary.Add(partsType.ToString(), 0); // 파츠 타입 초기화
+        }
+
+        // 아티팩트 파츠 슬롯 한 바퀴 돌면서 파악
+        foreach (Transform slot in SlotTransform)
+        {
+            ImagePartsRoot_YSJ imagePartsRoot = slot.GetComponentInChildren<ImagePartsRoot_YSJ>();
+            if (imagePartsRoot != null && !imagePartsRoot.WillDestroy)
+            {
+                if(partsDictionary.ContainsKey(imagePartsRoot.partsName))
+                {
+                    partsDictionary[imagePartsRoot.partsName]++;
+                }
+            }
+        }
+
+        // 해당 방에서의 파츠 정보 클래스 생성
+        AnalyticsClass.EquipParts equipParts = new AnalyticsClass.EquipParts
+        {
+            sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
+            roomIdx = GameFlowManager.Instance.CurrentRoom,                                                                         // 현재 방 인덱스
+            equipedParts = partsDictionary.Select(kvp => new AnalyticsClass.Part { name = kvp.Key, count = kvp.Value }).ToList()
+        };
+
+        // 파츠 정보 클래스 저장
+        AnalyticsManager.Instance.SaveEquipParts(equipParts);
+    }
     #endregion
 }
