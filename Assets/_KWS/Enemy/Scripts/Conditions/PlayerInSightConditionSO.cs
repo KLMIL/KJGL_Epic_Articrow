@@ -13,9 +13,18 @@ namespace Game.Enemy
             if (controller.Player == null) return false;
 
             Vector2 from = controller.transform.position;
-            Vector2 to = controller.Player.position;
+            //Vector2 to = controller.Player.position;
+            // 250717 KWS - 플레이어 벽에 붙을 때 공격 하지 않는 버그 수정
+            Collider2D playerCollider = controller.Player.GetComponent<Collider2D>();
+            Bounds bounds = playerCollider.bounds;
+            Vector2 to = new Vector2(bounds.center.x, bounds.max.y); // 플레이어 캐릭터의 중앙부를 목표로 지정
+
             Vector2 direction = (to - from).normalized;
             float distance = Vector2.Distance(from, to);
+
+            // 250717 KWS - 플레이어 벽에 붙을 때 공격 하지 않는 버그 수정
+            float safetyOffset = 0.25f;
+            float adjustedDistance = Mathf.Max(0f, distance - safetyOffset); // 음수값 방지
 
             // 거리가 모자라면 false
             if (distance > detectionRange)
@@ -29,7 +38,7 @@ namespace Game.Enemy
                     new Vector2(boxWidth, 0.1f),
                     0f,
                     direction,
-                    distance,
+                    adjustedDistance, // 플레이어가 벽에 붙을 때 공격 하지 않는 버그 수정
                     LayerMask.GetMask("Obstacle")
             );
 

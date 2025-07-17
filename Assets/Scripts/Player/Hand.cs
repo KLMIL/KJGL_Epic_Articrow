@@ -1,3 +1,4 @@
+using BMC;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -59,6 +60,11 @@ namespace YSJ
 
         protected void SpriteRotation()
         {
+            if ((_hand && !_hand.CanHandling) || PlayerManager.Instance.PlayerHurt.IsDead) 
+            {
+                return;
+            }
+
             Vector2 mousePos = Managers.Input.MouseWorldPos;
             Vector2 mouseDir = (mousePos - (Vector2)this.transform.position).normalized;
             float angleZ = Mathf.Atan2(mouseDir.y, mouseDir.x) * Mathf.Rad2Deg;

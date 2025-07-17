@@ -38,7 +38,7 @@ namespace BMC
 
         #region 피해 및 사망 관련
         // 피해 받기
-        public void TakeDamage(float damage, Transform attacker = null)
+        public void TakeDamage(float damage, Define.EnemyName attacker = Define.EnemyName.None)
         {
             if (IsDead || IsHurt || PlayerManager.Instance.PlayerDash.IsDash)
             {
@@ -64,6 +64,7 @@ namespace BMC
             {
                 OnDeadAction.Invoke();
                 UI_InGameEventBus.OnShowGameOverCanvas?.Invoke(); // 게임 오버 화면 표시
+                Managers.Input.EnableAttack(false); // 공격 비활성화
             }
         }
 

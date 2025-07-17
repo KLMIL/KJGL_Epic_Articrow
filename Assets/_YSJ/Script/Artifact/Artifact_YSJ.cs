@@ -2,8 +2,6 @@ using BMC;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using YSJ;
 
@@ -50,7 +48,7 @@ public class Artifact_YSJ : MonoBehaviour
     #region [일반공격]
     public virtual void NormalAttackClicked()
     {
-        if (normalStatus.attackCoroutine == null)
+        if ((normalStatus.attackCoroutine == null) && (playerStatus.Health > 0))
         {
             normalStatus.attackCoroutine = StartCoroutine(NormalAttackCoroutine());
         }
