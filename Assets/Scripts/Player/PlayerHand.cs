@@ -1,3 +1,4 @@
+using BMC;
 using UnityEngine;
 
 namespace YSJ
@@ -15,7 +16,7 @@ namespace YSJ
 
         void Update()
         {
-            if (CanHandling)
+            if (CanHandling && !PlayerManager.Instance.PlayerHurt.IsDead)
             {
                 RotationHand();
             }
