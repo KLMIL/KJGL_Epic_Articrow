@@ -1,4 +1,5 @@
 using UnityEngine;
+using YSJ;
 
 /// <summary>
 /// 설정 캔버스들의 부모 오브젝트에 들어갈 클래스
@@ -35,6 +36,10 @@ public class SettingsPanelCanvases : MonoBehaviour
 
     public void DeactivatePanelCanvas()
     {
+        // 키 확정 캔버스 On
+        if (Managers.UI.KeyConfirmationCanvas.Canvas.enabled)
+            return;
+
         foreach (Canvas canvas in _canvasArray)
         {
             canvas.enabled = false;
