@@ -198,8 +198,12 @@ public class InputManager
 
     public void Pause()
     {
+        if(Managers.Scene.CurrentScene.SceneType == SceneType.TitleScene)
+        {
+            Managers.UI.SettingsCloseBtn.CloseSettingsCanvas();
+        }
         // 인게임
-        if (Managers.Scene.CurrentScene.SceneType != SceneType.TitleScene
+        else if (Managers.Scene.CurrentScene.SceneType != SceneType.TitleScene
                 && Managers.Scene.CurrentScene.SceneType != SceneType.TutorialScene
                 && Managers.Scene.CurrentScene.SceneType != SceneType.EndingScene)
         {
@@ -209,7 +213,7 @@ public class InputManager
                 _inputSystemActions.UI.Enable();
                 Debug.Log("플레이어 -> UI 모드로 전환");
             }
-            else if (_inputSystemActions.UI.enabled)
+            else if (!Managers.UI.SettingsCanvas.canvas.enabled && _inputSystemActions.UI.enabled)
             {
                 _inputSystemActions.UI.Disable();
                 _inputSystemActions.Player.Enable();
