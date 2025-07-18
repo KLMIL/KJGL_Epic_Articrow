@@ -9,12 +9,16 @@ public class KeyConfirmationCanvas : MonoBehaviour
     static readonly string SettingsControlsTable = "SettingsControlsTable";
     #endregion
 
+    Animator _anim;
     public Canvas Canvas;
     public TextMeshProUGUI GuidText;
+
     void Awake()
     {
+        _anim = GetComponent<Animator>();
         Canvas = GetComponent<Canvas>();
         GuidText = GetComponentInChildren<TextMeshProUGUI>();
+
         //UI_TitleEventBus.OnActiveKeyConfirmationCanvas = ToggleCanvas;
         UI_CommonEventBus.OnActiveKeyConfirmationCanvas = ToggleCanvas;
         Managers.UI.KeyConfirmationCanvas = this;
@@ -28,6 +32,9 @@ public class KeyConfirmationCanvas : MonoBehaviour
 
     public void SetGuidText(string localizationKey)
     {
+        if (localizationKey == "Duplicate")
+            _anim.Play("TextWave");
+
         string localeDescription = LocalizationSettings.StringDatabase.GetLocalizedString(SettingsControlsTable, localizationKey, LocalizationSettings.SelectedLocale);
         GuidText.text = localeDescription;
     }
