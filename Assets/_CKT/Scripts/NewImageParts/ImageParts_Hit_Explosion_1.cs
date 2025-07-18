@@ -58,9 +58,9 @@ public class ImageParts_Hit_Explosion_1 : ImagePartsRoot_YSJ, IImagePartsToNorma
     #region [상세]
     void Explosion(GameObject spawnedAttack, GameObject hitObject)
     {
-        EnemyController enemy = hitObject.transform.GetComponentInParent<EnemyController>();
+        //EnemyController enemy = hitObject.transform.GetComponentInParent<EnemyController>();
         MagicRoot_YSJ magicRoot = spawnedAttack.GetComponent<MagicRoot_YSJ>();
-        if ((enemy != null) && (magicRoot != null))
+        if (/*(enemy != null) && */(magicRoot != null))
         {
             //폭발 생성
             GameObject explosion = YSJ.Managers.Pool.Get<GameObject>(Define.PoolID.CastExplosion);
