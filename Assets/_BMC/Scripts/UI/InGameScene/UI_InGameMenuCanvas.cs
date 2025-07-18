@@ -19,13 +19,22 @@ namespace BMC
 
         void ToggleInGameMenuCanvas()
         {
+            // 설정 창이 열려 있으면 설정 창 닫고 종료
+            if (Managers.UI.SettingsCanvas.canvas.enabled)
+            {
+                Managers.UI.SettingsCanvas.canvas.enabled = false;
+                UI_CommonEventBus.OnToggleSettingsCanvas?.Invoke(false);
+                return;
+            }
+
             _canvas.enabled = !_canvas.enabled;
 
             // 일시 정지 상태에서 UI 닫을 때, 열려 있는 설정 창도 닫기
-            if(!_canvas.enabled )
+            if (!_canvas.enabled)
+            {
                 UI_CommonEventBus.OnToggleSettingsCanvas?.Invoke(false);
-
-            GameManager.Instance.TogglePauseGame(_canvas.enabled);
+                GameManager.Instance.TogglePauseGame(_canvas.enabled);
+            }
         }
     }
 }

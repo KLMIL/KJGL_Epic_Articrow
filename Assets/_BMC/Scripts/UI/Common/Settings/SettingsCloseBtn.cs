@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using YSJ;
 
 namespace BMC
 {
@@ -12,9 +13,15 @@ namespace BMC
         {
             _btn = GetComponent<Button>();
             _btn.onClick.AddListener(OnClick);
+            Managers.UI.SettingsCloseBtn = this; // UIManager에 등록
         }
 
         void OnClick()
+        {
+            CloseSettingsCanvas();
+        }
+
+        public void CloseSettingsCanvas()
         {
             UI_CommonEventBus.OnToggleSettingsCanvas?.Invoke(false);
             UI_CommonEventBus.OnDeactivatePanelCanvas?.Invoke();

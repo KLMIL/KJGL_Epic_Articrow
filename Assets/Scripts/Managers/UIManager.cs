@@ -1,10 +1,15 @@
+using BMC;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace YSJ
 {
     public class UIManager
     {
+        public UI_SettingsCanvas SettingsCanvas;
+        public SettingsCloseBtn SettingsCloseBtn;
+
         public InventoryCanvas_YSJ InventoryCanvas;
 
         public void InstantiateSettingsUI()
