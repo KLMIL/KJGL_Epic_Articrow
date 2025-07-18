@@ -50,6 +50,7 @@ namespace BMC
 
             if (IsCanUseBarrier(ref damage))
             {
+                StartCoroutine(InvincibleCoroutine(_invincibleTime));
                 return;
             }
 
