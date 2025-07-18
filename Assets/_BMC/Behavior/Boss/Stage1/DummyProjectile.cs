@@ -24,7 +24,7 @@ namespace BMC
             {
                 if(collision.gameObject.TryGetComponent<IDamagable>(out IDamagable damagable))
                 {
-                    damagable.TakeDamage(_damage);
+                    damagable.TakeDamage(_damage, Define.EnemyName.GolemBoss);
                 }
                 Destroy(gameObject);
             }
