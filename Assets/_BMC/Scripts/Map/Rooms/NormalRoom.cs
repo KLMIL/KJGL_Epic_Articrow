@@ -58,6 +58,15 @@ namespace BMC
             enemyController.OnDeath += OnEnemyDie;
         }
 
+        // 몬스터 소환 Projectile을 위한 오버로딩 
+        public void EnrollEnemy(Game.Enemy.EnemyProjectile enemyProjectile)
+        {
+            _aliveEnemyCount++;
+            enemyProjectile.OnDeath -= OnEnemyDie;
+            enemyProjectile.OnDeath += OnEnemyDie;
+        }
+        
+
         private void OnEnemyDie()
         {
             _aliveEnemyCount--;
