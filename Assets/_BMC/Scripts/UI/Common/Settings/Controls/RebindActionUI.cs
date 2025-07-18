@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
 using YSJ;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 
 namespace BMC
 {
