@@ -12,7 +12,7 @@ namespace BMC
             {
                 if (collision.transform.parent.TryGetComponent<IDamagable>(out IDamagable damagable))
                 {
-                    damagable.TakeDamage(Damage);
+                    damagable.TakeDamage(Damage, Define.EnemyName.GolemBoss);
                 }
             }
         }
