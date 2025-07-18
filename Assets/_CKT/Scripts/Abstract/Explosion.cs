@@ -8,7 +8,7 @@ namespace CKT
         CircleCollider2D _collider;
 
         float _totalDamage;
-        protected abstract float DisableTime { get; }
+        protected float _disableTime = 0.25f;
         protected abstract Define.PoolID PoolID { get; }
 
         private void Awake()
@@ -32,7 +32,7 @@ namespace CKT
             _collider.enabled = true;
             //Debug.LogError("Explosion");
 
-            yield return (DisableTime <= 0) ? null : new WaitForSeconds(DisableTime);
+            yield return (_disableTime <= 0) ? null : new WaitForSeconds(_disableTime);
             _collider.enabled = false;
             YSJ.Managers.Pool.Return(PoolID, this.gameObject);
         }
