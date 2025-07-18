@@ -9,6 +9,7 @@ namespace YSJ
     {
         public UI_SettingsCanvas SettingsCanvas;
         public SettingsCloseBtn SettingsCloseBtn;
+        public KeyConfirmationCanvas KeyConfirmationCanvas;
 
         public InventoryCanvas_YSJ InventoryCanvas;
 

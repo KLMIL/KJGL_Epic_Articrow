@@ -19,6 +19,10 @@ public class UI_SettingsCanvas : MonoBehaviour
 
     void ToggleCanvas(bool isActive)
     {
+        // 키 확정 캔버스 On
+        if (Managers.UI.KeyConfirmationCanvas.Canvas.enabled)
+            return;
+
         canvas.enabled = isActive;
         _canvasGroup.interactable = isActive;
         canvas.sortingOrder = (canvas.enabled) ? _sortingOrder : -1; // 인게임에서 다른 UI 가리는 문제를 해결하기 위한 부분

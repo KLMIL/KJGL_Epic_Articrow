@@ -1,17 +1,19 @@
 using UnityEngine;
+using YSJ;
 
 public class KeyConfirmationCanvas : MonoBehaviour
 {
-    Canvas _canvas;
+    public Canvas Canvas;
     void Awake()
     {
-        _canvas = GetComponent<Canvas>();
+        Canvas = GetComponent<Canvas>();
         //UI_TitleEventBus.OnActiveKeyConfirmationCanvas = ToggleCanvas;
         UI_CommonEventBus.OnActiveKeyConfirmationCanvas = ToggleCanvas;
+        Managers.UI.KeyConfirmationCanvas = this;
     }
 
     void ToggleCanvas(bool isActive)
     {
-        _canvas.enabled = isActive;
+        Canvas.enabled = isActive;
     }
 }
