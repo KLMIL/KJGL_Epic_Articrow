@@ -1,6 +1,6 @@
 using BMC;
+using System;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 /*
  * 적 발사체 기능을 정의하는 함수. 발사체 컴포넌트로 할당.
@@ -24,6 +24,8 @@ namespace Game.Enemy
         Rigidbody2D _rb;
 
         public string targetTag = "PlayerHurtBox";
+
+        public event Action OnDeath;
 
 
         public void InitProjecitle(
@@ -54,6 +56,12 @@ namespace Game.Enemy
             // 이동 방향으로 회전
             float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            // 생성될 때, Event 추가
+            if (isSpawnMode)
+            {
+                StageManager.Instance.CurrentRoom.GetComponent<NormalRoom>().EnrollEnemy(this);
+            }
 
             Destroy(gameObject, _lifetime);
         }
@@ -88,6 +96,7 @@ namespace Game.Enemy
             {
                 Debug.LogWarning("Spawned Enemy");
                 Instantiate(_spawnPrefab, transform.position, Quaternion.identity);
+                OnDeath?.Invoke();
             }
         }
     }

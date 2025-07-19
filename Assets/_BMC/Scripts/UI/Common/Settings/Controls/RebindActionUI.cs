@@ -207,6 +207,9 @@ namespace BMC
         // 실제 재바인딩 프로세스를 구성하고 실행하는 핵심 메서드
         void PerformInteractiveRebind(InputAction action, int bindingIndex, bool allCompositeParts = false)
         {
+            // 재바인딩 전 원래(저장된) 경로 보관
+            string originalPath = action.bindings[bindingIndex].overridePath ?? action.bindings[bindingIndex].path;
+
             // 이미 진행 중인 재바인딩이 있으면 취소
             m_RebindOperation?.Cancel();
 
@@ -219,6 +222,21 @@ namespace BMC
                 SaveActionBinding();            // 현재 바인딩 상태를 저장
             }
 
+            #region 키 리바인딩 오버레이 관련
+            // 오버레이 켜기 및 Rebind 텍스트(ex: button, key, axis를 기다리는 중인지) 설정
+            //UI_TitleEventBus.OnActiveKeyConfirmationCanvas?.Invoke(true); // 키 확인 캔버스 열기
+            UI_CommonEventBus.OnActiveKeyConfirmationCanvas?.Invoke(true); // 키 확인 캔버스 열기
+
+            //if (m_RebindText != null)
+            //{
+            //    var text = !string.IsNullOrEmpty(m_RebindOperation.expectedControlType)
+            //        ? $"{partName}Waiting for {m_RebindOperation.expectedControlType} input..."
+            //        : $"{partName}Waiting for input...";
+            //    m_RebindText.text = text;
+            //}
+            #endregion
+
+
             // 액션 활성화 상태에서 리바인딩 불가하므로, 비활성화 시켜줘야 함
             action.Disable();
 
@@ -230,7 +248,9 @@ namespace BMC
                     {
                         m_RebindStopEvent?.Invoke(this, operation);
                         //UI_TitleEventBus.OnActiveKeyConfirmationCanvas?.Invoke(false); // 키 확인 캔버스 닫기
+                        Debug.Log("키바인딩 종료");
                         UI_CommonEventBus.OnActiveKeyConfirmationCanvas?.Invoke(false); // 키 확인 캔버스 닫기
+                        Managers.UI.KeyConfirmationCanvas.SetGuidText("PressKey");
                         UpdateBindingDisplay();
                         CleanUp();
                     })
@@ -240,14 +260,16 @@ namespace BMC
                     {
                         m_RebindStopEvent?.Invoke(this, operation);
                         //UI_TitleEventBus.OnActiveKeyConfirmationCanvas?.Invoke(false); // 키 확인 캔버스 닫기
-                        UI_CommonEventBus.OnActiveKeyConfirmationCanvas?.Invoke(false); // 키 확인 캔버스 닫기
+                        
                         UpdateBindingDisplay();
                         CleanUp();
 
                         // 중복 키 방지
                         if (CheckDuplicateBindings(action, bindingIndex, allCompositeParts))
                         {
+                            Managers.UI.KeyConfirmationCanvas.SetGuidText("Duplicate");
                             action.RemoveBindingOverride(bindingIndex);
+                            action.ApplyBindingOverride(bindingIndex, originalPath);
                             CleanUp();
                             PerformInteractiveRebind(action, bindingIndex, allCompositeParts);
                             return;
@@ -260,6 +282,9 @@ namespace BMC
                             if (nextBindingIndex < action.bindings.Count && action.bindings[nextBindingIndex].isPartOfComposite)
                                 PerformInteractiveRebind(action, nextBindingIndex, true);
                         }
+
+                        UI_CommonEventBus.OnActiveKeyConfirmationCanvas?.Invoke(false); // 키 확인 캔버스 닫기
+                        Managers.UI.KeyConfirmationCanvas.SetGuidText("PressKey");
                     });
 
             // part 바인딩 이름 설정
@@ -269,20 +294,6 @@ namespace BMC
             var partName = default(string);
             if (action.bindings[bindingIndex].isPartOfComposite)
                 partName = $"Binding '{action.bindings[bindingIndex].name}'. ";
-
-            #region 키 리바인딩 오버레이 관련
-            // 오버레이 켜기 및 Rebind 텍스트(ex: button, key, axis를 기다리는 중인지) 설정
-            //UI_TitleEventBus.OnActiveKeyConfirmationCanvas?.Invoke(true); // 키 확인 캔버스 열기
-            UI_CommonEventBus.OnActiveKeyConfirmationCanvas?.Invoke(true); // 키 확인 캔버스 열기
-            
-            //if (m_RebindText != null)
-            //{
-            //    var text = !string.IsNullOrEmpty(m_RebindOperation.expectedControlType)
-            //        ? $"{partName}Waiting for {m_RebindOperation.expectedControlType} input..."
-            //        : $"{partName}Waiting for input...";
-            //    m_RebindText.text = text;
-            //}
-            #endregion
 
             if (m_RebindStartEvent == null && _bindingText != null)
                 _bindingText.text = "<Waiting...>";
