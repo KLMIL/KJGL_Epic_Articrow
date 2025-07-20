@@ -5,27 +5,25 @@ using YSJ;
 
 namespace BMC
 {
-    public class PlayerTextWindow : MonoBehaviour
+    public class InteractWindow : MonoBehaviour
     {
         InputSystemActions _inputSystemActions;
+        SpriteRenderer _sprite;
         TextMeshPro _text;
 
-        public void Init()
+        void Awake()
         {
-            _text = GetComponentInChildren<TextMeshPro>(true);
+            _sprite = GetComponentInChildren<SpriteRenderer>();
+            _text = GetComponentInChildren<TextMeshPro>();
             _inputSystemActions = Managers.Input.InputSystemActions;
             HideWindow();
         }
 
-        //public void SetText(string text = null)
-        //{
-        //    _text.text = text;
-        //    gameObject.SetActive(!string.IsNullOrEmpty(text));
-        //}
-
         public void ShowWindow()
         {
-            gameObject.SetActive(true);
+            _sprite.enabled = true;
+            _text.enabled = true;
+
             if (Managers.Scene.CurrentScene.SceneType != Define.SceneType.TutorialScene)
             {
                 var interactAction = _inputSystemActions.Player.Interact;
@@ -43,8 +41,9 @@ namespace BMC
 
         public void HideWindow()
         {
+            _sprite.enabled = false;
+            _text.enabled = false;
             _text.text = "F";
-            gameObject.SetActive(false);
         }
     }
 }

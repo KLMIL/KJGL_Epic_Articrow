@@ -26,7 +26,7 @@ namespace BMC
             {
                 //Debug.Log("문 닿음");
                 _isPlayerInTrigger = true;
-                PlayerManager.Instance.PlayerTextWindow.SetText("F");
+                PlayerManager.Instance.PlayerTextWindow.ShowWindow();
             }
         }
 
@@ -38,7 +38,7 @@ namespace BMC
                 _barrierCollider.enabled = false;
                 _door.NextStage();
                 _isTransferPlayer = true;
-                PlayerManager.Instance.PlayerTextWindow.SetText();
+                PlayerManager.Instance.PlayerTextWindow.HideWindow();
             }
         }
 
@@ -48,7 +48,7 @@ namespace BMC
             {
                 //Debug.Log("문 떠남");
                 _isPlayerInTrigger = false;
-                PlayerManager.Instance.PlayerTextWindow.SetText();
+                PlayerManager.Instance.PlayerTextWindow.HideWindow();
             }
         }
         #endregion
