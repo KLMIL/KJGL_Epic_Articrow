@@ -88,6 +88,53 @@ namespace Game.Enemy
 
         private void Boom(EnemyController controller)
         {
+            // TODO: 대미지 배율 설정, 추후 설정값으로 대입 변경 필요함.
+            controller.FSM.currentActionDamageMultiply = 2f;
+
+            LayerMask playerMask = LayerMask.GetMask("PlayerHurtBox");
+            LayerMask obstacleMask = LayerMask.GetMask("Obstacle");
+
+            Collider2D[] hitTargets = Physics2D.OverlapCircleAll(controller.transform.position, spawnRadius, playerMask);
+
+            float damage = controller.Status.attack * damageMultiply;
+            foreach (var hit in hitTargets)
+            {
+                Collider2D playerCollider = hit;
+                Vector2 attackOrigin = controller.transform.position;
+                Vector2[] checkPoints = new Vector2[]
+                {
+                    playerCollider.bounds.center,
+                    playerCollider.bounds.min,
+                    playerCollider.bounds.max,
+                    new Vector2(playerCollider.bounds.min.x, playerCollider.bounds.max.y),
+                    new Vector2(playerCollider.bounds.max.x, playerCollider.bounds.min.y)
+                };
+
+                bool allBlocked = true;
+                foreach (var point in checkPoints)
+                {
+                    RaycastHit2D wallCheck = Physics2D.Linecast(attackOrigin, point, obstacleMask);
+                    if (wallCheck.collider == null)
+                    {
+                        allBlocked = false;
+                        break;
+                    }
+                }
+
+                if (allBlocked)
+                {
+                    continue;
+                }
+
+                controller.DealDamageToPlayer(damage, hit.transform, false);
+            }
+
+            Destroy(Instantiate(BoomEffectPrefab, controller.transform.position, Quaternion.identity), 1.0f);
+            controller.Status.healthPoint = 0;
+        }
+
+        private void DEP_Boom(EnemyController controller)
+        {
             controller.FSM.currentActionDamageMultiply = 2f;
 
             LayerMask playerMask = LayerMask.GetMask("PlayerHurtBox");
