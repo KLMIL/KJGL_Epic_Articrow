@@ -60,7 +60,7 @@ public class ImageParts_Passive_AttackPower_1 : ImagePartsRoot_YSJ, IImagePartsT
     {
         float addedPercent = fireArtifact.Added_MoveSpeed / fireArtifact.playerStatus.DefaultMoveSpeed;
         addedPercent = Mathf.RoundToInt(addedPercent * 100f) / 100f;
-        Debug.Log($"[ckt] {partsName} addPercent_{addedPercent}");
+        //Debug.Log($"[ckt] {partsName} addPercent_{addedPercent}");
 
         float add = _increasePercent * addedPercent * default_AttackPower;
         add = Mathf.RoundToInt(add) / 100f;
