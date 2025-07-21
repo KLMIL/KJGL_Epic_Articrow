@@ -28,6 +28,16 @@ namespace Game.Enemy
             {
                 cooldown = special.cooldown;
             }
+            else if (behaviour.action is DecidePatternActionSO decide)
+            {
+                // Decide Pattern Action 자체는 쿨타임이 없는 동작.
+                // 최초 동작 수행 시간만을 통제하기 위해, SpawnedAction에서 변수값 가져와서 초기화.
+                EnemyBehaviourUnit spawnedBehaviour = controller.Behaviours.Find(b => b.stateName == "Spawned");
+                if (spawnedBehaviour != null && spawnedBehaviour.action is SpawnedActionSO spawnedAction)
+                {
+                    cooldown = spawnedAction.spawnAttackCooldown;
+                }
+            }
             // (필요시 Action에서 쿨타임 얻어오는 로직 추가)
 
 
