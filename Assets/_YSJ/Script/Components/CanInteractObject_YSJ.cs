@@ -91,7 +91,10 @@ public class CanInteractObject_YSJ : MonoBehaviour
                 Equip(artifact);
 
                 // 통계
-                AnalyticsManager.Instance.analyticsData.countArtifactSwap++;
+                if (AnalyticsManager.Instance != null) 
+                {
+                    AnalyticsManager.Instance.analyticsData.countArtifactSwap++;
+                }
             }
 
             artifact.UpdateEnhance();
@@ -113,7 +116,10 @@ public class CanInteractObject_YSJ : MonoBehaviour
         artifactTransform.localRotation = Quaternion.identity;
 
         Managers.UI.InventoryCanvas.ArtifactWindow.RemoveAllSlotUI();
+        Managers.UI.InventoryCanvas.ArtifactWindow.ArtifactIMGChange(artifact);
         Managers.UI.InventoryCanvas.ArtifactWindow.ArtifactWindowUpdate(artifact);
+
+        artifact.PlayAnimation("Idle");
     }
 
     void Unequip() 
@@ -138,9 +144,10 @@ public class CanInteractObject_YSJ : MonoBehaviour
         currentArtifacttransform.GetComponent<Collider2D>().enabled = true;
         currentArtifacttransform.SetParent(null);
         currentArtifact.transform.rotation = Quaternion.identity;
+        currentArtifact.PlayAnimation(currentArtifact.CurrentGrade.ToString());
 
         // 파츠 인벤에 추가 시도하고 꽉차면 떨구기
-        foreach(Transform slot in currentArtifact.GetComponent<Artifact_YSJ>().SlotTransform)
+        foreach (Transform slot in currentArtifact.GetComponent<Artifact_YSJ>().SlotTransform)
         {
             if (slot.childCount > 0) 
             {

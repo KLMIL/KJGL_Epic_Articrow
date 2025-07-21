@@ -100,6 +100,7 @@ MonoBehaviour:
   Status: {fileID: 0}
   _currentState: 
   SpriteRenderer: {fileID: 0}
+  AttackIndicator: {fileID: 0}
   Behaviours:
   - stateName: Spawned
     interruptType: 2
@@ -149,10 +150,9 @@ MonoBehaviour:
     duration: 0.7
     nextStateName: Idle
     elapsedTime: 0
+  SpawnEffectPrefab: {fileID: 1906413312044114269, guid: a1e48d43072f0694cbd999282593cfa2, type: 3}
   Player: {fileID: 0}
   Attacker: {fileID: 0}
-  AttackIndicator: {fileID: 0}
-  SpawnEffectPrefab: {fileID: 1906413312044114269, guid: a1e48d43072f0694cbd999282593cfa2, type: 3}
 --- !u!114 &-2885582330465787576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,7 +483,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5150775717789776203, guid: c58ee883319669743ac35b05d03c903c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.083
       objectReference: {fileID: 0}
     - target: {fileID: 5150775717789776203, guid: c58ee883319669743ac35b05d03c903c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -517,6 +517,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6192283885193832630, guid: c58ee883319669743ac35b05d03c903c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 4093480436322176185, guid: 31d21db7b5223554eada867a189ec60c, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

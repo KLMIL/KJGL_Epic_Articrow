@@ -44,7 +44,7 @@ public class ArtifactWindow_YSJ : MonoBehaviour
         }
     }
 
-    void ArtifactIMGChange(Artifact_YSJ equipedArtifact)
+    public void ArtifactIMGChange(Artifact_YSJ equipedArtifact)
     {
         if (equipedArtifact.transform.Find("Visual").TryGetComponent<SpriteRenderer>(out SpriteRenderer artifactSpriteRenderer)) 
         {
@@ -69,7 +69,7 @@ public class ArtifactWindow_YSJ : MonoBehaviour
 
     public void ArtifactWindowUpdate(Artifact_YSJ equipedArtifact)
     {
-        ArtifactIMGChange(equipedArtifact);
+        //ArtifactIMGChange(equipedArtifact);
         RemoveAllSlotUI();
         CreateSlotUI(equipedArtifact);
         ArtifactInfomationTextUpdate(equipedArtifact);

@@ -31,7 +31,10 @@ namespace BMC
         public void PlayChargeAndAttack()
         {
             if (_coroutine == null)
+            {
+                ShokeWaveAttackIndicator.sfxPlayCount = 0;
                 _coroutine = StartCoroutine(ChargeCoroutine());
+            }
         }
 
         private IEnumerator ChargeCoroutine()
