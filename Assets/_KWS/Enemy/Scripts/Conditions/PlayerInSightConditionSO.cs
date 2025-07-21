@@ -23,7 +23,7 @@ namespace Game.Enemy
             float distance = Vector2.Distance(from, to);
 
             // 250717 KWS - 플레이어 벽에 붙을 때 공격 하지 않는 버그 수정
-            float safetyOffset = 0.25f;
+            float safetyOffset = 0.4f;
             float adjustedDistance = Mathf.Max(0f, distance - safetyOffset); // 음수값 방지
 
             // 거리가 모자라면 false
