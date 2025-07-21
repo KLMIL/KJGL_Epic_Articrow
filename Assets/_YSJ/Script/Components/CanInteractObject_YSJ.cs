@@ -106,7 +106,6 @@ public class CanInteractObject_YSJ : MonoBehaviour
         artifact.CurrentHand = GetComponentInChildren<PlayerHand>();
         artifact.UpdateEnhance();
         artifact.isCanAttack = true;
-        artifact.PlayAnimation("Idle");
 
         Transform artifactTransform = artifact.transform;
         artifactTransform.GetComponent<InteractObject_YSJ>().enabled = false;
@@ -117,7 +116,10 @@ public class CanInteractObject_YSJ : MonoBehaviour
         artifactTransform.localRotation = Quaternion.identity;
 
         Managers.UI.InventoryCanvas.ArtifactWindow.RemoveAllSlotUI();
+        Managers.UI.InventoryCanvas.ArtifactWindow.ArtifactIMGChange(artifact);
         Managers.UI.InventoryCanvas.ArtifactWindow.ArtifactWindowUpdate(artifact);
+
+        artifact.PlayAnimation("Idle");
     }
 
     void Unequip() 
