@@ -9,6 +9,8 @@ using Debug = UnityEngine.Debug;
 
 public class AnalyticsManager : MonoBehaviour
 {
+    public bool isActive;
+
     public static AnalyticsManager Instance;
     private bool _isInitialized = false;
 
@@ -43,6 +45,7 @@ public class AnalyticsManager : MonoBehaviour
     // 초기화
     async void Start()
     {
+        if (!isActive) return;
         await UnityServices.InitializeAsync();
         AnalyticsService.Instance.StartDataCollection();
         _isInitialized = true;

@@ -30,6 +30,17 @@ public class Artifact_YSJ : MonoBehaviour
     public Vector2 Direction { get; protected set; }            // 쏠 방향
     public Transform firePosition;                              // 총알이 생성 될 위치
 
+    public enum Grade
+    {
+        Common,
+        Uncommon,
+        Rare,
+        Epic,
+    }
+
+    [Header("등급")]
+    public Grade CurrentGrade;
+
     // 조정간
     public bool isCanAttack = true;
     public bool isCanLeftClick = true;
@@ -168,8 +179,11 @@ public class Artifact_YSJ : MonoBehaviour
                         normalStatus.elapsedCoolTime = normalStatus.Current_AttackCoolTime;
 
                         // 일반 공격 통계
-                        AnalyticsManager.Instance.analyticsData.normalAttackCount++;
-                    }
+                        if (AnalyticsManager.Instance != null) 
+                        {
+                            AnalyticsManager.Instance.analyticsData.normalAttackCount++;
+                        }
+                    }   
                 }
             }
             else
@@ -371,7 +385,10 @@ public class Artifact_YSJ : MonoBehaviour
                         skillStatus.elapsedCoolTime = skillStatus.Current_AttackCoolTime;
 
                         // 스킬 공격 통계
-                        AnalyticsManager.Instance.analyticsData.skillAttackCount++;
+                        if (AnalyticsManager.Instance) 
+                        {
+                            AnalyticsManager.Instance.analyticsData.skillAttackCount++;
+                        }
                     }
                 }
                 else 
@@ -446,9 +463,9 @@ public class Artifact_YSJ : MonoBehaviour
         defaultValues.Add(new Values(skillStatus.Default_BulletLife, -0.05f, 4));
         defaultValues.Add(new Values(skillStatus.Default_AttackStartDelay, 0.1f, 5));
 
-        // 슬롯 수
-        defaultValues.Add(new Values(MaxSlotCount, -1, 6));
-        defaultValues.Add(new Values(MaxSlotCount, -1, 7));
+        //// 슬롯 수
+        //defaultValues.Add(new Values(MaxSlotCount, -1, 6));
+        //defaultValues.Add(new Values(MaxSlotCount, -1, 7));
 
         // 스탯 포인트 복사
         int currentStatPoint = StatPoint;
@@ -485,7 +502,6 @@ public class Artifact_YSJ : MonoBehaviour
             }
 
         }
-
         // 스탯 다돌았는데 카피리스트가 남았다면 디폴트값으로 옮겨주기
         foreach (Values value in copyValues)
         {
@@ -501,7 +517,35 @@ public class Artifact_YSJ : MonoBehaviour
         skillStatus.Default_BulletLife = defaultValues[4]._value;
         skillStatus.Default_AttackStartDelay = defaultValues[5]._value;
 
-        MaxSlotCount = (int)defaultValues[6]._value + (int)defaultValues[7]._value;
+        //MaxSlotCount = (int)defaultValues[6]._value + (int)defaultValues[7]._value - 2;
+        //MaxSlotCount = Mathf.Clamp(MaxSlotCount, 0, 15);
+    }
+
+    protected void AddBonusSlot(Grade currentGrade)
+    {
+        switch(currentGrade) 
+        {
+            case Grade.Common:
+                MaxSlotCount = 3;
+                break;
+            case Grade.Uncommon:
+                MaxSlotCount = 6;
+                break;
+            case Grade.Rare:
+                MaxSlotCount = 9;
+                break;
+            case Grade.Epic:
+                MaxSlotCount = 12;
+                break;
+        }
+
+        for (int i = 0; i < (int)currentGrade; i++) 
+        {
+            if (Random.Range(0, 2) == 0) 
+            {
+                MaxSlotCount++; // 슬롯 추가
+            }
+        }
         MaxSlotCount = Mathf.Clamp(MaxSlotCount, 0, 15);
     }
     #endregion
@@ -512,7 +556,10 @@ public class Artifact_YSJ : MonoBehaviour
         playerStatus = GetComponentInParent<PlayerStatus>();
         animator = GetComponent<Animator>();
         DevideStatPoint(); // 스탯 포인트 나눠갖기
+        AddBonusSlot(CurrentGrade); // 보너스 슬롯 추가
         SlotRefresh(); // 슬롯 초기화
+
+        PlayAnimation(CurrentGrade.ToString()); // 등급 애니메이션 실행
     }
 
     // 공격 전 added변수들 초기화
