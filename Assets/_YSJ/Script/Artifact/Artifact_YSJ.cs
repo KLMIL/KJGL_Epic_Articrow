@@ -529,24 +529,25 @@ public class Artifact_YSJ : MonoBehaviour
                 MaxSlotCount = 3;
                 break;
             case Grade.Uncommon:
-                MaxSlotCount = 6;
+                MaxSlotCount = 5;
                 break;
             case Grade.Rare:
-                MaxSlotCount = 9;
+                MaxSlotCount = 7;
                 break;
             case Grade.Epic:
-                MaxSlotCount = 12;
+                MaxSlotCount = 9;
                 break;
         }
 
         for (int i = 0; i < (int)currentGrade; i++) 
         {
-            if (Random.Range(0, 2) == 0) 
+            // 20% 확률
+            if (Random.Range(0, 5) == 0) 
             {
                 MaxSlotCount++; // 슬롯 추가
             }
         }
-        MaxSlotCount = Mathf.Clamp(MaxSlotCount, 0, 15);
+        MaxSlotCount = Mathf.Clamp(MaxSlotCount, 0, 12);
     }
     #endregion
 
