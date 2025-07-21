@@ -362,6 +362,7 @@ MonoBehaviour:
   Status: {fileID: 0}
   _currentState: 
   SpriteRenderer: {fileID: 0}
+  AttackIndicator: {fileID: 0}
   Behaviours:
   - stateName: Spawned
     interruptType: 2
@@ -395,6 +396,14 @@ MonoBehaviour:
     duration: 0.5
     nextStateName: PatternSelect
     elapsedTime: 0
+  - stateName: Wait
+    interruptType: 1
+    condition: {fileID: 11400000, guid: 60e28379b514cb145b76b894c6e7a6df, type: 2}
+    action: {fileID: 11400000, guid: 0e2ac1997b3b76d468a56fdec3426cd2, type: 2}
+    animationName: Idle
+    duration: 1.5
+    nextStateName: Idle
+    elapsedTime: 0
   - stateName: SmashAttackReady
     interruptType: 1
     condition: {fileID: 11400000, guid: 10dede50435f4ef4a8d96ecc8bd48146, type: 2}
@@ -416,7 +425,7 @@ MonoBehaviour:
     condition: {fileID: 11400000, guid: 9a06e6dc866a82a49af93d579333a86c, type: 2}
     action: {fileID: 11400000, guid: 641d88f308efe7049bc4f6fe8bb65d19, type: 2}
     animationName: Idle
-    duration: 0.5
+    duration: 1
     nextStateName: Idle
     elapsedTime: 0
   - stateName: ProjectileAttackReady
@@ -440,7 +449,7 @@ MonoBehaviour:
     condition: {fileID: 11400000, guid: 9a06e6dc866a82a49af93d579333a86c, type: 2}
     action: {fileID: 11400000, guid: 641d88f308efe7049bc4f6fe8bb65d19, type: 2}
     animationName: Idle
-    duration: 0.5
+    duration: 1
     nextStateName: Idle
     elapsedTime: 0
   - stateName: SpawnUnderlingReady
@@ -475,10 +484,9 @@ MonoBehaviour:
     duration: 0.7
     nextStateName: Idle
     elapsedTime: 0
+  SpawnEffectPrefab: {fileID: 1906413312044114269, guid: b86151e3f2802ac458c29deb344c3d9b, type: 3}
   Player: {fileID: 0}
   Attacker: {fileID: 0}
-  AttackIndicator: {fileID: 0}
-  SpawnEffectPrefab: {fileID: 1906413312044114269, guid: b86151e3f2802ac458c29deb344c3d9b, type: 3}
 --- !u!114 &7224030860773374779
 MonoBehaviour:
   m_ObjectHideFlags: 0

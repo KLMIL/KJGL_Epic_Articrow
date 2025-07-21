@@ -13,15 +13,19 @@ MonoBehaviour:
   m_Name: HornSludgeDecidePatternAction
   m_EditorClassIdentifier: 
   patternCandidates:
-  - patternStateName: SmashAttack
-    probability: 0.6
-    canRepeat: 1
-    hpUnlockRatio: 1
-  - patternStateName: ProjectileAttack
-    probability: 0.3
+  - patternStateName: Wait
+    probability: 1
     canRepeat: 0
     hpUnlockRatio: 1
-  - patternStateName: SpawnUnderling
-    probability: 0.1
+  - patternStateName: SmashAttackReady
+    probability: 4
+    canRepeat: 1
+    hpUnlockRatio: 1
+  - patternStateName: ProjectileAttackReady
+    probability: 2
+    canRepeat: 0
+    hpUnlockRatio: 1
+  - patternStateName: SpawnUnderlingReady
+    probability: 0.8
     canRepeat: 0
     hpUnlockRatio: 0.3

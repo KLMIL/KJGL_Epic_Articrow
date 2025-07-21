@@ -17,6 +17,7 @@ namespace Game.Enemy
     {
         [SerializeField] List<EnemyPatternCandidate> patternCandidates = new();
         string lastPattern = null;
+        string secondLastPattern = null;
 
         public override void Act(EnemyController controller)
         {
@@ -28,7 +29,11 @@ namespace Game.Enemy
             var candidates = patternCandidates
                 .Where(p =>
                     currentHpRatio <= p.hpUnlockRatio &&
-                    (p.canRepeat || lastPattern == null || p.patternStateName != lastPattern)
+                    (
+                        p.canRepeat || 
+                        (lastPattern == null || p.patternStateName != lastPattern) &&
+                        (lastPattern == "Wait" ? secondLastPattern == null || p.patternStateName != secondLastPattern : true)
+                    )
                 ).ToList();
 
             // 후보 중 쿨타임이 끝난 행동만 남김
@@ -36,6 +41,11 @@ namespace Game.Enemy
                 .Where(p =>
                 {
                     string cooldownKey = GetCooldownKey(p.patternStateName);
+
+                    if (cooldownKey == "Wait")
+                    {
+                        return true;
+                    }
 
                     var behaviour = controller.Behaviours.Find(b => b.stateName == cooldownKey);
                     if (behaviour == null) return false;
@@ -83,10 +93,12 @@ namespace Game.Enemy
                 acc += p.probability;
                 if (r <= acc)
                 {
+                    secondLastPattern = lastPattern;
                     lastPattern = p.patternStateName;
-                    controller.lastAttackTimes[p.patternStateName] = Time.time;
+                    //controller.lastAttackTimes[GetCooldownKey(p.patternStateName)] = Time.time;
 
                     controller.FSM.ChangeState(p.patternStateName);
+                    //Debug.LogError($"선택된 행동: {p.patternStateName}");
                     return;
                 }
             }
@@ -98,7 +110,10 @@ namespace Game.Enemy
             {
                 return patternStateName.Replace("Ready", "");
             }
-            return patternStateName;
+            else
+            {
+                return patternStateName;
+            }
         }
     }
 }
