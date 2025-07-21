@@ -42,8 +42,9 @@ namespace BMC
         {
             List<GameObject> artifactList = StageManager.Instance.RoomTypeRewardListDict[RoomType.ArtifactRoom];
             GameObject selectedArtifact = artifactList[Random.Range(0, artifactList.Count)];
-            Instantiate(selectedArtifact, transform.position, Quaternion.identity);
-            selectedArtifact.GetComponent<Artifact_YSJ>().CurrentGrade = Artifact_YSJ.Grade.Common;
+
+            GameObject spawnedArtifact = Instantiate(selectedArtifact, transform.position, Quaternion.identity);
+            spawnedArtifact.GetComponent<Artifact_YSJ>().CurrentGrade = Artifact_YSJ.Grade.Common;
         }
     }
 }
