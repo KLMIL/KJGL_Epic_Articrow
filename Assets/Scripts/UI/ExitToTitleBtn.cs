@@ -31,15 +31,9 @@ namespace BMC
         void OnClicked()
         {
             //Managers.Scene.LoadScene(_sceneType);
-
             AnalyticsManager.Instance.SendAnalytics(); // 게임 종료 시 통계 데이터 전송
-
             GameFlowManager.Instance.Init();
-            if (_loadSceneCoroutine == null)
-            {
-                int index = Managers.Scene.GetBuildIndexBySceneName(_sceneName);
-                _loadSceneCoroutine = StartCoroutine(Managers.Scene.LoadSceneCoroutine(index));
-            }
+            YSJ.Managers.Scene.LoadScene(_sceneName);
         }
     }
 }
