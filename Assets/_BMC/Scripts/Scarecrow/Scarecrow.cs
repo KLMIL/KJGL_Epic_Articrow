@@ -43,17 +43,19 @@ namespace BMC
             // 보상 결정
             List<GameObject> artifactList = StageManager.Instance.RoomTypeRewardListDict[RoomType.ArtifactRoom];
             List<GameObject> magicList = StageManager.Instance.RoomTypeRewardListDict[RoomType.MagicRoom];
-            GameObject rewardObject = artifactList[Random.Range(0, artifactList.Count)];
 
-            // 아티팩트 등급 조정
-            if(rewardObject.TryGetComponent<Artifact_YSJ>(out Artifact_YSJ artifact))
+            // 보상 생성
+            Vector3 dir = Vector3.down;
+            
+            // 아티팩트 생성 및 등급 설정
+            GameObject rewardObject = artifactList[Random.Range(0, artifactList.Count)];
+            GameObject spawnedArtifact = Instantiate(rewardObject, transform.position + dir - transform.right * 2f, Quaternion.identity);
+            if (spawnedArtifact.TryGetComponent<Artifact_YSJ>(out Artifact_YSJ artifact))
             {
                 artifact.CurrentGrade = GetGrade();
             }
 
-            // 보상 생성
-            Vector3 dir = Vector3.down;
-            Instantiate(rewardObject, transform.position + dir - transform.right * 2f, Quaternion.identity);
+            // 파츠 생성
             rewardObject = StageManager.Instance.FieldParts[Random.Range(0, StageManager.Instance.FieldParts.Length)];
             Instantiate(rewardObject, transform.position + dir + transform.right * 1.5f, Quaternion.identity);
         }
