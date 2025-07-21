@@ -14,8 +14,6 @@ namespace BMC
                 RoomType = RoomType.StartRoom,
                 IsCleared = false
             };
-
-            SpawnArtifact();
         }
 
         void Update()
@@ -37,6 +35,7 @@ namespace BMC
             Init();
             SteamAchievement.instance.Achieve(SteamAchievement.AchievementType.StartFirstGame); // 첫 게임 시작 도전과제 달성
             AnalyticsManager.Instance.StartAnalystics();
+            SpawnArtifact();
         }
 
         void SpawnArtifact()
