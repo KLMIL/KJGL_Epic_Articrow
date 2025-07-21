@@ -235,7 +235,7 @@ public class InputManager
                 _inputSystemActions.UI.Enable();
                 Debug.Log("튜토리얼 -> UI 모드로 전환");
             }
-            else if (_inputSystemActions.UI.enabled)
+            else if (!Managers.UI.SettingsCanvas.canvas.enabled && _inputSystemActions.UI.enabled)
             {
                 _inputSystemActions.UI.Disable();
                 _inputSystemActions.Tutorial.Enable();
@@ -243,8 +243,19 @@ public class InputManager
                 if (Managers.UI.InventoryCanvas.canvas.enabled)
                     EnableAttack(false);
 
+
                 Debug.Log("UI -> 튜토리얼 모드로 전환");
             }
+            //else if (_inputSystemActions.UI.enabled)
+            //{
+            //    _inputSystemActions.UI.Disable();
+            //    _inputSystemActions.Tutorial.Enable();
+
+            //    if (Managers.UI.InventoryCanvas.canvas.enabled)
+            //        EnableAttack(false);
+
+            //    Debug.Log("UI -> 튜토리얼 모드로 전환");
+            //}
             OnPauseAction?.Invoke();
         }
     }
