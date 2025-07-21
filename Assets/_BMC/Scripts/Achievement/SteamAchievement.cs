@@ -38,13 +38,13 @@ public class SteamAchievement : MonoBehaviour
         // 테스트용
         if (Input.GetKeyDown(KeyCode.F11))
         {
-            Achieve(AchievementType.Test);
+            //Achieve(AchievementType.Test);
         }
     }
 
     public void Achieve(AchievementType achievementType)
     {
-        //return;
+        return;
         string apiName = achievementType.ToString();
         Debug.Log("도전과제 달성 요청");
         if (SteamManager.Initialized)
