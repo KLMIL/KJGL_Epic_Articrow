@@ -124,15 +124,7 @@ namespace Game.Enemy
         {
             StartCoroutine(_movement.StepKnockback(direction, distance, duration, steps));
         }
-        public bool IsPatternReady(string patternName, float cooldown)
-        {
-            float lastUsed = 0f;
-            if (lastAttackTimes.TryGetValue(patternName, out var v))
-            {
-                lastUsed = v;
-            }
-            return (Time.time - lastUsed) >= cooldown;
-        }
+
         public void ChangeMoveSpeedMultiply(float multiplier)
         {
             _movement.moveSpeedMultiply = multiplier;
