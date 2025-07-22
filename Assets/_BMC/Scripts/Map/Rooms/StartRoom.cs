@@ -36,6 +36,7 @@ namespace BMC
             //SteamAchievement.instance.Achieve(SteamAchievement.AchievementType.StartFirstGame); // 첫 게임 시작 도전과제 달성
             AnalyticsManager.Instance.StartAnalystics();
             SpawnArtifact();
+            PlayerManager.Instance.PlayerStatus.RegenerateMana(PlayerManager.Instance.PlayerStatus.MaxMana); // 시작 시 마나 재생
         }
 
         void SpawnArtifact()
