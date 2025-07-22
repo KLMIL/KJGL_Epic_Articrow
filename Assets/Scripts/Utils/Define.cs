@@ -31,6 +31,7 @@ public class Define
         // 플레이어
         PlayerDash,
         PlayerHurt,
+        PlayerBarrierHurt,
         PlayerDie,
 
         /* 아티팩트 */
