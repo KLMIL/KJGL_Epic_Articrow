@@ -34,7 +34,7 @@ namespace BMC
 
         void Update()
         {
-            TestCode();
+            //TestCode();
         }
 
         #region 피해 및 사망 관련

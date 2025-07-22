@@ -35,11 +35,11 @@ public class SteamAchievement : MonoBehaviour
 
     void Update()
     {
-        // 테스트용
-        if (Input.GetKeyDown(KeyCode.F11))
-        {
-            //Achieve(AchievementType.Test);
-        }
+        //// 테스트용
+        //if (Input.GetKeyDown(KeyCode.F11))
+        //{
+        //    //Achieve(AchievementType.Test);
+        //}
     }
 
     public void Achieve(AchievementType achievementType)

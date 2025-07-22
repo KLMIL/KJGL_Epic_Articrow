@@ -54,10 +54,10 @@ namespace Game.Test
             //    currDiffText.text = dataSO.lastSelectedDifficulty;
             //}
 
-            if (Input.GetKeyDown(KeyCode.F10))
-            {
-                selectMapUI.SetActive(!selectMapUI.activeSelf);
-            }
+            //if (Input.GetKeyDown(KeyCode.F10))
+            //{
+            //    selectMapUI.SetActive(!selectMapUI.activeSelf);
+            //}
         }
         #endregion
 

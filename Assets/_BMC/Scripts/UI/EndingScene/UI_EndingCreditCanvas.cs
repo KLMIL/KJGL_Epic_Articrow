@@ -41,7 +41,7 @@ namespace BMC
                 return;
 
             CreditScroll();
-            TestCode();
+            //TestCode();
         }
 
         // 엔딩 크레딧 스크롤
