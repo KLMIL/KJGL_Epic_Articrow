@@ -56,7 +56,7 @@ namespace BMC
 
             if (IsCanUseBarrier(ref damage))
             {
-                Managers.Sound.PlaySFX(Define.SFX.PlayerBarrierHurt);
+                Managers.Sound.PlaySFX(Define.SFX.PlayerHurt);
                 StartCoroutine(InvincibleCoroutine(_invincibleTime));
                 return;
             }
