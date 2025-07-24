@@ -97,7 +97,7 @@ namespace BMC
                 // 튜토리얼 안내 문구
                 UI_TutorialEventBus.OnTutorialText?.Invoke(6); // TODO: 숫자 6 대신 추후에 변수로 할 수 있도록 해야 함
 
-                //SteamAchievement.instance.Achieve(SteamAchievement.AchievementType.TutorialClear);
+                SteamAchievement.instance.Achieve(SteamAchievement.AchievementType.TutorialClear);
 
                 // 방 클리어
                 StageManager.Instance.CurrentRoom.SetRoomClear();
