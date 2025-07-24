@@ -1869,33 +1869,33 @@ public class Reporter : MonoBehaviour
 
 		calculateStartIndex();
 
-        if (Input.GetKeyDown(KeyCode.F12))
-        {
-            if (show)
-            {
-                // 창 닫기
-                show = false;
+        //if (Input.GetKeyDown(KeyCode.F12))
+        //{
+        //    if (show)
+        //    {
+        //        // 창 닫기
+        //        show = false;
 
-                // ReporterGUI 제거 (UI 비활성화)
-                ReporterGUI gui = gameObject.GetComponent<ReporterGUI>();
-                if (gui != null)
-                    DestroyImmediate(gui);
+        //        // ReporterGUI 제거 (UI 비활성화)
+        //        ReporterGUI gui = gameObject.GetComponent<ReporterGUI>();
+        //        if (gui != null)
+        //            DestroyImmediate(gui);
 
-                try
-                {
-                    gameObject.SendMessage("OnHideReporter");
-                }
-                catch (System.Exception e)
-                {
-                    Debug.LogException(e);
-                }
-            }
-            else
-            {
-                // 창 열기
-                doShow();
-            }
-        }
+        //        try
+        //        {
+        //            gameObject.SendMessage("OnHideReporter");
+        //        }
+        //        catch (System.Exception e)
+        //        {
+        //            Debug.LogException(e);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // 창 열기
+        //        doShow();
+        //    }
+        //}
 
         // 원 제스처로 여는 부분
         //      if (!show && isGestureDone()) {

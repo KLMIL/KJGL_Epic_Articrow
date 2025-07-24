@@ -33,7 +33,7 @@ namespace BMC
 
         void Update()
         {
-            TestCode();
+            //TestCode();
         }
 
         public void TakeDamage(float damage, Define.EnemyName attacker = Define.EnemyName.None)

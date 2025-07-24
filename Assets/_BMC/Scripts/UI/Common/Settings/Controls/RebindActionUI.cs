@@ -400,6 +400,7 @@ namespace BMC
                 Managers.Input.ApplyKeyBind(savedBindings);
                 //Debug.Log($"{transform.name} 로드: \n 키: {_inputSystemAction.action.name + _bindingId} \n 값: {savedBindings}");
             }
+            UpdateBindingDisplay();
         }
 
         protected void OnEnable()

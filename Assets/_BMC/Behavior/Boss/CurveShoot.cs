@@ -57,8 +57,8 @@ public class CurveShoot : MonoBehaviour
         if (_isStop)
             return;
 
-        if (!_isSealed && Input.GetKeyDown(KeyCode.LeftControl))
-            SetSealed();
+        //if (!_isSealed && Input.GetKeyDown(KeyCode.LeftControl))
+        //    SetSealed();
     }
 
     void MoveWave()

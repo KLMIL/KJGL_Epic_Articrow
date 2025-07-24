@@ -57,7 +57,7 @@ namespace BMC
 
             PlayerCheckDirection.CheckCurrentDirection();
 
-            TestRoomClear();
+            //TestRoomClear();
         }
 
         void FixedUpdate()

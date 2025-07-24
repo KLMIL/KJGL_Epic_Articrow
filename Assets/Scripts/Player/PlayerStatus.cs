@@ -142,7 +142,7 @@ namespace YSJ
 
         void Update()
         {
-            TestCode();
+            //TestCode();
         }
 
         public void Init()

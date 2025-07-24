@@ -53,7 +53,7 @@ public class AnalyticsManager : MonoBehaviour
 
     public async void AnalyticsInit()
     {
-        return;
+        //return;
         await UnityServices.InitializeAsync();
         AnalyticsService.Instance.StartDataCollection();
         _isInitialized = true;
@@ -76,10 +76,10 @@ public class AnalyticsManager : MonoBehaviour
 
         //    SaveEquipParts(equipedPartsData);
         //}
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            TestSendEquipPartsData();
-        }
+        //if (Input.GetKeyDown(KeyCode.U))
+        //{
+        //    TestSendEquipPartsData();
+        //}
     }
 
 
