@@ -181,7 +181,7 @@ public class AnalyticsManager : MonoBehaviour
         AnalyticsService.Instance.RecordEvent(analyticsEvent);
         AnalyticsService.Instance.RecordEvent(artifactEvent);
         AnalyticsService.Instance.RecordEvent(HurtEvent);
-        AnalyticsService.Instance.Flush();
+        //AnalyticsService.Instance.Flush();
         Debug.Log("통계 분석 전송");
 
         isGameStart = false;
