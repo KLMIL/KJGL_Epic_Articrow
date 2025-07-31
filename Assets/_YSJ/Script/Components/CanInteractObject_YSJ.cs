@@ -90,11 +90,11 @@ public class CanInteractObject_YSJ : MonoBehaviour
                 // 새거 장착
                 Equip(artifact);
 
-                // 통계
-                if (AnalyticsManager.Instance != null) 
-                {
-                    AnalyticsManager.Instance.analyticsData.countArtifactSwap++;
-                }
+                //// 통계
+                //if (AnalyticsManager.Instance != null) 
+                //{
+                //    AnalyticsManager.Instance.analyticsData.countArtifactSwap++;
+                //}
             }
 
             artifact.UpdateEnhance();

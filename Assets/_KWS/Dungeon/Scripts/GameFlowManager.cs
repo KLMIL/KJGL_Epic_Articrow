@@ -135,7 +135,7 @@ public class GameFlowManager : MonoBehaviour
                 int index = Managers.Scene.GetBuildIndexBySceneName("EndingScene");
                 StartCoroutine(Managers.Scene.LoadSceneCoroutine(index));
             }
-            PlayerManager.Instance.PlayerHand.RightHand.RecordEquipParts(); // 현재 장착된 파츠 기록
+            //PlayerManager.Instance.PlayerHand.RightHand.RecordEquipParts(); // 현재 장착된 파츠 기록
         }
     }
 

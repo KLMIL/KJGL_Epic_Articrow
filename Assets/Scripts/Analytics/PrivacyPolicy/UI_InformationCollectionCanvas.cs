@@ -21,7 +21,7 @@ public class UI_InformationCollectionCanvas : MonoBehaviour
             if (informationCollection == 1)
             {
                 // TODO: 통계 프로그램 활성화
-                AnalyticsManager.Instance.AnalyticsInit();
+                //AnalyticsManager.Instance.AnalyticsInit();
                 gameObject.SetActive(false);
             }
             else

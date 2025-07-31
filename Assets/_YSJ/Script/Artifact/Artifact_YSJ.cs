@@ -178,11 +178,11 @@ public class Artifact_YSJ : MonoBehaviour
                         // 쿨타임 적용
                         normalStatus.elapsedCoolTime = normalStatus.Current_AttackCoolTime;
 
-                        // 일반 공격 통계
-                        if (AnalyticsManager.Instance != null) 
-                        {
-                            AnalyticsManager.Instance.analyticsData.normalAttackCount++;
-                        }
+                        //// 일반 공격 통계
+                        //if (AnalyticsManager.Instance != null) 
+                        //{
+                        //    AnalyticsManager.Instance.analyticsData.normalAttackCount++;
+                        //}
                     }   
                 }
             }
@@ -384,11 +384,11 @@ public class Artifact_YSJ : MonoBehaviour
                         // 쿨타임 적용
                         skillStatus.elapsedCoolTime = skillStatus.Current_AttackCoolTime;
 
-                        // 스킬 공격 통계
-                        if (AnalyticsManager.Instance) 
-                        {
-                            AnalyticsManager.Instance.analyticsData.skillAttackCount++;
-                        }
+                        //// 스킬 공격 통계
+                        //if (AnalyticsManager.Instance) 
+                        //{
+                        //    AnalyticsManager.Instance.analyticsData.skillAttackCount++;
+                        //}
                     }
                 }
                 else 
@@ -673,20 +673,20 @@ public class Artifact_YSJ : MonoBehaviour
     #endregion
 
     #region 통계 관련
-    public void CountEquipParts()
-    {
-        // 파츠슬롯 한바퀴 돌면서 등록
-        int count = 0;
-        foreach(Transform slot in SlotTransform)
-        {
-            ImagePartsRoot_YSJ imagePartsRoot = slot.GetComponentInChildren<ImagePartsRoot_YSJ>();
-            if (imagePartsRoot != null && !imagePartsRoot.WillDestroy)
-            {
-                count++;
-            }
-        }
-        AnalyticsManager.Instance.analyticsData.currentEquipPartsCount = count;
-    }
+    //public void CountEquipParts()
+    //{
+    //    // 파츠슬롯 한바퀴 돌면서 등록
+    //    int count = 0;
+    //    foreach(Transform slot in SlotTransform)
+    //    {
+    //        ImagePartsRoot_YSJ imagePartsRoot = slot.GetComponentInChildren<ImagePartsRoot_YSJ>();
+    //        if (imagePartsRoot != null && !imagePartsRoot.WillDestroy)
+    //        {
+    //            count++;
+    //        }
+    //    }
+    //    AnalyticsManager.Instance.analyticsData.currentEquipPartsCount = count;
+    //}
 
     // 씬 전환 시, 파츠 정보 기록
     public void RecordEquipParts()
@@ -720,7 +720,7 @@ public class Artifact_YSJ : MonoBehaviour
         };
 
         // 파츠 정보 클래스 저장
-        AnalyticsManager.Instance.SaveEquipParts(equipParts);
+        //AnalyticsManager.Instance.SaveEquipParts(equipParts);
     }
     #endregion
 }

@@ -46,13 +46,13 @@ namespace BMC
                 return;
             }
 
-            // 피격 횟수 통계
-            AnalyticsClass.PlayerHurtInfo hurtInfo = new AnalyticsClass.PlayerHurtInfo
-            {
-                sceneName = SceneManager.GetActiveScene().name,
-                hurtPlayerMonsters = attacker.ToString()
-            };
-            AnalyticsManager.Instance.SavePlayerHurtInfo(hurtInfo);
+            //// 피격 횟수 통계
+            //AnalyticsClass.PlayerHurtInfo hurtInfo = new AnalyticsClass.PlayerHurtInfo
+            //{
+            //    sceneName = SceneManager.GetActiveScene().name,
+            //    hurtPlayerMonsters = attacker.ToString()
+            //};
+            //AnalyticsManager.Instance.SavePlayerHurtInfo(hurtInfo);
 
             if (IsCanUseBarrier(ref damage))
             {
@@ -112,8 +112,8 @@ namespace BMC
         // 사망
         void Die()
         {
-            // 플레이어 사망 통계
-            AnalyticsManager.Instance.analyticsData.isPlayerDead = true;
+            //// 플레이어 사망 통계
+            //AnalyticsManager.Instance.analyticsData.isPlayerDead = true;
 
             IsDead = true;
             Managers.Sound.PlaySFX(Define.SFX.PlayerDie);

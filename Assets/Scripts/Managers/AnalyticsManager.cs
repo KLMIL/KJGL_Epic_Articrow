@@ -42,15 +42,6 @@ public class AnalyticsManager : MonoBehaviour
         _allEquipParts = new AllEquipParts(); // 방 이름과 장착한 파츠 정보 리스트 초기화
     }
 
-    //// 초기화
-    //async void Start()
-    //{
-    //    if (!isActive) return;
-    //    await UnityServices.InitializeAsync();
-    //    AnalyticsService.Instance.StartDataCollection();
-    //    _isInitialized = true;
-    //}
-
     public async void AnalyticsInit()
     {
         //return;
@@ -140,10 +131,10 @@ public class AnalyticsManager : MonoBehaviour
         // 보낼 때 스테이지 기록
         analyticsData.progressStage = GameFlowManager.Instance.CurrentRoom;
 
-        // 인게임 중인 경우, 장착한 파츠 개수
-        Artifact_YSJ artifact = PlayerManager.Instance.PlayerHand.RightHand.GetComponentInChildren<Artifact_YSJ>();
-        if (artifact != null)
-            artifact.CountEquipParts();
+        //// 인게임 중인 경우, 장착한 파츠 개수
+        //Artifact_YSJ artifact = PlayerManager.Instance.PlayerHand.RightHand.GetComponentInChildren<Artifact_YSJ>();
+        //if (artifact != null)
+        //    artifact.CountEquipParts();
         
         // 타이머 정지
         StopTimeCounter();
